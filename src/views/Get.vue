@@ -7,7 +7,7 @@
 </template>
 
 <script>
-import BaseForm from '../components/BaseForm';
+import BaseForm from '../components/form/BaseForm';
 
 export default {
   name: "get", 
