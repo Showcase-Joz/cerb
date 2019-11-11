@@ -2,17 +2,22 @@
   <div>
     <h1>This is a POST page</h1>
 
-    <BaseForm />
+    <PostForm v-on:handlePost="retainPost" />
   </div>
 </template>
 
 <script>
-import BaseForm from '../components/form/BaseForm';
+import PostForm from "../components/form/PostForm";
 
 export default {
-  name: "post", 
+  name: "post",
   components: {
-    BaseForm
+    PostForm
+  },
+  methods: {
+    retainPost(newPost) {
+      console.log(newPost);
+    }
   }
-}
+};
 </script>
