@@ -93,8 +93,13 @@ export default {
 </script>
 
 <style lang="scss" src="@/styles/_form.scss" scoped>
+#formPost {
+  background: pink;
+}
 
+</style>
 
+<style lang="scss" scoped>
 .btn {
   display: inline-block;
   border: none;
@@ -107,8 +112,6 @@ export default {
     background-color: #666;
   }
 }
-
-
 
 .error-msg {
   color: red;
