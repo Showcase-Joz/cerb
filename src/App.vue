@@ -23,11 +23,11 @@ export default {
 }
 
 #app {
-  font-family: "Avenir", Helvetica, Arial, sans-serif;
+  font-family: $primary-font-family;
   -webkit-font-smoothing: antialiased;
   -moz-osx-font-smoothing: grayscale;
   text-align: center;
-  color: #2c3e50;
+  color: $color2;
 }
 
 h1 {
@@ -36,6 +36,6 @@ h1 {
 }
 
 h4 {
-  color: #b3b3b3;
+  color: $color1;
 }
 </style>
