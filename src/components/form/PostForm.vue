@@ -94,9 +94,8 @@ export default {
 
 <style lang="scss" src="@/styles/_form.scss" scoped>
 #formPost {
-  background: pink;
+  margin-top: 200px;
 }
-
 </style>
 
 <style lang="scss" scoped>
