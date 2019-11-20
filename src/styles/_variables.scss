@@ -1,6 +1,20 @@
 
+
+$defaultPadding: 1rem;
+
 $primary-font-family: "Avenir", Helvetica, Arial, sans-serif;
 
 $color1: #b3b3b3;
 $color2: #2c3e50;
 
+$neutral: blue;
+$valid: #55fd96;
+$warning: #fda979;
+$invalid: #ff5454;
+
+$font-size-xl: 1.2rem;
+
+$strDefPattern: "a-z 0-9 .-_";
+$textDefPattern: "you can use all characters";
+
+$minViewport: 320px;

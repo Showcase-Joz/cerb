@@ -1,75 +1,182 @@
 #formPost {
   display: grid;
   grid-template-columns: 1fr;
-  grid-auto-rows: 1fr;
+  grid-template-rows: repeat(auto-fill, minmax(50px, 1fr));
   grid-gap: 1rem;
-  padding: 1rem;
+  padding-top: 5rem;
+
+  .form-group {
+    margin-bottom: 3rem;
+    
+    .input-with-label {
+      border-bottom: 1px solid $neutral;
+      color: black;
+      display: flex;
+      font-size: $font-size-xl;
+      letter-spacing: 0.12rem;
+      padding: 3px;
+      position: relative;
+      text-transform: uppercase;
+
+      &.text-area {
+        
+        label.hasValue {
+          top: 0;
+          height: min-content;
+        }
+        &:focus-within {
+          top: 0.5rem;
+        }
+        // &:focus-within {
+        //   top: 0.5rem;
+        // }
+
+        // &:focus-within textarea {
+        //   top: 0.5rem;
+        // }
+      }
+
+      &:focus-within label:not(input) {
+        font-size: 0.5rem;
+        transform: translateY(-100%);
+        transition: transform 300ms ease-out, font-size 500ms ease-out 300ms;
+      }
+
+      label {
+        bottom: 0;
+        color: lighten($color: black, $amount: 35%);
+        left: 0;
+        line-height: 2rem;
+        padding-left: 5px;
+        position: absolute;
+        top: auto;
+        transition: font-size 500ms ease-out 300ms, transform 300ms ease-out;
+
+        &.hasValue {
+          font-size: 0.5rem;
+          transform: translateY(-100%);
+        }
+
+        &.hasValue ~ input {
+          top: 50%;
+        }
+
+        &.hasValue ~ textarea {
+          top: -0.5rem;
+          // margin-top: 0.5rem;
+        }
+      }
+
+      input,
+      textarea {
+        background-color: transparent;
+        border: none;
+        bottom: 0;
+        font-size: inherit;
+        left: 0;
+        outline: none;
+        padding-left: 5px;
+        top: 0;
+        width: 100%;
+        z-index: 1;
+      }
+
+      textarea {
+        position: relative;
+        // margin-top: -2.5rem;
+        
+        &:focus {
+          font-style: italic;
+          top: 0.5rem;
+        }
+      }
+
+      &.invalid:focus-within {
+        border-bottom: 1px solid $warning;
+      }
+
+      &.invalid {
+        border-bottom: 1px solid $invalid;
+      }
+
+      &.invalid::after {
+        animation: fadeIn 1300ms cubic-bezier(0.175, 0.885, 0.32, 1.275);
+        content: $strDefPattern;
+        bottom: 0;
+        color: $invalid;
+        font-size: 0.7rem;
+        font-variant: unicase;
+        line-height: 2rem;
+        padding-right: 5px;
+        position: absolute;
+        right: 0;
+        top: auto;
+        text-transform: lowercase;
+        transform: translateY(-100%);
+      }
+
+      &.text-area.invalid::after {
+        @extend .invalid::after;
+        content: $textDefPattern;
+        letter-spacing: 0;
+      }
+
+      &.valid:focus-within {
+        border-bottom: 1px solid $valid;
+      }
+
+      &.valid {
+        border-bottom: 1px solid $valid;
+      }
+
+      &.valid::after {
+        @extend .invalid::after;
+        animation: fadeOut 1500ms cubic-bezier(0.175, 0.885, 0.32, 1.275) forwards;
+      }
+    }
+
+    .radio-group {
+      display: grid;
+      grid-template-columns: repeat(auto-fit, minmax(auto, 25%));
+      justify-content: space-around;
+      justify-items: left;
+      padding-left: 5px;
+    }
+  }
 }
 
-.input-with-label {
-  border-bottom: 1px solid blue;
-  color: black;
-  display: flex;
-  font-size: 1.2rem;
-  letter-spacing: 0.12rem;
-  padding: 3px;
-  position: relative;
-  text-transform: uppercase;
+p.form-field-msg,
+p.group-field-msg {
+  animation: fadeIn 2000ms cubic-bezier(0.175, 0.885, 0.32, 1.275);
+  color: $invalid;
+  font-size: 0.85rem;
+  font-style: italic;
+  margin: 1rem auto 2rem;
 
-  &:focus-within label:not(input) {
-    font-size: 0.5rem;
-    transform: translateY(-100%);
-    transition: transform 300ms ease-out, font-size 500ms ease-out 300ms;
+  &.hidden {
+    animation: fadeOut 1500ms cubic-bezier(0.175, 0.885, 0.32, 1.275) forwards;
+    // display: none;
+    @extend .form-field-msg;
   }
+}
 
-  label {
-    bottom: 0;
-    color: lighten($color: black, $amount: 35%);
-    left: 0;
-    line-height: 2rem;
-    padding-left: 5px;
-    position: absolute;
-    top: auto;
-    transition: font-size 500ms ease-out 300ms, transform 300ms ease-out;
-
-    &.hasValue {
-      font-size: 0.5rem;
-      transform: translateY(-100%);
-    }
-
-    &.hasValue ~ input {
-      top: 50%;
-    }
+// Animations
+@keyframes fadeIn {
+  0% {
+    opacity: 0;
   }
-
-  input {
-    background-color: transparent;
-    border: none;
-    bottom: 0;
-    font-size: inherit;
-    left: 0;
-    outline: none;
-    padding-left: 5px;
-    position: absolute;
-    top: 0;
-    width: 100%;
-
-    // background: pink;
+  100% {
+    opacity: 1;
   }
-
-  &.invalid:focus-within {
-    border-bottom: 1px solid #fda979;
+}
+@keyframes fadeOut {
+  0% {
+    opacity: 1;
+    height: inherit;
   }
-
-  &.invalid {
-    border-bottom: 1px solid #ff5454;
-  }
-
-  &.valid:focus-within {
-    border-bottom: 1px solid #55fd96;
-  }
-
-  &.valid {
-    border-bottom: 1px solid #55fd96;
+  100% {
+    opacity: 0;
+    height: 0;
+    margin: 0;
   }
 }

@@ -1,7 +1,7 @@
 <template>
-  <div>
+  <div class="post-view">
     <h1>This is a POST page</h1>
-
+    <p>Please complete this form to POST data to the API for testing purposes</p>
     <PostForm v-on:handlePost="retainPost" />
   </div>
 </template>
@@ -16,8 +16,13 @@ export default {
   },
   methods: {
     retainPost(newPost) {
-      console.log(newPost);
+      console.log('test: ', newPost);
     }
   }
 };
 </script>
+<style lang="scss" scoped>
+  .post-view {
+    padding: $defaultPadding;
+  }
+</style>

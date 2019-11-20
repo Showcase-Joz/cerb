@@ -26,6 +26,7 @@ export default {
   color: #fff;
   text-align: center;
   padding: 10px;
+  margin-bottom: 2rem;
 
   h4 {
     display: inline-block;
