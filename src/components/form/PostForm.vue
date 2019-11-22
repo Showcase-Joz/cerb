@@ -18,7 +18,7 @@
           >Namespace
         </label>
         <input
-          v-model.lazy="formResponses.namespace"
+          v-model="formResponses.namespace"
           v-on:input="cleanInputs"
           @blur="$v.formResponses.namespace.$touch()"
           type="text"
@@ -88,11 +88,15 @@
     </div>
 
     <div class="form-group">
-      <div class="input-with-label text-area"
-      :class="{
+      <div
+        class="input-with-label text-area"
+        :class="{
           invalid: $v.formResponses.description.$error,
-          valid: !$v.formResponses.description.$error && $v.formResponses.description.$dirty
-        }">
+          valid:
+            !$v.formResponses.description.$error &&
+            $v.formResponses.description.$dirty
+        }"
+      >
         <label
           for="description"
           :class="{
@@ -105,6 +109,8 @@
             name="description"
             v-model="formResponses.description"
             @blur="$v.formResponses.description.$touch()"
+            placeholder="Multiple lines allowed"
+            :class="{ empty: !$v.formResponses.description.hasValueLength }"
           ></textarea>
         </resizable-textarea>
       </div>
@@ -115,7 +121,7 @@
         characters.
       </p>
       <p class="form-field-msg" v-if="!$v.formResponses.description.maxLength">
-        Please add a description with no more than
+        The maximum length of the description should be no more than
         {{ $v.formResponses.description.$params.maxLength.max }}
         characters.
       </p>
@@ -199,6 +205,7 @@ import ResizableTextarea from "./ResizableTextarea.js";
 // used to prevent UI covering user input when field has been completed
 const hasValueLength = value => value.length >= 1;
 const strDefPattern = helpers.regex("strDefPattern", /^[\d+\w+^.^-]+$/);
+let newPost = {};
 
 export default {
   name: "PostForm",
@@ -258,7 +265,7 @@ export default {
     },
     collectInputs: function() {
       this.noErrors = !this.$v.formResponses.$invalid;
-      const newPost = {
+      newPost = {
         namespace: this.formResponses.namespace,
         name: this.formResponses.name,
         type: this.formResponses.type,
