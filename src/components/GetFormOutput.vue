@@ -1,21 +1,21 @@
 <template>
   <div v-if="resultSwitch" class="sent-fetch-data">
-    <h3>Post Data</h3>
-    <p>{{ this.passedPost.namespace }} | {{ this.passedPost.name }}</p>
-    <p>{{ this.passedPost.type }}</p>
-    <p class="output-desc">{{ this.passedPost.description }}</p>
+    <h3>Get Data</h3>
+    <p>{{ this.passedGet.namespace }} | {{ this.passedGet.name }}</p>
+    <p>{{ this.passedGet.type }}</p>
+    <p class="output-desc">{{ this.passedGet.description }}</p>
   </div>
 </template>
 <script>
 export default {
-  name: "PostFormOutput",
+  name: "GetFormOutput",
   data() {
     return {
-      newPost: {}
+      newGet: {}
     };
   },
   props: {
-    passedPost: {
+    passedGet: {
       type: Object
     },
     resultSwitch: {

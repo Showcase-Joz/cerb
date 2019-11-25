@@ -1,6 +1,6 @@
 <template>
   <div class="form-wrapper">
-    <form id="formPost" @submit.prevent="collectInputs">
+    <form id="formGetString" @submit.prevent="collectInputs">
       <div class="form-group">
         <div
           class="input-with-label"
@@ -88,8 +88,8 @@
         </p>
       </div>
 
-      <DescriptionTextArea
-        @changeDescription="formResponses.description = $event"
+      <Timestamp
+        @changeTimestamp="formResponses.timestamp = $event"
       />
 
       <div class="form-group">
@@ -158,16 +158,16 @@ import {
   maxLength,
   helpers
 } from "vuelidate/lib/validators";
-import DescriptionTextArea from "../form/DescriptionTextArea";
+import Timestamp from "../form/TimeStamp";
 // used to prevent UI covering user input when field has been completed
 const hasValueLength = value => value.length >= 1;
 const strDefPattern = helpers.regex("strDefPattern", /^[\d+\w+^.^-]+$/);
-let newPost = {};
+let newGet = {};
 
 export default {
-  name: "PostForm",
+  name: "GetForm",
   components: {
-    DescriptionTextArea
+    Timestamp
   },
   data() {
     return {
@@ -176,8 +176,7 @@ export default {
       formResponses: {
         namespace: "",
         name: "",
-        type: null,
-        description: ""
+        type: null
       }
     };
   },
@@ -216,18 +215,18 @@ export default {
     },
     collectInputs: function() {
       this.noErrors = !this.$v.formResponses.$invalid;
-      newPost = {
+      newGet = {
         namespace: this.formResponses.namespace,
         name: this.formResponses.name,
         type: this.formResponses.type,
-        description: this.formResponses.description
+        timestamp: this.formResponses.timestamp
       };
       if (this.noErrors) {
         this.uiState = "form submitted!";
         // send up to parent
-        this.$emit("handlePost", newPost);
+        this.$emit("handleGet", newGet);
       } else {
-        console.warn("There is a form submission error: ", newPost);
+        console.warn("There is a form submission error: ", newGet);
       }
     }
   }
@@ -236,6 +235,7 @@ export default {
 <style lang="scss" src="@/styles/_form.scss" scoped></style>
 <style lang="scss" scoped>
 .form-wrapper {
+  border: 1px $color2 solid;
   margin-bottom: $spacingLarge;
   padding: $spacingLarge;
 }

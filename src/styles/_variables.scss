@@ -1,6 +1,9 @@
 
+@import "mixins";
+@import "functions";
 
-$defaultPadding: 1rem;
+$spacingDefault: 1rem;
+$spacingLarge: 2.5rem;
 
 $primary-font-family: "Avenir", Helvetica, Arial, sans-serif;
 
@@ -14,7 +17,8 @@ $invalid: #ff5454;
 
 $font-size-xl: 1.2rem;
 
-$strDefPattern: "a-z 0-9 .-_";
+$strDefPattern: "a-z 0-9 .";
+$timestampDefPattern: "0-9";
 $textDefPattern: "you can use all characters";
 
 $minViewport: 320px;

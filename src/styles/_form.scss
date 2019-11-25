@@ -1,4 +1,5 @@
-#formPost {
+#formPost,
+#formGetString {
   display: grid;
   grid-template-columns: 1fr;
   grid-template-rows: repeat(auto-fill, minmax(50px, 1fr));
@@ -6,7 +7,8 @@
   padding-top: 5rem;
 
   .form-group {
-    
+    margin-top: 1rem;
+
     .input-with-label {
       border-bottom: 1px solid $neutral;
       color: black;
@@ -26,13 +28,6 @@
         &:focus-within {
           top: 0.5rem;
         }
-        // &:focus-within {
-        //   top: 0.5rem;
-        // }
-
-        // &:focus-within textarea {
-        //   top: 0.5rem;
-        // }
       }
 
       &:focus-within label:not(input) {
@@ -43,7 +38,7 @@
 
       label {
         bottom: 0;
-        color: lighten($color: black, $amount: 35%);
+        color: lighten($color: black, $amount: 55%);
         left: 0;
         line-height: 2rem;
         padding-left: 5px;
@@ -96,6 +91,7 @@
         &:focus {
           font-style: italic;
           opacity: 1;
+          resize: none;
           top: 0.5rem;
         }
       }
@@ -122,6 +118,11 @@
         top: auto;
         text-transform: lowercase;
         transform: translateY(-100%);
+      }
+
+      &.timestamp.invalid::after {
+        @extend .invalid::after;
+        content: $timestampDefPattern;
       }
 
       &.text-area.invalid::after {
@@ -163,6 +164,18 @@
       justify-content: space-around;
       justify-items: left;
       padding-left: 5px;
+
+      .radio {
+        width: min-content;
+
+        @include for-size(desktop-up) {
+          width: max-content;
+
+          input[type="radio"] {
+            margin-left: $spacingLarge;
+          }
+        }
+      }
     }
   }
 }
