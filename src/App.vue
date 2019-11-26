@@ -33,6 +33,10 @@ export default {
   -moz-osx-font-smoothing: grayscale;
 }
 
+.view-atfold {
+  margin-bottom: $spacingDefault;
+}
+
 h1 {
   font-size: 2.5rem;
   text-transform: uppercase;

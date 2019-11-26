@@ -16,14 +16,14 @@
         }"
         >Timestamp
       </label>
-        <input
-          type="number"
-          name="timestamp"
-          v-model="formResponses.timestamp"
-          v-on:input="changeTimestamp"
-          v-on:blur="$v.formResponses.timestamp.$touch()"
-          :class="{ empty: !$v.formResponses.timestamp.hasValueLength }"
-        />
+      <input
+        type="number"
+        name="timestamp"
+        v-model="formResponses.timestamp"
+        v-on:input="changeTimestamp"
+        v-on:blur="$v.formResponses.timestamp.$touch()"
+        :class="{ empty: !$v.formResponses.timestamp.hasValueLength }"
+      />
     </div>
 
     <p class="form-field-msg" v-if="!$v.formResponses.timestamp.minLength">
@@ -65,8 +65,8 @@ export default {
       timestamp: {
         required,
         hasValueLength,
-        minLength: minLength(3),
-        maxLength: maxLength(200)
+        minLength: minLength(10),
+        maxLength: maxLength(20)
       }
     }
   },

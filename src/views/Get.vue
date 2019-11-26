@@ -1,9 +1,11 @@
 <template>
   <div class="get-view">
-    <h1>This is a GET page</h1>
-    <p>
-      Please complete this form to GET data to the API for testing purposes
-    </p>
+    <div class="view-atfold">
+      <h1>This is a GET page</h1>
+      <p>
+        Please complete this form to GET data to the API for testing purposes
+      </p>
+    </div>
     <GetForm v-on:handleGet="retainGet" />
     <GetFormOutput
       v-bind:passedGet="passedGet"
@@ -48,9 +50,9 @@ export default {
       const stagingBodyGetQuery = Object.keys(this.passedGet)
         .map(key => key + "=" + this.passedGet[key])
         .join("&");
-        console.log("stagingBodyGetQuery: ", stagingBodyGetQuery);
-        
-      return this.getQuery = stagingBodyGetQuery;
+      console.log("stagingBodyGetQuery: ", stagingBodyGetQuery);
+
+      return (this.getQuery = stagingBodyGetQuery);
     },
     setGetFetchVariables: function() {
       this.createGetString();

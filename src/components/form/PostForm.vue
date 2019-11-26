@@ -236,6 +236,7 @@ export default {
 <style lang="scss" src="@/styles/_form.scss" scoped></style>
 <style lang="scss" scoped>
 .form-wrapper {
+  border: 1px $color2 solid;
   margin-bottom: $spacingLarge;
   padding: $spacingLarge;
 }

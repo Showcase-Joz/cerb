@@ -1,27 +1,43 @@
 <template>
-  <div class="header">
+  <header>
     <h1>
       Cerberus
       <h4>v0.1.0</h4>
     </h1>
-    <div id="nav">
+    <p>{{ apiConnection() }}</p>
+    <nav id="nav">
       <router-link to="/">Home</router-link>|
       <router-link to="/dashboard">Dashboard</router-link>|
       <router-link to="/get">Get</router-link>|
       <router-link to="/post">Post</router-link>|
       <router-link to="/about">About</router-link>
-    </div>
-  </div>
+    </nav>
+  </header>
 </template>
 
 <script>
 export default {
-  name: "Header"
+  name: "Header",
+  methods: {
+    apiConnection: function() {
+      this.$http.get("check").then(
+        response => {
+          console.log(response);
+          if (response.ok === true) {
+            this.resultBoolean = true;
+          }
+        },
+        error => {
+          console.log("Error: ", error);
+        }
+      );
+    }
+  }
 };
 </script>
 
 <style lang="scss" scoped>
-.header {
+header {
   background-color: #333;
   color: #fff;
   text-align: center;

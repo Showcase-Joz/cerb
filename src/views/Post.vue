@@ -1,9 +1,12 @@
 <template>
   <div class="post-view">
-    <h1>This is a POST page</h1>
-    <p>
-      Please complete this form to POST data to the API for testing purposes
-    </p>
+    <div class="view-atfold">
+      <h1>This is a POST page</h1>
+      <p>
+        Please complete this form to POST data to the API for testing purposes
+      </p>
+    </div>
+
     <PostForm v-on:handlePost="retainPost" />
     <PostFormOutput
       v-bind:passedPost="passedPost"

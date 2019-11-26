@@ -88,9 +88,7 @@
         </p>
       </div>
 
-      <Timestamp
-        @changeTimestamp="formResponses.timestamp = $event"
-      />
+      <Timestamp @changeTimestamp="formResponses.timestamp = $event" />
 
       <div class="form-group">
         <div class="radio-group">
