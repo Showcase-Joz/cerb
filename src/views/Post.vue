@@ -2,16 +2,15 @@
   <div class="post-view">
     <div class="view-atfold">
       <h1>This is a POST page</h1>
-      <p>
+      <p v-if="!resultBoolean">
         Please complete this form to POST data to the API for testing purposes
       </p>
     </div>
-
-    <PostForm v-on:handlePost="retainPost" />
     <PostFormOutput
       v-bind:passedPost="passedPost"
       v-bind:resultSwitch="resultBoolean"
     />
+    <PostForm v-on:handlePost="retainPost" />
   </div>
 </template>
 
@@ -44,7 +43,7 @@ export default {
     fetchPost: function() {
       // console.log("test ", this.postString);
 
-      this.$http.post("", this.postString).then(
+      this.$http.post("events", this.postString).then(
         response => {
           console.log(response);
           if (response.ok === true) {

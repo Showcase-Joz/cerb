@@ -1,9 +1,12 @@
 <template>
   <div v-if="resultSwitch" class="sent-fetch-data">
-    <h3>Post Data</h3>
-    <p>{{ this.passedPost.namespace }} | {{ this.passedPost.name }}</p>
-    <p>{{ this.passedPost.type }}</p>
-    <p class="output-desc">{{ this.passedPost.description }}</p>
+    <h3>Posted this data to the API</h3>
+    <div class="results-recap">
+      <p class="">{{ this.passedPost.namespace }}</p>
+      <p>{{ this.passedPost.name }}</p>
+      <p>{{ this.passedPost.type }}</p>
+      <p class="output-desc">{{ this.passedPost.description }}</p>
+    </div>
   </div>
 </template>
 <script>
@@ -26,16 +29,37 @@ export default {
 </script>
 <style lang="scss" scoped>
 .sent-fetch-data {
-  h3 {
-    margin-bottom: $spacingDefault;
-    text-decoration: underline overline double $color1;
-  }
-}
-p {
-  white-space: pre-line;
+  background-color: lighten($color: $valid, $amount: 25%);
+  border-radius: $borderRadius;
+  margin-bottom: $spacingDefault;
+  padding: $spacingDefault;
 
-  &.output-desc {
-    text-align: left;
+  .results-recap {
+    display: grid;
+    grid-template-columns: repeat(3, [col] minmax(auto, 1fr));
+    grid-template-rows: repeat(2, [row] auto);
+    grid-row-gap: $spacingDefault;
+
+    .output-desc {
+      grid-column: col / span 4;
+      grid-row: row 2;
+    }
+  }
+
+  h3 {
+    color: darken($color: $valid, $amount: 35%);
+    margin-bottom: $spacingLarge;
+    text-decoration: underline solid darken($color: $valid, $amount: 35%);
+  }
+
+  p {
+    color: gray;
+    font-style: italic;
+    white-space: pre-line;
+
+    &.output-desc {
+      text-align: justify;
+    }
   }
 }
 </style>

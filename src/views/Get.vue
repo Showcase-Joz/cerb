@@ -62,7 +62,7 @@ export default {
     fetchGet: function() {
       // console.log("test ", this.getString);
 
-      this.$http.get("", this.getString).then(
+      this.$http.get("events", this.getString).then(
         response => {
           console.log(response);
           if (response.ok === true) {

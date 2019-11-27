@@ -16,8 +16,7 @@
             :class="{
               hasValue: $v.formResponses.namespace.hasValueLength
             }"
-            >Namespace
-          </label>
+          >Namespace</label>
           <input
             v-model="formResponses.namespace"
             v-on:input="cleanInputs"
@@ -42,9 +41,7 @@
             !$v.formResponses.namespace.required &&
               $v.formResponses.namespace.$dirty
           "
-        >
-          Namespace must not be empty!
-        </p>
+        >Namespace must not be empty!</p>
       </div>
       <div class="form-group">
         <div
@@ -59,8 +56,7 @@
             :class="{
               hasValue: $v.formResponses.name.hasValueLength
             }"
-            >Name
-          </label>
+          >Name</label>
           <input
             v-model="formResponses.name"
             v-on:input="cleanInputs"
@@ -83,16 +79,16 @@
         <p
           class="form-field-msg"
           v-if="!$v.formResponses.name.required && $v.formResponses.name.$dirty"
-        >
-          Name must not be empty!
-        </p>
+        >Name must not be empty!</p>
       </div>
 
       <Timestamp @changeTimestamp="formResponses.timestamp = $event" />
 
+      <ToggleSwitchClear @updateToggleValue="getType = $event" />
+
       <div class="form-group">
         <div class="radio-group">
-          <div class="radio">
+          <label for="debug" class="radio" >
             Debug
             <input
               type="radio"
@@ -101,8 +97,8 @@
               v-model="formResponses.type"
               @blur="$v.formResponses.type.$touch()"
             />
-          </div>
-          <div class="radio">
+          </label>
+          <label for="error" class="radio" >
             Error
             <input
               type="radio"
@@ -111,8 +107,8 @@
               v-model="formResponses.type"
               @blur="$v.formResponses.type.$touch()"
             />
-          </div>
-          <div class="radio">
+          </label>
+          <label for="info" class="radio">
             Info
             <input
               type="radio"
@@ -121,8 +117,8 @@
               v-model="formResponses.type"
               @blur="$v.formResponses.type.$touch()"
             />
-          </div>
-          <div class="radio">
+          </label>
+          <label for="warning" class="radio">
             Warning
             <input
               type="radio"
@@ -131,7 +127,7 @@
               v-model="formResponses.type"
               @blur="$v.formResponses.type.$touch()"
             />
-          </div>
+          </label>
         </div>
 
         <p
@@ -140,9 +136,7 @@
           :class="{
             hidden: $v.formResponses.type.required
           }"
-        >
-          Please select a type for the log entry!
-        </p>
+        >Please select a type for the log entry!</p>
       </div>
       <input type="submit" value="Submit" class="btn" />
     </form>
@@ -156,6 +150,7 @@ import {
   maxLength,
   helpers
 } from "vuelidate/lib/validators";
+import ToggleSwitchClear from "../form/ToggleSwitchClear";
 import Timestamp from "../form/TimeStamp";
 // used to prevent UI covering user input when field has been completed
 const hasValueLength = value => value.length >= 1;
@@ -165,6 +160,7 @@ let newGet = {};
 export default {
   name: "GetForm",
   components: {
+    ToggleSwitchClear,
     Timestamp
   },
   data() {
@@ -175,7 +171,8 @@ export default {
         namespace: "",
         name: "",
         type: null
-      }
+      },
+      getType: null
     };
   },
   validations: {

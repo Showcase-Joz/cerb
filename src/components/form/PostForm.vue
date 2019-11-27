@@ -19,11 +19,11 @@
             >Namespace
           </label>
           <input
+            type="text"
+            name="namespace"
             v-model="formResponses.namespace"
             v-on:input="cleanInputs"
             @blur="$v.formResponses.namespace.$touch()"
-            type="text"
-            name="namespace"
           />
         </div>
         <p class="form-field-msg" v-if="!$v.formResponses.namespace.minLength">

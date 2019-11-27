@@ -45,4 +45,33 @@ h1 {
 h4 {
   color: $color1;
 }
+
+// Animations
+@keyframes fadeIn {
+  0% {
+    opacity: 0;
+  }
+  100% {
+    opacity: 1;
+  }
+}
+@keyframes fadeOut {
+  0% {
+    opacity: 1;
+  }
+  100% {
+    opacity: 0;
+  }
+}
+@keyframes fadeOutSpecial {
+  0% {
+    opacity: 1;
+    height: inherit;
+  }
+  100% {
+    opacity: 0;
+    height: 0;
+    margin: 0;
+  }
+}
 </style>

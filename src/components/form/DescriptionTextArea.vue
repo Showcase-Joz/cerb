@@ -19,10 +19,11 @@
       <resizable-textarea>
         <textarea
           name="description"
+          spellcheck="true"
+          placeholder="Multiple lines allowed"
           v-model="formResponses.description"
           v-on:input="changeDescription"
           v-on:blur="$v.formResponses.description.$touch()"
-          placeholder="Multiple lines allowed"
           :class="{ empty: !$v.formResponses.description.hasValueLength }"
         ></textarea>
       </resizable-textarea>
