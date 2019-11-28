@@ -88,7 +88,7 @@
 
       <div class="form-group">
         <div class="radio-group">
-          <label for="debug" class="radio" >
+          <label for="debug" class="radio"  >
             Debug
             <input
               type="radio"
@@ -98,7 +98,7 @@
               @blur="$v.formResponses.type.$touch()"
             />
           </label>
-          <label for="error" class="radio" >
+          <label for="error" class="radio">
             Error
             <input
               type="radio"
@@ -150,8 +150,8 @@ import {
   maxLength,
   helpers
 } from "vuelidate/lib/validators";
-import ToggleSwitchClear from "../form/ToggleSwitchClear";
-import Timestamp from "../form/TimeStamp";
+import ToggleSwitchClear from "../form/form-elements/ToggleSwitchClear";
+import Timestamp from "../form/form-elements/TimeStamp";
 // used to prevent UI covering user input when field has been completed
 const hasValueLength = value => value.length >= 1;
 const strDefPattern = helpers.regex("strDefPattern", /^[\d+\w+^.^-]+$/);
@@ -216,10 +216,11 @@ export default {
         type: this.formResponses.type,
         timestamp: this.formResponses.timestamp
       };
+      const getObj = [newGet, this.getType]
       if (this.noErrors) {
         this.uiState = "form submitted!";
         // send up to parent
-        this.$emit("handleGet", newGet);
+        this.$emit("handleGet", getObj);
       } else {
         console.warn("There is a form submission error: ", newGet);
       }

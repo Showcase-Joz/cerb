@@ -6,11 +6,12 @@
         Please complete this form to GET data to the API for testing purposes
       </p>
     </div>
-    <GetForm v-on:handleGet="retainGet" />
     <GetFormOutput
       v-bind:passedGet="passedGet"
       v-bind:resultSwitch="resultBoolean"
     />
+    <GetForm v-on:handleGet="retainGet" />
+    
   </div>
 </template>
 
@@ -25,7 +26,8 @@ export default {
       resultBoolean: false,
       passedGet: {},
       getString: "",
-      getQuery: ""
+      getQuery: "",
+      getType: null
     };
   },
   components: {
@@ -33,8 +35,9 @@ export default {
     GetFormOutput
   },
   methods: {
-    retainGet: function(newGet) {
-      this.passedGet = newGet;
+    retainGet: function(getObj) {
+      this.passedGet = getObj[0];
+      this.getType = getObj[1];      
       this.setGetFetchVariables();
     },
     createGetString: function() {
@@ -55,14 +58,22 @@ export default {
       return (this.getQuery = stagingBodyGetQuery);
     },
     setGetFetchVariables: function() {
-      this.createGetString();
-      this.createGetQuery();
-      // this.fetchGet();
-    },
-    fetchGet: function() {
-      // console.log("test ", this.getString);
+      const stringSuffix = this.createGetString();
+      const querySuffix = this.createGetQuery();
 
-      this.$http.get("events", this.getString).then(
+      if ( this.getType === false ) {
+        const stringPrefix = "events/";
+        this.fetchGet(stringPrefix,stringSuffix);
+      } else if ( this.getType === true ) {
+        const queryPrefix = "events?";
+        this.fetchGet(queryPrefix,querySuffix);
+      }
+      
+    },
+    fetchGet: function(prefix,suffix) {
+      console.log("test ", prefix + suffix);
+
+      this.$http.get(prefix + suffix).then(
         response => {
           console.log(response);
           if (response.ok === true) {

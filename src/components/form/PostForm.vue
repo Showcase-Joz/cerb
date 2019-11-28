@@ -158,7 +158,7 @@ import {
   maxLength,
   helpers
 } from "vuelidate/lib/validators";
-import DescriptionTextArea from "../form/DescriptionTextArea";
+import DescriptionTextArea from "../form/form-elements/DescriptionTextArea";
 // used to prevent UI covering user input when field has been completed
 const hasValueLength = value => value.length >= 1;
 const strDefPattern = helpers.regex("strDefPattern", /^[\d+\w+^.^-]+$/);
