@@ -9,8 +9,8 @@
     margin-top: 1rem;
 
     .input-with-label {
-      border-bottom: 1px solid $neutral;
-      color: black;
+      border-bottom: 1px solid shade($color1, $tint90);
+      // color: black;
       display: flex;
       font-size: $font-size-xl;
       letter-spacing: 0.12rem;
@@ -36,7 +36,7 @@
 
       label {
         bottom: 0;
-        color: lighten($color: black, $amount: 55%);
+        color: tint($color2, $tint50);
         left: 0;
         line-height: 2rem;
         padding-left: 5px;
@@ -79,7 +79,7 @@
         white-space: pre-line;
 
         &::placeholder {
-          color: lightgrey;
+          color: tint($color2, $tint75);
           font-size: medium;
           font-style: initial;
           font-variant-caps: all-petite-caps;
@@ -100,7 +100,7 @@
         animation: fadeIn 1300ms cubic-bezier(0.175, 0.885, 0.32, 1.275);
         content: $strDefPattern;
         bottom: 0;
-        color: $neutral;
+        color: $color2;
         font-size: 0.7rem;
         font-variant: unicase;
         line-height: 2rem;
@@ -116,7 +116,12 @@
         border-bottom: 1px solid $warning;
       }
 
-      &.valid:focus-within {
+      &.invalid {
+        border-bottom: 1px solid $invalid;
+      }
+
+      &.valid:focus-within,
+      &.valid {
         border-bottom: 1px solid $valid;
       }
 
@@ -189,19 +194,19 @@
 
         &:hover input[type="radio"]::after {
           @extend input[type="radio"]::after;
-          background-color: lighten($color: $neutral, $amount: 30%);
+          background-color: tint($color1, $tint50);
           content: "";
         }
 
         input[type="radio"] {
           appearance: none;
           cursor: inherit;
-          // outline: none;
+          outline: none;
           position: relative;
 
           &::before {
             border: 1px solid $color1;
-            border-radius: 50%;
+            border-radius: .3rem;
             content: "";
             height: 18px;
             position: absolute;
@@ -210,7 +215,7 @@
           }
 
           &::after {
-            border-radius: 50%;
+            border-radius: .2rem;
             height: 12px;
             position: absolute;
             transform: translateX(-50%) translateY(-50%);
@@ -219,7 +224,7 @@
 
           &:checked::after {
             @extend input[type="radio"]::after;
-            background-color: $neutral;
+            background-color: $color1;
             content: "";
           }
         }

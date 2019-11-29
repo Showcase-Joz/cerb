@@ -2,15 +2,11 @@
   <div class="get-view">
     <div class="view-atfold">
       <h1>This is a GET page</h1>
-      <p>
-        Please complete this form to GET data to the API for testing purposes
-      </p>
+      <p>Please complete this form to GET data to the API for testing purposes</p>
     </div>
-    <GetFormOutput
-      v-bind:passedGet="passedGet"
-      v-bind:resultSwitch="resultBoolean"
-    />
+    
     <GetForm v-on:handleGet="retainGet" />
+    <GetFormOutput v-bind:passedGet="passedGet" v-bind:getResponse="getResponse" v-bind:resultSwitch="resultBoolean" />
   </div>
 </template>
 
@@ -26,7 +22,8 @@ export default {
       passedGet: {},
       getString: "",
       getQuery: "",
-      getType: null
+      getType: false,
+      getResponse: {}
     };
   },
   components: {
@@ -45,14 +42,14 @@ export default {
       const stagingBodyGetString = Object.keys(this.passedGet)
         .map(key => this.passedGet[key])
         .join("/");
-      console.log("stagingBodyGetString: ", stagingBodyGetString);
+      // console.log("stagingBodyGetString: ", stagingBodyGetString);
       return (this.getString = stagingBodyGetString);
     },
     createGetQuery: function() {
       const stagingBodyGetQuery = Object.keys(this.passedGet)
         .map(key => key + "=" + this.passedGet[key])
         .join("&");
-      console.log("stagingBodyGetQuery: ", stagingBodyGetQuery);
+      // console.log("stagingBodyGetQuery: ", stagingBodyGetQuery);
 
       return (this.getQuery = stagingBodyGetQuery);
     },
@@ -76,6 +73,7 @@ export default {
           console.log(response);
           if (response.ok === true) {
             this.resultBoolean = true;
+            this.getResponse = response;
           }
         },
         error => {

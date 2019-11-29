@@ -66,7 +66,7 @@ export default {
   }
 
   p {
-    color: gray;
+    color: white;
     font-style: italic;
     white-space: pre-line;
 

@@ -6,12 +6,14 @@
         Please complete this form to POST data to the API for testing purposes
       </p>
     </div>
+
+    <PostForm v-on:handlePost="retainPost" v-bind:passedMessage="passedMessage" />
     <PostFormOutput
       v-bind:passedResponse="passedResponse"
       v-bind:passedPost="passedPost"
       v-bind:resultSwitch="resultBoolean"
     />
-    <PostForm v-on:handlePost="retainPost" v-bind:passedMessage="passedMessage" />
+    
   </div>
 </template>
 

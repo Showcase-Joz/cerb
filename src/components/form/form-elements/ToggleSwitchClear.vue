@@ -55,7 +55,7 @@ export default {
   }
 
   .toggledOn {
-    color: $neutral;
+    color: inherit;
     font-size: smaller;
     font-weight: 500;
     text-transform: uppercase;
@@ -64,27 +64,28 @@ export default {
   input[type="checkbox"].switch {
     appearance: none;
     -webkit-appearance: none;
-    background-color: lighten($color: $color1, $amount: 25%);
-    border-radius: 20px;
-    box-shadow: inset 0 0 5px rgba(0, 0, 0, 0.2);
+    background-color: tint($color1, $tint100);
+    border-radius: .3rem;
+    box-shadow: inset 0 0 5px shade($color1, $shade25);
     height: 40px;
     outline: none;
     position: relative;
     width: 80px;
 
     &:hover {
-      background-color: lighten($color: $color1, $amount: 15%);
+      background-color: tint($color1, $tint90);
     }
 
     &:hover:before,
     &:hover:checked::before {
-      background-color: desaturate($neutral, $amount: 30%);
+      background-color: shade($color1, $shade10);
+      // box-shadow: 2px 0 3px shade($color1, $shade50);
     }
 
     &:before {
-      background-color: $neutral;
-      border-radius: 20px;
-      box-shadow: 0 2px 5px rgba(0, 0, 0, 0.2);
+      background-color: $color1;
+      border-radius: .3rem;
+      // box-shadow: -2px 0 5px shade($color1, $shade75);
       content: "";
       height: 40px;
       left: 0;
@@ -97,12 +98,13 @@ export default {
     }
 
     &:checked {
-      // background-color: $neutral;
+      // background-color: tint($color1, $tint100);
     }
 
     &:checked::before {
       left: 40px;
-      background-color: $neutral;
+      background-color: $color1;
+      // box-shadow: 2px 0 5px shade($color1, $shade75);
     }
   }
 }

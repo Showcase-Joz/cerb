@@ -25,7 +25,7 @@ export default {
 }
 
 #app {
-  color: $color2;
+  color: tint($color2, $tint10);
   font-family: $primary-font-family;
   min-width: $minViewport;
   text-align: center;

@@ -146,7 +146,7 @@
           Please select a type for the log entry!
         </p>
       </div>
-      <input type="submit" value="Submit" class="btn" />
+      <input type="submit" value="Submit" class="btn btn-submit" />
     </form>
   </div>
 </template>
@@ -180,7 +180,7 @@ export default {
         name: "",
         type: null
       },
-      getType: null
+      getType: false
     };
   },
   validations: {
@@ -254,5 +254,8 @@ export default {
   &:hover {
     background-color: #666;
   }
+}
+.btn-submit {
+  background-color: $color1;
 }
 </style>

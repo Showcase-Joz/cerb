@@ -7,13 +7,26 @@ $spacingLarge: 2.5rem;
 
 $primary-font-family: "Avenir", Helvetica, Arial, sans-serif;
 
-$color1: #b3b3b3;
-$color2: #2c3e50;
+$color1: hsl(153, 47%, 49%);
+$color2: hsl(0, 0%, 20%);
+$shade10: 10%;
+$shade25: 25%;
+$shade50: 50%;
+$shade75: 75%;
+$shade90: 90%;
+$shade100: 100%;
+$tint10: 10%;
+$tint25: 25%;
+$tint50: 50%;
+$tint75: 75%;
+$tint90: 90%;
+$tint100: 100%;
+
 
 $neutral: blue;
-$valid: #55fd96;
-$warning: #fda979;
-$invalid: #ff5454;
+$valid: hsl(153, 47%, 49%);;
+$warning: hsl(22, 97%, 73%);
+$invalid: hsl(0, 100%, 66%);
 
 $borderRadius: 5px;
 

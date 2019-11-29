@@ -2,7 +2,7 @@
   <header>
     <h1>
       Cerberus
-      <h4>v0.1.0</h4>
+      <span :title="'Current vrsion of Cerberus is: ' + appVersion">v{{this.appVersion}}</span>
     </h1>
     <p>{{ apiConnection() }}</p>
     <nav id="nav">
@@ -18,6 +18,11 @@
 <script>
 export default {
   name: "Header",
+  data(){
+    return {
+      appVersion: "0.0.8"
+    }
+  },
   methods: {
     apiConnection: function() {
       this.$http.get("check").then(
@@ -38,13 +43,19 @@ export default {
 
 <style lang="scss" scoped>
 header {
-  background-color: #333;
-  color: #fff;
+  background-color: $color2;
+  color: tint($color2, $tint100);
   text-align: center;
   padding: 10px;
   margin-bottom: 2rem;
 
-  h4 {
+  & h1 {
+    color: tint($color2, $tint100);
+  }
+
+  & span {
+    color: tint($color2, $tint90);
+    cursor: pointer;
     display: inline-block;
     font-size: 10px;
     text-transform: none;
@@ -58,13 +69,19 @@ header {
   padding: 30px;
 
   a {
-    color: #fff;
+    color: inherit;
     padding: 0 5px;
     text-decoration: none;
     font-weight: bold;
 
+    &:hover {
+      color: tint($color1, $tint75);
+      text-decoration: underline;
+      text-decoration-color: tint($color1, $tint50);
+    }
+
     &.router-link-exact-active {
-      color: #42b983;
+      color: $color1;
     }
   }
 }
