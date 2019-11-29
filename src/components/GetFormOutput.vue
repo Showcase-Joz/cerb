@@ -3,8 +3,17 @@
     <h3>Get Data</h3>
 
     <div v-if="resultSwitch" class="sent-fetch-data">
-      <p>{{ this.getResponse.body.event.namespace }} | {{ this.getResponse.body.event.name }}</p>
-      <p>Type: {{ this.getResponse.body.event.type }} | v:{{ this.getResponse.body.event.version }} | Has Details:{{ this.getResponse.body.haslargedetails }} | Found Details:{{ this.getResponse.body.weredetailsfound }}</p>
+      <p>
+        {{ this.getResponse.body.event.namespace }} |
+        {{ this.getResponse.body.event.name }}
+      </p>
+      <p>
+        Type: {{ this.getResponse.body.event.type }} | v:{{
+          this.getResponse.body.event.version
+        }}
+        | Has Details:{{ this.getResponse.body.haslargedetails }} | Found
+        Details:{{ this.getResponse.body.weredetailsfound }}
+      </p>
       <p class="output-desc">{{ this.getResponse.body.event.description }}</p>
     </div>
   </div>
@@ -39,7 +48,7 @@ export default {
 
   .sent-fetch-data {
     background-color: $color2;
-    border-radius: .2rem;
+    border-radius: 0.2rem;
     color: tint($color2, $tint90);
     padding: $spacingDefault;
   }

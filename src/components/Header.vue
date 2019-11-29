@@ -2,7 +2,9 @@
   <header>
     <h1>
       Cerberus
-      <span :title="'Current vrsion of Cerberus is: ' + appVersion">v{{this.appVersion}}</span>
+      <span :title="'Current vrsion of Cerberus is: ' + appVersion"
+        >v{{ this.appVersion }}</span
+      >
     </h1>
     <p>{{ apiConnection() }}</p>
     <nav id="nav">
@@ -18,10 +20,10 @@
 <script>
 export default {
   name: "Header",
-  data(){
+  data() {
     return {
       appVersion: "0.0.8"
-    }
+    };
   },
   methods: {
     apiConnection: function() {

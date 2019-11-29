@@ -65,7 +65,7 @@ export default {
     appearance: none;
     -webkit-appearance: none;
     background-color: tint($color1, $tint100);
-    border-radius: .3rem;
+    border-radius: 0.3rem;
     box-shadow: inset 0 0 5px shade($color1, $shade25);
     height: 40px;
     outline: none;
@@ -84,7 +84,7 @@ export default {
 
     &:before {
       background-color: $color1;
-      border-radius: .3rem;
+      border-radius: 0.3rem;
       // box-shadow: -2px 0 5px shade($color1, $shade75);
       content: "";
       height: 40px;

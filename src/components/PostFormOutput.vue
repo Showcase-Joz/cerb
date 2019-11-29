@@ -3,7 +3,9 @@
     <h3>
       Posted this data to the API
       <span>
-        <a :href="this.passedResponse.body.href" target="_blank">Open result here</a>
+        <a :href="this.passedResponse.body.href" target="_blank"
+          >Open result here</a
+        >
       </span>
     </h3>
     <div class="results-recap">
@@ -59,7 +61,7 @@ export default {
     margin-bottom: $spacingLarge;
     text-decoration: underline solid darken($color: $valid, $amount: 35%);
 
-    span>a {
+    span > a {
       color: $valid;
       display: block;
     }

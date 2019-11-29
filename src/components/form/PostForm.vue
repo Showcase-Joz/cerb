@@ -16,7 +16,8 @@
             :class="{
               hasValue: $v.formResponses.namespace.hasValueLength
             }"
-          >Namespace</label>
+            >Namespace</label
+          >
           <input
             type="text"
             name="namespace"
@@ -41,7 +42,9 @@
             !$v.formResponses.namespace.required &&
               $v.formResponses.namespace.$dirty
           "
-        >Namespace must not be empty!</p>
+        >
+          Namespace must not be empty!
+        </p>
       </div>
       <div class="form-group">
         <div
@@ -56,7 +59,8 @@
             :class="{
               hasValue: $v.formResponses.name.hasValueLength
             }"
-          >Name</label>
+            >Name</label
+          >
           <input
             v-model="formResponses.name"
             v-on:input="cleanInputs"
@@ -79,10 +83,14 @@
         <p
           class="form-field-msg"
           v-if="!$v.formResponses.name.required && $v.formResponses.name.$dirty"
-        >Name must not be empty!</p>
+        >
+          Name must not be empty!
+        </p>
       </div>
 
-      <DescriptionTextArea @changeDescription="formResponses.description = $event" />
+      <DescriptionTextArea
+        @changeDescription="formResponses.description = $event"
+      />
 
       <div class="form-group">
         <div class="radio-group">
@@ -134,9 +142,11 @@
           :class="{
             hidden: $v.formResponses.type.required
           }"
-        >Please select a type for the log entry!</p>
+        >
+          Please select a type for the log entry!
+        </p>
       </div>
-      <input type="submit" value="Submit" class="btn"  />
+      <input type="submit" value="Submit" class="btn" />
       {{ this.passedMessage }}
     </form>
   </div>

@@ -7,13 +7,15 @@
       </p>
     </div>
 
-    <PostForm v-on:handlePost="retainPost" v-bind:passedMessage="passedMessage" />
+    <PostForm
+      v-on:handlePost="retainPost"
+      v-bind:passedMessage="passedMessage"
+    />
     <PostFormOutput
       v-bind:passedResponse="passedResponse"
       v-bind:passedPost="passedPost"
       v-bind:resultSwitch="resultBoolean"
     />
-    
   </div>
 </template>
 
@@ -23,9 +25,7 @@ import PostFormOutput from "../components/PostFormOutput";
 
 export default {
   name: "post",
-  props: {
-
-  },
+  props: {},
   data() {
     return {
       resultBoolean: false,
@@ -51,15 +51,13 @@ export default {
     fetchPost: function() {
       // console.log("test ", this.postString);
 
-      this.$http.post("events", this.postString)
-      .then(
+      this.$http.post("events", this.postString).then(
         response => {
           if (response.ok === true) {
             this.resultBoolean = true;
             this.passedResponse = response;
             this.passedMessage = response.body.message;
             console.log(this.passedResponse);
-
           }
         },
         error => {
