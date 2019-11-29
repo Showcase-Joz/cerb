@@ -7,10 +7,11 @@
       </p>
     </div>
     <PostFormOutput
+      v-bind:passedResponse="passedResponse"
       v-bind:passedPost="passedPost"
       v-bind:resultSwitch="resultBoolean"
     />
-    <PostForm v-on:handlePost="retainPost" />
+    <PostForm v-on:handlePost="retainPost" v-bind:passedMessage="passedMessage" />
   </div>
 </template>
 
@@ -20,11 +21,16 @@ import PostFormOutput from "../components/PostFormOutput";
 
 export default {
   name: "post",
+  props: {
+
+  },
   data() {
     return {
       resultBoolean: false,
       passedPost: {},
-      postString: ""
+      passedResponse: {},
+      postString: "",
+      passedMessage: null
     };
   },
   components: {
@@ -43,17 +49,23 @@ export default {
     fetchPost: function() {
       // console.log("test ", this.postString);
 
-      this.$http.post("events", this.postString).then(
+      this.$http.post("events", this.postString)
+      .then(
         response => {
-          console.log(response);
           if (response.ok === true) {
             this.resultBoolean = true;
+            this.passedResponse = response;
+            this.passedMessage = response.body.message;
+            console.log(this.passedResponse);
           }
-        },
-        error => {
-          console.log("Error: ", error);
         }
-      );
+      )
+      .catch(error => {
+        // You can handle the error, like show a notificaiton to the user
+        alert('We could not fetch the posts, please try again')
+        // dont forget to re-throw the error, otherwise the promise will resolve successfully
+        throw error
+      })
     }
   }
 };

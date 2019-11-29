@@ -1,8 +1,13 @@
 <template>
   <div v-if="resultSwitch" class="sent-fetch-data">
-    <h3>Posted this data to the API</h3>
+    <h3>
+      Posted this data to the API
+      <span>
+        <a :href="this.passedResponse.body.href" target="_blank">Open result here</a>
+      </span>
+    </h3>
     <div class="results-recap">
-      <p class="">{{ this.passedPost.namespace }}</p>
+      <p class>{{ this.passedPost.namespace }}</p>
       <p>{{ this.passedPost.name }}</p>
       <p>{{ this.passedPost.type }}</p>
       <p class="output-desc">{{ this.passedPost.description }}</p>
@@ -19,6 +24,9 @@ export default {
   },
   props: {
     passedPost: {
+      type: Object
+    },
+    passedResponse: {
       type: Object
     },
     resultSwitch: {
@@ -50,6 +58,11 @@ export default {
     color: darken($color: $valid, $amount: 35%);
     margin-bottom: $spacingLarge;
     text-decoration: underline solid darken($color: $valid, $amount: 35%);
+
+    span>a {
+      color: $valid;
+      display: block;
+    }
   }
 
   p {

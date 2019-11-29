@@ -16,7 +16,8 @@
             :class="{
               hasValue: $v.formResponses.namespace.hasValueLength
             }"
-          >Namespace</label>
+            >Namespace</label
+          >
           <input
             v-model="formResponses.namespace"
             v-on:input="cleanInputs"
@@ -41,7 +42,9 @@
             !$v.formResponses.namespace.required &&
               $v.formResponses.namespace.$dirty
           "
-        >Namespace must not be empty!</p>
+        >
+          Namespace must not be empty!
+        </p>
       </div>
       <div class="form-group">
         <div
@@ -56,7 +59,8 @@
             :class="{
               hasValue: $v.formResponses.name.hasValueLength
             }"
-          >Name</label>
+            >Name</label
+          >
           <input
             v-model="formResponses.name"
             v-on:input="cleanInputs"
@@ -79,7 +83,9 @@
         <p
           class="form-field-msg"
           v-if="!$v.formResponses.name.required && $v.formResponses.name.$dirty"
-        >Name must not be empty!</p>
+        >
+          Name must not be empty!
+        </p>
       </div>
 
       <Timestamp @changeTimestamp="formResponses.timestamp = $event" />
@@ -88,7 +94,7 @@
 
       <div class="form-group">
         <div class="radio-group">
-          <label for="debug" class="radio"  >
+          <label for="debug" class="radio">
             Debug
             <input
               type="radio"
@@ -136,7 +142,9 @@
           :class="{
             hidden: $v.formResponses.type.required
           }"
-        >Please select a type for the log entry!</p>
+        >
+          Please select a type for the log entry!
+        </p>
       </div>
       <input type="submit" value="Submit" class="btn" />
     </form>
@@ -216,7 +224,7 @@ export default {
         type: this.formResponses.type,
         timestamp: this.formResponses.timestamp
       };
-      const getObj = [newGet, this.getType]
+      const getObj = [newGet, this.getType];
       if (this.noErrors) {
         this.uiState = "form submitted!";
         // send up to parent

@@ -11,7 +11,6 @@
       v-bind:resultSwitch="resultBoolean"
     />
     <GetForm v-on:handleGet="retainGet" />
-    
   </div>
 </template>
 
@@ -37,7 +36,7 @@ export default {
   methods: {
     retainGet: function(getObj) {
       this.passedGet = getObj[0];
-      this.getType = getObj[1];      
+      this.getType = getObj[1];
       this.setGetFetchVariables();
     },
     createGetString: function() {
@@ -61,16 +60,15 @@ export default {
       const stringSuffix = this.createGetString();
       const querySuffix = this.createGetQuery();
 
-      if ( this.getType === false ) {
+      if (this.getType === false) {
         const stringPrefix = "events/";
-        this.fetchGet(stringPrefix,stringSuffix);
-      } else if ( this.getType === true ) {
+        this.fetchGet(stringPrefix, stringSuffix);
+      } else if (this.getType === true) {
         const queryPrefix = "events?";
-        this.fetchGet(queryPrefix,querySuffix);
+        this.fetchGet(queryPrefix, querySuffix);
       }
-      
     },
-    fetchGet: function(prefix,suffix) {
+    fetchGet: function(prefix, suffix) {
       console.log("test ", prefix + suffix);
 
       this.$http.get(prefix + suffix).then(
