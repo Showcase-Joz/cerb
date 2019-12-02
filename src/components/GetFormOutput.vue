@@ -41,6 +41,8 @@ export default {
 </script>
 <style lang="scss" scoped>
 .sent-fetch-wrapper {
+  grid-area: sent-fetch-wrapper;
+
   h3 {
     margin-bottom: $spacingDefault;
     text-decoration: underline overline double $color1;

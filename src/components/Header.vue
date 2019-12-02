@@ -20,6 +20,7 @@
 <script>
 export default {
   name: "Header",
+
   data() {
     return {
       appVersion: "0.0.8"

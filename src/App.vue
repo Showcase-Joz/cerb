@@ -33,7 +33,18 @@ export default {
   -moz-osx-font-smoothing: grayscale;
 }
 
+div[class$="-view"] {
+  display: grid;
+  grid-template-columns: minmax(max-content, 1fr);
+  grid-auto-rows: minmax(100px, auto);
+  grid-template-areas:
+    "view-atfold view-atfold"
+    "form-wrapper sent-fetch-data";
+  column-gap: 1rem;
+}
+
 .view-atfold {
+  grid-area: view-atfold;
   margin-bottom: $spacingDefault;
 }
 
@@ -47,6 +58,25 @@ h4 {
 }
 
 // Animations
+
+.resize-enter {
+    width: 100%;
+  }
+
+  .resize-enter-active {
+    transition: width 1s;
+  }
+
+  .resize-leave {
+
+  }
+
+  .resize-leave-active {
+    transition: width 1s;
+    width: auto;
+  }
+
+
 @keyframes fadeIn {
   0% {
     opacity: 0;

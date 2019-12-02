@@ -1,5 +1,6 @@
 <template>
-  <div v-if="resultSwitch" class="sent-fetch-data">
+  <transition name="resize">
+    <div v-if="resultSwitch" class="sent-fetch-data">
     <h3>
       Posted this data to the API
       <span>
@@ -15,6 +16,7 @@
       <p class="output-desc">{{ this.passedPost.description }}</p>
     </div>
   </div>
+  </transition>
 </template>
 <script>
 export default {
@@ -75,6 +77,23 @@ export default {
     &.output-desc {
       text-align: justify;
     }
+  }
+
+  .fade-enter {
+    opacity: 0;
+  }
+
+  .fade-enter-active {
+    transition: opacity 1s;
+  }
+
+  .fade-leave {
+
+  }
+
+  .fade-leave-active {
+    transition: opacity 1s;
+    opacity: 0;
   }
 }
 </style>
