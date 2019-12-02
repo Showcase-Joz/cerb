@@ -33,14 +33,21 @@ export default {
   -moz-osx-font-smoothing: grayscale;
 }
 
-div[class$="-view"] {
+.split-view {
+
   display: grid;
-  grid-template-columns: minmax(max-content, 1fr);
+  grid-template-columns: minmax(max-content, auto);
   grid-auto-rows: minmax(100px, auto);
   grid-template-areas:
-    "view-atfold view-atfold"
-    "form-wrapper sent-fetch-data";
-  column-gap: 1rem;
+  "form-wrapper"
+  "sent-fetch-wrapper";
+
+  @include for-size(desktop-up) {
+    grid-template-areas:
+    "form-wrapper sent-fetch-wrapper";
+    column-gap: 1rem;
+  }
+  
 }
 
 .view-atfold {
@@ -59,22 +66,6 @@ h4 {
 
 // Animations
 
-.resize-enter {
-    width: 100%;
-  }
-
-  .resize-enter-active {
-    transition: width 1s;
-  }
-
-  .resize-leave {
-
-  }
-
-  .resize-leave-active {
-    transition: width 1s;
-    width: auto;
-  }
 
 
 @keyframes fadeIn {

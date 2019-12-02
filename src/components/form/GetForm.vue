@@ -1,5 +1,5 @@
 <template>
-  <div class="form-wrapper">
+  <div ref="search" class="form-wrapper" :class="{'rollup-form': !this.hasFocus === true && this.resultSwitch === true}">
     <form id="formGetString" @submit.prevent="collectInputs">
       <div class="form-group">
         <div
@@ -16,12 +16,12 @@
             :class="{
               hasValue: $v.formResponses.namespace.hasValueLength
             }"
-            >Namespace</label
-          >
+          >Namespace</label>
           <input
             v-model="formResponses.namespace"
             v-on:input="cleanInputs"
-            @blur="$v.formResponses.namespace.$touch()"
+            @blur="$v.formResponses.namespace.$touch(), onBlur()"
+            @focus="onFocus()"
             type="text"
             name="namespace"
           />
@@ -42,9 +42,7 @@
             !$v.formResponses.namespace.required &&
               $v.formResponses.namespace.$dirty
           "
-        >
-          Namespace must not be empty!
-        </p>
+        >Namespace must not be empty!</p>
       </div>
       <div class="form-group">
         <div
@@ -59,8 +57,7 @@
             :class="{
               hasValue: $v.formResponses.name.hasValueLength
             }"
-            >Name</label
-          >
+          >Name</label>
           <input
             v-model="formResponses.name"
             v-on:input="cleanInputs"
@@ -83,9 +80,7 @@
         <p
           class="form-field-msg"
           v-if="!$v.formResponses.name.required && $v.formResponses.name.$dirty"
-        >
-          Name must not be empty!
-        </p>
+        >Name must not be empty!</p>
       </div>
 
       <Timestamp @changeTimestamp="formResponses.timestamp = $event" />
@@ -135,16 +130,13 @@
             />
           </label>
         </div>
-
         <p
           class="group-field-msg"
-          v-if="$v.formResponses.type.$dirty"
+          v-if="$v.formResponses.type.$invalid"
           :class="{
             hidden: $v.formResponses.type.required
           }"
-        >
-          Please select a type for the log entry!
-        </p>
+        >Please select a type of issue for the log entry!</p>
       </div>
       <input type="submit" value="Submit" class="btn btn-submit" />
     </form>
@@ -171,6 +163,11 @@ export default {
     ToggleSwitchClear,
     Timestamp
   },
+  props: {
+    resultSwitch: {
+      type: Boolean
+    }
+  },
   data() {
     return {
       uiState: "submit issue",
@@ -178,9 +175,10 @@ export default {
       formResponses: {
         namespace: "",
         name: "",
-        type: null
+        type: "debug"
       },
-      getType: false
+      getType: false,
+      hasFocus: false
     };
   },
   validations: {
@@ -232,6 +230,16 @@ export default {
       } else {
         console.warn("There is a form submission error: ", newGet);
       }
+    },
+    onFocus() {
+      console.log("test1");
+      this.hasFocus = true;
+      
+    },
+    onBlur() {
+      console.log("test2");
+      this.hasFocus = false;
+      
     }
   }
 };
@@ -240,8 +248,26 @@ export default {
 <style lang="scss" scoped>
 .form-wrapper {
   border: 1px $color2 solid;
-  margin-bottom: $spacingLarge;
+  height: max-content;
+  overflow-y: hidden;
   padding: $spacingLarge;
+
+  &.rollup-form {
+    height: 100px;
+    transition: height .75s ease-in;
+  }
+
+  &:not(.rollup-form) {
+    height: 100%;
+    transition: height .75s;
+  }
+
+  @include for-size(desktop-up) {
+    &.rollup-form,
+    &:focus-within {
+      height: inherit;
+    }
+  }
 }
 .btn {
   display: inline-block;

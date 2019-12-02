@@ -2,17 +2,17 @@
   <div class="get-view">
     <div class="view-atfold">
       <h1>This is a GET page</h1>
-      <p>
-        Please complete this form to GET data to the API for testing purposes
-      </p>
+      <p>Please complete this form to GET data to the API for testing purposes</p>
     </div>
 
-    <GetForm v-on:handleGet="retainGet" />
-    <GetFormOutput
-      v-bind:passedGet="passedGet"
-      v-bind:getResponse="getResponse"
-      v-bind:resultSwitch="resultBoolean"
-    />
+    <div class="split-view">
+      <GetForm v-on:handleGet="retainGet" v-bind:resultSwitch="resultBoolean" />
+      <GetFormOutput
+        v-bind:passedGet="passedGet"
+        v-bind:getResponse="getResponse"
+        v-bind:resultSwitch="resultBoolean"
+      />
+    </div>
   </div>
 </template>
 
@@ -80,6 +80,8 @@ export default {
           if (response.ok === true) {
             this.resultBoolean = true;
             this.getResponse = response;
+          } else if (response.ok === false) {
+            this.resultBoolean = false;
           }
         },
         error => {

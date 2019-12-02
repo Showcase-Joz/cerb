@@ -1,22 +1,20 @@
 <template>
-  <transition name="resize">
-    <div v-if="resultSwitch" class="sent-fetch-data">
-    <h3>
-      Posted this data to the API
-      <span>
-        <a :href="this.passedResponse.body.href" target="_blank"
-          >Open result here</a
-        >
-      </span>
-    </h3>
-    <div class="results-recap">
-      <p class>{{ this.passedPost.namespace }}</p>
-      <p>{{ this.passedPost.name }}</p>
-      <p>{{ this.passedPost.type }}</p>
-      <p class="output-desc">{{ this.passedPost.description }}</p>
+    <div v-if="resultSwitch" class="sent-fetch-wrapper">
+      <h3>
+        Posted this data to the API
+        <span>
+          <a :href="this.passedResponse.body.href" target="_blank"
+            >Open result here</a
+          >
+        </span>
+      </h3>
+      <div class="sent-fetch-data results-recap">
+        <p class>{{ this.passedPost.namespace }}</p>
+        <p>{{ this.passedPost.name }}</p>
+        <p>{{ this.passedPost.type }}</p>
+        <p class="output-desc">{{ this.passedPost.description }}</p>
+      </div>
     </div>
-  </div>
-  </transition>
 </template>
 <script>
 export default {
@@ -88,7 +86,6 @@ export default {
   }
 
   .fade-leave {
-
   }
 
   .fade-leave-active {

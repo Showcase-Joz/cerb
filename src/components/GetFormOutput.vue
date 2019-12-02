@@ -1,20 +1,37 @@
 <template>
-  <div class="sent-fetch-wrapper">
-    <h3>Get Data</h3>
-
-    <div v-if="resultSwitch" class="sent-fetch-data">
-      <p>
-        {{ this.getResponse.body.event.namespace }} |
-        {{ this.getResponse.body.event.name }}
-      </p>
-      <p>
-        Type: {{ this.getResponse.body.event.type }} | v:{{
-          this.getResponse.body.event.version
-        }}
-        | Has Details:{{ this.getResponse.body.haslargedetails }} | Found
-        Details:{{ this.getResponse.body.weredetailsfound }}
-      </p>
-      <p class="output-desc">{{ this.getResponse.body.event.description }}</p>
+  <div v-if="resultSwitch" class="sent-fetch-wrapper">
+    <div class="sent-fetch-data">
+      <div class="response-ns">{{ this.getResponse.body.event.namespace }}</div>
+      <div class="response-extras">
+        <div
+          class="response-type"
+          title="the type of log {debug, info, warning, error}"
+        >{{ this.getResponse.body.event.type }}</div>
+        <div
+          class="log-version"
+          title="current verson of this log"
+        >v: {{ this.getResponse.body.event.version }}</div>
+        <div class="status-group">
+          <div
+            class="status-setting"
+            title="an external large details stored on S3"
+            :class="{
+              'status-green': this.getResponse.body.haslargedetails,
+              'status-red': !this.getResponse.body.haslargedetails
+            }"
+          ></div>
+          <div
+            class="status-setting"
+            title="this log has details available"
+            :class="{
+              'status-green': this.getResponse.body.weredetailsfound,
+              'status-red': !this.getResponse.body.weredetailsfound
+            }"
+          ></div>
+        </div>
+      </div>
+      <div class="response-n">{{ this.getResponse.body.event.name }}</div>
+      <p class="response-desc">{{ this.getResponse.body.event.description }}</p>
     </div>
   </div>
 </template>
@@ -42,6 +59,11 @@ export default {
 <style lang="scss" scoped>
 .sent-fetch-wrapper {
   grid-area: sent-fetch-wrapper;
+  margin-top: $spacingLarge;
+
+  @include for-size(desktop-up) {
+    margin-top: inherit;
+  }
 
   h3 {
     margin-bottom: $spacingDefault;
@@ -52,14 +74,124 @@ export default {
     background-color: $color2;
     border-radius: 0.2rem;
     color: tint($color2, $tint90);
+    display: grid;
+    grid-template-columns: [col] minmax(auto, 1fr);
+    grid-template-rows: repeat(3, [row] auto);
+    min-height: 100%;
     padding: $spacingDefault;
+
+    @include for-size(desktop-up) {
+      min-height: max-content;
+    }
   }
 
   p {
     white-space: pre-line;
+  }
 
-    &.output-desc {
-      text-align: left;
+  .response-ns {
+    grid-area: response-ns;
+    grid-column: col / span 2;
+    grid-row: row 1;
+    justify-self: left;
+  }
+  .response-n {
+    grid-area: response-n;
+    grid-column: col / span 3;
+    grid-row: row 2;
+    margin-bottom: 0.75rem;
+    justify-self: left;
+    text-align: left;
+    word-break: break-word;
+  }
+
+  div[class^="response-n"] {
+    font-size: 1.25rem;
+    font-variant: all-petite-caps;
+    font-weight: 500;
+    line-height: 1.2rem;
+  }
+
+  .response-extras {
+    grid-area: response-extras;
+    grid-column: col / span -1;
+    grid-row: row 1;
+    justify-self: right;
+  }
+
+  .response-desc {
+    border-top: solid rgba($color1, 0.5) 1px;
+    font-size: smaller;
+    grid-area: response-main;
+    grid-column: col / span 3;
+    grid-row: row 3;
+    justify-self: left;
+    padding-top: 0.25rem;
+    text-align: justify;
+  }
+
+  .response-extras {
+    align-items: center;
+    column-gap: 0.5rem;
+    display: grid;
+    grid-template-areas: "response-type log-version status-group";
+    grid-template-columns: repeat(3, minmax(max-content, 1fr));
+    font-size: 0.75rem;
+    max-width: min-content;
+
+    .response-type {
+      cursor: help;
+      display: inline-block;
+      grid-area: response-type;
+      width: max-content;
+      text-transform: uppercase;
+
+      &::after {
+        content: "|";
+        padding-left: 3px;
+      }
+    }
+
+    .log-version {
+      background-color: tint($color1, $tint25);
+      border-radius: 3px;
+      color: $color2;
+      cursor: help;
+      min-width: max-content;
+      padding: 0 5px;
+    }
+
+    .status-group {
+      display: grid;
+      grid-template-columns: 1fr 1fr;
+
+      .status-setting {
+        align-items: center;
+        cursor: help;
+        display: grid;
+        height: min-content;
+        justify-items: center;
+        min-width: 20px;
+        position: relative;
+        width: min-content;
+
+        &::after {
+          content: "";
+          height: 1rem;
+          position: absolute;
+          width: 0.5rem;
+        }
+
+        &::after.status-red {
+          @extend .status-setting::after;
+          background-color: $invalid;
+        }
+
+        &::after.status-green {
+          @extend .status-setting::after;
+          background-color: $valid;
+        }
+      }
     }
   }
 }

@@ -48,17 +48,28 @@ export default {
     justify-items: center;
   }
 
-  :not(.toggledOn) {
-    cursor: inherit;
-    text-decoration: line-through solid $invalid;
-    text-transform: lowercase;
-  }
-
   .toggledOn {
     color: inherit;
-    font-size: smaller;
+    font-size: x-small;
     font-weight: 500;
     text-transform: uppercase;
+
+    @include for-size(tablet-portrait-up) {
+      font-size: smaller;
+    }
+  }
+
+  :not(.toggledOn) {
+    cursor: inherit;
+    font-size: small;
+    line-height: 0.75rem;
+    text-decoration: line-through solid $invalid;
+    text-transform: lowercase;
+
+    @include for-size(tablet-portrait-up) {
+      font-size: medium;
+      line-height: unset;
+    }
   }
 
   input[type="checkbox"].switch {
