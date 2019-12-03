@@ -1,5 +1,10 @@
 <template>
-  <div ref="search" class="form-wrapper" :class="{'rollup-form': !this.hasFocus === true && this.resultSwitch === true}">
+  <div
+    class="form-wrapper"
+    :class="{
+      'rollup-form': !this.hasFocus === true && this.resultSwitch === true
+    }"
+  >
     <form id="formGetString" @submit.prevent="collectInputs">
       <div class="form-group">
         <div
@@ -61,7 +66,8 @@
           <input
             v-model="formResponses.name"
             v-on:input="cleanInputs"
-            @blur="$v.formResponses.name.$touch()"
+            @blur="$v.formResponses.name.$touch(), onBlur()"
+            @focus="onFocus()"
             type="text"
             name="name"
           />
@@ -83,7 +89,10 @@
         >Name must not be empty!</p>
       </div>
 
-      <Timestamp @changeTimestamp="formResponses.timestamp = $event" />
+      <Timestamp
+        @changeTimestamp="formResponses.timestamp = $event"
+        @updateFocus="hasFocus = $event"
+      />
 
       <ToggleSwitchClear @updateToggleValue="getType = $event" />
 
@@ -96,7 +105,8 @@
               id="debug"
               value="debug"
               v-model="formResponses.type"
-              @blur="$v.formResponses.type.$touch()"
+              @blur="$v.formResponses.type.$touch(), onBlur()"
+              @focus="onFocus()"
             />
           </label>
           <label for="error" class="radio">
@@ -106,7 +116,8 @@
               id="error"
               value="error"
               v-model="formResponses.type"
-              @blur="$v.formResponses.type.$touch()"
+              @blur="$v.formResponses.type.$touch(), onBlur()"
+              @focus="onFocus()"
             />
           </label>
           <label for="info" class="radio">
@@ -116,7 +127,8 @@
               id="info"
               value="info"
               v-model="formResponses.type"
-              @blur="$v.formResponses.type.$touch()"
+              @blur="$v.formResponses.type.$touch(), onBlur()"
+              @focus="onFocus()"
             />
           </label>
           <label for="warning" class="radio">
@@ -126,7 +138,8 @@
               id="warning"
               value="warning"
               v-model="formResponses.type"
-              @blur="$v.formResponses.type.$touch()"
+              @blur="$v.formResponses.type.$touch(), onBlur()"
+              @focus="onFocus()"
             />
           </label>
         </div>
@@ -232,14 +245,19 @@ export default {
       }
     },
     onFocus() {
-      console.log("test1");
+      console.log("active");
       this.hasFocus = true;
-      
+      const element = event.target;
+      const dataKey = element.name;
+      Object.keys(this.formResponses).forEach(key => {
+        if (key === dataKey) {
+          return console.log("active:", dataKey );
+          
+        }
+      });
     },
     onBlur() {
-      console.log("test2");
       this.hasFocus = false;
-      
     }
   }
 };
@@ -254,12 +272,12 @@ export default {
 
   &.rollup-form {
     height: 100px;
-    transition: height .75s ease-in;
+    transition: height 0.75s ease-in;
   }
 
   &:not(.rollup-form) {
     height: 100%;
-    transition: height .75s;
+    transition: height 0.75s;
   }
 
   @include for-size(desktop-up) {

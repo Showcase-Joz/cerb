@@ -34,20 +34,22 @@ export default {
 }
 
 .split-view {
-
   display: grid;
   grid-template-columns: minmax(max-content, auto);
   grid-auto-rows: minmax(100px, auto);
   grid-template-areas:
-  "form-wrapper"
-  "sent-fetch-wrapper";
+    "form-wrapper"
+    "sent-fetch-wrapper";
 
   @include for-size(desktop-up) {
-    grid-template-areas:
-    "form-wrapper sent-fetch-wrapper";
+    grid-template-columns: minmax(max-content, 1fr);
+    grid-template-areas: "form-wrapper sent-fetch-wrapper";
     column-gap: 1rem;
+
+    &.append-grid {
+      grid-template-columns: minmax(max-content, 1fr) minmax(auto, 1fr);
+    }
   }
-  
 }
 
 .view-atfold {
@@ -65,8 +67,6 @@ h4 {
 }
 
 // Animations
-
-
 
 @keyframes fadeIn {
   0% {

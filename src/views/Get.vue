@@ -5,7 +5,7 @@
       <p>Please complete this form to GET data to the API for testing purposes</p>
     </div>
 
-    <div class="split-view">
+    <div class="split-view" :class="{'append-grid': this.resultBoolean}">
       <GetForm v-on:handleGet="retainGet" v-bind:resultSwitch="resultBoolean" />
       <GetFormOutput
         v-bind:passedGet="passedGet"
@@ -78,8 +78,7 @@ export default {
         response => {
           console.log(response);
           if (response.ok === true) {
-            this.resultBoolean = true;
-            this.getResponse = response;
+            this.delayOutput(response);
           } else if (response.ok === false) {
             this.resultBoolean = false;
           }
@@ -88,6 +87,13 @@ export default {
           console.log("Error: ", error);
         }
       );
+    },
+    delayOutput: function(response) {
+      this.resultBoolean = true;
+      let self = this;
+      setTimeout(function() {
+        self.getResponse = response;
+      }, 750);
     }
   }
 };

@@ -1,16 +1,19 @@
 <template>
+<transition name="fade">
   <div v-if="resultSwitch" class="sent-fetch-wrapper">
-    <div class="sent-fetch-data">
+    
+      <div class="sent-fetch-data">
       <div class="response-ns">{{ this.getResponse.body.event.namespace }}</div>
       <div class="response-extras">
         <div
           class="response-type"
           title="the type of log {debug, info, warning, error}"
-        >{{ this.getResponse.body.event.type }}</div>
-        <div
-          class="log-version"
-          title="current verson of this log"
-        >v: {{ this.getResponse.body.event.version }}</div>
+        >
+          {{ this.getResponse.body.event.type }}
+        </div>
+        <div class="log-version" title="current verson of this log">
+          v: {{ this.getResponse.body.event.version }}
+        </div>
         <div class="status-group">
           <div
             class="status-setting"
@@ -33,7 +36,9 @@
       <div class="response-n">{{ this.getResponse.body.event.name }}</div>
       <p class="response-desc">{{ this.getResponse.body.event.description }}</p>
     </div>
+    
   </div>
+  </transition>
 </template>
 <script>
 export default {
@@ -128,6 +133,7 @@ export default {
     justify-self: left;
     padding-top: 0.25rem;
     text-align: justify;
+    width: 100%;
   }
 
   .response-extras {
@@ -195,4 +201,21 @@ export default {
     }
   }
 }
+.fade-enter {
+  opacity: 0;
+}
+
+.fade-enter-active {
+  transition: opacity 2s;
+}
+
+.fade-leave {
+
+}
+
+.fade-leave-active {
+  transition: opacity 2s;
+  opacity: 0;
+}
+
 </style>

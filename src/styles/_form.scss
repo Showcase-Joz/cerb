@@ -112,6 +112,10 @@
         transform: translateY(-100%);
       }
 
+      &::before:focus {
+        // SOME STUFF HERE TO ILLUSTRATE ACTIVE INPUT
+      }
+
       &.invalid:focus-within {
         border-bottom: 1px solid $warning;
       }

@@ -21,7 +21,8 @@
         name="timestamp"
         v-model="formResponses.timestamp"
         v-on:input="changeTimestamp"
-        v-on:blur="$v.formResponses.timestamp.$touch()"
+        v-on:blur="$v.formResponses.timestamp.$touch(), onBlur()"
+        @focus="onFocus()"
         :class="{ empty: !$v.formResponses.timestamp.hasValueLength }"
       />
     </div>
@@ -57,7 +58,8 @@ export default {
     return {
       formResponses: {
         timestamp: ""
-      }
+      },
+      hasFocus: null
     };
   },
   validations: {
@@ -71,6 +73,14 @@ export default {
     }
   },
   methods: {
+    onFocus() {
+      this.hasFocus = true;
+      this.$emit("updateFocus", this.hasFocus);
+    },
+    onBlur() {
+      this.hasFocus = false;
+      this.$emit("updateFocus", this.hasFocus);
+    },
     changeTimestamp: function() {
       this.$emit("changeTimestamp", this.formResponses.timestamp);
     }
