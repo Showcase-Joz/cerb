@@ -2,20 +2,19 @@
   <div class="post-view">
     <div class="view-atfold">
       <h1>This is a POST page</h1>
-      <p v-if="!resultBoolean">
-        Please complete this form to POST data to the API for testing purposes
-      </p>
+      <p
+        v-if="!resultBoolean"
+      >Please complete this form to POST data to the API for testing purposes</p>
     </div>
 
-    <PostForm
-      v-on:handlePost="retainPost"
-      v-bind:passedMessage="passedMessage"
-    />
-    <PostFormOutput
-      v-bind:passedResponse="passedResponse"
-      v-bind:passedPost="passedPost"
-      v-bind:resultSwitch="resultBoolean"
-    />
+    <div class="split-view" :class="{ 'append-grid': this.resultBoolean }">
+      <PostForm v-on:handlePost="retainPost" v-bind:passedMessage="passedMessage" v-bind:resultSwitch="resultBoolean" />
+      <PostFormOutput
+        v-bind:responseHref="responseHref"
+        v-bind:passedPost="passedPost"
+        v-bind:resultSwitch="resultBoolean"
+      />
+    </div>
   </div>
 </template>
 
@@ -30,7 +29,7 @@ export default {
     return {
       resultBoolean: false,
       passedPost: {},
-      passedResponse: {},
+      responseHref: null,
       postString: "",
       passedMessage: null
     };
@@ -55,9 +54,10 @@ export default {
         response => {
           if (response.ok === true) {
             this.resultBoolean = true;
-            this.passedResponse = response;
+            this.responseHref = response.body.href;
             this.passedMessage = response.body.message;
-            console.log(this.passedResponse);
+          } else if (response.ok === false) {
+            this.resultBoolean = false;
           }
         },
         error => {

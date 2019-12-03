@@ -23,7 +23,8 @@
           placeholder="Multiple lines allowed"
           v-model="formResponses.description"
           v-on:input="changeDescription"
-          v-on:blur="$v.formResponses.description.$touch()"
+          v-on:blur="$v.formResponses.description.$touch(), onBlur()"
+          @focus="onFocus()"
           :class="{ empty: !$v.formResponses.description.hasValueLength }"
         ></textarea>
       </resizable-textarea>
@@ -61,7 +62,8 @@ export default {
     return {
       formResponses: {
         description: ""
-      }
+      },
+      hasFocus: null
     };
   },
   components: {
@@ -78,6 +80,14 @@ export default {
     }
   },
   methods: {
+    onFocus() {
+      this.hasFocus = true;
+      this.$emit("updateFocus", this.hasFocus);
+    },
+    onBlur() {
+      this.hasFocus = false;
+      this.$emit("updateFocus", this.hasFocus);
+    },
     changeDescription: function() {
       this.$emit("changeDescription", this.formResponses.description);
     }

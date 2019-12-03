@@ -1,20 +1,20 @@
 <template>
-  <div v-if="resultSwitch" class="sent-fetch-wrapper">
-    <h3>
-      Posted this data to the API
-      <span>
-        <a :href="this.passedResponse.body.href" target="_blank"
-          >Open result here</a
-        >
-      </span>
-    </h3>
-    <div class="sent-fetch-data results-recap">
-      <p class>{{ this.passedPost.namespace }}</p>
-      <p>{{ this.passedPost.name }}</p>
-      <p>{{ this.passedPost.type }}</p>
-      <p class="output-desc">{{ this.passedPost.description }}</p>
+  <transition name="fade">
+    <div v-if="resultSwitch" class="sent-fetch-wrapper">
+      <h3>
+        Posted this data to the API
+        <span>
+          <a :href="this.responseHref" target="_blank">Open result here</a>
+        </span>
+      </h3>
+      <div class="sent-fetch-data results-recap">
+        <p class>{{ this.passedPost.namespace }}</p>
+        <p>{{ this.passedPost.name }}</p>
+        <p>{{ this.passedPost.type }}</p>
+        <p class="output-desc">{{ this.passedPost.description }}</p>
+      </div>
     </div>
-  </div>
+  </transition>
 </template>
 <script>
 export default {
@@ -28,8 +28,8 @@ export default {
     passedPost: {
       type: Object
     },
-    passedResponse: {
-      type: Object
+    responseHref: {
+      type: String
     },
     resultSwitch: {
       type: Boolean
@@ -37,6 +37,7 @@ export default {
   }
 };
 </script>
+<style lang="scss" src="@/styles/_form.scss" scoped></style>
 <style lang="scss" scoped>
 .sent-fetch-data {
   background-color: lighten($color: $valid, $amount: 25%);

@@ -1,5 +1,10 @@
 <template>
-  <div class="form-wrapper">
+  <div
+    class="form-wrapper"
+    :class="{
+      'rollup-form': !this.hasFocus === true && this.resultSwitch === true
+    }"
+  >
     <form id="formPost" @submit.prevent="collectInputs">
       <div class="form-group">
         <div
@@ -16,14 +21,14 @@
             :class="{
               hasValue: $v.formResponses.namespace.hasValueLength
             }"
-            >Namespace</label
-          >
+          >Namespace</label>
           <input
             type="text"
             name="namespace"
             v-model="formResponses.namespace"
             v-on:input="cleanInputs"
-            @blur="$v.formResponses.namespace.$touch()"
+            @blur="$v.formResponses.namespace.$touch(), onBlur()"
+            @focus="onFocus()"
           />
         </div>
         <p class="form-field-msg" v-if="!$v.formResponses.namespace.minLength">
@@ -42,9 +47,7 @@
             !$v.formResponses.namespace.required &&
               $v.formResponses.namespace.$dirty
           "
-        >
-          Namespace must not be empty!
-        </p>
+        >Namespace must not be empty!</p>
       </div>
       <div class="form-group">
         <div
@@ -59,12 +62,12 @@
             :class="{
               hasValue: $v.formResponses.name.hasValueLength
             }"
-            >Name</label
-          >
+          >Name</label>
           <input
             v-model="formResponses.name"
             v-on:input="cleanInputs"
-            @blur="$v.formResponses.name.$touch()"
+            @blur="$v.formResponses.name.$touch(), onBlur()"
+            @focus="onFocus()"
             type="text"
             name="name"
           />
@@ -83,13 +86,12 @@
         <p
           class="form-field-msg"
           v-if="!$v.formResponses.name.required && $v.formResponses.name.$dirty"
-        >
-          Name must not be empty!
-        </p>
+        >Name must not be empty!</p>
       </div>
 
       <DescriptionTextArea
         @changeDescription="formResponses.description = $event"
+        @updateFocus="hasFocus = $event"
       />
 
       <div class="form-group">
@@ -101,7 +103,8 @@
               id="debug"
               value="debug"
               v-model="formResponses.type"
-              @blur="$v.formResponses.type.$touch()"
+              @blur="$v.formResponses.type.$touch(), onBlur()"
+              @focus="onFocus()"
             />
           </div>
           <div class="radio">
@@ -111,7 +114,8 @@
               id="error"
               value="error"
               v-model="formResponses.type"
-              @blur="$v.formResponses.type.$touch()"
+              @blur="$v.formResponses.type.$touch(), onBlur()"
+              @focus="onFocus()"
             />
           </div>
           <div class="radio">
@@ -121,7 +125,8 @@
               id="info"
               value="info"
               v-model="formResponses.type"
-              @blur="$v.formResponses.type.$touch()"
+              @blur="$v.formResponses.type.$touch(), onBlur()"
+              @focus="onFocus()"
             />
           </div>
           <div class="radio">
@@ -131,7 +136,8 @@
               id="warning"
               value="warning"
               v-model="formResponses.type"
-              @blur="$v.formResponses.type.$touch()"
+              @blur="$v.formResponses.type.$touch(), onBlur()"
+              @focus="onFocus()"
             />
           </div>
         </div>
@@ -142,9 +148,7 @@
           :class="{
             hidden: $v.formResponses.type.required
           }"
-        >
-          Please select a type for the log entry!
-        </p>
+        >Please select a type for the log entry!</p>
       </div>
       <input type="submit" value="Submit" class="btn" />
       {{ this.passedMessage }}
@@ -173,6 +177,9 @@ export default {
   props: {
     passedMessage: {
       type: String
+    },
+    resultSwitch: {
+      type: Boolean
     }
   },
   data() {
@@ -184,7 +191,8 @@ export default {
         name: "",
         type: null,
         description: ""
-      }
+      },
+      hasFocus: false
     };
   },
   validations: {
@@ -235,6 +243,12 @@ export default {
       } else {
         console.warn("There is a form submission error: ", newPost);
       }
+    },
+    onFocus() {
+      this.hasFocus = true;
+    },
+    onBlur() {
+      this.hasFocus = false;
     }
   }
 };
@@ -244,7 +258,25 @@ export default {
 .form-wrapper {
   border: 1px $color2 solid;
   margin-bottom: $spacingLarge;
+  overflow-y: hidden;
   padding: $spacingLarge;
+  
+  &.rollup-form {
+    height: 100px;
+    transition: height 0.75s ease-in;
+  }
+
+  &:not(.rollup-form) {
+    height: 100%;
+    transition: height 0.75s;
+  }
+
+  @include for-size(desktop-up) {
+    &.rollup-form,
+    &:focus-within {
+      height: inherit;
+    }
+  }
 }
 .btn {
   display: inline-block;

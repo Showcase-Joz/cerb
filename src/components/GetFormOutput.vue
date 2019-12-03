@@ -1,43 +1,45 @@
 <template>
-<transition name="fade">
-  <div v-if="resultSwitch" class="sent-fetch-wrapper">
-    
+  <transition name="fade">
+    <div v-if="resultSwitch" class="sent-fetch-wrapper">
       <div class="sent-fetch-data">
-      <div class="response-ns">{{ this.getResponse.body.event.namespace }}</div>
-      <div class="response-extras">
-        <div
-          class="response-type"
-          title="the type of log {debug, info, warning, error}"
-        >
-          {{ this.getResponse.body.event.type }}
+        <div class="response-ns">
+          {{ this.getResponse.body.event.namespace }}
         </div>
-        <div class="log-version" title="current verson of this log">
-          v: {{ this.getResponse.body.event.version }}
-        </div>
-        <div class="status-group">
+        <div class="response-extras">
           <div
-            class="status-setting"
-            title="an external large details stored on S3"
-            :class="{
-              'status-green': this.getResponse.body.haslargedetails,
-              'status-red': !this.getResponse.body.haslargedetails
-            }"
-          ></div>
-          <div
-            class="status-setting"
-            title="this log has details available"
-            :class="{
-              'status-green': this.getResponse.body.weredetailsfound,
-              'status-red': !this.getResponse.body.weredetailsfound
-            }"
-          ></div>
+            class="response-type"
+            title="the type of log {debug, info, warning, error}"
+          >
+            {{ this.getResponse.body.event.type }}
+          </div>
+          <div class="log-version" title="current verson of this log">
+            v: {{ this.getResponse.body.event.version }}
+          </div>
+          <div class="status-group">
+            <div
+              class="status-setting"
+              title="an external large details stored on S3"
+              :class="{
+                'status-green': this.getResponse.body.haslargedetails,
+                'status-red': !this.getResponse.body.haslargedetails
+              }"
+            ></div>
+            <div
+              class="status-setting"
+              title="this log has details available"
+              :class="{
+                'status-green': this.getResponse.body.weredetailsfound,
+                'status-red': !this.getResponse.body.weredetailsfound
+              }"
+            ></div>
+          </div>
         </div>
+        <div class="response-n">{{ this.getResponse.body.event.name }}</div>
+        <p class="response-desc">
+          {{ this.getResponse.body.event.description }}
+        </p>
       </div>
-      <div class="response-n">{{ this.getResponse.body.event.name }}</div>
-      <p class="response-desc">{{ this.getResponse.body.event.description }}</p>
     </div>
-    
-  </div>
   </transition>
 </template>
 <script>
@@ -61,7 +63,23 @@ export default {
   }
 };
 </script>
+
 <style lang="scss" scoped>
+.fade-enter {
+  opacity: 0;
+}
+
+.fade-enter-active {
+  transition: opacity 2s 1.2s;
+}
+
+.fade-leave {
+}
+
+.fade-leave-active {
+  transition: opacity 2s;
+  opacity: 0;
+}
 .sent-fetch-wrapper {
   grid-area: sent-fetch-wrapper;
   margin-top: $spacingLarge;
@@ -200,22 +218,6 @@ export default {
       }
     }
   }
-}
-.fade-enter {
-  opacity: 0;
-}
-
-.fade-enter-active {
-  transition: opacity 2s;
-}
-
-.fade-leave {
-
-}
-
-.fade-leave-active {
-  transition: opacity 2s;
-  opacity: 0;
 }
 
 </style>
