@@ -21,7 +21,8 @@
             :class="{
               hasValue: $v.formResponses.namespace.hasValueLength
             }"
-          >Namespace</label>
+            >Namespace</label
+          >
           <input
             v-model="formResponses.namespace"
             v-on:input="cleanInputs"
@@ -47,7 +48,9 @@
             !$v.formResponses.namespace.required &&
               $v.formResponses.namespace.$dirty
           "
-        >Namespace must not be empty!</p>
+        >
+          Namespace must not be empty!
+        </p>
       </div>
       <div class="form-group">
         <div
@@ -62,7 +65,8 @@
             :class="{
               hasValue: $v.formResponses.name.hasValueLength
             }"
-          >Name</label>
+            >Name</label
+          >
           <input
             v-model="formResponses.name"
             v-on:input="cleanInputs"
@@ -86,7 +90,9 @@
         <p
           class="form-field-msg"
           v-if="!$v.formResponses.name.required && $v.formResponses.name.$dirty"
-        >Name must not be empty!</p>
+        >
+          Name must not be empty!
+        </p>
       </div>
 
       <Timestamp
@@ -149,7 +155,9 @@
           :class="{
             hidden: $v.formResponses.type.required
           }"
-        >Please select a type of issue for the log entry!</p>
+        >
+          Please select a type of issue for the log entry!
+        </p>
       </div>
       <input type="submit" value="Submit" class="btn btn-submit" />
     </form>
@@ -247,14 +255,13 @@ export default {
     onFocus() {
       console.log("active");
       this.hasFocus = true;
-      const element = event.target;
-      const dataKey = element.name;
-      Object.keys(this.formResponses).forEach(key => {
-        if (key === dataKey) {
-          return console.log("active:", dataKey );
-          
-        }
-      });
+      // const element = event.target;
+      // const dataKey = element.name;
+      // Object.keys(this.formResponses).forEach(key => {
+      //   if (key === dataKey) {
+      //     return console.log("active:", dataKey);
+      //   }
+      // });
     },
     onBlur() {
       this.hasFocus = false;

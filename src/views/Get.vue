@@ -2,10 +2,12 @@
   <div class="get-view">
     <div class="view-atfold">
       <h1>This is a GET page</h1>
-      <p>Please complete this form to GET data to the API for testing purposes</p>
+      <p>
+        Please complete this form to GET data to the API for testing purposes
+      </p>
     </div>
 
-    <div class="split-view" :class="{'append-grid': this.resultBoolean}">
+    <div class="split-view" :class="{ 'append-grid': this.resultBoolean }">
       <GetForm v-on:handleGet="retainGet" v-bind:resultSwitch="resultBoolean" />
       <GetFormOutput
         v-bind:passedGet="passedGet"
