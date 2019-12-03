@@ -66,6 +66,34 @@ h4 {
   color: $color1;
 }
 
+.status-setting {
+  align-items: center;
+  cursor: help;
+  display: grid;
+  height: min-content;
+  justify-items: center;
+  min-width: 20px;
+  position: relative;
+  width: min-content;
+
+  &::after {
+    content: "";
+    height: 1rem;
+    position: absolute;
+    width: 0.5rem;
+  }
+
+  &::after.status-red {
+    @extend .status-setting::after;
+    background-color: $invalid;
+  }
+
+  &::after.status-green {
+    @extend .status-setting::after;
+    background-color: $valid;
+  }
+}
+
 // Animations
 
 @keyframes fadeIn {

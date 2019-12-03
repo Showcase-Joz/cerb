@@ -253,7 +253,6 @@ export default {
       }
     },
     onFocus() {
-      console.log("active");
       this.hasFocus = true;
       // const element = event.target;
       // const dataKey = element.name;

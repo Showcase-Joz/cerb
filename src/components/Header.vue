@@ -1,12 +1,22 @@
 <template>
   <header>
-    <h1>
-      Cerberus
-      <span :title="'Current vrsion of Cerberus is: ' + appVersion"
-        >v{{ this.appVersion }}</span
-      >
-    </h1>
-    <p>{{ apiConnection() }}</p>
+    <div>
+      <h1>
+        Cerberus
+        <span
+          class="version"
+          :title="'Current vrsion of Cerberus is: ' + appVersion"
+        >v{{ this.appVersion }}</span>
+      </h1>
+      <sup>
+        ...is
+        <span
+          title="an external large details stored on S3"
+          :class="{'status-green': this.connectionStatus,
+          'status-red': !this.connectionStatus}"
+        >{{ connectionStatus ? "online" : "offline" }}</span>
+      </sup>
+    </div>
     <nav id="nav">
       <router-link to="/">Home</router-link>|
       <router-link to="/dashboard">Dashboard</router-link>|
@@ -23,7 +33,8 @@ export default {
 
   data() {
     return {
-      appVersion: "0.0.8"
+      appVersion: "0.0.8",
+      connectionStatus: false
     };
   },
   methods: {
@@ -32,7 +43,7 @@ export default {
         response => {
           console.log(response);
           if (response.ok === true) {
-            this.resultBoolean = true;
+            this.connectionStatus = true;
           }
         },
         error => {
@@ -40,6 +51,9 @@ export default {
         }
       );
     }
+  },
+  beforeMount: function() {
+    this.apiConnection();
   }
 };
 </script>
@@ -48,28 +62,68 @@ export default {
 header {
   background-color: $color2;
   color: tint($color2, $tint100);
-  text-align: center;
+
   padding: 10px;
-  margin-bottom: 2rem;
+  // text-align: center;
 
-  & h1 {
-    color: tint($color2, $tint100);
-  }
+  div {
+    display: grid;
+    grid-template-columns: 1fr;
+    grid-template-rows: minmax(max-content, auto) minmax(max-content, auto);
+    width: max-content;
+    justify-self: center;
+    margin: auto;
 
-  & span {
-    color: tint($color2, $tint90);
-    cursor: pointer;
-    display: inline-block;
-    font-size: 10px;
-    text-transform: none;
-    transform: translateY(-70%) rotate(90deg);
-    left: -20px;
-    position: relative;
+    & h1 {
+      color: tint($color2, $tint100);
+      max-height: 42px;
+      // margin: auto;
+      // width: fit-content;
+    }
+
+    & span.version {
+      color: tint($color2, $tint90);
+      cursor: pointer;
+      // display: inline-block;
+      font-size: 10px;
+      position: absolute;
+      text-transform: none;
+      transform: translate(-10px, 20px) rotate(90deg);
+      // left: -20px;
+      // position: relative;
+    }
+
+    & sup {
+      font-variant: all-petite-caps;
+      margin-right: 25x;
+      text-align: right;
+
+      span {
+        &.status-red {
+          color: $invalid;
+        }
+
+        &.status-green {
+          color: $valid;
+          position: relative;
+
+          &::after {
+            background-color: $valid;
+            border-radius: 50%;
+            bottom: 4px;
+            content: "";
+            height: 12px;
+            position: absolute;
+            width: 12px;
+          }
+        }
+      }
+    }
   }
 }
 
 #nav {
-  padding: 30px;
+  padding: 15px 20px 0px;
 
   a {
     color: inherit;

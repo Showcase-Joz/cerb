@@ -4,7 +4,7 @@
       <h3>
         Posted this data to the API
         <span>
-          <a :href="this.responseHref" target="_blank">Open result here</a>
+          <a :href="this.responseHref" target="_blank">View JSON here</a>
         </span>
       </h3>
       <div class="sent-fetch-data results-recap">
