@@ -41,7 +41,7 @@ export default {
   align-items: center;
   cursor: pointer;
   display: grid;
-  grid-template-columns: 1fr auto 1fr;
+  grid-template-columns: min-content 1fr min-content;
 
   div:nth-child(2) {
     display: grid;

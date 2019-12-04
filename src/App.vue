@@ -26,7 +26,10 @@ export default {
 
 #app {
   color: tint($color2, $tint10);
+  display: grid;
   font-family: $primary-font-family;
+  grid-template-columns: 1fr;
+  grid-template-rows: minmax(auto, max-content) minmax(auto, max-content);
   min-width: $minViewport;
   text-align: center;
   -webkit-font-smoothing: antialiased;

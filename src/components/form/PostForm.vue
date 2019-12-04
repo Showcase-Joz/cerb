@@ -269,6 +269,10 @@ export default {
   overflow-y: hidden;
   padding: $spacingLarge;
 
+  @include for-size(phone-small) {
+    padding: $spacingDefault;
+  }
+
   &.rollup-form {
     height: 100px;
     transition: height 0.75s ease-in;

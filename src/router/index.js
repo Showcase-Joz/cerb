@@ -14,26 +14,26 @@ const routes = [
     path: "/dashboard",
     name: "dashboard",
     // route level code-splitting
-    // this generates a separate chunk (about.[hash].js) for this route
+    // this generates a separate chunk (dashboard.[hash].js) for this route
     // which is lazy-loaded when the route is visited.
     component: () =>
-      import(/* webpackChunkName: "about" */ "../views/Dashboard.vue")
+      import(/* webpackChunkName: "dashboard" */ "../views/Dashboard.vue")
   },
   {
     path: "/get",
     name: "get",
     // route level code-splitting
-    // this generates a separate chunk (about.[hash].js) for this route
+    // this generates a separate chunk (get.[hash].js) for this route
     // which is lazy-loaded when the route is visited.
-    component: () => import(/* webpackChunkName: "about" */ "../views/Get.vue")
+    component: () => import(/* webpackChunkName: "get" */ "../views/Get.vue")
   },
   {
     path: "/post",
     name: "post",
     // route level code-splitting
-    // this generates a separate chunk (about.[hash].js) for this route
+    // this generates a separate chunk (post.[hash].js) for this route
     // which is lazy-loaded when the route is visited.
-    component: () => import(/* webpackChunkName: "about" */ "../views/Post.vue")
+    component: () => import(/* webpackChunkName: "post" */ "../views/Post.vue")
   },
   {
     path: "/about",

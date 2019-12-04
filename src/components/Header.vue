@@ -1,23 +1,16 @@
 <template>
   <header>
-    <div>
+    <div class="header-wrapper">
       <h1>
         Cerberus
         <span
           class="version"
           :title="'Current vrsion of Cerberus is: ' + appVersion"
-        >v{{ this.appVersion }}</span>
+          >v{{ this.appVersion }}</span
+        >
       </h1>
-      <sup>
-        ...is
-        <span
-          :title="this.computedConnectionMessage"
-          :class="{
-            'status-green': this.connectionStatus,
-            'status-red': !this.connectionStatus
-          }"
-        >{{ connectionStatus ? "online" : "offline" }}</span>
-      </sup>
+      <!-- NEED TO EXTRACT connectionStatus to so that it's only active ondash, get, post views. This will allow the beforeDestroy method to prevent on views that do not require an online/offline state check. -->
+      <ConnectionStatus />
     </div>
     <nav id="nav">
       <router-link to="/">Home</router-link>|
@@ -30,46 +23,17 @@
 </template>
 
 <script>
+import ConnectionStatus from "../components/ConnectionStatus";
 export default {
   name: "Header",
-
+  components: {
+    ConnectionStatus
+  },
   data() {
     return {
-      appVersion: "0.0.8",
-      connectionStatus: false
+      appVersion: "0.0.8"
     };
-  },
-  methods: {
-    apiConnection: function() {
-      this.$http.get("check").then(
-        response => {
-          console.log(response);
-          if (response.ok === true) {
-            this.connectionStatus = true;
-          } else if (response.ok === false) {
-            this.connectionStatus = false;
-          }
-        },
-        error => {
-          console.log("Error: ", error);
-        }
-      );
-    }
-  },
-  computed: {
-    computedConnectionMessage: function() {
-      return this.connectionStatus ? "Cerberus is currently able to communicate with the API and serving ONLINE results" : "Cerberus is unable to communicate with the API and is therefore OFFLINE";
-    }
-  },
-  beforeMount: function() {
-    this.apiConnection();
-  },
-  created () {
-	setInterval(() => {
-    console.log("new");
-    this.apiConnection();
-	}, 3000)
-}
+  }
 };
 </script>
 
@@ -77,11 +41,12 @@ export default {
 header {
   background-color: $color2;
   color: tint($color2, $tint100);
-
+  height: 100%;
+  max-height: 120px;
   padding: 10px;
   // text-align: center;
 
-  div {
+  .header-wrapper {
     display: grid;
     grid-template-columns: 1fr;
     grid-template-rows: minmax(max-content, auto) minmax(max-content, auto);
@@ -107,54 +72,16 @@ header {
       // left: -20px;
       // position: relative;
     }
-
-    & sup {
-      cursor: help;
-      font-variant: all-petite-caps;
-      justify-self: end;
-      letter-spacing: 1px;
-      margin-right: 5px;
-      width: max-content;
-
-      span {
-        &.status-red {
-          color: $invalid;
-          position: relative;
-
-          &::after {
-            background-color: shade($invalid, $shade10);
-            border-radius: 50%;
-            content: "";
-            bottom: 4px;
-            height: 10px;
-            margin-left: 4px;
-            position: absolute;
-            width: 10px;
-          }
-        }
-
-        &.status-green {
-          color: $valid;
-          position: relative;
-
-          &::after {
-            background-color: $valid;
-            border-radius: 50%;
-            content: "";
-            bottom: 4px;
-            height: 10px;
-            position: absolute;
-            margin-left: 4px;
-            width: 10px;
-          }
-        }
-      }
-    }
   }
 }
 
 #nav {
+  font-size: medium;
   padding: 15px 20px 0px;
+
+  @include for-size(phone-small) {
+      font-size: smaller;
+    }
 
   a {
     color: inherit;
