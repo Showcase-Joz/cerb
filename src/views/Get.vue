@@ -82,7 +82,6 @@ export default {
           if (response.ok === true) {
             this.resultBoolean = true;
             this.getResponse = response;
-
           } else if (response.ok === false) {
             this.resultBoolean = false;
           }

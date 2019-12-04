@@ -188,8 +188,6 @@ export default {
     .status-group {
       display: grid;
       grid-template-columns: 1fr 1fr;
-
-      
     }
   }
 }

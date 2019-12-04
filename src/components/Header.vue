@@ -11,9 +11,11 @@
       <sup>
         ...is
         <span
-          title="an external large details stored on S3"
-          :class="{'status-green': this.connectionStatus,
-          'status-red': !this.connectionStatus}"
+          :title="this.computedConnectionMessage"
+          :class="{
+            'status-green': this.connectionStatus,
+            'status-red': !this.connectionStatus
+          }"
         >{{ connectionStatus ? "online" : "offline" }}</span>
       </sup>
     </div>
@@ -44,6 +46,8 @@ export default {
           console.log(response);
           if (response.ok === true) {
             this.connectionStatus = true;
+          } else if (response.ok === false) {
+            this.connectionStatus = false;
           }
         },
         error => {
@@ -52,9 +56,20 @@ export default {
       );
     }
   },
+  computed: {
+    computedConnectionMessage: function() {
+      return this.connectionStatus ? "Cerberus is currently able to communicate with the API and serving ONLINE results" : "Cerberus is unable to communicate with the API and is therefore OFFLINE";
+    }
+  },
   beforeMount: function() {
     this.apiConnection();
-  }
+  },
+  created () {
+	setInterval(() => {
+    console.log("new");
+    this.apiConnection();
+	}, 3000)
+}
 };
 </script>
 
@@ -83,7 +98,7 @@ header {
 
     & span.version {
       color: tint($color2, $tint90);
-      cursor: pointer;
+      cursor: help;
       // display: inline-block;
       font-size: 10px;
       position: absolute;
@@ -94,13 +109,28 @@ header {
     }
 
     & sup {
+      cursor: help;
       font-variant: all-petite-caps;
-      margin-right: 25x;
-      text-align: right;
+      justify-self: end;
+      letter-spacing: 1px;
+      margin-right: 5px;
+      width: max-content;
 
       span {
         &.status-red {
           color: $invalid;
+          position: relative;
+
+          &::after {
+            background-color: shade($invalid, $shade10);
+            border-radius: 50%;
+            content: "";
+            bottom: 4px;
+            height: 10px;
+            margin-left: 4px;
+            position: absolute;
+            width: 10px;
+          }
         }
 
         &.status-green {
@@ -110,11 +140,12 @@ header {
           &::after {
             background-color: $valid;
             border-radius: 50%;
-            bottom: 4px;
             content: "";
-            height: 12px;
+            bottom: 4px;
+            height: 10px;
             position: absolute;
-            width: 12px;
+            margin-left: 4px;
+            width: 10px;
           }
         }
       }

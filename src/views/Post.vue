@@ -2,13 +2,17 @@
   <div class="post-view">
     <div class="view-atfold">
       <h1>This is a POST page</h1>
-      <p
-        v-if="!resultBoolean"
-      >Please complete this form to POST data to the API for testing purposes</p>
+      <p v-if="!resultBoolean">
+        Please complete this form to POST data to the API for testing purposes
+      </p>
     </div>
 
     <div class="split-view" :class="{ 'append-grid': this.resultBoolean }">
-      <PostForm v-on:handlePost="retainPost" v-bind:passedMessage="passedMessage" v-bind:resultSwitch="resultBoolean" />
+      <PostForm
+        v-on:handlePost="retainPost"
+        v-bind:passedMessage="passedMessage"
+        v-bind:resultSwitch="resultBoolean"
+      />
       <PostFormOutput
         v-bind:responseHref="responseHref"
         v-bind:passedPost="passedPost"
