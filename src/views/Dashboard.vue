@@ -33,8 +33,8 @@ export default {
     align-content: center;
     grid-template-columns: minmax(60px, 100px) 1fr;
     grid-template-areas:
-    "main-nav-dashboard search-input search-input"
-    "main-nav-dashboard dashboard-wrapper dashboard-wrapper";
+      "main-nav-dashboard search-input search-input"
+      "main-nav-dashboard dashboard-wrapper dashboard-wrapper";
   }
 }
 </style>

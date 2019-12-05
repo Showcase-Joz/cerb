@@ -277,8 +277,8 @@ export default {
   padding: $spacingLarge;
 
   @include for-size(phone-small) {
-      padding: $spacingDefault;
-    }
+    padding: $spacingDefault;
+  }
 
   &.rollup-form {
     height: 100px;

@@ -80,8 +80,8 @@ header {
   padding: 15px 20px 0px;
 
   @include for-size(phone-small) {
-      font-size: smaller;
-    }
+    font-size: smaller;
+  }
 
   a {
     color: inherit;
