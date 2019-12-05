@@ -158,7 +158,7 @@
           Please select a type for the log entry!
         </p>
       </div>
-      <input type="submit" value="Submit" class="btn" />
+      <input type="submit" value="Submit" class="btn btn-submit" />
       {{ this.passedMessage }}
     </form>
   </div>
@@ -301,5 +301,8 @@ export default {
   &:hover {
     background-color: #666;
   }
+}
+.btn-submit {
+  background-color: $color1;
 }
 </style>

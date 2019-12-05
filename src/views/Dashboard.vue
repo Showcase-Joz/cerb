@@ -2,19 +2,19 @@
   <div class="dashboard">
     <MainDashNav />
     <SearchInput />
-    <DashboardWrapper />
+    <DashboardNamespaces />
   </div>
 </template>
 <script>
 import MainDashNav from "../components/navigation/MainDashboard";
 import SearchInput from "../components/SearchInput";
-import DashboardWrapper from "../components/DashboardWrapper";
+import DashboardNamespaces from "../components/DashboardNamespaces";
 export default {
   name: "dashboard",
   components: {
     MainDashNav,
     SearchInput,
-    DashboardWrapper
+    DashboardNamespaces
   }
 };
 </script>
@@ -26,7 +26,7 @@ export default {
   grid-template-areas:
     "main-nav-dashboard"
     "search-input"
-    "dashboard-wrapper";
+    "dashboard-namespaces";
   // height: 100%;
 
   @include for-size(tablet-portrait-up) {
@@ -34,7 +34,7 @@ export default {
     grid-template-columns: minmax(60px, 100px) 1fr;
     grid-template-areas:
       "main-nav-dashboard search-input search-input"
-      "main-nav-dashboard dashboard-wrapper dashboard-wrapper";
+      "main-nav-dashboard dashboard-namespaces dashboard-namespaces";
   }
 }
 </style>

@@ -47,7 +47,10 @@ const routes = [
 ];
 
 const router = new VueRouter({
-  routes
+  routes,
+  // mode: "history"
+  // set up server to always return the base url.... whatever it is.
+  // https://router.vuejs.org/guide/essentials/history-mode.html
 });
 
 export default router;
