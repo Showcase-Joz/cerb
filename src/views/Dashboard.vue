@@ -2,19 +2,17 @@
   <div class="dashboard">
     <MainDashNav />
     <SearchInput />
-    <DashboardNamespaces />
+    <router-view />
   </div>
 </template>
 <script>
 import MainDashNav from "../components/navigation/MainDashboard";
 import SearchInput from "../components/SearchInput";
-import DashboardNamespaces from "../components/DashboardNamespaces";
 export default {
   name: "dashboard",
   components: {
     MainDashNav,
-    SearchInput,
-    DashboardNamespaces
+    SearchInput
   }
 };
 </script>
@@ -31,7 +29,7 @@ export default {
 
   @include for-size(tablet-portrait-up) {
     align-content: center;
-    grid-template-columns: minmax(60px, 100px) 1fr;
+    grid-template-columns: minmax(auto, 100px) 1fr;
     grid-template-areas:
       "main-nav-dashboard search-input search-input"
       "main-nav-dashboard dashboard-namespaces dashboard-namespaces";

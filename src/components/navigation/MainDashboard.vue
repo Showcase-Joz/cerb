@@ -1,22 +1,38 @@
 <template>
   <div class="main-nav-dashboard">
     <div class="dash-nav-item">
-      <button @click="navigateTo" data-link="namespaces" class="btn">Namespaces</button>
+      <!-- <button @click="navigateTo" :class="{active: this.activeNav === 'dashboard'}" data-link="" class="btn">Namespaces</button> -->
+      <router-link to="/dashboard/" tag="button" class="btn" exact
+        >Namespaces</router-link
+      >
     </div>
     <div class="dash-nav-item">
-      <button @click="navigateTo" data-link="names" class="btn">Names</button>
+      <router-link to="/dashboard/names" tag="button" class="btn"
+        >Names</router-link
+      >
+    </div>
+    <div class="dash-nav-item">
+      <router-link to="/dashboard/test" tag="button" class="btn"
+        >Test
+      </router-link>
     </div>
   </div>
 </template>
 <script>
 export default {
   name: "main-nav-dashboard",
+  data() {
+    return {
+      activeNav: null
+    };
+  },
   methods: {
-    navigateTo: function(event) {
-      const element = event.target;
-      const link = element.dataset.link;
-      this.$router.push("/dashboard/" + link);
-    }
+    // activeLink: function(event) {
+    //   const element = event.target;
+    //   const link = element.dataset.link;
+    //   this.activeNav = link;
+    //   this.$router.push("/dashboard/" + link).catch(err => {});
+    // }
   }
 };
 </script>
@@ -41,12 +57,22 @@ export default {
     display: grid;
     height: 50px;
     text-align: center;
-    width: 50px;
+    width: 100%;
 
     &:hover {
       background-color: $color2;
       color: tint($color2, $tint50);
       cursor: pointer;
+    }
+
+    button {
+      background-color: red;
+      color: white;
+      padding: calc(#{$spacingDefault} / 2);
+
+      &.router-link-active {
+        background-color: green;
+      }
     }
   }
 }

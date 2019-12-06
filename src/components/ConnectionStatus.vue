@@ -25,7 +25,6 @@ export default {
     apiConnection: function() {
       this.$http.get("check").then(
         response => {
-          console.log(response);
           if (response.ok === true) {
             this.connectionStatus = true;
           } else {
@@ -38,18 +37,9 @@ export default {
         }
       );
     },
-    navigatorCheck: function() {
-      if (navigator.online) {
-        console.log("online");
-      } else {
-        console.log("offline");
-        this.connectionStatus = false;
-      }
-    },
     pollData: function() {
       this.polling = setInterval(() => {
         this.apiConnection();
-        console.log("this");
       }, 10000);
     }
   },

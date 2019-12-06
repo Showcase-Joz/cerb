@@ -18,11 +18,32 @@ const routes = [
     // which is lazy-loaded when the route is visited.
     component: () =>
       import(/* webpackChunkName: "dashboard" */ "../views/Dashboard.vue"),
-      children: [{
-        path: "/names",
+    children: [
+      {
+        path: "/",
+        name: "namespaces",
+        component: () =>
+          import(
+            /* webpackChunkName: "get" */ "../components/view-parts/dashboard/Namespaces.vue"
+          )
+      },
+      {
+        path: "names",
         name: "names",
-        component: () => import(/* webpackChunkName: "get" */ "../components/view-parts/DashNames.vue")
-      }],
+        component: () =>
+          import(
+            /* webpackChunkName: "get" */ "../components/view-parts/dashboard/Names.vue"
+          )
+      },
+      {
+        path: "test",
+        name: "test",
+        component: () =>
+          import(
+            /* webpackChunkName: "get" */ "../components/view-parts/dashboard/Test.vue"
+          )
+      }
+    ]
   },
   {
     path: "/get",
@@ -52,7 +73,7 @@ const routes = [
 ];
 
 const router = new VueRouter({
-  routes,
+  routes
   // mode: "history"
   // set up server to always return the base url.... whatever it is.
   // https://router.vuejs.org/guide/essentials/history-mode.html

@@ -1,30 +1,11 @@
 <template>
   <div class="dashboard-namespaces">
-    <div class="item">
-      <div class="inner-item">content here 1</div>
-    </div>
-    <div class="item">
-      <div class="inner-item">content here 1</div>
-    </div>
     <div
       class="item"
-      :class="{'active-item': elementHover}"
-      @mouseover="elementHover = true"
-      @mouseout="elementHover = false"
+      v-for="(namespace, index) in namespaceResults"
+      :key="index"
     >
-      <div class="inner-item">content here 1</div>
-    </div>
-    <div class="item">
-      <div class="inner-item">content here 1</div>
-    </div>
-    <div class="item">
-      <div class="inner-item">content here 1</div>
-    </div>
-    <div class="item">
-      <div class="inner-item">content here 1</div>
-    </div>
-    <div class="item">
-      <div class="inner-item">content here 1</div>
+      <div class="inner-item">{{ namespace }}</div>
     </div>
   </div>
 </template>
@@ -33,10 +14,29 @@ export default {
   name: "DashboardNamespaces",
   data() {
     return {
-      elementHover: false
+      namespaceResults: null
     };
   },
-  methods: {}
+  beforeMount() {
+    this.fetchNamespaces();
+  },
+  methods: {
+    fetchNamespaces: function() {
+      this.$http.get("metadata/namespaces").then(
+        response => {
+          console.log(response);
+          if (response.ok === true) {
+            this.namespaceResults = response.body.namespaces;
+          } else if (response.ok === false) {
+            this.resultBoolean = false;
+          }
+        },
+        error => {
+          console.log("Error: ", error);
+        }
+      );
+    }
+  }
 };
 </script>
 <style lang="scss" scoped>
@@ -46,7 +46,7 @@ export default {
   display: inline-grid;
   grid-area: dashboard-namespaces;
   grid-gap: 1rem;
-  
+
   grid-template-columns: repeat(auto-fit, minmax(max-content, auto));
   grid-auto-rows: minmax(auto, 150px);
   padding: $spacingDefault;
@@ -63,6 +63,7 @@ export default {
     display: grid;
     height: 100%;
     opacity: 1;
+    word-break: break-word;
 
     // &:hover :not(.active-item) {
     //   opacity: 0.25;
