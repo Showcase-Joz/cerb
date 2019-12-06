@@ -3,13 +3,9 @@
     <div class="dash-nav-item">
       <button @click="navigateTo" data-link="namespaces" class="btn">Namespaces</button>
     </div>
-    <div class="dash-nav-item">nav item</div>
-    <div class="dash-nav-item">nav item</div>
-    <div class="dash-nav-item">nav item</div>
-    <div class="dash-nav-item">nav item</div>
-    <div class="dash-nav-item">nav item</div>
-    <div class="dash-nav-item">nav item</div>
-    <div class="dash-nav-item">nav item</div>
+    <div class="dash-nav-item">
+      <button @click="navigateTo" data-link="names" class="btn">Names</button>
+    </div>
   </div>
 </template>
 <script>
@@ -17,10 +13,9 @@ export default {
   name: "main-nav-dashboard",
   methods: {
     navigateTo: function(event) {
-      const element= event.target;
+      const element = event.target;
       const link = element.dataset.link;
-      console.log(elemelinknt);
-      
+      this.$router.push("/dashboard/" + link);
     }
   }
 };
