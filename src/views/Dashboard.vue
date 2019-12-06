@@ -1,7 +1,7 @@
 <template>
   <div class="dashboard">
     <MainDashNav />
-    <SearchInput />
+    <SearchInput v-on:handleMeta="retainMeta" />
     <router-view />
   </div>
 </template>
@@ -10,9 +10,19 @@ import MainDashNav from "../components/navigation/MainDashboard";
 import SearchInput from "../components/SearchInput";
 export default {
   name: "dashboard",
+  data() {
+    return {
+      passedMeta: {}
+    };
+  },
   components: {
     MainDashNav,
     SearchInput
+  },
+  methods: {
+    retainMeta: function(metaObj) {
+      this.passedMeta = metaObj;
+    }
   }
 };
 </script>

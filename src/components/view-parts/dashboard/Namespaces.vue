@@ -12,9 +12,13 @@
 <script>
 export default {
   name: "DashboardNamespaces",
+  props: {
+    
+  },
   data() {
     return {
-      namespaceResults: null
+      namespaceResults: null,
+      input: this.$route.params.id
     };
   },
   beforeMount() {
@@ -24,7 +28,7 @@ export default {
     fetchNamespaces: function() {
       this.$http.get("metadata/namespaces").then(
         response => {
-          console.log(response);
+          console.log("Namespaces says: ", response);
           if (response.ok === true) {
             this.namespaceResults = response.body.namespaces;
           } else if (response.ok === false) {
