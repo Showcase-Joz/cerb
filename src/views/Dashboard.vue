@@ -2,7 +2,7 @@
   <div class="dashboard">
     <MainDashNav />
     <SearchInput v-on:handleMeta="retainMeta" />
-    <DashboardWrapper />
+    <DashboardWrapper :userInputMeta="passedMeta" />
   </div>
 </template>
 <script>
@@ -13,7 +13,7 @@ export default {
   name: "dashboard",
   data() {
     return {
-      passedMeta: {}
+      passedMeta: {},
     };
   },
   components: {

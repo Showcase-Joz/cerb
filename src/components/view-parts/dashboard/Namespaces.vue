@@ -20,11 +20,12 @@ export default {
     };
   },
   beforeMount() {
-    this.fetchNamespaces();
+    const initialMeta = "metadata/namespaces";
+    this.fetchNamespaces(initialMeta);
   },
   methods: {
-    fetchNamespaces: function() {
-      this.$http.get("metadata/namespaces").then(
+    fetchNamespaces: function(stringSuffix) {
+      this.$http.get(stringSuffix).then(
         response => {
           console.log("Namespaces says: ", response);
           if (response.ok === true) {
@@ -37,12 +38,18 @@ export default {
           console.log("Error: ", error);
         }
       );
+    },
+    updateNamespaces: function() {
+      const updatedMeta = "metadata/namespaces" + "?filter=" + this.searchInputUpdatedValue.namespace;
+      console.log(updatedMeta);
+      
+      this.fetchNamespaces(updatedMeta);
     }
   },
   watch: {
      userInputMeta: function(newVal) {
-      // watch it
       this.searchInputUpdatedValue = newVal;
+      this.updateNamespaces();
     }
   }
 };

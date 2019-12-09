@@ -16,8 +16,7 @@
             :class="{
               hasValue: $v.formResponses.namespace.hasValueLength
             }"
-            >Namespace</label
-          >
+          >Namespace</label>
           <input
             type="text"
             name="namespace"
@@ -38,9 +37,7 @@
             !$v.formResponses.namespace.required &&
               $v.formResponses.namespace.$dirty
           "
-        >
-          Namespace must not be empty!
-        </p>
+        >Namespace must not be empty!</p>
       </div>
     </form>
   </div>
@@ -81,13 +78,16 @@ export default {
     },
     collectInputs: function() {
       this.noErrors = !this.$v.formResponses.$invalid;
-      metaObj = {
-        namespace: this.formResponses.namespace
-      };
-      if (this.noErrors) {
+      if (this.$v.formResponses.namespace.hasValueLength && this.noErrors) {
+        metaObj = {
+          namespace: this.formResponses.namespace
+        };
         this.uiState = "form submitted!";
         // send up to parent
         this.$emit("handleMeta", metaObj);
+
+      } else if (!this.$v.formResponses.namespace.hasValueLength) {
+        console.warn("The namespace is empty");
       } else {
         console.warn("There is a form submission error: ", metaObj);
       }
@@ -105,7 +105,7 @@ export default {
 <style lang="scss" scoped>
 .search-input {
   grid-area: search-input;
-  
+
   .form-wrapper {
     border: 1px $color2 solid;
     height: max-content;
