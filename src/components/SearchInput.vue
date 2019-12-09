@@ -101,10 +101,11 @@ export default {
   }
 };
 </script>
-<style lang="scss" src="@/styles/_form.scss" scoped>
+<style lang="scss" src="@/styles/_form.scss"></style>
+<style lang="scss" scoped>
 .search-input {
   grid-area: search-input;
-  background-color: green;
+  
   .form-wrapper {
     border: 1px $color2 solid;
     height: max-content;

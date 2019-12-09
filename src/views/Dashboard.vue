@@ -2,12 +2,13 @@
   <div class="dashboard">
     <MainDashNav />
     <SearchInput v-on:handleMeta="retainMeta" />
-    <router-view :userInputMeta="passedMeta" />
+    <DashboardWrapper />
   </div>
 </template>
 <script>
 import MainDashNav from "../components/navigation/MainDashboard";
 import SearchInput from "../components/SearchInput";
+import DashboardWrapper from "../components/view-parts/DashboardWrapper";
 export default {
   name: "dashboard",
   data() {
@@ -17,7 +18,8 @@ export default {
   },
   components: {
     MainDashNav,
-    SearchInput
+    SearchInput,
+    DashboardWrapper
   },
   methods: {
     retainMeta: function(metaObj) {
@@ -30,19 +32,21 @@ export default {
 .dashboard {
   align-content: center;
   display: grid;
-  grid-template-columns: 1fr;
   grid-template-areas:
-    "main-nav-dashboard"
+    "dashboard-nav-main"
     "search-input"
-    "dashboard-namespaces";
+    "dashboard-wrapper";
+  grid-template-columns: 1fr;  
   // height: 100%;
 
   @include for-size(tablet-portrait-up) {
     align-content: center;
-    grid-template-columns: minmax(auto, 100px) 1fr;
     grid-template-areas:
-      "main-nav-dashboard search-input search-input"
-      "main-nav-dashboard dashboard-namespaces dashboard-namespaces";
+      "dashboard-nav-main search-input search-input"
+      "dashboard-nav-main dashboard-wrapper dashboard-wrapper";
+    grid-template-columns: minmax(auto, 100px) 1fr;
+    grid-auto-rows: max-content 1fr;
+  
   }
 }
 </style>

@@ -1,5 +1,5 @@
 <template>
-  <div class="dashboard-namespaces">
+  <div class="dashboard-main">
     <div class="item" v-for="(namespace, index) in namespaceResults" :key="index">
       <div class="inner-item">{{ namespace }}</div>
     </div>
@@ -16,7 +16,7 @@ export default {
   data() {
     return {
       namespaceResults: null,
-      test: null
+      searchInputUpdatedValue: null
     };
   },
   beforeMount() {
@@ -40,25 +40,25 @@ export default {
     }
   },
   watch: {
-     userInputMeta: function(newVal, oldVal) {
+     userInputMeta: function(newVal) {
       // watch it
-      this.test = newVal;
-      console.log("Prop changed: ", newVal, " | was: ", oldVal);
+      this.searchInputUpdatedValue = newVal;
     }
   }
 };
 </script>
 <style lang="scss" scoped>
-.dashboard-namespaces {
+.dashboard-main {
   align-items: center;
   background-color: lightcyan;
   display: inline-grid;
-  grid-area: dashboard-namespaces;
+  grid-area: dashboard-main;
   grid-gap: 1rem;
 
   grid-template-columns: repeat(auto-fit, minmax(max-content, auto));
   grid-auto-rows: minmax(auto, 150px);
   padding: $spacingDefault;
+  width: 100%;
 
   @include for-size(tablet-portrait-up) {
     grid-template-columns: repeat(auto-fill, minmax(275px, 1fr));

@@ -8,3 +8,8 @@ export default {
   name: "Dashboard-Names"
 };
 </script>
+<style lang="scss" scoped>
+  .dashboard-main {
+    grid-area: dashboard-main;
+  }
+</style>

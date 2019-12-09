@@ -1,5 +1,5 @@
 <template>
-  <div class="main-nav-dashboard">
+  <div class="dashboard-nav-main">
     <div class="dash-nav-item">
       <!-- <button @click="navigateTo" :class="{active: this.activeNav === 'dashboard'}" data-link="" class="btn">Namespaces</button> -->
       <router-link to="/dashboard/" tag="button" class="btn" exact
@@ -20,7 +20,7 @@
 </template>
 <script>
 export default {
-  name: "main-nav-dashboard",
+  name: "dashboard-nav-main",
   data() {
     return {
       activeNav: null
@@ -37,13 +37,13 @@ export default {
 };
 </script>
 <style lang="scss" scoped>
-.main-nav-dashboard {
+.dashboard-nav-main {
   align-items: center;
   // align-self: stretch;
   background-color: pink;
   border-top: 1px solid tint($color2, $tint50);
   display: inline-grid;
-  grid-area: main-nav-dashboard;
+  grid-area: dashboard-nav-main;
   grid-template-columns: repeat(auto-fit, minmax(50px, 1fr));
   justify-items: center;
 
