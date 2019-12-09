@@ -1,10 +1,6 @@
 <template>
   <div class="dashboard-namespaces">
-    <div
-      class="item"
-      v-for="(namespace, index) in namespaceResults"
-      :key="index"
-    >
+    <div class="item" v-for="(namespace, index) in namespaceResults" :key="index">
       <div class="inner-item">{{ namespace }}</div>
     </div>
   </div>
@@ -13,12 +9,14 @@
 export default {
   name: "DashboardNamespaces",
   props: {
-    
+    userInputMeta: {
+      type: Object
+    }
   },
   data() {
     return {
       namespaceResults: null,
-      input: this.$route.params.id
+      test: null
     };
   },
   beforeMount() {
@@ -39,6 +37,13 @@ export default {
           console.log("Error: ", error);
         }
       );
+    }
+  },
+  watch: {
+     userInputMeta: function(newVal, oldVal) {
+      // watch it
+      this.test = newVal;
+      console.log("Prop changed: ", newVal, " | was: ", oldVal);
     }
   }
 };

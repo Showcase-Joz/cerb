@@ -2,7 +2,7 @@
   <div class="dashboard">
     <MainDashNav />
     <SearchInput v-on:handleMeta="retainMeta" />
-    <router-view />
+    <router-view :userInputMeta="passedMeta" />
   </div>
 </template>
 <script>
