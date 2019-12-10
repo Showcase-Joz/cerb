@@ -11,10 +11,10 @@ export default {
       type: Object
     }
   }
-}
+};
 </script>
 <style lang="scss" scoped>
-  .dashboard-wrapper {
-    grid-area: dashboard-wrapper;
-  }
+.dashboard-wrapper {
+  grid-area: dashboard-wrapper;
+}
 </style>

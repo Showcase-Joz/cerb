@@ -20,7 +20,7 @@ const routes = [
       import(/* webpackChunkName: "dashboard" */ "../views/Dashboard.vue"),
     children: [
       {
-        path: "/",
+        path: "/:namespaceId",
         name: "namespaces",
         component: () =>
           import(
@@ -28,11 +28,11 @@ const routes = [
           )
       },
       {
-        path: "names",
-        name: "names",
+        path: "name/",
+        name: "name",
         component: () =>
           import(
-            /* webpackChunkName: "get" */ "../components/view-parts/dashboard/Names.vue"
+            /* webpackChunkName: "get" */ "../components/view-parts/dashboard/Name.vue"
           )
       },
       {

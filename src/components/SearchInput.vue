@@ -31,19 +31,12 @@
           {{ $v.formResponses.namespace.$params.maxLength.max }}
           characters.
         </p>
-        <p
-          class="form-field-msg"
-          v-if="
-            !$v.formResponses.namespace.required &&
-              $v.formResponses.namespace.$dirty
-          "
-        >Namespace must not be empty!</p>
       </div>
     </form>
   </div>
 </template>
 <script>
-import { required, maxLength, helpers } from "vuelidate/lib/validators";
+import { maxLength, helpers } from "vuelidate/lib/validators";
 const hasValueLength = value => value.length >= 1;
 const strDefPattern = helpers.regex("strDefPattern", /^[\d+\w+^.^-]+$/);
 let metaObj = {};
@@ -51,8 +44,6 @@ export default {
   name: "search-input",
   data() {
     return {
-      uiState: "submit issue",
-      noErrors: false,
       hasFocus: false,
       formResponses: {
         namespace: ""
@@ -62,7 +53,6 @@ export default {
   validations: {
     formResponses: {
       namespace: {
-        required,
         maxLength: maxLength(200),
         hasValueLength,
         strDefPattern
@@ -77,19 +67,20 @@ export default {
       this.collectInputs();
     },
     collectInputs: function() {
-      this.noErrors = !this.$v.formResponses.$invalid;
-      if (this.$v.formResponses.namespace.hasValueLength && this.noErrors) {
+      if (!this.$v.formResponses.namespace.$error) {
         metaObj = {
           namespace: this.formResponses.namespace
         };
-        this.uiState = "form submitted!";
         // send up to parent
         this.$emit("handleMeta", metaObj);
-
-      } else if (!this.$v.formResponses.namespace.hasValueLength) {
-        console.warn("The namespace is empty");
-      } else {
-        console.warn("There is a form submission error: ", metaObj);
+      } else if (
+        this.formResponses.namespace.trim() === "" &&
+        this.formResponses.namespace.length < 1
+      ) {
+        metaObj = {
+          namespace: ""
+        };
+        this.$emit("handleMeta", metaObj);
       }
     },
     onFocus() {

@@ -9,7 +9,7 @@ export default {
 };
 </script>
 <style lang="scss" scoped>
-  .dashboard-main {
-    grid-area: dashboard-main;
-  }
+.dashboard-main {
+  grid-area: dashboard-main;
+}
 </style>

@@ -7,7 +7,7 @@
       >
     </div>
     <div class="dash-nav-item">
-      <router-link to="/dashboard/names" tag="button" class="btn"
+      <router-link to="/dashboard/name" tag="button" class="btn"
         >Names</router-link
       >
     </div>

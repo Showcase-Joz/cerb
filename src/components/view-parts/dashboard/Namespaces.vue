@@ -1,8 +1,16 @@
 <template>
   <div class="dashboard-main">
-    <div class="item" v-for="(namespace, index) in namespaceResults" :key="index">
-      <div class="inner-item">{{ namespace }}</div>
-    </div>
+    <div class="loading" v-if="loading">Loading...</div>
+    <router-link
+      :to="'namespace/' + this.namespaceId"
+      class="item"
+      v-for="(namespace, index) in namespaceResults"
+      :key="index"
+    >
+      <a>
+        <div class="inner-item">{{ namespace }}</div>
+      </a>
+    </router-link>
   </div>
 </template>
 <script>
@@ -16,7 +24,9 @@ export default {
   data() {
     return {
       namespaceResults: null,
-      searchInputUpdatedValue: null
+      searchInputUpdatedValue: null,
+      namespaceId: this.$route.params.id,
+      loading: false
     };
   },
   beforeMount() {
@@ -25,10 +35,12 @@ export default {
   },
   methods: {
     fetchNamespaces: function(stringSuffix) {
+      this.loading = true;
       this.$http.get(stringSuffix).then(
         response => {
-          console.log("Namespaces says: ", response);
+          // console.log("Namespaces says: ", response);
           if (response.ok === true) {
+            this.loading = false;
             this.namespaceResults = response.body.namespaces;
           } else if (response.ok === false) {
             this.resultBoolean = false;
@@ -40,14 +52,20 @@ export default {
       );
     },
     updateNamespaces: function() {
-      const updatedMeta = "metadata/namespaces" + "?filter=" + this.searchInputUpdatedValue.namespace;
-      console.log(updatedMeta);
-      
-      this.fetchNamespaces(updatedMeta);
+      if (this.searchInputUpdatedValue.namespace.length < 1) {
+        const initialMeta = "metadata/namespaces";
+        this.fetchNamespaces(initialMeta);
+      } else {
+        const updatedMeta =
+          "metadata/namespaces" +
+          "?filter=" +
+          this.searchInputUpdatedValue.namespace;
+        this.fetchNamespaces(updatedMeta);
+      }
     }
   },
   watch: {
-     userInputMeta: function(newVal) {
+    userInputMeta: function(newVal) {
       this.searchInputUpdatedValue = newVal;
       this.updateNamespaces();
     }
@@ -76,6 +94,7 @@ export default {
     border: 1px solid $color2;
     border-radius: 0.3rem;
     color: tint($color2, $tint100);
+    cursor: pointer;
     display: grid;
     height: 100%;
     opacity: 1;
@@ -115,6 +134,11 @@ export default {
       justify-self: center;
       width: calc(100% - 0.4rem);
     }
+  }
+  .loading {
+    position: absolute;
+    top: 10px;
+    right: 10px;
   }
 }
 </style>

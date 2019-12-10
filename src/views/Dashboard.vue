@@ -13,7 +13,7 @@ export default {
   name: "dashboard",
   data() {
     return {
-      passedMeta: {},
+      passedMeta: {}
     };
   },
   components: {
@@ -36,7 +36,7 @@ export default {
     "dashboard-nav-main"
     "search-input"
     "dashboard-wrapper";
-  grid-template-columns: 1fr;  
+  grid-template-columns: 1fr;
   // height: 100%;
 
   @include for-size(tablet-portrait-up) {
@@ -46,7 +46,6 @@ export default {
       "dashboard-nav-main dashboard-wrapper dashboard-wrapper";
     grid-template-columns: minmax(auto, 100px) 1fr;
     grid-auto-rows: max-content 1fr;
-  
   }
 }
 </style>
