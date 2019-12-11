@@ -1,5 +1,5 @@
 #formPost,
-#formMetaNameSpaces,
+#formMetaSearch,
 #formGetString {
   display: grid;
   grid-template-columns: 1fr;
@@ -14,7 +14,7 @@
       // color: black;
       display: flex;
       font-size: $font-size-xl;
-      letter-spacing: 0.12rem;
+      letter-spacing: calc(#{$letter-spacing} *1.5);
       padding: 3px;
       position: relative;
       text-transform: uppercase;
@@ -164,7 +164,7 @@
         @extend :focus-within::after;
         color: grey;
         content: $textDefPattern;
-        letter-spacing: 0;
+        letter-spacing: unset;
         top: 0.7rem;
       }
 

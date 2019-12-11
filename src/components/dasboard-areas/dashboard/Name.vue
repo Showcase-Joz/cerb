@@ -1,11 +1,11 @@
 <template>
-  <div class="dashboard-wrapper">
-    <router-view :userInputMeta="userInputMeta" />
+  <div class="dashboard-names">
+    names test
   </div>
 </template>
 <script>
 export default {
-  name: "DashboardWrapper",
+  name: "Dashboard-Names",
   props: {
     userInputMeta: {
       type: Object
@@ -14,7 +14,7 @@ export default {
 };
 </script>
 <style lang="scss" scoped>
-.dashboard-wrapper {
-  grid-area: dashboard-wrapper;
+.dashboard-main {
+  grid-area: dashboard-main;
 }
 </style>

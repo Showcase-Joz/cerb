@@ -8,7 +8,7 @@
 <script>
 import MainDashNav from "../components/navigation/MainDashboard";
 import SearchInput from "../components/SearchInput";
-import DashboardWrapper from "../components/view-parts/DashboardWrapper";
+import DashboardWrapper from "../components/dasboard-areas/DashboardWrapper";
 export default {
   name: "dashboard",
   data() {
@@ -30,14 +30,14 @@ export default {
 </script>
 <style lang="scss" scoped>
 .dashboard {
-  align-content: center;
+  align-content: flex-start;
   display: grid;
   grid-template-areas:
     "dashboard-nav-main"
     "search-input"
     "dashboard-wrapper";
   grid-template-columns: 1fr;
-  // height: 100%;
+  height: calc(100vh - 120px);
 
   @include for-size(tablet-portrait-up) {
     align-content: center;

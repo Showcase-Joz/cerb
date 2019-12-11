@@ -1,6 +1,6 @@
 <template>
   <div class="form-wrapper search-input">
-    <form id="formMetaNameSpaces" @submit.prevent="collectInputs">
+    <form id="formMetaSearch" @submit.prevent="collectInputs">
       <div class="form-group">
         <div
           class="input-with-label"
@@ -16,7 +16,8 @@
             :class="{
               hasValue: $v.formResponses.namespace.hasValueLength
             }"
-          >Namespace</label>
+            >Search content...</label
+          >
           <input
             type="text"
             name="namespace"
@@ -94,17 +95,37 @@ export default {
 </script>
 <style lang="scss" src="@/styles/_form.scss"></style>
 <style lang="scss" scoped>
-.search-input {
+.form-wrapper.search-input {
+  // border: 1px $color2 solid;
   grid-area: search-input;
+  max-height: 62px;
+  padding: $spacingDefault;
 
-  .form-wrapper {
-    border: 1px $color2 solid;
-    height: max-content;
-    overflow-y: hidden;
-    padding: $spacingLarge;
-
+  #formMetaSearch {
     .form-group {
-      margin-top: $spacingLarge !important;
+      .input-with-label {
+        border-bottom: 1px solid
+          rgba($color: shade($color1, $shade90), $alpha: 0.2);
+        text-transform: initial;
+
+        &:focus-within label:not(input) {
+          text-transform: uppercase;
+          transition: all 300ms ease-out, font-size 500ms ease-out 300ms;
+        }
+
+        &.invalid:focus-within {
+          border-bottom: 1px solid rgba($color: $warning, $alpha: 1);
+        }
+
+        &.invalid {
+          border-bottom: 1px solid rgba($color: $invalid, $alpha: 1);
+        }
+
+        &.valid:focus-within,
+        &.valid {
+          border-bottom: 1px solid rgba($color: $valid, $alpha: 1);
+        }
+      }
     }
   }
 }

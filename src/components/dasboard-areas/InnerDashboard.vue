@@ -1,11 +1,11 @@
 <template>
-  <div class="dashboard-names">
-    names test
+  <div class="dashboard-test">
+    Inner Dashboard test
   </div>
 </template>
 <script>
 export default {
-  name: "Dashboard-Names"
+  name: "InnerDashboard"
 };
 </script>
 <style lang="scss" scoped>

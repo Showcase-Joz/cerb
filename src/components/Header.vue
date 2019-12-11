@@ -41,8 +41,7 @@ export default {
 header {
   background-color: $color2;
   color: tint($color2, $tint100);
-  height: 100%;
-  max-height: 120px;
+  height: 120px;
   padding: 10px;
   // text-align: center;
 

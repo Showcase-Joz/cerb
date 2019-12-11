@@ -69,7 +69,7 @@ export default {
     cursor: help;
     font-variant: all-petite-caps;
     justify-self: end;
-    letter-spacing: 1px;
+    letter-spacing: calc(#{$letter-spacing} / 4);
     margin-right: 5px;
     width: max-content;
 

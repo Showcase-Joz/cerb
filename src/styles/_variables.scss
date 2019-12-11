@@ -16,6 +16,7 @@ $shade75: 75%;
 $shade90: 90%;
 $shade100: 100%;
 $tint10: 10%;
+$tint15: 15%;
 $tint25: 25%;
 $tint50: 50%;
 $tint75: 75%;
@@ -30,10 +31,15 @@ $invalid: hsl(0, 100%, 66%);
 
 $borderRadius: 5px;
 
+$font-normal: 1rem;
 $font-size-xl: 1.2rem;
-
+$letter-spacing: calc(#{$font-normal} /8);
 $strDefPattern: "a-z 0-9 .";
 $timestampDefPattern: "0-9";
 $textDefPattern: "you can use all characters";
 
 $minViewport: 320px;
+
+body {
+  overflow-y: hidden;
+}

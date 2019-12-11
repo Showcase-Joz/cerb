@@ -1,16 +1,15 @@
 <template>
-  <div class="dashboard-main">
+  <div class="dashboard-main" >
     <div class="loading" v-if="loading">Loading...</div>
-    <router-link
-      :to="'namespace/' + this.namespaceId"
+    <div 
       class="item"
       v-for="(namespace, index) in namespaceResults"
       :key="index"
-    >
-      <a>
-        <div class="inner-item">{{ namespace }}</div>
-      </a>
-    </router-link>
+      @click="handleClick(namespace)"
+    >{{ namespace }}
+
+      <!-- <a class="inner-item">{{ namespace }} </a> -->
+    </div>
   </div>
 </template>
 <script>
@@ -23,9 +22,9 @@ export default {
   },
   data() {
     return {
-      namespaceResults: null,
+      namespaceResults: [],
       searchInputUpdatedValue: null,
-      namespaceId: this.$route.params.id,
+      ids: null,
       loading: false
     };
   },
@@ -42,6 +41,7 @@ export default {
           if (response.ok === true) {
             this.loading = false;
             this.namespaceResults = response.body.namespaces;
+            
           } else if (response.ok === false) {
             this.resultBoolean = false;
           }
@@ -62,6 +62,9 @@ export default {
           this.searchInputUpdatedValue.namespace;
         this.fetchNamespaces(updatedMeta);
       }
+    },
+    handleClick: function(namespace) {
+      return this.ids = namespace;
     }
   },
   watch: {
@@ -75,11 +78,10 @@ export default {
 <style lang="scss" scoped>
 .dashboard-main {
   align-items: center;
-  background-color: lightcyan;
-  display: inline-grid;
+  background-color: rgb(42, 166, 166);
+  display: grid;
   grid-area: dashboard-main;
   grid-gap: 1rem;
-
   grid-template-columns: repeat(auto-fit, minmax(max-content, auto));
   grid-auto-rows: minmax(auto, 150px);
   padding: $spacingDefault;
