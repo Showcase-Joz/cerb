@@ -1,20 +1,18 @@
 <template>
-  <div class="dashboard-main" >
+  <div class="dashboard-main">
     <div class="loading" v-if="loading">Loading...</div>
-    <div 
+    <div
       class="item"
       v-for="(namespace, index) in namespaceResults"
       :key="index"
       @click="handleClick(namespace)"
-    >{{ namespace }}
-
-      <!-- <a class="inner-item">{{ namespace }} </a> -->
-    </div>
+    >{{ namespace }}</div>
   </div>
 </template>
 <script>
 export default {
   name: "DashboardNamespaces",
+  inheritAttrs: false,
   props: {
     userInputMeta: {
       type: Object
@@ -24,7 +22,7 @@ export default {
     return {
       namespaceResults: [],
       searchInputUpdatedValue: null,
-      ids: null,
+      selectedNS: null,
       loading: false
     };
   },
@@ -37,11 +35,9 @@ export default {
       this.loading = true;
       this.$http.get(stringSuffix).then(
         response => {
-          // console.log("Namespaces says: ", response);
           if (response.ok === true) {
             this.loading = false;
             this.namespaceResults = response.body.namespaces;
-            
           } else if (response.ok === false) {
             this.resultBoolean = false;
           }
@@ -64,7 +60,9 @@ export default {
       }
     },
     handleClick: function(namespace) {
-      return this.ids = namespace;
+      this.selectedNS = namespace;
+      this.$emit("handleCurrentNS", this.selectedNS);
+      this.$router.push("/dashboard/namespace/");
     }
   },
   watch: {

@@ -101,6 +101,8 @@ export default {
     grid-template-columns: [col] minmax(auto, 1fr);
     grid-template-rows: repeat(3, [row] auto);
     min-height: 100%;
+    max-width: fit-content;
+    min-width: 250px;
     padding: $spacingDefault;
 
     @include for-size(desktop-up) {
