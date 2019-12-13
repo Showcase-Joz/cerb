@@ -1,6 +1,10 @@
 <template>
   <div class="dashboard-wrapper">
-    <router-view :userInputMeta="userInputMeta" v-on:handleCurrentNS="retainCurrentNS" :selectedNS="currentNS" />
+    <router-view
+      :userInputMeta="userInputMeta"
+      v-on:handleCurrentNS="retainCurrentNS"
+      :selectedNS="currentNS"
+    />
   </div>
 </template>
 <script>
@@ -14,7 +18,7 @@ export default {
   data() {
     return {
       currentNS: null
-    }
+    };
   },
   methods: {
     retainCurrentNS: function(selectedNS) {

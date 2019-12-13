@@ -100,29 +100,29 @@ h4 {
 // scrollbars
 
 ::-webkit-scrollbar-track-piece:start {
-   /* Select the top half (or left half) or scrollbar track individually */
+  /* Select the top half (or left half) or scrollbar track individually */
 }
 
 ::-webkit-scrollbar-thumb:window-inactive {
-   /* Select the thumb when the browser window isn't in focus */
+  /* Select the thumb when the browser window isn't in focus */
 }
 
 ::-webkit-scrollbar-button:horizontal:decrement:hover {
-   /* Select the down or left scroll button when it's being hovered by the mouse */
+  /* Select the down or left scroll button when it's being hovered by the mouse */
 }
 
 ::-webkit-scrollbar {
-    width: 12px;
+  width: 12px;
 }
- 
+
 ::-webkit-scrollbar-track {
-    -webkit-box-shadow: inset 0 0 6px rgba(0,0,0,0.3); 
-    border-radius: 10px;
+  -webkit-box-shadow: inset 0 0 6px rgba(0, 0, 0, 0.3);
+  border-radius: 10px;
 }
- 
+
 ::-webkit-scrollbar-thumb {
-    border-radius: 10px;
-    -webkit-box-shadow: inset 0 0 6px rgba(0,0,0,0.5); 
+  border-radius: 10px;
+  -webkit-box-shadow: inset 0 0 6px rgba(0, 0, 0, 0.5);
 }
 
 // Animations

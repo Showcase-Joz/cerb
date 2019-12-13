@@ -102,7 +102,7 @@
 
       <div class="form-group">
         <div class="radio-group">
-          <div class="radio">
+          <label for="debug" class="radio">
             Debug
             <input
               type="radio"
@@ -112,8 +112,8 @@
               @blur="$v.formResponses.type.$touch(), onBlur()"
               @focus="onFocus()"
             />
-          </div>
-          <div class="radio">
+          </label>
+          <label for="error" class="radio">
             Error
             <input
               type="radio"
@@ -123,8 +123,8 @@
               @blur="$v.formResponses.type.$touch(), onBlur()"
               @focus="onFocus()"
             />
-          </div>
-          <div class="radio">
+          </label>
+          <label for="info" class="radio">
             Info
             <input
               type="radio"
@@ -134,8 +134,8 @@
               @blur="$v.formResponses.type.$touch(), onBlur()"
               @focus="onFocus()"
             />
-          </div>
-          <div class="radio">
+          </label>
+          <label for="warning" class="radio">
             Warning
             <input
               type="radio"
@@ -145,7 +145,7 @@
               @blur="$v.formResponses.type.$touch(), onBlur()"
               @focus="onFocus()"
             />
-          </div>
+          </label>
         </div>
 
         <p

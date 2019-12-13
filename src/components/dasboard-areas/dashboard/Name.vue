@@ -10,14 +10,22 @@
 
   <transition name="fade">
     <div class="dashboard-main">
-      <div class="item" v-for="(object, index) in fetchedNames.events" :key="index">
+      <div
+        class="item"
+        v-for="(object, index) in fetchedNames.events"
+        :key="index"
+      >
         <div class="response-n">{{ object.event.name }}</div>
         <div class="response-extras">
           <div
             class="response-type"
             title="the type of log {debug, info, warning, error}"
-          >{{ object.event.type }}</div>
-          <div class="log-version" title="current verson of this log">v: {{ object.event.version }}</div>
+          >
+            {{ object.event.type }}
+          </div>
+          <div class="log-version" title="current verson of this log">
+            v: {{ object.event.version }}
+          </div>
           <div class="status-group">
             <div
               class="status-setting"
