@@ -76,7 +76,7 @@ export default {
 <style lang="scss" scoped>
 .dashboard-main {
   align-items: center;
-  background-color: rgb(42, 166, 166);
+  // background-color: rgb(42, 166, 166);
   display: grid;
   grid-area: dashboard-main;
   grid-gap: 1rem;
@@ -92,8 +92,9 @@ export default {
   .item {
     align-items: center;
     border: 1px solid $color2;
-    border-radius: 0.3rem;
-    color: tint($color2, $tint100);
+    background-color: $color2;
+    border-radius: 0.2rem;
+    color: tint($color2, $tint90);
     cursor: pointer;
     display: grid;
     height: 100%;
@@ -104,13 +105,11 @@ export default {
     //   opacity: 0.25;
     // }
 
-    // & .item:hover {
-    //     opacity: 1;
-    // }
-
     &:hover {
+      background-color: $color1;
       border-radius: 0.4rem;
       border-width: 3px;
+      color: $color2;
       transition: all 0.3s ease-in;
 
       .inner-item {

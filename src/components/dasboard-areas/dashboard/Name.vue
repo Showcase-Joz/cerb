@@ -91,7 +91,7 @@ export default {
 <style lang="scss" scoped>
 .dashboard-main {
   align-items: center;
-  background-color: rgb(42, 166, 166);
+  // background-color: rgb(42, 166, 166);
   display: grid;
   grid-area: dashboard-main;
   grid-gap: 1rem;
