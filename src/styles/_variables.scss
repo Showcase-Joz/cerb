@@ -40,6 +40,13 @@ $textDefPattern: "you can use all characters";
 
 $minViewport: 320px;
 
+::selection {
+  background: $neutral; /* WebKit/Blink Browsers */
+}
+::-moz-selection {
+  background: $neutral; /* Gecko Browsers */
+}
+
 body {
   overflow-y: hidden;
 }

@@ -1,22 +1,21 @@
 <template>
   <div class="dashboard-main">
     <div class="loading" v-if="loading">Loading...</div>
-    <div class="item item-create">
-      <span class="create-title">Create</span>
-      <div class="form-group">
-        <input class="create-input" type="text" value="this is a test" />
-        <button class="add-created" type="submit">Add</button>
-      </div>
-    </div>
+    <CreateItem />
     <div
       class="item"
       v-for="(namespace, index) in namespaceResults"
       :key="index"
       @click="handleClick(namespace)"
-    >{{ namespace }}</div>
+    >
+      {{ namespace }}
+    </div>
   </div>
 </template>
 <script>
+import CreateItem from "../../form/CreateItem";
+const initialMeta = "metadata/namespaces";
+const maxLimit = "?limit=1000";
 export default {
   name: "DashboardNamespaces",
   inheritAttrs: false,
@@ -24,6 +23,9 @@ export default {
     userInputMeta: {
       type: Object
     }
+  },
+  components: {
+    CreateItem
   },
   data() {
     return {
@@ -34,8 +36,7 @@ export default {
     };
   },
   beforeMount() {
-    const initialMeta = "metadata/namespaces?limit=1000";
-    this.fetchNamespaces(initialMeta);
+    this.fetchNamespaces(initialMeta + maxLimit);
   },
   methods: {
     fetchNamespaces: function(stringSuffix) {
@@ -56,8 +57,7 @@ export default {
     },
     updateNamespaces: function() {
       if (this.searchInputUpdatedValue.namespace.length < 1) {
-        const initialMeta = "metadata/namespaces?limit=1000";
-        this.fetchNamespaces(initialMeta);
+        this.fetchNamespaces(initialMeta + maxLimit);
       } else {
         const updatedMeta =
           "metadata/namespaces" +
@@ -107,64 +107,6 @@ export default {
     height: 100%;
     opacity: 1;
     word-break: break-word;
-
-    &.item-create {
-      background-color: $color1;
-      color: $color2;
-      display: grid;
-      grid-template-areas: "create-title";
-      grid-column: 1 / span 1;
-      grid-row: 1 / span 1;
-      grid-template-columns: 1fr;
-
-      .create-title {
-        grid-area: create-title;
-      }
-
-      .form-group {
-        display: none;
-        flex-direction: row;
-        grid-area: form-group;
-        position: relative;
-
-        .create-input {
-          border: none;
-          border-bottom: 1px solid tint($color1, $tint100);
-          background-color: transparent;
-          color: tint($color1, $tint100);
-          display: block;
-          flex-grow: 2;
-          font-size: large;
-          // grid-area: create-input;
-          margin: $spacingDefault;
-          padding: calc(#{$spacingDefault} / 3);
-
-          &:focus {
-            outline: none;
-          }
-        }
-        .add-created {
-          height: 40px;
-          min-width: 40px;
-          position: absolute;
-          right: $spacingDefault;
-        }
-      }
-
-      &:hover {
-        grid-template-areas:
-          "create-title .."
-          "form-group form-group";
-        grid-template-columns: 1fr 1fr;
-        grid-template-rows: 1fr 1fr;
-        grid-column: 1 / span 2;
-        grid-row: 1 / span 2;
-
-        .form-group {
-          display: flex;
-        }
-      }
-    }
 
     // &:hover :not(.active-item) {
     //   opacity: 0.25;
