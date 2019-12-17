@@ -1,17 +1,15 @@
 <template>
-  <div id="wrap" class="item item-create" @click="select($event)">
+  <label class="item item-create">
     <span class="create-title">Create</span>
     <div class="form-group">
       <input
         v-model="formResponses.newNS"
         v-on:input="handleCreate"
-        @click="select"
         @blur="$v.formResponses.newNS.$touch()"
         class="create-input"
         name="namespace"
         placeholder="Create a new Namespace..."
         type="text"
-        id="inp"
       />
       <button
         class="add-created"
@@ -45,7 +43,7 @@
           "
       >Namespace must not be empty!</p>
     </div>
-  </div>
+  </label>
 </template>
 <script>
 import {
@@ -54,6 +52,7 @@ import {
   maxLength,
   helpers
 } from "vuelidate/lib/validators";
+const initialMeta = "metadata/namespaces";
 const hasValueLength = value => value.length >= 1;
 const strDefPattern = helpers.regex("strDefPattern", /^[\d+\w+^.^-]+$/);
 export default {
@@ -77,10 +76,10 @@ export default {
     }
   },
   methods: {
-    select: function(event) {
-            const targetId = event.currentTarget.id;
-            console.log(targetId); // returns 'foo'
-        },
+    // select: function(event) {
+    //         const targetId = event.target.childNodes;
+    //         console.log(targetId); // returns 'foo'
+    //     },
     handleCreate: function(event) {
       const element = event.target;
       const value = element.value;
@@ -92,13 +91,13 @@ export default {
     sendCreate: function() {
       if (this.formResponses.newNS !== null) {
         console.log("sending data", this.formResponses.newNS);
-        // this.$http.put(initialMeta + "/", this.formResponses.newNS).then(
-        //   response => {
-        //     if (response.ok === true) {
-        //       this.fetchNamespaces(initialMeta + "/" + this.formResponses.newNS);
-        //     }
-        //   }
-        // )
+        this.$http.put(initialMeta + "/" + this.formResponses.newNS).then(
+          response => {
+            if (response.ok === true) {
+              this.fetchNamespaces(initialMeta + "/" + this.formResponses.newNS);
+            }
+          }
+        )
       } else {
         console.log("not sending data");
       }
@@ -139,6 +138,7 @@ export default {
         font-size: large;
         // grid-area: create-input;
         margin: $spacingDefault;
+        min-width: 95%;
         padding: calc(#{$spacingDefault} / 3);
 
         &:focus {
