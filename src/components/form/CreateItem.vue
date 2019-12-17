@@ -1,15 +1,17 @@
 <template>
-  <div class="item item-create">
+  <div id="wrap" class="item item-create" @click="select($event)">
     <span class="create-title">Create</span>
     <div class="form-group">
       <input
         v-model="formResponses.newNS"
         v-on:input="handleCreate"
+        @click="select"
         @blur="$v.formResponses.newNS.$touch()"
         class="create-input"
         name="namespace"
         placeholder="Create a new Namespace..."
         type="text"
+        id="inp"
       />
       <button
         class="add-created"
@@ -75,6 +77,10 @@ export default {
     }
   },
   methods: {
+    select: function(event) {
+            const targetId = event.currentTarget.id;
+            console.log(targetId); // returns 'foo'
+        },
     handleCreate: function(event) {
       const element = event.target;
       const value = element.value;
