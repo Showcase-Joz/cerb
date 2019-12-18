@@ -14,15 +14,15 @@
       <button
         class="add-created"
         :class="{
-            invalid: $v.formResponses.newNS.$error,
-            valid:
-              !$v.formResponses.newNS.$error &&
-              $v.formResponses.newNS.$dirty
-          }"
+          invalid: $v.formResponses.newNS.$error,
+          valid: !$v.formResponses.newNS.$error && $v.formResponses.newNS.$dirty
+        }"
         type="submit"
         @click="sendCreate"
         :disabled="$v.formResponses.newNS.$error"
-      >Add</button>
+      >
+        Add
+      </button>
     </div>
     <div class="errors">
       <p class="form-field-msg" v-if="!$v.formResponses.newNS.minLength">
@@ -37,11 +37,10 @@
       </p>
       <p
         class="form-field-msg"
-        v-if="
-            !$v.formResponses.newNS.required &&
-              $v.formResponses.newNS.$dirty
-          "
-      >Namespace must not be empty!</p>
+        v-if="!$v.formResponses.newNS.required && $v.formResponses.newNS.$dirty"
+      >
+        Namespace must not be empty!
+      </p>
     </div>
   </label>
 </template>
@@ -91,13 +90,15 @@ export default {
     sendCreate: function() {
       if (this.formResponses.newNS !== null) {
         console.log("sending data", this.formResponses.newNS);
-        this.$http.put(initialMeta + "/" + this.formResponses.newNS).then(
-          response => {
+        this.$http
+          .put(initialMeta + "/" + this.formResponses.newNS)
+          .then(response => {
             if (response.ok === true) {
-              this.fetchNamespaces(initialMeta + "/" + this.formResponses.newNS);
+              this.fetchNamespaces(
+                initialMeta + "/" + this.formResponses.newNS
+              );
             }
-          }
-        )
+          });
       } else {
         console.log("not sending data");
       }
