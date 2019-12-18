@@ -1,45 +1,45 @@
 <template>
-  <label class="item item-create">
+  <label class="item item-create" v-on:keyup.enter.prevent="sendCreate">
     <span class="create-title">Create</span>
     <div class="form-group">
       <input
-        v-model="formResponses.newNS"
+        v-model="formResponses.createNewItem"
         v-on:input="handleCreate"
-        @blur="$v.formResponses.newNS.$touch()"
+        @blur="$v.formResponses.createNewItem.$touch()"
         class="create-input"
-        name="namespace"
-        placeholder="Create a new Namespace..."
+        name="newItem"
+        placeholder="Create a New Item..."
         type="text"
       />
       <button
         class="add-created"
         :class="{
-          invalid: $v.formResponses.newNS.$error,
-          valid: !$v.formResponses.newNS.$error && $v.formResponses.newNS.$dirty
+          invalid: $v.formResponses.createNewItem.$error,
+          valid: !$v.formResponses.createNewItem.$error && $v.formResponses.createNewItem.$dirty
         }"
         type="submit"
         @click="sendCreate"
-        :disabled="$v.formResponses.newNS.$error"
+        :disabled="$v.formResponses.createNewItem.$error"
       >
         Add
       </button>
     </div>
     <div class="errors">
-      <p class="form-field-msg" v-if="!$v.formResponses.newNS.minLength">
-        Please add a Namespace with at least
-        {{ $v.formResponses.newNS.$params.minLength.min }}
+      <p class="form-field-msg" v-if="!$v.formResponses.createNewItem.minLength">
+        Please add a New Item with at least
+        {{ $v.formResponses.createNewItem.$params.minLength.min }}
         characters.
       </p>
-      <p class="form-field-msg" v-if="!$v.formResponses.newNS.maxLength">
-        Please add a Namespace with no more than
-        {{ $v.formResponses.newNS.$params.maxLength.max }}
+      <p class="form-field-msg" v-if="!$v.formResponses.createNewItem.maxLength">
+        Please add a New Item with no more than
+        {{ $v.formResponses.createNewItem.$params.maxLength.max }}
         characters.
       </p>
       <p
         class="form-field-msg"
-        v-if="!$v.formResponses.newNS.required && $v.formResponses.newNS.$dirty"
+        v-if="!$v.formResponses.createNewItem.required && $v.formResponses.createNewItem.$dirty"
       >
-        Namespace must not be empty!
+        New Item must not be empty!
       </p>
     </div>
   </label>
@@ -56,16 +56,19 @@ const hasValueLength = value => value.length >= 1;
 const strDefPattern = helpers.regex("strDefPattern", /^[\d+\w+^.^-]+$/);
 export default {
   name: "CreateItem",
+  props: {
+    returnSolo: Function
+  },
   data() {
     return {
       formResponses: {
-        newNS: ""
+        createNewItem: ""
       }
     };
   },
   validations: {
     formResponses: {
-      newNS: {
+      createNewItem: {
         required,
         minLength: minLength(3),
         maxLength: maxLength(200),
@@ -75,28 +78,23 @@ export default {
     }
   },
   methods: {
-    // select: function(event) {
-    //         const targetId = event.target.childNodes;
-    //         console.log(targetId); // returns 'foo'
-    //     },
     handleCreate: function(event) {
       const element = event.target;
       const value = element.value;
-      this.$v.formResponses.newNS.$touch();
-      return (this.formResponses.newNS = value
+      this.$v.formResponses.createNewItem.$touch();
+      return (this.formResponses.createNewItem = value
         .replace(/\s/g, ".")
         .toLowerCase());
     },
     sendCreate: function() {
-      if (this.formResponses.newNS !== null) {
-        console.log("sending data", this.formResponses.newNS);
+      // console.log(this.$parent.$data.id);
+      if (this.formResponses.createNewItem !== null) {
+        console.log("sending data", this.formResponses.createNewItem);
         this.$http
-          .put(initialMeta + "/" + this.formResponses.newNS)
+          .put(initialMeta + "/" + this.formResponses.createNewItem)
           .then(response => {
             if (response.ok === true) {
-              this.fetchNamespaces(
-                initialMeta + "/" + this.formResponses.newNS
-              );
+              this.returnSolo(this.formResponses.createNewItem)
             }
           });
       } else {

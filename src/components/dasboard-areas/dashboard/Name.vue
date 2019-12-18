@@ -10,6 +10,8 @@
 
   <transition name="fade">
     <div class="dashboard-main">
+      <div class="loading" v-if="loading">Loading...</div>
+      <CreateItem :returnSolo="updateFromCreated" :name="newNS" />
       <div
         class="item"
         v-for="(object, index) in fetchedNames.events"
@@ -52,6 +54,8 @@
   </transition>
 </template>
 <script>
+import CreateItem from "../../form/CreateItem";
+const initialMeta = "metadata/"
 export default {
   name: "Dashboard-Names",
   inheritAttrs: false,
@@ -61,38 +65,52 @@ export default {
     },
     selectedNS: {
       type: String
+    },
+    newNS: {
+      type: String
     }
+  },
+  components: {
+    CreateItem
   },
   data() {
     return {
-      fetchedNames: {}
+      fetchedNames: {},
+      loading: false,
+      id: "names"
     };
   },
   beforeMount() {
     const queryNS = "events?namespace=" + this.selectedNS + "&offset=25";
     if (this.selectedNS !== null) {
-      this.fetchNamespace(queryNS);
+      this.fetchName(queryNS);
     } else {
       console.log("local");
     }
   },
   methods: {
-    fetchNamespace: function(namespaceQuery) {
+    fetchName: function(namespaceQuery) {
       this.loading = true;
       this.$http.get(namespaceQuery).then(
         response => {
           if (response.ok === true) {
             this.loading = false;
             this.fetchedNames = response.body;
-          } else if (response.ok === false) {
-            this.resultBoolean = false;
           }
         },
         error => {
           console.log("Error: ", error);
         }
       );
-    }
+    },
+    updateFromCreated: function() {  
+      const newSpaceAndName = initialMeta +
+            "/" +
+            this.selectedNS +
+            "/" +
+            this.formResponses.createNewItem;;
+      this.fetchNames(newSpaceAndName);
+    },
   }
 };
 </script>

@@ -1,13 +1,15 @@
 <template>
   <div class="dashboard-main">
     <div class="loading" v-if="loading">Loading...</div>
-    <CreateItem />
+    <CreateItem :returnSolo="updateFromCreated" />
     <div
       class="item"
       v-for="(namespace, index) in namespaceResults"
       :key="index"
       @click="handleClick(namespace)"
     >
+      <span @click="deleteNS(namespace)">x</span>
+
       {{ namespace }}
     </div>
   </div>
@@ -15,6 +17,7 @@
 <script>
 import CreateItem from "../../form/CreateItem";
 const initialMeta = "metadata/namespaces";
+const andFilter = "?filter=";
 const maxLimit = "?limit=1000";
 export default {
   name: "DashboardNamespaces",
@@ -32,7 +35,8 @@ export default {
       namespaceResults: [],
       searchInputUpdatedValue: null,
       selectedNS: null,
-      loading: false
+      loading: false,
+      id: "namespaces"
     };
   },
   beforeMount() {
@@ -60,16 +64,31 @@ export default {
         this.fetchNamespaces(initialMeta + maxLimit);
       } else {
         const updatedMeta =
-          "metadata/namespaces" +
-          "?filter=" +
-          this.searchInputUpdatedValue.namespace;
+          initialMeta + andFilter + this.searchInputUpdatedValue.namespace;
         this.fetchNamespaces(updatedMeta);
       }
+    },
+    updateFromCreated: function(newNS) {
+      const justNewNS = initialMeta + andFilter + newNS;
+      this.$emit("handleNewNS", newNS);
+      this.fetchNamespaces(justNewNS);
     },
     handleClick: function(namespace) {
       this.selectedNS = namespace;
       this.$emit("handleCurrentNS", this.selectedNS);
       this.$router.push("/dashboard/namespace/");
+    },
+    deleteNS: function(namespace) {
+      // this.$http
+      //   .delete(initialMeta + "/" + namespace)
+      //   .then(response => {
+      //     if (response.ok === true) {
+      //       this.fetchNamespaces(initialMeta + maxLimit);
+      //     }
+      //   });
+      console.log(
+        "this deletes " + namespace + ", uncomment the code to continue"
+      );
     }
   },
   watch: {
@@ -106,7 +125,18 @@ export default {
     display: grid;
     height: 100%;
     opacity: 1;
+    position: relative;
     word-break: break-word;
+
+    & span {
+      color: $invalid;
+      content: "x";
+      font-size: larger;
+      margin: 5px 7px;
+      position: absolute;
+      right: 0;
+      top: 0;
+    }
 
     // &:hover :not(.active-item) {
     //   opacity: 0.25;
