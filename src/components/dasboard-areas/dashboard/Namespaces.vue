@@ -36,7 +36,7 @@ export default {
       searchInputUpdatedValue: null,
       selectedNS: null,
       loading: false,
-      id: "namespaces"
+      id: "Namespace"
     };
   },
   beforeMount() {

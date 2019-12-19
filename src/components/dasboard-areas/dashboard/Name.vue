@@ -71,7 +71,7 @@ export default {
       fetchedNames: {},
       loading: false,
       selectedN: null,
-      id: "names"
+      id: "Name"
     };
   },
   beforeMount() {

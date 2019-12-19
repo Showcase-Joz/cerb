@@ -16,7 +16,7 @@
             :class="{
               hasValue: $v.formResponses.namespace.hasValueLength
             }"
-            >Search content...</label
+            >Search content... {{this.$parent.$data}}</label
           >
           <input
             type="text"
@@ -41,6 +41,7 @@ import { maxLength, helpers } from "vuelidate/lib/validators";
 const hasValueLength = value => value.length >= 1;
 const strDefPattern = helpers.regex("strDefPattern", /^[\d+\w+^.^-]+$/);
 let metaObj = {};
+
 export default {
   name: "search-input",
   data() {
