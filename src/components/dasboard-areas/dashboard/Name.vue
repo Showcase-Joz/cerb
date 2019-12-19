@@ -1,33 +1,27 @@
 <template>
-  <!-- <div class="dashboard-main">
+  <div class="dashboard-main">
     <div class="loading" v-if="loading">Loading...</div>
+    <CreateItem :returnSolo="updateFromCreated" :name="newNS" />
     <div
       class="item"
       v-for="(object, index) in fetchedNames.events"
       :key="index"
+      @click="handleClick(object.event.name)"
     >{{ object.event.name }}</div>
-  </div>-->
+  </div>
 
-  <transition name="fade">
+  <!-- <transition name="fade">
     <div class="dashboard-main">
       <div class="loading" v-if="loading">Loading...</div>
       <CreateItem :returnSolo="updateFromCreated" :name="newNS" />
-      <div
-        class="item"
-        v-for="(object, index) in fetchedNames.events"
-        :key="index"
-      >
+      <div class="item" v-for="(object, index) in fetchedNames.events" :key="index">
         <div class="response-n">{{ object.event.name }}</div>
         <div class="response-extras">
           <div
             class="response-type"
             title="the type of log {debug, info, warning, error}"
-          >
-            {{ object.event.type }}
-          </div>
-          <div class="log-version" title="current verson of this log">
-            v: {{ object.event.version }}
-          </div>
+          >{{ object.event.type }}</div>
+          <div class="log-version" title="current verson of this log">v: {{ object.event.version }}</div>
           <div class="status-group">
             <div
               class="status-setting"
@@ -51,11 +45,11 @@
         <p class="response-desc">{{ object.event.description }}</p>
       </div>
     </div>
-  </transition>
+  </transition> -->
 </template>
 <script>
 import CreateItem from "../../form/CreateItem";
-const initialMeta = "metadata/"
+const initialMeta = "metadata/";
 export default {
   name: "Dashboard-Names",
   inheritAttrs: false,
@@ -77,6 +71,7 @@ export default {
     return {
       fetchedNames: {},
       loading: false,
+      selectedN: null,
       id: "names"
     };
   },
@@ -103,14 +98,26 @@ export default {
         }
       );
     },
-    updateFromCreated: function() {  
-      const newSpaceAndName = initialMeta +
-            "/" +
-            this.selectedNS +
-            "/" +
-            this.formResponses.createNewItem;;
+    updateFromCreated: function() {
+      const newSpaceAndName =
+        initialMeta +
+        "/" +
+        this.selectedNS +
+        "/" +
+        this.formResponses.createNewItem;
+      console.log(newSpaceAndName);
+
       this.fetchNames(newSpaceAndName);
     },
+    handleClick: function(name) {
+      this.selectedN = name;
+      this.$emit('handleCurrentN', this.selectedN)
+    }
+  },
+  watch: {
+    userInputMeta: function(newVal) {
+      this.selectedN = newVal;      
+    }
   }
 };
 </script>

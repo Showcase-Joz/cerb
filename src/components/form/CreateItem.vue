@@ -82,6 +82,8 @@ export default {
       const element = event.target;
       const value = element.value;
       this.$v.formResponses.createNewItem.$touch();
+      console.log(this.formResponses.createNewItem);
+      
       return (this.formResponses.createNewItem = value
         .replace(/\s/g, ".")
         .toLowerCase());

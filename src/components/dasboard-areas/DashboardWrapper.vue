@@ -3,8 +3,10 @@
     <router-view
       :userInputMeta="userInputMeta"
       v-on:handleCurrentNS="retainCurrentNS"
+      v-on:handleCurrentN="retainCurrentN"
       v-on:handleNewNS="retainNewNS"
       :selectedNS="currentNS"
+      :selectedN="currentN"
       :newNS="createdNS"
     />
   </div>
@@ -20,12 +22,16 @@ export default {
   data() {
     return {
       currentNS: null,
-      createdNS: null
+      createdNS: null,
+      currentN: null
     };
   },
   methods: {
     retainCurrentNS: function(selectedNS) {
       this.currentNS = selectedNS;
+    },
+    retainCurrentN: function(selectedN) {
+      this.currentN = selectedN;
     },
     retainNewNS: function(createdNS) {
       this.createdNS = createdNS;
