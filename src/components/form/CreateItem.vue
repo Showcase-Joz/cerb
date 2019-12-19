@@ -51,7 +51,7 @@ import {
   maxLength,
   helpers
 } from "vuelidate/lib/validators";
-const initialMeta = "metadata/namespaces";
+const initialMeta = "metadata/";
 const hasValueLength = value => value.length >= 1;
 const strDefPattern = helpers.regex("strDefPattern", /^[\d+\w+^.^-]+$/);
 export default {
@@ -90,10 +90,20 @@ export default {
     },
     sendCreate: function() {
       // console.log(this.$parent.$data.id);
-      if (this.formResponses.createNewItem !== null) {
-        console.log("sending data", this.formResponses.createNewItem);
+      this.$emit('createdNewN', this.formResponses.createNewItem);
+      if (this.formResponses.createNewItem !== null && this.$parent.$data.id === "namespaces") {
+        console.log("sending data NS", this.formResponses.createNewItem);
         this.$http
-          .put(initialMeta + "/" + this.formResponses.createNewItem)
+          .put(initialMeta + "namespaces/" + this.formResponses.createNewItem)
+          .then(response => {
+            if (response.ok === true) {
+              this.returnSolo(this.formResponses.createNewItem)
+            }
+          });
+      } else if (this.formResponses.createNewItem !== null && this.$parent.$data.id === "names") {
+        console.log("sending data N", this.formResponses.createNewItem);
+        this.$http
+          .put(initialMeta + this.$attrs.name + "/" + this.formResponses.createNewItem)
           .then(response => {
             if (response.ok === true) {
               this.returnSolo(this.formResponses.createNewItem)
