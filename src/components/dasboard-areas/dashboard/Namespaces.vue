@@ -1,7 +1,7 @@
 <template>
   <div class="dashboard-main">
     <div class="loading" v-if="loading">Loading...</div>
-    <CreateItem :returnSolo="updateFromCreated" />
+    <CreateItem v-on:passNewItem="createUserNS" />
     <div
       class="item"
       v-for="(namespace, index) in namespaceResults"
@@ -9,7 +9,6 @@
       @click="handleClick(namespace)"
     >
       <span @click="deleteNS(namespace)">x</span>
-
       {{ namespace }}
     </div>
   </div>
@@ -35,8 +34,9 @@ export default {
       namespaceResults: [],
       searchInputUpdatedValue: null,
       selectedNS: null,
+      passedNS: null,
       loading: false,
-      id: "Namespace"
+      id: "Namespace",
     };
   },
   beforeMount() {
@@ -67,6 +67,9 @@ export default {
           initialMeta + andFilter + this.searchInputUpdatedValue.namespace;
         this.fetchNamespaces(updatedMeta);
       }
+    },
+    createUserNS: function(passedNS) {
+      this.passedNS = passedNS;
     },
     updateFromCreated: function(newNS) {
       const justNewNS = initialMeta + andFilter + newNS;

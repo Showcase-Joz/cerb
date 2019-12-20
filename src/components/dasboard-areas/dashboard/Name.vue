@@ -2,7 +2,12 @@
   <transition name="fade">
     <div class="dashboard-main">
       <div class="loading" v-if="loading">Loading...</div>
-      <CreateItem :returnSolo="updateFromCreated" :name="newNS" @createdNewN="selectedN = $event" />
+      <CreateItem
+        v-on:passNewItem="createUserN"
+        :returnSolo="updateFromCreated"
+        :name="newNS"
+        @createdNewN="selectedN = $event"
+      />
       <div
         class="item"
         v-for="(object, index) in fetchedNames.events"
@@ -10,9 +15,9 @@
         @click="handleClick(object.event.name)"
       >{{ object.event.name }}</div>
     </div>
-    </transition>
+  </transition>
 
-    <!-- <div  class="dashboard-main" v-if="this.fetchedNames.count === undefined">
+  <!-- <div  class="dashboard-main" v-if="this.fetchedNames.count === undefined">
     <div class="item" v-for="(object, index) in fetchedNames.events" :key="index">
       <div class="response-n">{{ object.event.name }}</div>
       <div class="response-extras">
@@ -43,8 +48,7 @@
       <div class="response-n">{{ object.event.name }}</div>
       <p class="response-desc">{{ object.event.description }}</p>
     </div>
-    </div> -->
-  
+  </div>-->
 </template>
 <script>
 import CreateItem from "../../form/CreateItem";
@@ -60,6 +64,9 @@ export default {
       type: String
     },
     newNS: {
+      type: String
+    },
+    passedN: {
       type: String
     }
   },
@@ -96,6 +103,9 @@ export default {
           console.log("Error: ", error);
         }
       );
+    },
+    createUserN: function(passedN) {
+      this.passedN = passedN;
     },
     updateFromCreated: function() {
       const newNsAndN = initialMeta + this.newNS + "/names";

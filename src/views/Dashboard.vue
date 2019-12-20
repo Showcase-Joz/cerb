@@ -1,7 +1,11 @@
 <template>
   <div class="dashboard">
     <MainDashNav />
-    <SearchInput v-on:handleMeta="retainMeta" />
+    <SearchInput
+      v-on:handleMeta="retainMeta"
+      @keyup="resetSearch"
+      :clearSearchValue="clearSearch"
+    />
     <DashboardWrapper :userInputMeta="passedMeta" />
   </div>
 </template>
@@ -13,7 +17,8 @@ export default {
   name: "dashboard",
   data() {
     return {
-      passedMeta: {}
+      passedMeta: {},
+      clearSearch: null
     };
   },
   components: {
@@ -24,6 +29,9 @@ export default {
   methods: {
     retainMeta: function(metaObj) {
       this.passedMeta = metaObj;
+    },
+    resetSearch: function(value) {
+      this.clearSearch = value;
     }
   }
 };

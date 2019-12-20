@@ -16,15 +16,17 @@
             :class="{
               hasValue: $v.formResponses.namespace.hasValueLength
             }"
-            >Search content... {{this.$parent.$data}}</label
+            >Search content...</label
           >
           <input
+            id="searchInput"
             type="text"
             name="namespace"
             v-model="formResponses.namespace"
             v-on:input="cleanInputs"
             @blur="$v.formResponses.namespace.$touch(), onBlur()"
             @focus="onFocus()"
+            @keyup.enter="clearContent"
           />
         </div>
         <p class="form-field-msg" v-if="!$v.formResponses.namespace.maxLength">
@@ -44,6 +46,11 @@ let metaObj = {};
 
 export default {
   name: "search-input",
+  props: {
+    clearSearchValue: {
+      type: Boolean
+    }
+  },
   data() {
     return {
       hasFocus: false,
@@ -84,6 +91,12 @@ export default {
         };
         this.$emit("handleMeta", metaObj);
       }
+    },
+    clearContent: function() {
+      document.getElementById("searchInput").value = "";
+      document.activeElement.blur();
+      document.getElementById("createNew").focus();
+      this.$emit("keyup", true);
     },
     onFocus() {
       this.hasFocus = true;

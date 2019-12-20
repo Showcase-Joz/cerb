@@ -1,9 +1,13 @@
 <template>
-  <label class="item item-create" v-on:keyup.enter.prevent="handleClick">
+  <label
+    id="createNew"
+    class="item item-create"
+    v-on:keyup.enter.prevent="handleClick"
+  >
     <span class="create-title">
       Create a new
-      <strong>{{this.$parent.$data.id}}</strong>
-      {{this.$parent.$data.id === "Name" ? 'for this namespace' : ''}}
+      <strong>{{ this.$parent.$data.id }}</strong>
+      {{ this.$parent.$data.id === "Name" ? "for this namespace" : "" }}
     </span>
     <div class="form-group">
       <input
@@ -12,35 +16,52 @@
         @blur="$v.formResponses.createNewItem.$touch()"
         class="create-input"
         name="newItem"
-        :placeholder="'Start typing to create a new ' + this.$parent.$data.id + ' here'"
+        :placeholder="
+          'Start typing here to create a new ' + this.$parent.$data.id
+        "
         type="text"
       />
       <button
         class="add-created"
         :class="{
           invalid: $v.formResponses.createNewItem.$error,
-          valid: !$v.formResponses.createNewItem.$error && $v.formResponses.createNewItem.$dirty
+          valid:
+            !$v.formResponses.createNewItem.$error &&
+            $v.formResponses.createNewItem.$dirty
         }"
         type="submit"
         @click="handleClick"
         :disabled="$v.formResponses.createNewItem.$error"
-      >Add {{this.$parent.$data.id}}</button>
+      >
+        Add {{ this.$parent.$data.id }}
+      </button>
     </div>
     <div class="errors">
-      <p class="form-field-msg" v-if="!$v.formResponses.createNewItem.minLength">
-        Please add a New {{this.$parent.$data.id}} with at least
+      <p
+        class="form-field-msg"
+        v-if="!$v.formResponses.createNewItem.minLength"
+      >
+        Please add a New {{ this.$parent.$data.id }} with at least
         {{ $v.formResponses.createNewItem.$params.minLength.min }}
         characters.
       </p>
-      <p class="form-field-msg" v-if="!$v.formResponses.createNewItem.maxLength">
-        Please add a New {{this.$parent.$data.id}} with no more than
+      <p
+        class="form-field-msg"
+        v-if="!$v.formResponses.createNewItem.maxLength"
+      >
+        Please add a New {{ this.$parent.$data.id }} with no more than
         {{ $v.formResponses.createNewItem.$params.maxLength.max }}
         characters.
       </p>
       <p
         class="form-field-msg"
-        v-if="!$v.formResponses.createNewItem.required && $v.formResponses.createNewItem.$dirty"
-      >New {{this.$parent.$data.id}} must not be empty!</p>
+        v-if="
+          !$v.formResponses.createNewItem.required &&
+            $v.formResponses.createNewItem.$dirty
+        "
+      >
+        New {{ this.$parent.$data.id }} must not be empty!
+      </p>
     </div>
   </label>
 </template>
@@ -56,9 +77,6 @@ const hasValueLength = value => value.length >= 1;
 const strDefPattern = helpers.regex("strDefPattern", /^[\d+\w+^.^-]+$/);
 export default {
   name: "CreateItem",
-  // props: {
-  //   returnSolo: Function
-  // },
   data() {
     return {
       formResponses: {
@@ -82,6 +100,7 @@ export default {
       const element = event.target;
       const value = element.value;
       this.$v.formResponses.createNewItem.$touch();
+      this.$emit("passNewItem",this.formResponses.createNewItem);
       return (this.formResponses.createNewItem = value
         .replace(/\s/g, ".")
         .toLowerCase());
@@ -92,6 +111,7 @@ export default {
         this.$parent.$data.id === "Namespace"
       ) {
         console.log("NS");
+        
       } else if (
         this.formResponses.createNewItem.length > 0 &&
         this.$parent.$data.id === "Name"
