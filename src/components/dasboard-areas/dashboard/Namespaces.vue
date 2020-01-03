@@ -62,7 +62,7 @@ export default {
   //     this.$emit("clearSearch", clearData);
   //     console.log("clearned");
       
-      
+    
   //   } else if ( this.userInputMeta.namespace.length !== 0 ) {
   //     console.log("tets2");
   //     // has value in searchbar
