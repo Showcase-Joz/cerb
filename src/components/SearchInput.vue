@@ -16,8 +16,7 @@
             :class="{
               hasValue: $v.formResponses.namespace.hasValueLength
             }"
-            >Search content...</label
-          >
+          >Search content...</label>
           <input
             id="searchInput"
             type="text"
@@ -26,7 +25,7 @@
             v-on:input="cleanInputs"
             @blur="$v.formResponses.namespace.$touch(), onBlur()"
             @focus="onFocus()"
-            @keyup.enter="clearContent"
+            @keyup.enter="focusItems"
           />
         </div>
         <p class="form-field-msg" v-if="!$v.formResponses.namespace.maxLength">
@@ -49,6 +48,9 @@ export default {
   props: {
     clearSearchValue: {
       type: Boolean
+    },
+    userInputMeta: {
+      type: Object
     }
   },
   data() {
@@ -92,17 +94,24 @@ export default {
         this.$emit("handleMeta", metaObj);
       }
     },
-    clearContent: function() {
-      document.getElementById("searchInput").value = "";
+    focusItems: function() {
       document.activeElement.blur();
-      document.getElementById("createNew").focus();
-      this.$emit("keyup", true);
+      document.getElementById("createNew").nextElementSibling.focus();
+      // this.$emit("keyup", true);
     },
     onFocus() {
       this.hasFocus = true;
     },
     onBlur() {
       this.hasFocus = false;
+    }
+  },
+  watch: {
+    clearSearchValue(newVal) {
+      if (newVal) {
+        this.formResponses.namespace = "";
+        // document.getElementById('searchInput').value = "";
+      }
     }
   }
 };

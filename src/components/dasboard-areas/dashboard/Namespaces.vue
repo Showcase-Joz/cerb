@@ -3,10 +3,12 @@
     <div class="loading" v-if="loading">Loading...</div>
     <CreateItem v-on:passNewItem="createUserNS" />
     <div
+      tabindex="0"
       class="item"
       v-for="(namespace, index) in namespaceResults"
       :key="index"
       @click="handleClick(namespace)"
+      @keyup.enter="handleClick(namespace)"
     >
       <span @click="deleteNS(namespace)">x</span>
       {{ namespace }}
@@ -36,12 +38,38 @@ export default {
       selectedNS: null,
       passedNS: null,
       loading: false,
-      id: "Namespace",
+      id: "Namespace"
     };
   },
   beforeMount() {
-    this.fetchNamespaces(initialMeta + maxLimit);
+    if (this.$attrs.selectedNS === null) {
+      this.fetchNamespaces(initialMeta + maxLimit);
+    } else if (this.$attrs.selectedNS !== null) {
+      const slelectedNS =
+          initialMeta + andFilter + this.$attrs.selectedNS;
+        this.fetchNamespaces(slelectedNS);
+    } else {
+      error => {
+        console.log("Error: ", error);
+      };
+    }
   },
+  // created() {
+  //   if ( Object.keys(this.userInputMeta).length === 0 ) {
+  //     console.log("test");
+  //     // no value in searchbar
+  //     const clearData = null;
+  //     this.$emit("clearSearch", clearData);
+  //     console.log("clearned");
+      
+      
+  //   } else if ( this.userInputMeta.namespace.length !== 0 ) {
+  //     console.log("tets2");
+  //     // has value in searchbar
+
+      
+  //   }
+  // },
   methods: {
     fetchNamespaces: function(stringSuffix) {
       this.loading = true;
@@ -79,6 +107,7 @@ export default {
     handleClick: function(namespace) {
       this.selectedNS = namespace;
       this.$emit("handleCurrentNS", this.selectedNS);
+      this.$emit("clearSearch", true);
       this.$router.push("/dashboard/namespace/");
     },
     deleteNS: function(namespace) {

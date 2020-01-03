@@ -2,6 +2,7 @@
   <label
     id="createNew"
     class="item item-create"
+    tabindex="-1"
     v-on:keyup.enter.prevent="handleClick"
   >
     <span class="create-title">

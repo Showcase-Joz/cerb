@@ -2,6 +2,7 @@
   <div class="dashboard-wrapper">
     <router-view
       :userInputMeta="userInputMeta"
+      v-on:clearSearch="handleClearSearch"
       v-on:handleCurrentNS="retainCurrentNS"
       v-on:handleCurrentN="retainCurrentN"
       v-on:handleNewNS="retainNewNS"
@@ -35,6 +36,9 @@ export default {
     },
     retainNewNS: function(createdNS) {
       this.createdNS = createdNS;
+    },
+    handleClearSearch: function(value) {
+      this.$emit("clearSearch", value);
     }
   }
 };
