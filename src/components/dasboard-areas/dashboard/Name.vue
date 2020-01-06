@@ -1,129 +1,31 @@
 <template>
   <div class="dashboard-main">
     <div class="loading" v-if="loading">Loading...</div>
-    <CreateItem :returnSolo="updateFromCreated" :name="newNS" />
-    <div
+    <CreateItem />
+    <!-- <div
       tabindex="0"
       class="item"
       v-for="(object, index) in fetchedNames.events"
       :key="index"
-      @click="handleClick(object.event.name)"
-    >{{ object.event.name }}</div>
+    >{{ object.event.name }}</div> -->
   </div>
 
-  <!-- <transition name="fade">
-    <div class="dashboard-main">
-      <div class="loading" v-if="loading">Loading...</div>
-      <CreateItem :returnSolo="updateFromCreated" :name="newNS" />
-      <div class="item" v-for="(object, index) in fetchedNames.events" :key="index">
-        <div class="response-n">{{ object.event.name }}</div>
-        <div class="response-extras">
-          <div
-            class="response-type"
-            title="the type of log {debug, info, warning, error}"
-          >{{ object.event.type }}</div>
-          <div class="log-version" title="current verson of this log">v: {{ object.event.version }}</div>
-          <div class="status-group">
-            <div
-              class="status-setting"
-              title="an external large details stored on S3"
-              :class="{
-                'status-green': object.haslargedetails,
-                'status-red': !object.haslargedetails
-              }"
-            ></div>
-            <div
-              class="status-setting"
-              title="this log has details available"
-              :class="{
-                'status-green': object.weredetailsfound,
-                'status-red': !object.weredetailsfound
-              }"
-            ></div>
-          </div>
-        </div>
-        <div class="response-n">{{ object.event.name }}</div>
-        <p class="response-desc">{{ object.event.description }}</p>
-      </div>
-    </div>
-  </transition>-->
 </template>
 <script>
 import CreateItem from "../../form/CreateItem";
-const initialMeta = "metadata/";
 export default {
   name: "Dashboard-Names",
-  inheritAttrs: false,
-  props: {
-    userInputMeta: {
-      type: Object
-    },
-    selectedNS: {
-      type: String
-    },
-    newNS: {
-      type: String
-    }
-  },
   components: {
     CreateItem
   },
   data() {
     return {
-      fetchedNames: {},
       loading: false,
-      selectedN: null,
       id: "names"
     };
   },
-  beforeMount() {
-    const queryNS = "events?namespace=" + this.selectedNS + "&offset=25";
-    if (this.selectedNS !== null) {
-      this.fetchName(queryNS);
-      this.focusItems();
-    } else {
-      console.log("local");
-    }
-  },
   methods: {
-    fetchName: function(namespaceQuery) {
-      this.loading = true;
-      this.$http.get(namespaceQuery).then(
-        response => {
-          if (response.ok === true) {
-            this.loading = false;
-            this.fetchedNames = response.body;
-          }
-        },
-        error => {
-          console.log("Error: ", error);
-        }
-      );
-    },
-    updateFromCreated: function() {
-      const newSpaceAndName =
-        initialMeta +
-        "/" +
-        this.selectedNS +
-        "/" +
-        this.formResponses.createNewItem;
-      console.log(newSpaceAndName);
-
-      this.fetchNames(newSpaceAndName);
-    },
-    handleClick: function(name) {
-      this.selectedN = name;
-      this.focusItems();
-    },
-    focusItems: function() {
-      setTimeout(function() {
-        const childItemExists = document.getElementById("createNew")
-          .parentElement.childElementCount;
-        if (childItemExists > 1) {
-          document.getElementById("createNew").nextElementSibling.focus();
-        }
-      }, 1500);
-    }
+    
   }
 };
 </script>

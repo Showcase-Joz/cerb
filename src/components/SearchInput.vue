@@ -25,6 +25,7 @@
             v-on:input="cleanInputs"
             @blur="$v.formResponses.namespace.$touch(), onBlur()"
             @focus="onFocus()"
+            @mouseup="onFocus()"
             @keyup.enter="focusItems"
           />
         </div>
@@ -45,14 +46,6 @@ let metaObj = {};
 
 export default {
   name: "search-input",
-  props: {
-    clearSearchValue: {
-      type: Boolean
-    },
-    userInputMeta: {
-      type: Object
-    }
-  },
   data() {
     return {
       hasFocus: false,
@@ -97,12 +90,13 @@ export default {
     focusItems: function() {
       document.activeElement.blur();
       document.getElementById("createNew").nextElementSibling.focus();
+      this.hasFocus = false;
       // this.$emit("keyup", true);
     },
-    onFocus() {
+    onFocus: function() {
       this.hasFocus = true;
     },
-    onBlur() {
+    onBlur: function() {
       this.hasFocus = false;
     }
   },

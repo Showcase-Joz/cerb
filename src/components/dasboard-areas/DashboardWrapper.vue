@@ -1,45 +1,16 @@
 <template>
   <div class="dashboard-wrapper">
-    <router-view
-      :userInputMeta="userInputMeta"
-      v-on:clearSearch="handleClearSearch"
-      v-on:handleCurrentNS="retainCurrentNS"
-      v-on:handleCurrentN="retainCurrentN"
-      v-on:handleNewNS="retainNewNS"
-      :selectedNS="currentNS"
-      :selectedN="currentN"
-      :newNS="createdNS"
-    />
+    <router-view />
   </div>
 </template>
 <script>
 export default {
   name: "DashboardWrapper",
-  props: {
-    userInputMeta: {
-      type: Object
-    }
-  },
   data() {
     return {
-      currentNS: null,
-      createdNS: null,
-      currentN: null
     };
   },
   methods: {
-    retainCurrentNS: function(selectedNS) {
-      this.currentNS = selectedNS;
-    },
-    retainCurrentN: function(selectedN) {
-      this.currentN = selectedN;
-    },
-    retainNewNS: function(createdNS) {
-      this.createdNS = createdNS;
-    },
-    handleClearSearch: function(value) {
-      this.$emit("clearSearch", value);
-    }
   }
 };
 </script>

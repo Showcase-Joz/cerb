@@ -1,7 +1,7 @@
 <template>
   <div class="dashboard-main">
     <div class="loading" v-if="loading">Loading...</div>
-    <CreateItem v-on:passNewItem="createUserNS" />
+    <CreateItem />
     <div
       tabindex="0"
       class="item"
@@ -18,58 +18,23 @@
 <script>
 import CreateItem from "../../form/CreateItem";
 const initialMeta = "metadata/namespaces";
-const andFilter = "?filter=";
+// const andFilter = "?filter=";
 const maxLimit = "?limit=1000";
 export default {
   name: "DashboardNamespaces",
-  inheritAttrs: false,
-  props: {
-    userInputMeta: {
-      type: Object
-    }
-  },
   components: {
     CreateItem
   },
   data() {
     return {
       namespaceResults: [],
-      searchInputUpdatedValue: null,
-      selectedNS: null,
-      passedNS: null,
       loading: false,
       id: "Namespace"
     };
   },
   beforeMount() {
-    if (this.$attrs.selectedNS === null) {
       this.fetchNamespaces(initialMeta + maxLimit);
-    } else if (this.$attrs.selectedNS !== null) {
-      const slelectedNS =
-          initialMeta + andFilter + this.$attrs.selectedNS;
-        this.fetchNamespaces(slelectedNS);
-    } else {
-      error => {
-        console.log("Error: ", error);
-      };
-    }
   },
-  // created() {
-  //   if ( Object.keys(this.userInputMeta).length === 0 ) {
-  //     console.log("test");
-  //     // no value in searchbar
-  //     const clearData = null;
-  //     this.$emit("clearSearch", clearData);
-  //     console.log("clearned");
-      
-      
-  //   } else if ( this.userInputMeta.namespace.length !== 0 ) {
-  //     console.log("tets2");
-  //     // has value in searchbar
-
-      
-  //   }
-  // },
   methods: {
     fetchNamespaces: function(stringSuffix) {
       this.loading = true;
@@ -79,30 +44,13 @@ export default {
             this.loading = false;
             this.namespaceResults = response.body.namespaces;
           } else if (response.ok === false) {
-            this.resultBoolean = false;
+            console.log("there are NO results for some reason!");
           }
         },
         error => {
           console.log("Error: ", error);
         }
       );
-    },
-    updateNamespaces: function() {
-      if (this.searchInputUpdatedValue.namespace.length < 1) {
-        this.fetchNamespaces(initialMeta + maxLimit);
-      } else {
-        const updatedMeta =
-          initialMeta + andFilter + this.searchInputUpdatedValue.namespace;
-        this.fetchNamespaces(updatedMeta);
-      }
-    },
-    createUserNS: function(passedNS) {
-      this.passedNS = passedNS;
-    },
-    updateFromCreated: function(newNS) {
-      const justNewNS = initialMeta + andFilter + newNS;
-      this.$emit("handleNewNS", newNS);
-      this.fetchNamespaces(justNewNS);
     },
     handleClick: function(namespace) {
       this.selectedNS = namespace;
