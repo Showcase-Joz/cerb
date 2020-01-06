@@ -56,7 +56,6 @@ export default {
       grid-row: row 2;
     }
   }
-
   h3 {
     color: darken($color: $valid, $amount: 35%);
     margin-bottom: $spacingLarge;
@@ -67,7 +66,6 @@ export default {
       display: block;
     }
   }
-
   p {
     color: white;
     font-style: italic;
@@ -77,18 +75,14 @@ export default {
       text-align: justify;
     }
   }
-
   .fade-enter {
     opacity: 0;
   }
-
   .fade-enter-active {
     transition: opacity 1s;
   }
-
   .fade-leave {
   }
-
   .fade-leave-active {
     transition: opacity 1s;
     opacity: 0;

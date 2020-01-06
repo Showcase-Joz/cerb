@@ -8,7 +8,7 @@ import VueResource from "vue-resource";
 Vue.use(Vuelidate);
 Vue.use(VueResource);
 
-Vue.http.options.root = "https://staging-typhon-api.sst-l.com/";
+Vue.http.options.root = "https://typhon-api.sst-l.com/";
 Vue.http.options.headers = {
   Accept: "application/json",
   "Content-Type": "application/json"

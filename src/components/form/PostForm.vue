@@ -195,7 +195,7 @@ export default {
       uiState: "submit issue",
       noErrors: false,
       formResponses: {
-        namespace: "",
+        namespace: "cerb",
         name: "",
         type: null,
         description: ""

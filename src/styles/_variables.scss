@@ -2,6 +2,7 @@
 @import "mixins";
 @import "functions";
 
+
 $spacingDefault: 1rem;
 $spacingLarge: 2.5rem;
 
@@ -40,13 +41,5 @@ $textDefPattern: "you can use all characters";
 
 $minViewport: 320px;
 
-::selection {
-  background: $neutral; /* WebKit/Blink Browsers */
-}
-::-moz-selection {
-  background: $neutral; /* Gecko Browsers */
-}
 
-body {
-  overflow-y: hidden;
-}
+@import "base";

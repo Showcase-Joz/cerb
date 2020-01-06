@@ -101,18 +101,17 @@ export default {
       const element = event.target;
       const value = element.value;
       this.$v.formResponses.createNewItem.$touch();
-      this.$emit("passNewItem",this.formResponses.createNewItem);
+      this.$emit("passNewItem", this.formResponses.createNewItem);
       return (this.formResponses.createNewItem = value
         .replace(/\s/g, ".")
         .toLowerCase());
     },
     handleClick: function() {
-      if (
+       if (
         this.formResponses.createNewItem.length > 0 &&
         this.$parent.$data.id === "Namespace"
       ) {
         console.log("NS");
-        
       } else if (
         this.formResponses.createNewItem.length > 0 &&
         this.$parent.$data.id === "Name"

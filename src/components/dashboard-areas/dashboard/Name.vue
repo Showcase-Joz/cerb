@@ -2,30 +2,77 @@
   <div class="dashboard-main">
     <div class="loading" v-if="loading">Loading...</div>
     <CreateItem />
-    <!-- <div
+    <div
       tabindex="0"
       class="item"
-      v-for="(object, index) in fetchedNames.events"
+      v-for="(name, index) in fetchedNames.names"
       :key="index"
-    >{{ object.event.name }}</div> -->
+    >
+      {{ name }}
+    </div>
   </div>
-
 </template>
 <script>
 import CreateItem from "../../form/CreateItem";
+const initialMeta = "metadata/";
+const queryNames = "/names";
+const maxLimit = "?limit=0";
 export default {
   name: "Dashboard-Names",
+  props: {
+    passNsSelectedString: {
+      type: String,
+      default: ""
+    }
+  },
   components: {
     CreateItem
   },
   data() {
     return {
+      fetchedNames: {},
+      lastUserSelection: "",
       loading: false,
       id: "names"
     };
   },
+  beforeMount() {      
+    if (this.passNsSelectedString !== "") {
+      const selectedFetchQuery =
+      initialMeta + this.passNsSelectedString + queryNames + maxLimit;
+      this.fetchNames(selectedFetchQuery);
+      this.focusItems();
+    } else {
+      console.log("local names source");
+    }
+  },
   methods: {
-    
+    fetchNames: function(namespaceQuery) {
+      this.loading = true;
+      this.$http.get(namespaceQuery).then(
+        response => {
+          if (response.ok === true) {
+            this.loading = false;
+            this.fetchedNames = response.body;
+          }
+        },
+        error => {
+          this.loading = false;
+          console.log("Error: ", error);
+        }
+      );
+    },
+    focusItems: function() {
+      setTimeout(function() {
+        const childItemExists = document.getElementById("createNew")
+          .parentElement.childElementCount;          
+        if (childItemExists > 1) {
+          document.getElementById("createNew").nextElementSibling.focus();
+        } else {
+          return
+        }
+      }, 1500);
+    }
   }
 };
 </script>
@@ -54,7 +101,7 @@ export default {
     cursor: pointer;
     display: grid;
     grid-template-columns: [col] minmax(auto, 1fr);
-    grid-template-rows: repeat(3, [row] auto);
+    // grid-template-rows: repeat(3, [row] auto);
     height: 100%;
     opacity: 1;
     padding: $spacingDefault;
@@ -146,9 +193,10 @@ export default {
     }
   }
   .loading {
+    color: white;
     position: absolute;
-    top: 10px;
-    right: 10px;
+    top: 20px;
+    right: 20px;
   }
 }
 </style>

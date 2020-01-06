@@ -33,7 +33,7 @@ const routes = [
         name: "namespaces",
         component: () =>
           import(
-            /* webpackChunkName: "get" */ "../components/dasboard-areas/dashboard/Namespaces.vue"
+            /* webpackChunkName: "get" */ "../components/dashboard-areas/dashboard/Namespaces.vue"
           )
       },
       {
@@ -41,7 +41,7 @@ const routes = [
         name: "name",
         component: () =>
           import(
-            /* webpackChunkName: "get" */ "../components/dasboard-areas/dashboard/Name.vue"
+            /* webpackChunkName: "get" */ "../components/dashboard-areas/dashboard/Name.vue"
           )
       },
       {
@@ -49,7 +49,7 @@ const routes = [
         name: "test",
         component: () =>
           import(
-            /* webpackChunkName: "get" */ "../components/dasboard-areas/dashboard/Test.vue"
+            /* webpackChunkName: "get" */ "../components/dashboard-areas/dashboard/Test.vue"
           )
       }
     ]

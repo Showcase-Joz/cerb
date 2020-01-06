@@ -52,7 +52,7 @@ export default {
       this.fetchPost();
     },
     fetchPost: function() {
-      // console.log("test ", this.postString);
+      console.log("test posting ", this.postString);
 
       this.$http.post("events", this.postString).then(
         response => {

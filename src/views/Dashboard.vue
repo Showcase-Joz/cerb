@@ -1,18 +1,19 @@
 <template>
   <div class="dashboard">
     <MainDashNav />
-    <SearchInput />
-    <DashboardWrapper />
+    <SearchInput v-on:emitSearchNamespace="handleSearchString" />
+    <DashboardWrapper :passNsSearchString="searchNsString" />
   </div>
 </template>
 <script>
 import MainDashNav from "../components/navigation/MainDashboard";
 import SearchInput from "../components/SearchInput";
-import DashboardWrapper from "../components/dasboard-areas/DashboardWrapper";
+import DashboardWrapper from "../components/dashboard-areas/DashboardWrapper";
 export default {
   name: "dashboard",
   data() {
     return {
+      searchNsString: ""
     };
   },
   components: {
@@ -21,6 +22,9 @@ export default {
     DashboardWrapper
   },
   methods: {
+    handleSearchString: function(searchNamespace) {
+      this.searchNsString = searchNamespace;
+    }
   }
 };
 </script>
