@@ -51,7 +51,7 @@ export default {
       this.fetchNamespaces(updateNamespaces);
       this.lastSearchInputValue = this.passNsSearchString;
     } else if (this.passNsSearchString === "") {
-      this.fetchNamespaces(initialQuery + maxLimit);     
+      this.fetchNamespaces(initialQuery + maxLimit);
     }
   },
   mounted() {
@@ -85,7 +85,7 @@ export default {
       }
     },
     handleClick: function(namespace) {
-      this.$emit("userSelectedNS", namespace)
+      this.$emit("userSelectedNS", namespace);
       this.fetchSearchResult();
       this.$router.push("/dashboard/namespace/");
     },
@@ -102,7 +102,7 @@ export default {
         if (childItemExists > 1) {
           document.getElementById("createNew").nextElementSibling.focus();
         } else {
-          return
+          return;
         }
       }, 1500);
     },

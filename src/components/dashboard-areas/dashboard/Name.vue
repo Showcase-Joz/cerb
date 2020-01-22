@@ -36,10 +36,10 @@ export default {
       id: "names"
     };
   },
-  beforeMount() {      
+  beforeMount() {
     if (this.passNsSelectedString !== "") {
       const selectedFetchQuery =
-      initialMeta + this.passNsSelectedString + queryNames + maxLimit;
+        initialMeta + this.passNsSelectedString + queryNames + maxLimit;
       this.fetchNames(selectedFetchQuery);
       this.focusItems();
     } else {
@@ -65,11 +65,11 @@ export default {
     focusItems: function() {
       setTimeout(function() {
         const childItemExists = document.getElementById("createNew")
-          .parentElement.childElementCount;          
+          .parentElement.childElementCount;
         if (childItemExists > 1) {
           document.getElementById("createNew").nextElementSibling.focus();
         } else {
-          return
+          return;
         }
       }, 1500);
     }

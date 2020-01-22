@@ -107,7 +107,7 @@ export default {
         .toLowerCase());
     },
     handleClick: function() {
-       if (
+      if (
         this.formResponses.createNewItem.length > 0 &&
         this.$parent.$data.id === "Namespace"
       ) {
