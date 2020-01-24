@@ -300,8 +300,9 @@ export default {
 .btn {
   display: inline-block;
   border: none;
-  background-color: #555;
+  // background-color: #555;
   color: #fff;
+  font-size: larger;
   padding: 7px 20px;
   cursor: pointer;
 

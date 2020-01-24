@@ -6,245 +6,246 @@
   grid-template-rows: repeat(auto-fill, minmax(50px, 1fr));
   grid-gap: 1rem;
 
-  .form-group {
-    margin-top: 1rem;
+}
 
-    .input-with-label {
-      border-bottom: 1px solid shade($color1, $tint90);
-      // color: black;
-      display: flex;
-      font-size: $font-size-xl;
-      letter-spacing: calc(#{$letter-spacing} *1.5);
-      padding: 3px;
-      position: relative;
-      text-transform: uppercase;
+.form-group {
+  margin-top: 1rem;
 
-      &.text-area {
-        label.hasValue {
-          top: 0;
-          height: min-content;
-        }
-        &:focus-within {
-          top: 0.5rem;
-        }
-      }
+  .input-with-label {
+    border-bottom: 1px solid shade($color1, $tint90);
+    // color: black;
+    display: flex;
+    font-size: $font-size-xl;
+    letter-spacing: calc(#{$letter-spacing} *1.5);
+    padding: 3px;
+    position: relative;
+    text-transform: uppercase;
 
-      &:focus-within label:not(input) {
-        font-size: 0.5rem;
-        transform: translateY(-100%);
-        transition: transform 300ms ease-out, font-size 500ms ease-out 300ms;
-      }
-
-      label {
-        bottom: 0;
-        color: tint($color2, $tint50);
-        left: 0;
-        line-height: 2rem;
-        padding-left: 5px;
-        position: absolute;
-        top: auto;
-        transition: font-size 500ms ease-out 300ms, transform 300ms ease-out;
-
-        &.hasValue {
-          font-size: 0.5rem;
-          transform: translateY(-100%);
-        }
-
-        &.hasValue ~ input {
-          top: 50%;
-        }
-
-        &.hasValue ~ textarea {
-          top: -0.5rem;
-          // margin-top: 0.5rem;
-        }
-      }
-
-      input,
-      textarea {
-        background-color: transparent;
-        border: none;
-        bottom: 0;
-        font-size: inherit;
-        left: 0;
-        outline: none;
-        padding-left: 5px;
+    &.text-area {
+      label.hasValue {
         top: 0;
-        width: 100%;
-        z-index: 1;
+        height: min-content;
       }
 
-      textarea {
-        opacity: 0;
-        position: relative;
-        white-space: pre-line;
-
-        &::placeholder {
-          color: tint($color2, $tint75);
-          font-size: medium;
-          font-style: initial;
-          font-variant-caps: all-petite-caps;
-          position: relative;
-        }
-
-        &:focus {
-          font-style: italic;
-          opacity: 1;
-          resize: none;
-          top: 0.5rem;
-        }
-      }
-
-      &:focus-within::after,
-      &.invalid::after,
-      &.valid::after {
-        animation: fadeIn 1300ms cubic-bezier(0.175, 0.885, 0.32, 1.275);
-        content: $strDefPattern;
-        bottom: 0;
-        color: $color2;
-        font-size: 0.7rem;
-        font-variant: unicase;
-        line-height: 2rem;
-        padding-right: 5px;
-        position: absolute;
-        right: 0;
-        top: auto;
-        text-transform: lowercase;
-        transform: translateY(-100%);
-      }
-
-      &::before:focus {
-        // SOME STUFF HERE TO ILLUSTRATE ACTIVE INPUT
-      }
-
-      &.invalid:focus-within {
-        border-bottom: 1px solid $warning;
-      }
-
-      &.invalid {
-        border-bottom: 1px solid $invalid;
-      }
-
-      &.valid:focus-within,
-      &.valid {
-        border-bottom: 1px solid $valid;
-      }
-
-      // &.invalid {
-      //   border-bottom: 1px solid $invalid;
-      // }
-
-      // &.valid {
-      //   border-bottom: 1px solid $valid;
-      // }
-
-      &.invalid::after {
-        @extend :focus-within::after;
-        color: $invalid;
-      }
-
-      &.valid::after {
-        @extend :focus-within::after;
-        animation: fadeOut 1500ms cubic-bezier(0.175, 0.885, 0.32, 1.275)
-          forwards;
-      }
-
-      &.timestamp.invalid::after {
-        @extend :focus-within::after;
-        color: $invalid;
-        content: $timestampDefPattern;
-      }
-
-      &.timestamp.valid::after {
-        opacity: 0;
-        content: $timestampDefPattern;
-      }
-
-      &.text-area.invalid::after {
-        @extend :focus-within::after;
-        color: grey;
-        content: $textDefPattern;
-        letter-spacing: unset;
-        top: 0.7rem;
-      }
-
-      &.text-area.valid::after {
-        animation: fadeOutSpecial 1500ms cubic-bezier(0.175, 0.885, 0.32, 1.275)
-          forwards;
+      &:focus-within {
         top: 0.5rem;
-      }
-
-      // hide/show additional UI message to user
-      &.text-area.valid > textarea,
-      &.text-area.invalid > textarea {
-        opacity: 1;
-
-        &.empty:not(:focus) {
-          opacity: 0;
-        }
       }
     }
 
-    // EXTRACT TO OWN COMPONENT
-    .radio-group {
-      display: grid;
-      grid-template-columns: repeat(auto-fit, minmax(auto, 25%));
-      justify-content: space-around;
-      justify-items: left;
+    &:focus-within label:not(input) {
+      font-size: 0.5rem;
+      transform: translateY(-100%);
+      transition: transform 300ms ease-out, font-size 500ms ease-out 300ms;
+    }
+
+    label {
+      bottom: 0;
+      color: tint($color2, $tint50);
+      left: 0;
+      line-height: 1.5rem;
       padding-left: 5px;
+      position: absolute;
+      top: auto;
+      transition: font-size 500ms ease-out 300ms, transform 300ms ease-out;
 
-      label.radio {
-        cursor: pointer;
-        width: min-content;
+      &.hasValue {
+        font-size: 0.5rem;
+        transform: translateY(-100%);
+      }
 
-        &:hover input[type="radio"]::after {
+      &.hasValue~input {
+        top: 50%;
+      }
+
+      &.hasValue~textarea {
+        top: -0.5rem;
+        // margin-top: 0.5rem;
+      }
+    }
+
+    input,
+    textarea {
+      background-color: transparent;
+      border: none;
+      bottom: 0;
+      font-size: inherit;
+      left: 0;
+      outline: none;
+      padding-left: 5px;
+      top: 0;
+      width: 100%;
+      z-index: 1;
+    }
+
+    textarea {
+      opacity: 0;
+      position: relative;
+      white-space: pre-line;
+
+      &::placeholder {
+        color: tint($color2, $tint75);
+        font-size: medium;
+        font-style: initial;
+        font-variant-caps: all-petite-caps;
+        position: relative;
+      }
+
+      &:focus {
+        font-style: italic;
+        opacity: 1;
+        resize: none;
+        top: 0.5rem;
+      }
+    }
+
+    &:focus-within::after,
+    &.invalid::after,
+    &.valid::after {
+      animation: fadeIn 1300ms cubic-bezier(0.175, 0.885, 0.32, 1.275);
+      content: $strDefPattern;
+      bottom: 0;
+      color: $color2;
+      font-size: 0.7rem;
+      font-variant: unicase;
+      line-height: 1.5rem;
+      padding-right: 5px;
+      position: absolute;
+      right: 0;
+      top: auto;
+      text-transform: lowercase;
+      transform: translateY(-100%);
+    }
+
+    &::before:focus {
+      // SOME STUFF HERE TO ILLUSTRATE ACTIVE INPUT
+    }
+
+    &.invalid:focus-within {
+      border-bottom: 1px solid $warning;
+    }
+
+    &.invalid {
+      border-bottom: 1px solid $invalid;
+    }
+
+    &.valid:focus-within,
+    &.valid {
+      border-bottom: 1px solid $valid;
+    }
+
+    // &.invalid {
+    //   border-bottom: 1px solid $invalid;
+    // }
+
+    // &.valid {
+    //   border-bottom: 1px solid $valid;
+    // }
+
+    &.invalid::after {
+      @extend :focus-within::after;
+      color: $invalid;
+    }
+
+    &.valid::after {
+      @extend :focus-within::after;
+      animation: fadeOut 1500ms cubic-bezier(0.175, 0.885, 0.32, 1.275) forwards;
+    }
+
+    &.timestamp.invalid::after {
+      @extend :focus-within::after;
+      color: $invalid;
+      content: $timestampDefPattern;
+    }
+
+    &.timestamp.valid::after {
+      opacity: 0;
+      content: $timestampDefPattern;
+    }
+
+    &.text-area.invalid::after {
+      @extend :focus-within::after;
+      color: grey;
+      content: $textDefPattern;
+      letter-spacing: unset;
+      top: 0.7rem;
+    }
+
+    &.text-area.valid::after {
+      animation: fadeOutSpecial 1500ms cubic-bezier(0.175, 0.885, 0.32, 1.275) forwards;
+      top: 0.5rem;
+    }
+
+    // hide/show additional UI message to user
+    &.text-area.valid>textarea,
+    &.text-area.invalid>textarea {
+      opacity: 1;
+
+      &.empty:not(:focus) {
+        opacity: 0;
+      }
+    }
+  }
+
+  // EXTRACT TO OWN COMPONENT
+  .radio-group {
+    display: grid;
+    grid-template-columns: repeat(auto-fit, minmax(auto, 25%));
+    justify-content: space-around;
+    justify-items: left;
+    padding-left: 5px;
+
+    label.radio {
+      cursor: pointer;
+      width: min-content;
+
+      &:hover input[type="radio"]::after {
+        @extend input[type="radio"]::after;
+        background-color: tint($color1, $tint50);
+        content: "";
+      }
+
+      input[type="radio"] {
+        appearance: none;
+        cursor: inherit;
+        outline: none;
+        position: relative;
+
+        &::before {
+          border: 1px solid $color1;
+          border-radius: .3rem;
+          content: "";
+          height: 18px;
+          position: absolute;
+          transform: translateX(-50%) translateY(-50%);
+          width: 18px;
+        }
+
+        &::after {
+          border-radius: .2rem;
+          height: 12px;
+          position: absolute;
+          transform: translateX(-50%) translateY(-50%);
+          width: 12px;
+        }
+
+        &:checked::after {
           @extend input[type="radio"]::after;
-          background-color: tint($color1, $tint50);
+          background-color: $color1;
           content: "";
         }
+      }
+
+      @include for-size(desktop-up) {
+        width: max-content;
 
         input[type="radio"] {
-          appearance: none;
-          cursor: inherit;
-          outline: none;
-          position: relative;
-
-          &::before {
-            border: 1px solid $color1;
-            border-radius: .3rem;
-            content: "";
-            height: 18px;
-            position: absolute;
-            transform: translateX(-50%) translateY(-50%);
-            width: 18px;
-          }
-
-          &::after {
-            border-radius: .2rem;
-            height: 12px;
-            position: absolute;
-            transform: translateX(-50%) translateY(-50%);
-            width: 12px;
-          }
-
-          &:checked::after {
-            @extend input[type="radio"]::after;
-            background-color: $color1;
-            content: "";
-          }
-        }
-
-        @include for-size(desktop-up) {
-          width: max-content;
-
-          input[type="radio"] {
-            margin-left: $spacingLarge;
-          }
+          margin-left: $spacingLarge;
         }
       }
     }
   }
 }
+
 
 p.form-field-msg,
 p.group-field-msg {
@@ -252,7 +253,7 @@ p.group-field-msg {
   color: $invalid;
   font-size: 0.85rem;
   font-style: italic;
-  margin: 1rem auto 0;
+  // margin: 1rem auto 0;
 
   &.hidden {
     animation: fadeOut 1500ms cubic-bezier(0.175, 0.885, 0.32, 1.275) forwards;

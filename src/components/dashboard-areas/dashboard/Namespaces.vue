@@ -104,7 +104,7 @@ export default {
         } else {
           return;
         }
-      }, 1500);
+      }, 2000);
     },
     deleteNS: function(namespace) {
       // this.$http
