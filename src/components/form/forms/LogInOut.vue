@@ -121,6 +121,11 @@ export default {
       }
     }
   },
+  mounted() {
+    if (this.$store.state.signedIn) {
+      this.signedIn = true;
+    }
+  },
   methods: {
     signIn: function() {
       Auth.signIn(this.formResponses.username, this.formResponses.password)
@@ -128,8 +133,7 @@ export default {
           console.log(user);
           this.$store.state.signedIn = !!user;
           this.$store.state.user = user;
-          this.signedIn = true;
-          this.$store.state.token = user.signInUserSession.idToken.jwtToken;
+          this.signedIn = !!user;
           this.currentUserInfo();
         })
         .catch(err => console.log(err));
@@ -140,7 +144,7 @@ export default {
           this.$store.state.signedIn = !!data;
           this.$store.state.user = null;
           console.log(data);
-          this.signedIn = false;
+          this.signedIn = !!data;
         })
         .catch(err => console.log(err));
     },

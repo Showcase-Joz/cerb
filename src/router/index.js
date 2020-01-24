@@ -1,6 +1,7 @@
 import Vue from "vue";
 import Router from "vue-router";
 import Home from "../views/Home.vue";
+import { Auth } from "aws-amplify";
 
 Vue.use(Router);
 
@@ -92,7 +93,7 @@ const router = new Router({
 router.beforeResolve(async (to, from, next) => {
   if (to.matched.some(record => record.meta.requiresAuth)) {
     try {
-      await Vue.$Amplify.Auth.currentAuthenticatedUser();
+      await Auth.currentAuthenticatedUser();
       next();
     } catch (err) {
       next({
