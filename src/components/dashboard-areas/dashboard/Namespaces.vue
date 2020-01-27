@@ -54,7 +54,7 @@ export default {
       this.fetchNamespaces(initialQuery + maxLimit);
     }
   },
-  mounted() {
+  updated() {
     this.focusItems();
   },
   methods: {
@@ -102,7 +102,7 @@ export default {
         if (childItemExists > 1) {
           document.getElementById("createNew").nextElementSibling.focus();
         } else {
-          return;
+          document.getElementById("createNew").focus();
         }
       }, 2000);
     },

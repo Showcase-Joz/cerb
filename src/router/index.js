@@ -33,6 +33,8 @@ const router = new Router({
       // which is lazy-loaded when the route is visited.
       component: () =>
         import(/* webpackChunkName: "dashboard" */ "../views/Dashboard.vue"),
+        meta: { requiresAuth: true },
+
       children: [
         {
           path: "/",
@@ -40,7 +42,8 @@ const router = new Router({
           component: () =>
             import(
               /* webpackChunkName: "get" */ "../components/dashboard-areas/dashboard/Namespaces.vue"
-            )
+            ),
+          meta: { requiresAuth: true }
         },
         {
           path: "namespace/",
@@ -48,7 +51,8 @@ const router = new Router({
           component: () =>
             import(
               /* webpackChunkName: "get" */ "../components/dashboard-areas/dashboard/Name.vue"
-            )
+            ),
+          meta: { requiresAuth: true }
         },
         {
           path: "test",
@@ -66,7 +70,8 @@ const router = new Router({
       // route level code-splitting
       // this generates a separate chunk (get.[hash].js) for this route
       // which is lazy-loaded when the route is visited.
-      component: () => import(/* webpackChunkName: "get" */ "../views/Get.vue")
+      component: () => import(/* webpackChunkName: "get" */ "../views/Get.vue"),
+      meta: { requiresAuth: true }
     },
     {
       path: "/post",
@@ -75,7 +80,8 @@ const router = new Router({
       // this generates a separate chunk (post.[hash].js) for this route
       // which is lazy-loaded when the route is visited.
       component: () =>
-        import(/* webpackChunkName: "post" */ "../views/Post.vue")
+        import(/* webpackChunkName: "post" */ "../views/Post.vue"),
+      meta: { requiresAuth: true }
     },
     {
       path: "/about",

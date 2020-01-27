@@ -6,14 +6,14 @@ Vue.use(Vuex);
 export const store = new Vuex.Store({
   state: {
     signedIn: false,
-    user: null,
-    token: null,
-    session: null
+    user: null
+    // token: null,
+    // session: null
   },
   getters: {
-    collectSessionToken: state => {
-      return state.user.signInUserSession.idToken.jwtToken;
-    }
+    // activeUser: state => {
+    //   return state.signedIn;
+    // }
   },
   mutations: {
     // SET_USER_DATA (state, userData) {
@@ -26,6 +26,17 @@ export const store = new Vuex.Store({
     // CLEAR_USER_DATA () {
     //   localStorage.removeItem('user')
     //   location.reload()
+    // }
+    // setActiveUser: state => {
+    //   state.signedIn = true;
+    // },
+    // unsetActiveUser: state => {
+    //   state.signedIn = false;
+    // }
+  },
+  actions: {
+    // activeUser: ({ commit }, payload) => {
+    //   commit("activeUser", payload);
     // }
   }
 });

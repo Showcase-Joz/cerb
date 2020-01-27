@@ -11,7 +11,12 @@ export default {
   name: "app",
   components: {
     Header
-  }
+  },
+   methods: {
+     forceRefresh: function() {
+       this.$forceUpdate();
+     }
+   }
 };
 </script>
 

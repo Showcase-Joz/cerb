@@ -1,6 +1,6 @@
 <template>
-	<div>
-		<h3>You are now logged {{!signedIn ? "out" : "in"}} as user</h3>
+  <div>
+    <h3>You are now logged {{!signedIn ? "out" : "in"}} as user</h3>
 		<transition name="fade">
 			<form v-if="!signedIn" id="loginForm" @submit.prevent="signIn">
 				<div class="form-group username">
@@ -68,31 +68,20 @@
 
 				<div class="submit">
 					<input type="submit" value="Login" class="btn btn-submit" />
-					<a>Sign up</a>
+					<router-link to="/register">Register</router-link>
 				</div>
 			</form>
 		</transition>
-
-		<transition name="fade">
-			<form v-if="signedIn" id="logoutForm" @submit.prevent="signOut">
-				<div class="submit">
-					<input type="submit" value="Logout" class="btn btn-submit" />
-				</div>
-			</form>
-		</transition>
-		$store {{ this.$store.state.signedIn }} ||
-		<br />
-		local {{ this.signedIn }}
-	</div>
+  </div>
 </template>
 
 <script>
-import { required } from "vuelidate/lib/validators";
 import { Auth } from "aws-amplify";
+import { required } from "vuelidate/lib/validators";
 const hasValueLength = value => value.length >= 1;
 export default {
-	name: "formInput",
-	data() {
+  name: "login",
+  data() {
 		return {
 			formResponses: {
 				username: "joz@showcaseimagery.com",
@@ -112,8 +101,8 @@ export default {
 				hasValueLength
 			}
 		}
-	},
-	created() {
+  },
+  created() {
 		if (this.$store.state.signedIn) {
 			this.signedIn = true;
 		}
@@ -134,9 +123,9 @@ export default {
 		} catch (err) {
 			console.log(err);
 		}
-	},
-	methods: {
-		signIn: function() {
+  },
+  methods: {
+    signIn: function() {
 			Auth.signIn(this.formResponses.username, this.formResponses.password)
 				.then(user => {
 					// console.log(user);
@@ -147,31 +136,14 @@ export default {
 					console.warn("logged in!");
 				})
 				.catch(err => console.log(err));
-		},
-		signOut: function() {
-			Auth.signOut()
-				.then(data => {
-					this.$store.state.signedIn = !!data;
-					this.$store.state.user = null;
-					console.warn("logged out!");
-          this.signedIn = !!data;
-				})
-				.catch(err => console.log(err));
 		}
-		// currentUserInfo: function() {
-		// 	Auth.currentSession()
-		// 		.then(sessionData => {
-		// 			console.log(sessionData);
-		// 		})
-		// 		.catch(err => {
-		// 			console.error(err);
-		// 		});
-		// }
-	}
-};
+  }
+}
 </script>
 
 <style lang="scss" src="@/styles/_form.scss" scoped></style>
+<style lang="scss" src="@/styles/animations/_fade.scss" scoped></style>
+<style lang="scss" src="@/styles/buttons/_defaultButton.scss" scoped></style>
 <style lang="scss" scoped>
 #loginForm {
 	border: 1px $color2 solid;
@@ -225,52 +197,5 @@ export default {
 			text-transform: lowercase;
 		}
 	}
-}
-
-#logoutForm {
-	height: 320px;
-	position: relative;
-
-	& .submit {
-		bottom: 0;
-		position: absolute;
-		transform: translateX(50%);
-		width: 50%;
-	}
-}
-
-.btn {
-	align-self: end;
-	border: none;
-	background-color: #555;
-	color: #fff;
-	display: inline-block;
-	grid-area: submit;
-	font-size: larger;
-	height: min-content;
-	padding: 7px 20px;
-	cursor: pointer;
-
-	&:hover {
-		background-color: #666;
-	}
-}
-.btn-submit {
-	background-color: $color1;
-}
-
-.fade-enter {
-	opacity: 0;
-}
-.fade-enter-active {
-	transition: opacity 1s;
-}
-
-.fade-leave {
-	// opacity: 1;
-}
-.fade-leave-active {
-	transition: opacity 1s;
-	opacity: 0;
 }
 </style>
