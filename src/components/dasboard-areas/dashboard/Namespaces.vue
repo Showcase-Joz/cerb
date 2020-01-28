@@ -39,7 +39,6 @@ export default {
 			selectedNS: null,
 			loading: false,
 			id: "namespaces",
-			componentKey: 0
 		};
 	},
 	beforeMount() {
@@ -74,18 +73,20 @@ export default {
 		updateFromCreated: function(newNS) {
 			const justNewNS = initialMeta + andFilter + newNS;
 			this.$emit("handleNewNS", newNS);
-			this.fetchNamespaces(justNewNS);
+      this.fetchNamespaces(justNewNS);
+      
 		},
 		handleClick: function(namespace) {
 			this.selectedNS = namespace;
 			this.$emit("handleCurrentNS", this.selectedNS);
-			this.$router.push("/dashboard/namespace/");
+      this.$router.push("/dashboard/namespace/");
+      const clearSearchInput = ""
+      this.$emit("handleNewNS", clearSearchInput);
 		},
 		deleteNS: function(namespace) {
 			this.$http.delete(initialMeta + "/" + namespace).then(response => {
 				if (response.ok === true) {
 					this.fetchNamespaces(initialMeta + maxLimit);
-					this.$emit("forceRenderMethod");
 				}
 			});
 			// console.log(
