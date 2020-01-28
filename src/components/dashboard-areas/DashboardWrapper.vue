@@ -1,11 +1,11 @@
 <template>
   <div class="dashboard-wrapper">
     <transition name="fade">
-    <router-view
-      :passNsSearchString="passNsSearchString"
-      :passNsSelectedString="this.userSelectedNS"
-      v-on:userSelectedNS="handleUserSelectedNS"
-    />
+      <router-view
+        :passNsSearchString="passNsSearchString"
+        :passNsSelectedString="this.userSelectedNS"
+        v-on:userSelectedNS="handleUserSelectedNS"
+      />
     </transition>
   </div>
 </template>

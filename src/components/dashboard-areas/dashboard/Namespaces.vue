@@ -1,7 +1,7 @@
 <template>
   <div class="dashboard-main">
     <div class="loading" v-if="loading">Loading...</div>
-    <CreateItem />
+    <CreateItem :returnSolo="updateFromCreated"/>
     <div
       tabindex="0"
       class="item"
@@ -19,11 +19,11 @@
 </template>
 <script>
 import CreateItem from "../../form/CreateItem";
-// const initialMeta = "metadata/namespaces";
+const initialMeta = "metadata/namespaces";
 const initialQuery = "metadata/namespaces?";
-const filter = "filter=";
+const filter = "?filter=";
 // const andFilter = "&filter=";
-const maxLimit = "limit=0";
+const maxLimit = "?limit=0";
 const andMaxLimit = "&limit=0";
 export default {
   name: "DashboardNamespaces",
@@ -84,6 +84,11 @@ export default {
         this.fetchNamespaces(updateNamespaces);
       }
     },
+    updateFromCreated: function(newNS) {
+      const justNewNS = initialMeta + filter + newNS;
+      this.$emit("handleNewNS", newNS);
+      this.fetchNamespaces(justNewNS);
+    },
     handleClick: function(namespace) {
       this.$emit("userSelectedNS", namespace);
       this.fetchSearchResult();
@@ -107,13 +112,13 @@ export default {
       }, 2000);
     },
     deleteNS: function(namespace) {
-      // this.$http
-      //   .delete(initialMeta + "/" + namespace)
-      //   .then(response => {
-      //     if (response.ok === true) {
-      //       this.fetchNamespaces(initialMeta + maxLimit);
-      //     }
-      //   });
+      this.$http
+        .delete(initialMeta + "/" + namespace)
+        .then(response => {
+          if (response.ok === true) {
+            this.fetchNamespaces(initialMeta + maxLimit);
+          }
+        });
       console.log(
         "this deletes " + namespace + ", uncomment the code to continue"
       );

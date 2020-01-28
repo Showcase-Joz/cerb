@@ -12,11 +12,11 @@ export default {
   components: {
     Header
   },
-   methods: {
-     forceRefresh: function() {
-       this.$forceUpdate();
-     }
-   }
+  methods: {
+    forceRefresh: function() {
+      this.$forceUpdate();
+    }
+  }
 };
 </script>
 
