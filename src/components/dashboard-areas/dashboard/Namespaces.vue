@@ -1,14 +1,16 @@
 <template>
   <div class="dashboard-main">
     <div class="loading" v-if="loading">Loading...</div>
-    <CreateItem v-on:passNewItem="createUserNS" />
+    <CreateItem />
     <div
       tabindex="0"
       class="item"
-      v-for="(namespace, index) in namespaceResults"
       :key="index"
+      v-for="(namespace, index) in namespaceResults"
       @click="handleClick(namespace)"
       @keyup.enter="handleClick(namespace)"
+      @keyup.right.down.prevent="focusNext"
+      @keyup.left.up.prevent="focusPrevious"
     >
       <span @click="deleteNS(namespace)">x</span>
       {{ namespace }}
@@ -17,15 +19,18 @@
 </template>
 <script>
 import CreateItem from "../../form/CreateItem";
-const initialMeta = "metadata/namespaces";
-const andFilter = "?filter=";
-const maxLimit = "?limit=1000";
+// const initialMeta = "metadata/namespaces";
+const initialQuery = "metadata/namespaces?";
+const filter = "filter=";
+// const andFilter = "&filter=";
+const maxLimit = "limit=0";
+const andMaxLimit = "&limit=0";
 export default {
   name: "DashboardNamespaces",
-  inheritAttrs: false,
   props: {
-    userInputMeta: {
-      type: Object
+    passNsSearchString: {
+      type: String,
+      default: ""
     }
   },
   components: {
@@ -33,43 +38,25 @@ export default {
   },
   data() {
     return {
-      namespaceResults: [],
-      searchInputUpdatedValue: null,
-      selectedNS: null,
-      passedNS: null,
+      id: "Namespace",
+      lastSearchInputValue: "",
       loading: false,
-      id: "Namespace"
+      namespaceResults: []
     };
   },
   beforeMount() {
-    if (this.$attrs.selectedNS === null) {
-      this.fetchNamespaces(initialMeta + maxLimit);
-    } else if (this.$attrs.selectedNS !== null) {
-      const slelectedNS =
-          initialMeta + andFilter + this.$attrs.selectedNS;
-        this.fetchNamespaces(slelectedNS);
-    } else {
-      error => {
-        console.log("Error: ", error);
-      };
+    if (this.passNsSearchString !== "") {
+      const updateNamespaces =
+        initialQuery + filter + this.passNsSearchString + andMaxLimit;
+      this.fetchNamespaces(updateNamespaces);
+      this.lastSearchInputValue = this.passNsSearchString;
+    } else if (this.passNsSearchString === "") {
+      this.fetchNamespaces(initialQuery + maxLimit);
     }
   },
-  // created() {
-  //   if ( Object.keys(this.userInputMeta).length === 0 ) {
-  //     console.log("test");
-  //     // no value in searchbar
-  //     const clearData = null;
-  //     this.$emit("clearSearch", clearData);
-  //     console.log("clearned");
-      
-    
-  //   } else if ( this.userInputMeta.namespace.length !== 0 ) {
-  //     console.log("tets2");
-  //     // has value in searchbar
-
-      
-  //   }
-  // },
+  updated() {
+    this.focusItems();
+  },
   methods: {
     fetchNamespaces: function(stringSuffix) {
       this.loading = true;
@@ -79,54 +66,68 @@ export default {
             this.loading = false;
             this.namespaceResults = response.body.namespaces;
           } else if (response.ok === false) {
-            this.resultBoolean = false;
+            console.log("there are NO results for some reason!");
           }
         },
         error => {
+          this.loading = false;
           console.log("Error: ", error);
         }
       );
     },
-    updateNamespaces: function() {
-      if (this.searchInputUpdatedValue.namespace.length < 1) {
-        this.fetchNamespaces(initialMeta + maxLimit);
+    fetchSearchResult: function() {
+      if (this.passNsSearchString === "") {
+        this.fetchNamespaces(initialQuery + maxLimit);
       } else {
-        const updatedMeta =
-          initialMeta + andFilter + this.searchInputUpdatedValue.namespace;
-        this.fetchNamespaces(updatedMeta);
+        const updateNamespaces =
+          initialQuery + filter + this.passNsSearchString + andMaxLimit;
+        this.fetchNamespaces(updateNamespaces);
       }
     },
-    createUserNS: function(passedNS) {
-      this.passedNS = passedNS;
-    },
-    updateFromCreated: function(newNS) {
-      const justNewNS = initialMeta + andFilter + newNS;
-      this.$emit("handleNewNS", newNS);
-      this.fetchNamespaces(justNewNS);
-    },
     handleClick: function(namespace) {
-      this.selectedNS = namespace;
-      this.$emit("handleCurrentNS", this.selectedNS);
-      this.$emit("clearSearch", true);
+      this.$emit("userSelectedNS", namespace);
+      this.fetchSearchResult();
       this.$router.push("/dashboard/namespace/");
     },
+    focusNext: function() {
+      document.activeElement.nextSibling.focus();
+    },
+    focusPrevious: function() {
+      document.activeElement.previousSibling.focus();
+    },
+    focusItems: function() {
+      setTimeout(function() {
+        const childItemExists = document.getElementById("createNew")
+          .parentElement.childElementCount;
+        if (childItemExists > 1) {
+          document.getElementById("createNew").nextElementSibling.focus();
+        } else {
+          document.getElementById("createNew").focus();
+        }
+      }, 2000);
+    },
     deleteNS: function(namespace) {
-      // this.$http
-      //   .delete(initialMeta + "/" + namespace)
-      //   .then(response => {
-      //     if (response.ok === true) {
-      //       this.fetchNamespaces(initialMeta + maxLimit);
-      //     }
-      //   });
+      console.log(initialMeta + "/" + namespace);
+      
+      this.$http
+        .delete(initialMeta + "/" + namespace)
+        .then(response => {
+          if (response.ok === true) {
+            console.log(initialMeta + maxLimit);
+            
+            this.fetchNamespaces(initialMeta + maxLimit);
+
+          }
+        });
       console.log(
         "this deletes " + namespace + ", uncomment the code to continue"
       );
     }
   },
   watch: {
-    userInputMeta: function(newVal) {
-      this.searchInputUpdatedValue = newVal;
-      this.updateNamespaces();
+    passNsSearchString: function(newVal, oldVal) {
+      this.lastSearchInputValue = oldVal;
+      this.fetchSearchResult();
     }
   }
 };
@@ -174,12 +175,18 @@ export default {
     //   opacity: 0.25;
     // }
 
-    &:hover {
+    &:focus {
+      box-shadow: 0 0 10px 1px $color2;
+      outline: none;
+    }
+
+    &:hover,
+    &:focus {
       background-color: $color1;
       border-radius: 0.4rem;
       border-width: 3px;
       color: $color2;
-      transition: all 0.3s ease-in;
+      transition: all 0.15s ease-in;
 
       .inner-item {
         background-color: $color1;
@@ -188,7 +195,7 @@ export default {
         font-size: 1.1rem;
         height: calc(100% - 0.5rem);
         width: calc(100% - 0.5rem);
-        transition: all 0.3s ease-in;
+        transition: all 0.15s ease-in;
       }
     }
 
@@ -204,9 +211,10 @@ export default {
     }
   }
   .loading {
+    color: white;
     position: absolute;
-    top: 10px;
-    right: 10px;
+    top: 20px;
+    right: 20px;
   }
 }
 </style>

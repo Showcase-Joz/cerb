@@ -16,15 +16,16 @@
             :class="{
               hasValue: $v.formResponses.namespace.hasValueLength
             }"
-            >Search content...</label
-          >
+          >Search content...</label>
           <input
+            id="searchInput"
             type="text"
             name="namespace"
             v-model="formResponses.namespace"
             v-on:input="cleanInputs"
             @blur="$v.formResponses.namespace.$touch(), onBlur()"
             @focus="onFocus()"
+            @keyup.enter="focusItems"
           />
         </div>
         <p class="form-field-msg" v-if="!$v.formResponses.namespace.maxLength">
@@ -41,8 +42,17 @@ import { maxLength, helpers } from "vuelidate/lib/validators";
 const hasValueLength = value => value.length >= 1;
 const strDefPattern = helpers.regex("strDefPattern", /^[\d+\w+^.^-]+$/);
 let metaObj = {};
+
 export default {
   name: "search-input",
+  props: {
+    clearSearchValue: {
+      type: Boolean
+    },
+    userInputMeta: {
+      type: Object
+    }
+  },
   data() {
     return {
       hasFocus: false,
@@ -84,11 +94,24 @@ export default {
         this.$emit("handleMeta", metaObj);
       }
     },
+    focusItems: function() {
+      document.activeElement.blur();
+      document.getElementById("createNew").nextElementSibling.focus();
+      // this.$emit("keyup", true);
+    },
     onFocus() {
       this.hasFocus = true;
     },
     onBlur() {
       this.hasFocus = false;
+    }
+  },
+  watch: {
+    clearSearchValue(newVal) {
+      if (newVal) {
+        this.formResponses.namespace = "";
+        // document.getElementById('searchInput').value = "";
+      }
     }
   }
 };

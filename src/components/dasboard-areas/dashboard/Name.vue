@@ -1,50 +1,52 @@
 <template>
-  <transition name="fade">
+  <div class="dashboard-main">
+    <div class="loading" v-if="loading">Loading...</div>
+    <CreateItem :returnSolo="updateFromCreated" :name="newNS" />
+    <div
+      tabindex="0"
+      class="item"
+      v-for="(object, index) in fetchedNames.events"
+      :key="index"
+      @click="handleClick(object.event.name)"
+    >{{ object.event.name }}</div>
+  </div>
+
+  <!-- <transition name="fade">
     <div class="dashboard-main">
       <div class="loading" v-if="loading">Loading...</div>
-      <CreateItem :returnSolo="updateFromCreated" :name="newNS" @createdNewN="selectedN = $event" />
-      <div
-        class="item"
-        v-for="(object, index) in fetchedNames.events"
-        :key="index"
-        @click="handleClick(object.event.name)"
-      >{{ object.event.name }}</div>
-    </div>
-    </transition>
-
-    <!-- <div  class="dashboard-main" v-if="this.fetchedNames.count === undefined">
-    <div class="item" v-for="(object, index) in fetchedNames.events" :key="index">
-      <div class="response-n">{{ object.event.name }}</div>
-      <div class="response-extras">
-        <div
-          class="response-type"
-          title="the type of log {debug, info, warning, error}"
-        >{{ object.event.type }}</div>
-        <div class="log-version" title="current verson of this log">v: {{ object.event.version }}</div>
-        <div class="status-group">
+      <CreateItem :returnSolo="updateFromCreated" :name="newNS" />
+      <div class="item" v-for="(object, index) in fetchedNames.events" :key="index">
+        <div class="response-n">{{ object.event.name }}</div>
+        <div class="response-extras">
           <div
-            class="status-setting"
-            title="an external large details stored on S3"
-            :class="{
+            class="response-type"
+            title="the type of log {debug, info, warning, error}"
+          >{{ object.event.type }}</div>
+          <div class="log-version" title="current verson of this log">v: {{ object.event.version }}</div>
+          <div class="status-group">
+            <div
+              class="status-setting"
+              title="an external large details stored on S3"
+              :class="{
                 'status-green': object.haslargedetails,
                 'status-red': !object.haslargedetails
               }"
-          ></div>
-          <div
-            class="status-setting"
-            title="this log has details available"
-            :class="{
+            ></div>
+            <div
+              class="status-setting"
+              title="this log has details available"
+              :class="{
                 'status-green': object.weredetailsfound,
                 'status-red': !object.weredetailsfound
               }"
-          ></div>
+            ></div>
+          </div>
         </div>
+        <div class="response-n">{{ object.event.name }}</div>
+        <p class="response-desc">{{ object.event.description }}</p>
       </div>
-      <div class="response-n">{{ object.event.name }}</div>
-      <p class="response-desc">{{ object.event.description }}</p>
     </div>
-    </div> -->
-  
+  </transition>-->
 </template>
 <script>
 import CreateItem from "../../form/CreateItem";
@@ -78,6 +80,7 @@ export default {
     const queryNS = "events?namespace=" + this.selectedNS + "&offset=25";
     if (this.selectedNS !== null) {
       this.fetchName(queryNS);
+      this.focusItems();
     } else {
       console.log("local");
     }
@@ -98,19 +101,28 @@ export default {
       );
     },
     updateFromCreated: function() {
-      const newNsAndN = initialMeta + this.newNS + "/names";
-      // const newNsAndN = initialMeta + andFilter + newN;
-      // this.$emit("handleNewN", newN);
-      this.fetchName(newNsAndN);
+      const newSpaceAndName =
+        initialMeta +
+        "/" +
+        this.selectedNS +
+        "/" +
+        this.formResponses.createNewItem;
+      console.log(newSpaceAndName);
+
+      this.fetchNames(newSpaceAndName);
     },
     handleClick: function(name) {
       this.selectedN = name;
-      this.$emit("handleCurrentN", this.selectedN);
-    }
-  },
-  watch: {
-    userInputMeta: function(newVal) {
-      this.selectedN = newVal;
+      this.focusItems();
+    },
+    focusItems: function() {
+      setTimeout(function() {
+        const childItemExists = document.getElementById("createNew")
+          .parentElement.childElementCount;
+        if (childItemExists > 1) {
+          document.getElementById("createNew").nextElementSibling.focus();
+        }
+      }, 1500);
     }
   }
 };

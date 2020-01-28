@@ -1,45 +1,67 @@
 <template>
-  <label class="item item-create" v-on:keyup.enter.prevent="sendCreate">
-    <span class="create-title">Create</span>
+  <label
+    id="createNew"
+    class="item item-create"
+    tabindex="-1"
+    v-on:keyup.enter.prevent="handleClick"
+  >
+    <span class="create-title">
+      Create a new
+      <strong>{{ this.$parent.$data.id }}</strong>
+      {{ this.$parent.$data.id === "Name" ? "for this namespace" : "" }}
+    </span>
     <div class="form-group">
       <input
         v-model="formResponses.createNewItem"
-        v-on:input="handleCreate"
+        v-on:input="handleInput"
         @blur="$v.formResponses.createNewItem.$touch()"
         class="create-input"
         name="newItem"
-        placeholder="Create a New Item..."
+        :placeholder="
+          'Start typing here to create a new ' + this.$parent.$data.id
+        "
         type="text"
       />
       <button
         class="add-created"
         :class="{
           invalid: $v.formResponses.createNewItem.$error,
-          valid: !$v.formResponses.createNewItem.$error && $v.formResponses.createNewItem.$dirty
+          valid:
+            !$v.formResponses.createNewItem.$error &&
+            $v.formResponses.createNewItem.$dirty
         }"
         type="submit"
-        @click="sendCreate"
+        @click="handleClick"
         :disabled="$v.formResponses.createNewItem.$error"
       >
-        Add
+        Add {{ this.$parent.$data.id }}
       </button>
     </div>
     <div class="errors">
-      <p class="form-field-msg" v-if="!$v.formResponses.createNewItem.minLength">
-        Please add a New Item with at least
+      <p
+        class="form-field-msg"
+        v-if="!$v.formResponses.createNewItem.minLength"
+      >
+        Please add a New {{ this.$parent.$data.id }} with at least
         {{ $v.formResponses.createNewItem.$params.minLength.min }}
         characters.
       </p>
-      <p class="form-field-msg" v-if="!$v.formResponses.createNewItem.maxLength">
-        Please add a New Item with no more than
+      <p
+        class="form-field-msg"
+        v-if="!$v.formResponses.createNewItem.maxLength"
+      >
+        Please add a New {{ this.$parent.$data.id }} with no more than
         {{ $v.formResponses.createNewItem.$params.maxLength.max }}
         characters.
       </p>
       <p
         class="form-field-msg"
-        v-if="!$v.formResponses.createNewItem.required && $v.formResponses.createNewItem.$dirty"
+        v-if="
+          !$v.formResponses.createNewItem.required &&
+            $v.formResponses.createNewItem.$dirty
+        "
       >
-        New Item must not be empty!
+        New {{ this.$parent.$data.id }} must not be empty!
       </p>
     </div>
   </label>
@@ -51,14 +73,11 @@ import {
   maxLength,
   helpers
 } from "vuelidate/lib/validators";
-const initialMeta = "metadata/";
+// const initialMeta = "metadata/";
 const hasValueLength = value => value.length >= 1;
 const strDefPattern = helpers.regex("strDefPattern", /^[\d+\w+^.^-]+$/);
 export default {
   name: "CreateItem",
-  props: {
-    returnSolo: Function
-  },
   data() {
     return {
       formResponses: {
@@ -78,41 +97,56 @@ export default {
     }
   },
   methods: {
-    handleCreate: function(event) {
+    handleInput: function(event) {
       const element = event.target;
       const value = element.value;
       this.$v.formResponses.createNewItem.$touch();
-      console.log(this.formResponses.createNewItem);
-      
+      this.$emit("passNewItem",this.formResponses.createNewItem);
       return (this.formResponses.createNewItem = value
         .replace(/\s/g, ".")
         .toLowerCase());
     },
-    sendCreate: function() {
-      // console.log(this.$parent.$data.id);
-      this.$emit('createdNewN', this.formResponses.createNewItem);
-      if (this.formResponses.createNewItem !== null && this.$parent.$data.id === "namespaces") {
-        console.log("sending data NS", this.formResponses.createNewItem);
-        this.$http
-          .put(initialMeta + "namespaces/" + this.formResponses.createNewItem)
-          .then(response => {
-            if (response.ok === true) {
-              this.returnSolo(this.formResponses.createNewItem)
-            }
-          });
-      } else if (this.formResponses.createNewItem !== null && this.$parent.$data.id === "names") {
-        console.log("sending data N", this.formResponses.createNewItem);
-        this.$http
-          .put(initialMeta + this.$attrs.name + "/" + this.formResponses.createNewItem)
-          .then(response => {
-            if (response.ok === true) {
-              this.returnSolo(this.formResponses.createNewItem)
-            }
-          });
+    handleClick: function() {
+      if (
+        this.formResponses.createNewItem.length > 0 &&
+        this.$parent.$data.id === "Namespace"
+      ) {
+        console.log("NS");
+        
+      } else if (
+        this.formResponses.createNewItem.length > 0 &&
+        this.$parent.$data.id === "Name"
+      ) {
+        console.log("N");
       } else {
-        console.log("not sending data");
+        this.$v.formResponses.createNewItem.$touch();
       }
     }
+    // sendCreate: function() {
+    //   // console.log(this.$parent.$data.id);
+    //   this.$emit('createdNewN', this.formResponses.createNewItem);
+    //   if (this.formResponses.createNewItem !== null && this.$parent.$data.id === "namespaces") {
+    //     console.log("sending data NS", this.formResponses.createNewItem);
+    //     this.$http
+    //       .put(initialMeta + "namespaces/" + this.formResponses.createNewItem)
+    //       .then(response => {
+    //         if (response.ok === true) {
+    //           this.returnSolo(this.formResponses.createNewItem)
+    //         }
+    //       });
+    //   } else if (this.formResponses.createNewItem !== null && this.$parent.$data.id === "names") {
+    //     console.log("sending data N", this.formResponses.createNewItem);
+    //     this.$http
+    //       .put(initialMeta + this.$attrs.name + "/" + this.formResponses.createNewItem)
+    //       .then(response => {
+    //         if (response.ok === true) {
+    //           this.returnSolo(this.formResponses.createNewItem)
+    //         }
+    //       });
+    //   } else {
+    //     console.log("not sending data");
+    //   }
+    // }
   }
 };
 </script>
@@ -233,7 +267,7 @@ export default {
           padding-right: 2.5rem;
           transition: all 350ms ease-in;
 
-          &:before {
+          &::before {
             content: "";
             border-bottom: 1px solid white;
             bottom: -9px;
@@ -243,8 +277,8 @@ export default {
             width: 150px;
           }
 
-          &:after {
-            content: "{...}";
+          &::after {
+            content: " {...}";
           }
 
           &:hover {

@@ -2,7 +2,7 @@
   <header>
     <div class="header-wrapper">
       <h1>
-        Typhus
+        Typhon
         <span
           class="version"
           :title="'Current vrsion of Cerberus is: ' + appVersion"
