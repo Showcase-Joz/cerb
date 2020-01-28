@@ -2,17 +2,23 @@
   <transition name="fade">
     <div class="dashboard-main">
       <div class="loading" v-if="loading">Loading...</div>
-      <CreateItem :returnSolo="updateFromCreated" :name="newNS" @createdNewN="selectedN = $event" />
+      <CreateItem
+        :returnSolo="updateFromCreated"
+        :name="newNS"
+        @createdNewN="selectedN = $event"
+      />
       <div
         class="item"
         v-for="(object, index) in fetchedNames.events"
         :key="index"
         @click="handleClick(object.event.name)"
-      >{{ object.event.name }}</div>
+      >
+        {{ object.event.name }}
+      </div>
     </div>
-    </transition>
+  </transition>
 
-    <!-- <div  class="dashboard-main" v-if="this.fetchedNames.count === undefined">
+  <!-- <div  class="dashboard-main" v-if="this.fetchedNames.count === undefined">
     <div class="item" v-for="(object, index) in fetchedNames.events" :key="index">
       <div class="response-n">{{ object.event.name }}</div>
       <div class="response-extras">
@@ -44,7 +50,6 @@
       <p class="response-desc">{{ object.event.description }}</p>
     </div>
     </div> -->
-  
 </template>
 <script>
 import CreateItem from "../../form/CreateItem";

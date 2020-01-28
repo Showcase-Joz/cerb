@@ -1,8 +1,8 @@
 <template>
   <div class="dashboard">
     <MainDashNav />
-    <SearchInput v-on:handleMeta="retainMeta" />
-    <DashboardWrapper :userInputMeta="passedMeta" />
+    <SearchInput v-on:handleMeta="retainMeta" :setNS="setNS" />
+    <DashboardWrapper :userInputMeta="passedMeta" v-on:selectedNS="passNS" />
   </div>
 </template>
 <script>
@@ -13,7 +13,8 @@ export default {
   name: "dashboard",
   data() {
     return {
-      passedMeta: {}
+      passedMeta: {},
+      setNS: null
     };
   },
   components: {
@@ -24,6 +25,9 @@ export default {
   methods: {
     retainMeta: function(metaObj) {
       this.passedMeta = metaObj;
+    },
+    passNS: function(createdNS) {
+      this.setNS = createdNS
     }
   }
 };

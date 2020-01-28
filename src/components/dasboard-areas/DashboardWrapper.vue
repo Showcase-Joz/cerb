@@ -5,6 +5,7 @@
       v-on:handleCurrentNS="retainCurrentNS"
       v-on:handleCurrentN="retainCurrentN"
       v-on:handleNewNS="retainNewNS"
+      :forceRenderMethod="forceRender"
       :selectedNS="currentNS"
       :selectedN="currentN"
       :newNS="createdNS"
@@ -35,6 +36,11 @@ export default {
     },
     retainNewNS: function(createdNS) {
       this.createdNS = createdNS;
+      this.$emit("selectedNS", createdNS)
+    },
+    forceRender: function() {
+      this.componentKey += 1;
+      console.log("test");
     }
   }
 };

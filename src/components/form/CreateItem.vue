@@ -15,7 +15,9 @@
         class="add-created"
         :class="{
           invalid: $v.formResponses.createNewItem.$error,
-          valid: !$v.formResponses.createNewItem.$error && $v.formResponses.createNewItem.$dirty
+          valid:
+            !$v.formResponses.createNewItem.$error &&
+            $v.formResponses.createNewItem.$dirty
         }"
         type="submit"
         @click="sendCreate"
@@ -25,19 +27,28 @@
       </button>
     </div>
     <div class="errors">
-      <p class="form-field-msg" v-if="!$v.formResponses.createNewItem.minLength">
+      <p
+        class="form-field-msg"
+        v-if="!$v.formResponses.createNewItem.minLength"
+      >
         Please add a New Item with at least
         {{ $v.formResponses.createNewItem.$params.minLength.min }}
         characters.
       </p>
-      <p class="form-field-msg" v-if="!$v.formResponses.createNewItem.maxLength">
+      <p
+        class="form-field-msg"
+        v-if="!$v.formResponses.createNewItem.maxLength"
+      >
         Please add a New Item with no more than
         {{ $v.formResponses.createNewItem.$params.maxLength.max }}
         characters.
       </p>
       <p
         class="form-field-msg"
-        v-if="!$v.formResponses.createNewItem.required && $v.formResponses.createNewItem.$dirty"
+        v-if="
+          !$v.formResponses.createNewItem.required &&
+            $v.formResponses.createNewItem.$dirty
+        "
       >
         New Item must not be empty!
       </p>
@@ -82,31 +93,41 @@ export default {
       const element = event.target;
       const value = element.value;
       this.$v.formResponses.createNewItem.$touch();
-      console.log(this.formResponses.createNewItem);
-      
+
       return (this.formResponses.createNewItem = value
-        .replace(/\s/g, ".")
+        .replace(/[\\. ,:-]/g, ".")
+        // .replace(/\s/g, ".")
         .toLowerCase());
     },
     sendCreate: function() {
       // console.log(this.$parent.$data.id);
-      this.$emit('createdNewN', this.formResponses.createNewItem);
-      if (this.formResponses.createNewItem !== null && this.$parent.$data.id === "namespaces") {
-        console.log("sending data NS", this.formResponses.createNewItem);
+      this.$emit("createdNewN", this.formResponses.createNewItem);
+      if (
+        this.formResponses.createNewItem !== null &&
+        this.$parent.$data.id === "namespaces"
+      ) {
         this.$http
           .put(initialMeta + "namespaces/" + this.formResponses.createNewItem)
           .then(response => {
             if (response.ok === true) {
-              this.returnSolo(this.formResponses.createNewItem)
+              this.returnSolo(this.formResponses.createNewItem);
             }
           });
-      } else if (this.formResponses.createNewItem !== null && this.$parent.$data.id === "names") {
+      } else if (
+        this.formResponses.createNewItem !== null &&
+        this.$parent.$data.id === "names"
+      ) {
         console.log("sending data N", this.formResponses.createNewItem);
         this.$http
-          .put(initialMeta + this.$attrs.name + "/" + this.formResponses.createNewItem)
+          .put(
+            initialMeta +
+              this.$attrs.name +
+              "/" +
+              this.formResponses.createNewItem
+          )
           .then(response => {
             if (response.ok === true) {
-              this.returnSolo(this.formResponses.createNewItem)
+              this.returnSolo(this.formResponses.createNewItem);
             }
           });
       } else {
@@ -121,7 +142,7 @@ export default {
   .item.item-create {
     background-color: shade($color2, $shade25);
     color: $color1;
-    cursor: default;
+    cursor: pointer;
     display: grid;
     grid-template-areas: "create-title";
     grid-column: 1 / span 1;
