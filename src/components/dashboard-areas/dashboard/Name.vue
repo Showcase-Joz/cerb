@@ -1,6 +1,7 @@
 <template>
   <div class="dashboard-main">
     <div class="loading" v-if="loading">Loading...</div>
+<<<<<<< HEAD:src/components/dasboard-areas/dashboard/Name.vue
     <CreateItem :returnSolo="updateFromCreated" :name="newNS" />
     <div
       tabindex="0"
@@ -47,22 +48,30 @@
       </div>
     </div>
   </transition>-->
+=======
+    <CreateItem />
+    <div
+      tabindex="0"
+      class="item"
+      v-for="(name, index) in fetchedNames.names"
+      :key="index"
+    >
+      {{ name }}
+    </div>
+  </div>
+>>>>>>> master:src/components/dashboard-areas/dashboard/Name.vue
 </template>
 <script>
 import CreateItem from "../../form/CreateItem";
 const initialMeta = "metadata/";
+const queryNames = "/names";
+const maxLimit = "?limit=0";
 export default {
   name: "Dashboard-Names",
-  inheritAttrs: false,
   props: {
-    userInputMeta: {
-      type: Object
-    },
-    selectedNS: {
-      type: String
-    },
-    newNS: {
-      type: String
+    passNsSelectedString: {
+      type: String,
+      default: ""
     }
   },
   components: {
@@ -71,22 +80,29 @@ export default {
   data() {
     return {
       fetchedNames: {},
+      lastUserSelection: "",
       loading: false,
-      selectedN: null,
       id: "names"
     };
   },
   beforeMount() {
+<<<<<<< HEAD:src/components/dasboard-areas/dashboard/Name.vue
     const queryNS = "events?namespace=" + this.selectedNS + "&offset=25";
     if (this.selectedNS !== null) {
       this.fetchName(queryNS);
+=======
+    if (this.passNsSelectedString !== "") {
+      const selectedFetchQuery =
+        initialMeta + this.passNsSelectedString + queryNames + maxLimit;
+      this.fetchNames(selectedFetchQuery);
+>>>>>>> master:src/components/dashboard-areas/dashboard/Name.vue
       this.focusItems();
     } else {
-      console.log("local");
+      console.log("local names source");
     }
   },
   methods: {
-    fetchName: function(namespaceQuery) {
+    fetchNames: function(namespaceQuery) {
       this.loading = true;
       this.$http.get(namespaceQuery).then(
         response => {
@@ -96,10 +112,12 @@ export default {
           }
         },
         error => {
+          this.loading = false;
           console.log("Error: ", error);
         }
       );
     },
+<<<<<<< HEAD:src/components/dasboard-areas/dashboard/Name.vue
     updateFromCreated: function() {
       const newSpaceAndName =
         initialMeta +
@@ -115,12 +133,19 @@ export default {
       this.selectedN = name;
       this.focusItems();
     },
+=======
+>>>>>>> master:src/components/dashboard-areas/dashboard/Name.vue
     focusItems: function() {
       setTimeout(function() {
         const childItemExists = document.getElementById("createNew")
           .parentElement.childElementCount;
         if (childItemExists > 1) {
           document.getElementById("createNew").nextElementSibling.focus();
+<<<<<<< HEAD:src/components/dasboard-areas/dashboard/Name.vue
+=======
+        } else {
+          document.getElementById("createNew").focus();
+>>>>>>> master:src/components/dashboard-areas/dashboard/Name.vue
         }
       }, 1500);
     }
@@ -152,7 +177,7 @@ export default {
     cursor: pointer;
     display: grid;
     grid-template-columns: [col] minmax(auto, 1fr);
-    grid-template-rows: repeat(3, [row] auto);
+    // grid-template-rows: repeat(3, [row] auto);
     height: 100%;
     opacity: 1;
     padding: $spacingDefault;
@@ -244,9 +269,10 @@ export default {
     }
   }
   .loading {
+    color: white;
     position: absolute;
-    top: 10px;
-    right: 10px;
+    top: 20px;
+    right: 20px;
   }
 }
 </style>

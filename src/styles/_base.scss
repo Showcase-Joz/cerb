@@ -1,0 +1,10 @@
+// default base settings and selections
+::-moz-selection {
+  background: tint($color1, $tint50); /* Gecko Browsers */
+}
+::selection {
+  background: tint($color1, $tint50); /* WebKit/Blink Browsers */
+}
+body {
+  overflow-y: hidden;
+}

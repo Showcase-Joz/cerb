@@ -5,32 +5,36 @@
         <div
           class="input-with-label"
           :class="{
-            invalid: $v.formResponses.namespace.$error,
-            valid:
-              !$v.formResponses.namespace.$error &&
-              $v.formResponses.namespace.$dirty
+            invalid: $v.namespace.$error,
+            valid: !$v.namespace.$error && $v.namespace.$dirty
           }"
         >
           <label
             for="namespace"
             :class="{
-              hasValue: $v.formResponses.namespace.hasValueLength
+              hasValue: $v.namespace.hasValueLength
             }"
           >Search content...</label>
           <input
             id="searchInput"
             type="text"
             name="namespace"
-            v-model="formResponses.namespace"
+            v-model="namespace"
             v-on:input="cleanInputs"
-            @blur="$v.formResponses.namespace.$touch(), onBlur()"
+            @blur="$v.namespace.$touch(), onBlur()"
             @focus="onFocus()"
+<<<<<<< HEAD
             @keyup.enter="focusItems"
+=======
+            @mouseup="onFocus()"
+            @keyup.enter.tab.exact="focusItems()"
+            @keyup.shift.tab="focusPrevious()"
+>>>>>>> master
           />
         </div>
-        <p class="form-field-msg" v-if="!$v.formResponses.namespace.maxLength">
+        <p class="form-field-msg" v-if="!$v.namespace.maxLength">
           Please add a Namespace with no more than
-          {{ $v.formResponses.namespace.$params.maxLength.max }}
+          {{ $v.namespace.$params.maxLength.max }}
           characters.
         </p>
       </div>
@@ -41,7 +45,10 @@
 import { maxLength, helpers } from "vuelidate/lib/validators";
 const hasValueLength = value => value.length >= 1;
 const strDefPattern = helpers.regex("strDefPattern", /^[\d+\w+^.^-]+$/);
+<<<<<<< HEAD
 let metaObj = {};
+=======
+>>>>>>> master
 
 export default {
   name: "search-input",
@@ -56,53 +63,47 @@ export default {
   data() {
     return {
       hasFocus: false,
-      formResponses: {
-        namespace: ""
-      }
+      namespace: ""
     };
   },
   validations: {
-    formResponses: {
-      namespace: {
-        maxLength: maxLength(200),
-        hasValueLength,
-        strDefPattern
-      }
+    namespace: {
+      maxLength: maxLength(200),
+      hasValueLength,
+      strDefPattern
     }
   },
   methods: {
     cleanInputs: function() {
-      this.formResponses.namespace = this.formResponses.namespace
-        .replace(/\s/g, ".")
-        .toLowerCase();
+      this.namespace = this.namespace.replace(/\s/g, ".").toLowerCase();
       this.collectInputs();
     },
     collectInputs: function() {
-      if (!this.$v.formResponses.namespace.$error) {
-        metaObj = {
-          namespace: this.formResponses.namespace
-        };
+      if (!this.$v.namespace.$error) {
         // send up to parent
-        this.$emit("handleMeta", metaObj);
-      } else if (
-        this.formResponses.namespace.trim() === "" &&
-        this.formResponses.namespace.length < 1
-      ) {
-        metaObj = {
-          namespace: ""
-        };
-        this.$emit("handleMeta", metaObj);
+        this.$emit("emitSearchNamespace", this.namespace);
+      } else if (this.namespace.trim() === "" && this.namespace.length < 1) {
+        this.$emit("emitSearchNamespace", this.namespace);
       }
     },
     focusItems: function() {
       document.activeElement.blur();
       document.getElementById("createNew").nextElementSibling.focus();
+<<<<<<< HEAD
       // this.$emit("keyup", true);
     },
     onFocus() {
+=======
+      this.hasFocus = false;
+    },
+    focusPrevious: function() {
+      this.hasFocus = false;
+    },
+    onFocus: function() {
+>>>>>>> master
       this.hasFocus = true;
     },
-    onBlur() {
+    onBlur: function() {
       this.hasFocus = false;
     }
   },

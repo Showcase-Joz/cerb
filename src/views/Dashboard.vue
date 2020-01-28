@@ -1,20 +1,29 @@
 <template>
   <div class="dashboard">
     <MainDashNav />
+<<<<<<< HEAD
     <SearchInput v-on:handleMeta="retainMeta" @keyup="resetSearch" :clearSearchValue="clearSearch" :userInputMeta="passedMeta" />
     <DashboardWrapper :userInputMeta="passedMeta" v-on:clearSearch="handleClearSearch" />
+=======
+    <SearchInput v-on:emitSearchNamespace="handleSearchString" />
+    <DashboardWrapper :passNsSearchString="searchNsString" />
+>>>>>>> master
   </div>
 </template>
 <script>
 import MainDashNav from "../components/navigation/MainDashboard";
 import SearchInput from "../components/SearchInput";
-import DashboardWrapper from "../components/dasboard-areas/DashboardWrapper";
+import DashboardWrapper from "../components/dashboard-areas/DashboardWrapper";
 export default {
   name: "dashboard",
   data() {
     return {
+<<<<<<< HEAD
       passedMeta: {},
       clearSearch: false
+=======
+      searchNsString: ""
+>>>>>>> master
     };
   },
   components: {
@@ -23,6 +32,7 @@ export default {
     DashboardWrapper
   },
   methods: {
+<<<<<<< HEAD
     retainMeta: function(metaObj) {
       this.passedMeta = metaObj;
     },
@@ -34,6 +44,10 @@ export default {
       this.clearSearch = value;
       console.log(value, "handleClearSearch");
       
+=======
+    handleSearchString: function(searchNamespace) {
+      this.searchNsString = searchNamespace;
+>>>>>>> master
     }
   }
 };
