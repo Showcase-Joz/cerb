@@ -1,6 +1,54 @@
 <template>
   <div class="dashboard-main">
     <div class="loading" v-if="loading">Loading...</div>
+<<<<<<< HEAD:src/components/dasboard-areas/dashboard/Name.vue
+    <CreateItem :returnSolo="updateFromCreated" :name="newNS" />
+    <div
+      tabindex="0"
+      class="item"
+      v-for="(object, index) in fetchedNames.events"
+      :key="index"
+      @click="handleClick(object.event.name)"
+    >{{ object.event.name }}</div>
+  </div>
+
+  <!-- <transition name="fade">
+    <div class="dashboard-main">
+      <div class="loading" v-if="loading">Loading...</div>
+      <CreateItem :returnSolo="updateFromCreated" :name="newNS" />
+      <div class="item" v-for="(object, index) in fetchedNames.events" :key="index">
+        <div class="response-n">{{ object.event.name }}</div>
+        <div class="response-extras">
+          <div
+            class="response-type"
+            title="the type of log {debug, info, warning, error}"
+          >{{ object.event.type }}</div>
+          <div class="log-version" title="current verson of this log">v: {{ object.event.version }}</div>
+          <div class="status-group">
+            <div
+              class="status-setting"
+              title="an external large details stored on S3"
+              :class="{
+                'status-green': object.haslargedetails,
+                'status-red': !object.haslargedetails
+              }"
+            ></div>
+            <div
+              class="status-setting"
+              title="this log has details available"
+              :class="{
+                'status-green': object.weredetailsfound,
+                'status-red': !object.weredetailsfound
+              }"
+            ></div>
+          </div>
+        </div>
+        <div class="response-n">{{ object.event.name }}</div>
+        <p class="response-desc">{{ object.event.description }}</p>
+      </div>
+    </div>
+  </transition>-->
+=======
     <CreateItem />
     <div
       tabindex="0"
@@ -11,6 +59,7 @@
       {{ name }}
     </div>
   </div>
+>>>>>>> master:src/components/dashboard-areas/dashboard/Name.vue
 </template>
 <script>
 import CreateItem from "../../form/CreateItem";
@@ -37,10 +86,16 @@ export default {
     };
   },
   beforeMount() {
+<<<<<<< HEAD:src/components/dasboard-areas/dashboard/Name.vue
+    const queryNS = "events?namespace=" + this.selectedNS + "&offset=25";
+    if (this.selectedNS !== null) {
+      this.fetchName(queryNS);
+=======
     if (this.passNsSelectedString !== "") {
       const selectedFetchQuery =
         initialMeta + this.passNsSelectedString + queryNames + maxLimit;
       this.fetchNames(selectedFetchQuery);
+>>>>>>> master:src/components/dashboard-areas/dashboard/Name.vue
       this.focusItems();
     } else {
       console.log("local names source");
@@ -62,14 +117,35 @@ export default {
         }
       );
     },
+<<<<<<< HEAD:src/components/dasboard-areas/dashboard/Name.vue
+    updateFromCreated: function() {
+      const newSpaceAndName =
+        initialMeta +
+        "/" +
+        this.selectedNS +
+        "/" +
+        this.formResponses.createNewItem;
+      console.log(newSpaceAndName);
+
+      this.fetchNames(newSpaceAndName);
+    },
+    handleClick: function(name) {
+      this.selectedN = name;
+      this.focusItems();
+    },
+=======
+>>>>>>> master:src/components/dashboard-areas/dashboard/Name.vue
     focusItems: function() {
       setTimeout(function() {
         const childItemExists = document.getElementById("createNew")
           .parentElement.childElementCount;
         if (childItemExists > 1) {
           document.getElementById("createNew").nextElementSibling.focus();
+<<<<<<< HEAD:src/components/dasboard-areas/dashboard/Name.vue
+=======
         } else {
           document.getElementById("createNew").focus();
+>>>>>>> master:src/components/dashboard-areas/dashboard/Name.vue
         }
       }, 1500);
     }

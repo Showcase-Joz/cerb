@@ -14,8 +14,7 @@
             :class="{
               hasValue: $v.namespace.hasValueLength
             }"
-            >Search content...</label
-          >
+          >Search content...</label>
           <input
             id="searchInput"
             type="text"
@@ -24,9 +23,13 @@
             v-on:input="cleanInputs"
             @blur="$v.namespace.$touch(), onBlur()"
             @focus="onFocus()"
+<<<<<<< HEAD
+            @keyup.enter="focusItems"
+=======
             @mouseup="onFocus()"
             @keyup.enter.tab.exact="focusItems()"
             @keyup.shift.tab="focusPrevious()"
+>>>>>>> master
           />
         </div>
         <p class="form-field-msg" v-if="!$v.namespace.maxLength">
@@ -42,9 +45,21 @@
 import { maxLength, helpers } from "vuelidate/lib/validators";
 const hasValueLength = value => value.length >= 1;
 const strDefPattern = helpers.regex("strDefPattern", /^[\d+\w+^.^-]+$/);
+<<<<<<< HEAD
+let metaObj = {};
+=======
+>>>>>>> master
 
 export default {
   name: "search-input",
+  props: {
+    clearSearchValue: {
+      type: Boolean
+    },
+    userInputMeta: {
+      type: Object
+    }
+  },
   data() {
     return {
       hasFocus: false,
@@ -74,16 +89,30 @@ export default {
     focusItems: function() {
       document.activeElement.blur();
       document.getElementById("createNew").nextElementSibling.focus();
+<<<<<<< HEAD
+      // this.$emit("keyup", true);
+    },
+    onFocus() {
+=======
       this.hasFocus = false;
     },
     focusPrevious: function() {
       this.hasFocus = false;
     },
     onFocus: function() {
+>>>>>>> master
       this.hasFocus = true;
     },
     onBlur: function() {
       this.hasFocus = false;
+    }
+  },
+  watch: {
+    clearSearchValue(newVal) {
+      if (newVal) {
+        this.formResponses.namespace = "";
+        // document.getElementById('searchInput').value = "";
+      }
     }
   }
 };

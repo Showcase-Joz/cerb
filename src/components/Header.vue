@@ -1,4 +1,27 @@
 <template>
+<<<<<<< HEAD
+  <header>
+    <div class="header-wrapper">
+      <h1>
+        Typhon
+        <span
+          class="version"
+          :title="'Current vrsion of Cerberus is: ' + appVersion"
+          >v{{ this.appVersion }}</span
+        >
+      </h1>
+      <!-- NEED TO EXTRACT connectionStatus to so that it's only active ondash, get, post views. This will allow the beforeDestroy method to prevent on views that do not require an online/offline state check. -->
+      <ConnectionStatus />
+    </div>
+    <nav id="nav">
+      <router-link to="/">Home</router-link>|
+      <router-link to="/dashboard">Dashboard</router-link>|
+      <router-link to="/get">Get</router-link>|
+      <router-link to="/post">Post</router-link>|
+      <router-link to="/about">About</router-link>
+    </nav>
+  </header>
+=======
 	<header>
 		<div class="header-wrapper">
 			<h1>
@@ -19,6 +42,7 @@
 			<router-link to="/about">About</router-link>
 		</nav>
 	</header>
+>>>>>>> master
 </template>
 
 <script>

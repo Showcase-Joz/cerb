@@ -17,6 +17,10 @@ Vue.use(Amplify);
 
 Vue.http.options.root = "https://typhon-api.sst-l.com/";
 
+<<<<<<< HEAD
+Vue.http.options.root = "https://typhon-api.sst-l.com/";
+=======
+>>>>>>> master
 Vue.http.options.headers = {
   Accept: "application/json",
   "Content-Type": "application/json"

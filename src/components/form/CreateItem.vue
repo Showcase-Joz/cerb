@@ -101,7 +101,11 @@ export default {
       const element = event.target;
       const value = element.value;
       this.$v.formResponses.createNewItem.$touch();
+<<<<<<< HEAD
+      this.$emit("passNewItem",this.formResponses.createNewItem);
+=======
       this.$emit("passNewItem", this.formResponses.createNewItem);
+>>>>>>> master
       return (this.formResponses.createNewItem = value
         .replace(/\s/g, ".")
         .toLowerCase());
@@ -112,6 +116,10 @@ export default {
         this.$parent.$data.id === "Namespace"
       ) {
         console.log("NS");
+<<<<<<< HEAD
+        
+=======
+>>>>>>> master
       } else if (
         this.formResponses.createNewItem.length > 0 &&
         this.$parent.$data.id === "Name"

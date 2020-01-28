@@ -1,7 +1,15 @@
 <template>
   <div class="dashboard-main">
     <div class="loading" v-if="loading">Loading...</div>
+<<<<<<< HEAD
     <CreateItem />
+=======
+<<<<<<<< HEAD:src/components/dashboard-areas/dashboard/Namespaces.vue
+    <CreateItem />
+========
+    <CreateItem v-on:passNewItem="createUserNS" />
+>>>>>>>> master:src/components/dasboard-areas/dashboard/Namespaces.vue
+>>>>>>> master
     <div
       tabindex="0"
       class="item"
@@ -9,8 +17,16 @@
       v-for="(namespace, index) in namespaceResults"
       @click="handleClick(namespace)"
       @keyup.enter="handleClick(namespace)"
+<<<<<<< HEAD
       @keyup.right.down.prevent="focusNext"
       @keyup.left.up.prevent="focusPrevious"
+=======
+<<<<<<<< HEAD:src/components/dashboard-areas/dashboard/Namespaces.vue
+      @keyup.right.down.prevent="focusNext"
+      @keyup.left.up.prevent="focusPrevious"
+========
+>>>>>>>> master:src/components/dasboard-areas/dashboard/Namespaces.vue
+>>>>>>> master
     >
       <span @click="deleteNS(namespace)">x</span>
       {{ namespace }}
@@ -38,6 +54,10 @@ export default {
   },
   data() {
     return {
+<<<<<<< HEAD
+=======
+<<<<<<<< HEAD:src/components/dashboard-areas/dashboard/Namespaces.vue
+>>>>>>> master
       id: "Namespace",
       lastSearchInputValue: "",
       loading: false,
@@ -56,7 +76,49 @@ export default {
   },
   updated() {
     this.focusItems();
+<<<<<<< HEAD
   },
+=======
+========
+      namespaceResults: [],
+      searchInputUpdatedValue: null,
+      selectedNS: null,
+      passedNS: null,
+      loading: false,
+      id: "Namespace"
+    };
+  },
+  beforeMount() {
+    if (this.$attrs.selectedNS === null) {
+      this.fetchNamespaces(initialMeta + maxLimit);
+    } else if (this.$attrs.selectedNS !== null) {
+      const slelectedNS =
+          initialMeta + andFilter + this.$attrs.selectedNS;
+        this.fetchNamespaces(slelectedNS);
+    } else {
+      error => {
+        console.log("Error: ", error);
+      };
+    }
+>>>>>>>> master:src/components/dasboard-areas/dashboard/Namespaces.vue
+  },
+  // created() {
+  //   if ( Object.keys(this.userInputMeta).length === 0 ) {
+  //     console.log("test");
+  //     // no value in searchbar
+  //     const clearData = null;
+  //     this.$emit("clearSearch", clearData);
+  //     console.log("clearned");
+      
+    
+  //   } else if ( this.userInputMeta.namespace.length !== 0 ) {
+  //     console.log("tets2");
+  //     // has value in searchbar
+
+      
+  //   }
+  // },
+>>>>>>> master
   methods: {
     fetchNamespaces: function(stringSuffix) {
       this.loading = true;
@@ -84,9 +146,30 @@ export default {
         this.fetchNamespaces(updateNamespaces);
       }
     },
+<<<<<<< HEAD
     handleClick: function(namespace) {
       this.$emit("userSelectedNS", namespace);
       this.fetchSearchResult();
+=======
+<<<<<<<< HEAD:src/components/dashboard-areas/dashboard/Namespaces.vue
+    handleClick: function(namespace) {
+      this.$emit("userSelectedNS", namespace);
+      this.fetchSearchResult();
+========
+    createUserNS: function(passedNS) {
+      this.passedNS = passedNS;
+    },
+    updateFromCreated: function(newNS) {
+      const justNewNS = initialMeta + andFilter + newNS;
+      this.$emit("handleNewNS", newNS);
+      this.fetchNamespaces(justNewNS);
+    },
+    handleClick: function(namespace) {
+      this.selectedNS = namespace;
+      this.$emit("handleCurrentNS", this.selectedNS);
+      this.$emit("clearSearch", true);
+>>>>>>>> master:src/components/dasboard-areas/dashboard/Namespaces.vue
+>>>>>>> master
       this.$router.push("/dashboard/namespace/");
     },
     focusNext: function() {
@@ -107,6 +190,20 @@ export default {
       }, 2000);
     },
     deleteNS: function(namespace) {
+<<<<<<< HEAD
+      console.log(initialMeta + "/" + namespace);
+      
+      this.$http
+        .delete(initialMeta + "/" + namespace)
+        .then(response => {
+          if (response.ok === true) {
+            console.log(initialMeta + maxLimit);
+            
+            this.fetchNamespaces(initialMeta + maxLimit);
+
+          }
+        });
+=======
       // this.$http
       //   .delete(initialMeta + "/" + namespace)
       //   .then(response => {
@@ -114,6 +211,7 @@ export default {
       //       this.fetchNamespaces(initialMeta + maxLimit);
       //     }
       //   });
+>>>>>>> master
       console.log(
         "this deletes " + namespace + ", uncomment the code to continue"
       );
