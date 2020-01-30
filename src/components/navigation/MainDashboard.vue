@@ -11,8 +11,8 @@
       >
     </div>
     <div class="dash-nav-item">
-      <router-link to="/dashboard/test" tag="button" class="btn"
-        >Test</router-link
+      <router-link to="/dashboard/events" tag="button" class="btn"
+        >Events</router-link
       >
     </div>
 

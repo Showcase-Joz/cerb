@@ -1,14 +1,25 @@
 <template>
-  <label class="item item-create" v-on:keyup.enter.prevent="sendCreate">
-    <span class="create-title">Create</span>
+  <label
+    id="createNew"
+    class="item item-create"
+    tabindex="-1"
+    v-on:keyup.enter.prevent="sendCreate"
+  >
+    <span class="create-title">
+      Create a new
+      <strong>{{ this.$parent.$data.id }}</strong>
+      {{ this.$parent.$data.id === "Name" ? "for this namespace" : "" }}
+    </span>
     <div class="form-group">
       <input
         v-model="formResponses.createNewItem"
-        v-on:input="handleCreate"
+        v-on:input="handleInput"
         @blur="$v.formResponses.createNewItem.$touch()"
         class="create-input"
         name="newItem"
-        placeholder="Create a New Item..."
+        :placeholder="
+          'Start typing here to create a new ' + this.$parent.$data.id
+        "
         type="text"
       />
       <button
@@ -23,7 +34,7 @@
         @click="sendCreate"
         :disabled="$v.formResponses.createNewItem.$error"
       >
-        Add
+        Add {{ this.$parent.$data.id }}
       </button>
     </div>
     <div class="errors">
@@ -31,7 +42,7 @@
         class="form-field-msg"
         v-if="!$v.formResponses.createNewItem.minLength"
       >
-        Please add a New Item with at least
+        Please add a New {{ this.$parent.$data.id }} with at least
         {{ $v.formResponses.createNewItem.$params.minLength.min }}
         characters.
       </p>
@@ -39,7 +50,7 @@
         class="form-field-msg"
         v-if="!$v.formResponses.createNewItem.maxLength"
       >
-        Please add a New Item with no more than
+        Please add a New {{ this.$parent.$data.id }} with no more than
         {{ $v.formResponses.createNewItem.$params.maxLength.max }}
         characters.
       </p>
@@ -50,7 +61,7 @@
             $v.formResponses.createNewItem.$dirty
         "
       >
-        New Item must not be empty!
+        New {{ this.$parent.$data.id }} must not be empty!
       </p>
     </div>
   </label>
@@ -68,13 +79,19 @@ const strDefPattern = helpers.regex("strDefPattern", /^[\d+\w+^.^-]+$/);
 export default {
   name: "CreateItem",
   props: {
-    returnSolo: Function
+    returnSolo: {
+      type: Function
+    },
+    selectedNS: {
+      type: String
+    }
   },
   data() {
     return {
       formResponses: {
         createNewItem: ""
-      }
+      },
+      passedNS: null
     };
   },
   validations: {
@@ -89,13 +106,13 @@ export default {
     }
   },
   methods: {
-    handleCreate: function(event) {
+    handleInput: function(event) {
       const element = event.target;
       const value = element.value;
       this.$v.formResponses.createNewItem.$touch();
 
       return (this.formResponses.createNewItem = value
-        .replace(/[\\. ,:-]/g, ".")
+        .replace(/[^a-zA-Z0-9]/g, ".")
         // .replace(/\s/g, ".")
         .toLowerCase());
     },
@@ -104,7 +121,7 @@ export default {
       this.$emit("createdNewN", this.formResponses.createNewItem);
       if (
         this.formResponses.createNewItem !== null &&
-        this.$parent.$data.id === "namespaces"
+        this.$parent.$data.id === "Namespace"
       ) {
         this.$http
           .put(initialMeta + "namespaces/" + this.formResponses.createNewItem)
@@ -115,16 +132,11 @@ export default {
           });
       } else if (
         this.formResponses.createNewItem !== null &&
-        this.$parent.$data.id === "names"
+        this.$parent.$data.id === "Name"
       ) {
-        console.log("sending data N", this.formResponses.createNewItem);
+        // console.log("sending data N", this.formResponses.createNewItem);
         this.$http
-          .put(
-            initialMeta +
-              this.$attrs.name +
-              "/" +
-              this.formResponses.createNewItem
-          )
+          .put(initialMeta + this.nsString + this.formResponses.createNewItem)
           .then(response => {
             if (response.ok === true) {
               this.returnSolo(this.formResponses.createNewItem);
@@ -133,6 +145,11 @@ export default {
       } else {
         console.log("not sending data");
       }
+    }
+  },
+  computed: {
+    nsString: function() {
+      return this.selectedNS + "/";
     }
   }
 };

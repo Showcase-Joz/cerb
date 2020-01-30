@@ -45,11 +45,11 @@ const routes = [
           )
       },
       {
-        path: "test",
-        name: "test",
+        path: "events",
+        name: "events",
         component: () =>
           import(
-            /* webpackChunkName: "get" */ "../components/dasboard-areas/dashboard/Test.vue"
+            /* webpackChunkName: "get" */ "../components/dasboard-areas/dashboard/Events.vue"
           )
       }
     ]

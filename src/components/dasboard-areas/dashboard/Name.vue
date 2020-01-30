@@ -4,16 +4,18 @@
       <div class="loading" v-if="loading">Loading...</div>
       <CreateItem
         :returnSolo="updateFromCreated"
-        :name="newNS"
+        :selectedNS="selectedNS"
         @createdNewN="selectedN = $event"
       />
       <div
         class="item"
-        v-for="(object, index) in fetchedNames.events"
+        v-for="(names, index) in fetchedNames.names"
         :key="index"
-        @click="handleClick(object.event.name)"
+        @click="handleClick(names)"
       >
-        {{ object.event.name }}
+        <div class="delete" @click.stop.prevent="deleteN(names)">x</div>
+        {{ names }}
+        <!-- {{ object.event.name }} -->
       </div>
     </div>
   </transition>
@@ -54,8 +56,11 @@
 <script>
 import CreateItem from "../../form/CreateItem";
 const initialMeta = "metadata/";
+// const andFilter = "?filter=";
+const maxLimit = "?limit=0";
+// const clearSearchInput = "";
 export default {
-  name: "Dashboard-Names",
+  name: "DashboardNames",
   inheritAttrs: false,
   props: {
     userInputMeta: {
@@ -76,11 +81,14 @@ export default {
       fetchedNames: {},
       loading: false,
       selectedN: null,
-      id: "names"
+      id: "Name"
     };
   },
   beforeMount() {
-    const queryNS = "events?namespace=" + this.selectedNS + "&offset=25";
+    // POSSIBLE CHANGE THIS LINE TO GET NAME FROM NAMESPACE!!!!!!!!!!!!!!!!!
+    // !!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!
+    // const queryNS = "events?namespace=" + this.selectedNS + "&offset=25";
+    const queryNS = initialMeta + this.selectedNS + "/names" + maxLimit;
     if (this.selectedNS !== null) {
       this.fetchName(queryNS);
     } else {
@@ -88,9 +96,9 @@ export default {
     }
   },
   methods: {
-    fetchName: function(namespaceQuery) {
+    fetchName: function(namesQuery) {
       this.loading = true;
-      this.$http.get(namespaceQuery).then(
+      this.$http.get(namesQuery).then(
         response => {
           if (response.ok === true) {
             this.loading = false;
@@ -103,14 +111,32 @@ export default {
       );
     },
     updateFromCreated: function() {
-      const newNsAndN = initialMeta + this.newNS + "/names";
+      const newNsAndN = initialMeta + this.selectedNS + "/names";
       // const newNsAndN = initialMeta + andFilter + newN;
       // this.$emit("handleNewN", newN);
       this.fetchName(newNsAndN);
     },
     handleClick: function(name) {
       this.selectedN = name;
+      this.$router.push("/dashboard/events/");
       this.$emit("handleCurrentN", this.selectedN);
+      // this.$emit("handleNewN", clearSearchInput);
+    },
+    deleteN: function(name) {
+      // console.log("del N ", name);
+
+      this.selectedN = name;
+      // console.log(this.selectedNS, this.selectedN);
+      this.$http
+        .delete(initialMeta + this.selectedNS + "/" + this.selectedN)
+        .then(response => {
+          if (response.ok === true && this.$data.id === "Name") {
+            // console.log("fetching names again");
+
+            this.fetchName(initialMeta + this.selectedNS + "/names" + maxLimit);
+            // this.$emit("handleNewNS", clearSearchInput);
+          }
+        });
     }
   },
   watch: {
@@ -149,7 +175,31 @@ export default {
     height: 100%;
     opacity: 1;
     padding: $spacingDefault;
+    position: relative;
     word-break: break-word;
+
+    & .delete {
+      align-items: center;
+      color: $invalid;
+      content: "x";
+      display: grid;
+      font-size: larger;
+      height: auto;
+      justify-content: center;
+      margin: 5px 7px;
+      max-height: 25px;
+      min-width: 25px;
+      position: absolute;
+      right: 0;
+      top: 0;
+      width: 25px;
+      z-index: 5;
+
+      &:hover {
+        background-color: $neutral;
+        color: tint($color2, $tint100);
+      }
+    }
 
     p {
       white-space: pre-line;

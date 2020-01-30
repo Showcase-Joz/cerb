@@ -35,8 +35,8 @@ export default {
     },
     retainNewNS: function(createdNS) {
       this.createdNS = createdNS;
-      this.$emit("selectedNS", createdNS)
-    },
+      this.$emit("selectedNS", createdNS);
+    }
   }
 };
 </script>
