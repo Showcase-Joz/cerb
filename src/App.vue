@@ -70,20 +70,21 @@ h4 {
 }
 
 .status-setting {
-  align-items: center;
+  // align-items: center;
   cursor: help;
   display: grid;
-  height: min-content;
-  justify-items: center;
+  height: 100%;
+  // justify-items: center;
   min-width: 20px;
   position: relative;
-  width: min-content;
+  width: 100%;
 
   &::after {
+    border-radius: calc(#{$borderRadius} /2);
     content: "";
-    height: 1rem;
+    height: inherit;
     position: absolute;
-    width: 0.5rem;
+    width: inherit;
   }
 
   &::after.status-red {

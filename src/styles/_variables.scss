@@ -5,6 +5,9 @@
 $spacingDefault: 1rem;
 $spacingLarge: 2.5rem;
 
+// Grid measurements
+$col-gap: 0.25rem;
+
 $primary-font-family: "Avenir", Helvetica, Arial, sans-serif;
 
 $color1: hsl(153, 47%, 49%);
@@ -42,9 +45,12 @@ $minViewport: 320px;
 
 ::selection {
   background: $neutral; /* WebKit/Blink Browsers */
+  color: tint($color2, $tint100);
+  
 }
 ::-moz-selection {
   background: $neutral; /* Gecko Browsers */
+  color: tint($color2, $tint100);
 }
 
 body {

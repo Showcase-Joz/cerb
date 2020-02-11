@@ -1,6 +1,6 @@
 <template>
 	<div class="dashboard-main" v-if="this.fetchedNames.count === undefined">
-		test
+		Viewing events of [{{ this.$attrs.selectedN }}]
 		<div class="item" v-for="(object, index) in fetchedNames.events" :key="index">
 			<div class="response-n">{{ object.event.name }}</div>
 			<div class="response-extras">
@@ -51,13 +51,13 @@ export default {
 			this.$attrs.selectedN +
 			"&offset=25";
 		// components.dashboardarea.dashboard.namescpaces
-		console.log(groupEvents);
+		// console.log(groupEvents);
 
 		// const queryN = initialMeta + this.selectedNS + "/names" + maxLimit;
 		if (this.$attrs.selectedNS !== null && this.$attrs.selectedN !== null) {
 			this.fetchName(groupEvents);
 		} else {
-			console.log("local");
+			console.warn("fetching local data");
 		}
 	},
 	methods: {
@@ -183,7 +183,7 @@ export default {
 
 		.response-extras {
 			align-items: center;
-			column-gap: 0.5rem;
+			column-gap: calc(#{$col-gap} * 2);
 			display: grid;
 			grid-template-areas: "response-type log-version status-group";
 			grid-template-columns: repeat(3, minmax(max-content, 1fr));
@@ -196,12 +196,11 @@ export default {
 				grid-area: response-type;
 				width: max-content;
 				text-transform: uppercase;
+				padding: 0.2rem 0.5rem;
+				border-radius: 3px;
+				color: tint($color2, $tint100);
 
 				&.event-type {
-					padding: 0.2rem 0.5rem;
-					border-radius: 3px;
-					color: $color2;
-
 					&-debug {
 						background-color: $neutral;
 					}
@@ -216,24 +215,28 @@ export default {
 					}
 				}
 
-				&::after {
-					content: "|";
-					padding-left: 3px;
-				}
+				// &::after {
+				// 	content: "|";
+				// 	padding-left: 3px;
+				// }
 			}
 
 			.log-version {
-				background-color: tint($color1, $tint25);
+        border-bottom: solid medium tint($color2, $tint100);
 				border-radius: 3px;
-				color: $color2;
-				cursor: help;
+				color: tint($color2, $tint100);
+        cursor: help;
+        font-weight: 500;
 				min-width: max-content;
-				padding: 0 5px;
+				// padding: 0.2rem 0.5rem;
+				padding: calc(#{$spacingDefault} / 5) calc(#{$spacingDefault} / 2);
 			}
 
 			.status-group {
+				column-gap: $col-gap;
 				display: grid;
-				grid-template-columns: 1fr 1fr;
+				grid-template-columns: repeat(2, minmax(15px, min-content));
+				height: 100%;
 			}
 		}
 	}
