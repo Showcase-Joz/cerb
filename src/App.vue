@@ -6,11 +6,25 @@
 </template>
 
 <script>
+import { mapGetters } from "vuex";
 import Header from "./components/Header";
 export default {
   name: "app",
   components: {
     Header
+  },
+  beforeUpdate() {
+    // clear error message from current view
+    if (this.errMessage) {
+      this.$store.dispatch("setError", null);
+    }
+  },
+  // attempt to login user from session
+  async mounted() {
+    await this.$store.dispatch("fetchUser");
+  },
+  computed: {
+    ...mapGetters(["authUser", "errMessage"])
   }
 };
 </script>
@@ -80,7 +94,7 @@ h4 {
   width: 100%;
 
   &::after {
-    border-radius: calc(#{$borderRadius} /2);
+    border-radius: calc(#{$borderRadius} / 2);
     content: "";
     height: inherit;
     position: absolute;

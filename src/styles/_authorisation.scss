@@ -1,0 +1,32 @@
+#login,
+#logout,
+#register,
+#register-confirm {
+  form {
+    margin-bottom: 10px;
+
+    a {
+      color: blue;
+      cursor: pointer;
+      font-size: x-small;
+      padding-top: 5px;
+      text-decoration: underline;
+      text-transform: uppercase;
+
+      &:hover {
+        color: initial;
+      }
+    }
+
+    &>* {
+      display: block;
+      margin: auto;
+      width: max-content;
+    }
+  }
+
+  button,
+  input[type="button"] {
+    cursor: pointer;
+  }
+}

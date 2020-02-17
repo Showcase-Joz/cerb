@@ -1,42 +1,34 @@
 import Vue from "vue";
 import Vuex from "vuex";
+import * as authorisation from "./modules/authorisation"
 
 Vue.use(Vuex);
 
-export const store = new Vuex.Store({
+/* 
+  for user deletion install the below and work it out.
+  though deleteUser should be part of user management NOT user Auth
+  https://github.com/aws-amplify/amplify-js/issues/469
+  import { CognitoUser } from "amazon-cognito-identity-js"; 
+*/
+
+const store = new Vuex.Store({
   state: {
     signedIn: false,
     user: null
-    // token: null,
-    // session: null
+
   },
   getters: {
-    // activeUser: state => {
-    //   return state.signedIn;
-    // }
+
   },
   mutations: {
-    // SET_USER_DATA (state, userData) {
-    //   state.user = userData
-    //   localStorage.setItem('user', JSON.stringify(userData))
-    //   axios.defaults.headers.common['Authorization'] = `Bearer ${
-    //     userData.token
-    //   }`
-    // },
-    // CLEAR_USER_DATA () {
-    //   localStorage.removeItem('user')
-    //   location.reload()
-    // }
-    // setActiveUser: state => {
-    //   state.signedIn = true;
-    // },
-    // unsetActiveUser: state => {
-    //   state.signedIn = false;
-    // }
+
   },
   actions: {
-    // activeUser: ({ commit }, payload) => {
-    //   commit("activeUser", payload);
-    // }
+
+  },
+  modules: {
+    authorisation
   }
 });
+
+export default store;

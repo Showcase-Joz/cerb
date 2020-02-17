@@ -90,9 +90,9 @@ export default {
     },
     clearInputs: function() {
       metaObj = {
-          namespace: ""
-        };
-        this.$emit("handleMeta", metaObj);
+        namespace: ""
+      };
+      this.$emit("handleMeta", metaObj);
     },
     clearSearch: function(event) {
       const searchInput = event.target.previousElementSibling;
@@ -102,7 +102,7 @@ export default {
         searchInput.blur();
       }, 10);
       this.clearInputs();
-    },
+    }
     // blur: function(event) {
     //   event.target.blur();
     // },

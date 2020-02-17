@@ -4,18 +4,18 @@
 
     <transition name="fade">
       <div class="dashboard-main" v-if="!loading">
-      <CreateItem :returnSolo="updateFromCreated" />
-      <div
-        class="item"
-        v-for="(namespace, index) in namespaceResults"
-        :key="index"
-        @click="handleClick(namespace)"
-        @keyup.enter="handleClick(namespace)"
-      >
-        <div class="delete" @click.stop.prevent="deleteNS(namespace)">x</div>
-        {{ namespace }}
+        <CreateItem :returnSolo="updateFromCreated" />
+        <div
+          class="item"
+          v-for="(namespace, index) in namespaceResults"
+          :key="index"
+          @click="handleClick(namespace)"
+          @keyup.enter="handleClick(namespace)"
+        >
+          <div class="delete" @click.stop.prevent="deleteNS(namespace)">x</div>
+          {{ namespace }}
+        </div>
       </div>
-    </div>
     </transition>
   </div>
 </template>
@@ -95,7 +95,7 @@ export default {
       // console.log(
       //   "this deletes " + namespace + ", uncomment the code to continue"
       // );
-    },
+    }
   },
   watch: {
     userInputMeta: function(newVal) {

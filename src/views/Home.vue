@@ -1,13 +1,40 @@
 <template>
   <div class="home">
-    We are @ HOME
-    <!-- <img alt="Vue logo" src="../assets/logo.png" /> -->
+    <img alt="Vue logo" src="../assets/logo.png" />
+    <p v-if="authUser">
+      Visit the
+      <router-link to="/dashboard">Dashboard</router-link>
+    </p>
+    <p v-if="authUser">
+      You are currently logged in as
+      <strong>{{ currentEmail }}</strong
+      >.
+    </p>
+    <p v-if="this.$store.getters.errMessage">
+      There was as error, most recently:
+      <ErrorOutput />
+    </p>
+    <p v-if="!authUser">
+      You are currently logged out!
+      <br />Please <router-link to="/login">Login</router-link> to continue.
+    </p>
+    <br />
+    <Logout v-if="authUser" />
   </div>
 </template>
 
 <script>
+import { mapGetters } from "vuex";
+import ErrorOutput from "../components/authorisation/helpers/ErrorOutput.vue";
+import Logout from "../components/authorisation/Logout.vue";
 export default {
-  name: "Home",
-  components: {}
+  name: "home",
+  components: {
+    ErrorOutput,
+    Logout
+  },
+  computed: {
+    ...mapGetters(["authUser", "currentEmail"])
+  }
 };
 </script>

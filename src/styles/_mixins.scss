@@ -15,30 +15,55 @@
   $tablet-landscape-upper-boundary: 1200px;
   $desktop-upper-boundary: 1800px;
 
-  @if $range == phone-small {
+  @if $range==phone-small {
     @media (max-width: $smallest-to-usable) {
       @content;
     }
-  } @else if $range == phone-up {
+  }
+
+  @else if $range==phone-up {
     @media (max-width: #{$phone-upper-boundary - 1}) {
       @content;
     }
-  } @else if $range == tablet-portrait-up {
+  }
+
+  @else if $range==tablet-portrait-up {
     @media (min-width: $phone-upper-boundary) {
       @content;
     }
-  } @else if $range == tablet-landscape-up {
+  }
+
+  @else if $range==tablet-landscape-up {
     @media (min-width: $tablet-portrait-upper-boundary) {
       @content;
     }
-  } @else if $range == desktop-up {
+  }
+
+  @else if $range==desktop-up {
     @media (min-width: $tablet-landscape-upper-boundary) {
       @content;
     }
-  } @else if $range == big-desktop-up {
+  }
+
+  @else if $range==big-desktop-up {
     @media (min-width: $desktop-upper-boundary) {
       @content;
     }
+  }
+}
+
+/* creates a TINT or SHADE from HSL color space
+
++++++++ USAGE
+@include pointer-only() {
+  background-color: pink;
+}
+------- USAGE
+*/
+
+@mixin pointer-only {
+  @media (pointer: coarse) {
+    @content;
   }
 }
 

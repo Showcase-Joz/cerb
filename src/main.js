@@ -1,19 +1,15 @@
 import Vue from "vue";
+import Vuex from "vuex";
 import App from "./App.vue";
 import "./registerServiceWorker";
-import router from "./router";
-import { store } from "./store/store";
-import Vuelidate from "vuelidate";
+import router from "./router/routes";
+import store from "./store/store";
 import VueResource from "vue-resource";
-import Auth from "@aws-amplify/auth";
-// import { AmplifyPlugin } from "aws-amplify-vue";
-import awsExports from "./aws-exports";
+import Vuelidate from "vuelidate";
 
-Auth.configure(awsExports);
-
-Vue.use(Vuelidate);
+Vue.use(Vuex);
 Vue.use(VueResource);
-Vue.use(Auth);
+Vue.use(Vuelidate);
 
 Vue.http.options.root = "https://typhon-api.sst-l.com/";
 

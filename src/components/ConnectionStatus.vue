@@ -70,7 +70,7 @@ export default {
     font-variant: all-petite-caps;
     justify-self: end;
     letter-spacing: calc(#{$letter-spacing} / 4);
-    margin-right: 5px;
+    margin-right: 2px;
     width: max-content;
 
     span {
