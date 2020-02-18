@@ -141,6 +141,11 @@ const router = new VueRouter({
       // this generates a separate chunk (post.[hash].js) for this route
       // which is lazy-loaded when the route is visited.
       component: () => import(/* webpackChunkName: "post" */ "../views/Post.vue")
+    },
+    {
+      path: "*",
+      name: "404",
+      component: () => import(/* webpackChunkName: "NotFound" */ "../views/NotFound.vue")
     }
   ]
 });
@@ -153,6 +158,8 @@ router.beforeEach((to, from, next) => {
   const loggedIn = !!store.state.authorisation.user;
   // console.log(isPublic, onlyWhenLoggedOut, loggedIn);
 
+  
+
   if (!isPublic && !loggedIn) {
     return next({
       path: "/login",
@@ -163,6 +170,11 @@ router.beforeEach((to, from, next) => {
   // Do not allow user to visit login page or register page if they are logged in
   if (!isPublic && onlyWhenLoggedOut && loggedIn) {
     return next("/");
+  }
+
+
+  if (!isPublic && loggedIn ) {
+    return next ()
   }
 
   next();

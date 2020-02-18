@@ -26,9 +26,9 @@ export default {
   },
   async created() {
     this.confirm =
-      this.$store.state.user &&
-      this.$store.state.user.attributes &&
-      !this.$store.state.user.attributes.email_verified;
+      this.$store.state.authorisation.user &&
+      this.$store.state.user.authorisation.attributes &&
+      !this.$store.state.user.authorisation.attributes.email_verified;
   },
   methods: {},
   computed: {
