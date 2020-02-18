@@ -33,6 +33,11 @@ export default {
     ErrorOutput,
     Logout
   },
+  created() {
+    if (this.authUser) {
+      console.log("user is Authorised!!");
+    }
+  },
   computed: {
     ...mapGetters(["authUser", "currentEmail"])
   }

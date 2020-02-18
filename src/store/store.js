@@ -13,8 +13,8 @@ Vue.use(Vuex);
 
 const store = new Vuex.Store({
   state: {
-    signedIn: false,
-    user: null
+    // signedIn: false,
+    // user: null
 
   },
   getters: {

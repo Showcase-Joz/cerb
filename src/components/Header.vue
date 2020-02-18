@@ -4,7 +4,7 @@
 			<h1>Typhus</h1>
 			<span
 				class="version"
-				:title="'Current vrsion of Cerberus is: ' + appVersion"
+				:title="'Current vrsion of Typhon is: ' + appVersion"
 			>v{{ this.appVersion }}</span>
 			<!-- NEED TO EXTRACT connectionStatus to so that it's only active ondash, get, post views. This will allow the beforeDestroy method to prevent on views that do not require an online/offline state check. -->
 			<ConnectionStatus />
@@ -32,7 +32,7 @@ export default {
 	},
 	data() {
 		return {
-			appVersion: "0.0.8"
+			appVersion: "0.2.3"
 		};
 	},
 	computed: {

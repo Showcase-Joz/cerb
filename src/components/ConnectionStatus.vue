@@ -46,8 +46,8 @@ export default {
   computed: {
     computedConnectionMessage: function() {
       return this.connectionStatus
-        ? "Cerberus is currently able to communicate with the API and serving ONLINE results"
-        : "Cerberus is unable to communicate with the API and is therefore OFFLINE";
+        ? "Typhon is currently able to communicate with the API and serving ONLINE results"
+        : "Typhon is unable to communicate with the API and is therefore OFFLINE";
     }
   },
   beforeMount: function() {
