@@ -49,7 +49,6 @@ export const actions = {
     try {
       await Auth.signIn(email, password);
     } catch (err) {
-      // if (err) state.signinError = err.message || err;
       commit("ERRMESSAGE", err);
       return;
     }
@@ -57,7 +56,6 @@ export const actions = {
   },
   // register method that can call another method and sets state
   async register({ commit, state }, { email, password }) {
-    // reset error state, ready to receive new error if given
     state.errMessage = "";
     state.registerConfirmEmail = "";
     try {

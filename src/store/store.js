@@ -1,6 +1,7 @@
 import Vue from "vue";
 import Vuex from "vuex";
-import * as authorisation from "./modules/authorisation"
+import * as authorisation from "./modules/authorisation";
+import * as appInfo from "./modules/appInfo";
 
 Vue.use(Vuex);
 
@@ -27,7 +28,8 @@ const store = new Vuex.Store({
 
   },
   modules: {
-    authorisation
+    authorisation,
+    appInfo
   }
 });
 

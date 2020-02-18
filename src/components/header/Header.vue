@@ -4,8 +4,8 @@
 			<h1>Typhus</h1>
 			<span
 				class="version"
-				:title="'Current vrsion of Typhon is: ' + appVersion"
-			>v{{ this.appVersion }}</span>
+				:title="'Current vrsion of Typhon is: ' + currentVersion"
+			>v{{ this.currentVersion }}</span>
 			<!-- NEED TO EXTRACT connectionStatus to so that it's only active ondash, get, post views. This will allow the beforeDestroy method to prevent on views that do not require an online/offline state check. -->
 			<ConnectionStatus />
 		</div>
@@ -24,19 +24,14 @@
 
 <script>
 import { mapGetters } from "vuex";
-import ConnectionStatus from "../components/ConnectionStatus";
+import ConnectionStatus from "../header/ConnectionStatus.vue";
 export default {
 	name: "Header",
 	components: {
 		ConnectionStatus
 	},
-	data() {
-		return {
-			appVersion: "0.2.3"
-		};
-	},
 	computed: {
-		...mapGetters(["authUser"])
+		...mapGetters(["authUser", "currentVersion"])
 	}
 };
 </script>

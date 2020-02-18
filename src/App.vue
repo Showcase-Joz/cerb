@@ -7,7 +7,7 @@
 
 <script>
 import { mapGetters } from "vuex";
-import Header from "./components/Header";
+import Header from "./components/header/Header.vue";
 export default {
 	name: "app",
 	components: {
@@ -22,6 +22,7 @@ export default {
 	// attempt to login user from session
 	async created() {
     await this.$store.dispatch("fetchUser");
+    await this.$store.dispatch("connectionTest");
     
 	},
 	computed: {
