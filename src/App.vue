@@ -16,17 +16,22 @@ export default {
 	beforeUpdate() {
 		// clear error message from current view
 		if (this.errMessage) {
-			this.$store.dispatch("setError", null);
-		}
+			this.$store.dispatch("authorisation/setError", null);
+    }
+    console.log(this.$store.state.authorisation.test);
+    
 	},
 	// attempt to login user from session
 	async created() {
-    await this.$store.dispatch("fetchUser");
+    await this.$store.dispatch("authorisation/fetchUser");
     await this.$store.dispatch("connectionTest");
+    // if (this.authUser) {
+    //   this.$router.push("/dashboard")
+    // }
     
 	},
 	computed: {
-		...mapGetters(["errMessage"])
+		...mapGetters(["authUser", "errMessage"])
 	}
 };
 </script>

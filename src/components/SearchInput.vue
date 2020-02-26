@@ -93,6 +93,7 @@ export default {
         namespace: ""
       };
       this.$emit("handleMeta", metaObj);
+      this.$store.dispatch("search/storedSearch", null);
     },
     clearSearch: function(event) {
       const searchInput = event.target.previousElementSibling;

@@ -19,6 +19,6 @@ export const mutations = {
 export const actions = {
   storedSearch({ commit, dispatch }, payload) {    
     commit("SEARCH_STRING", payload);
-    dispatch('authorisation/testAction', "steve", { root: true })
+    dispatch('testAction', "steve", { root: true })
   }
 }

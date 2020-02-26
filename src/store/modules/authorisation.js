@@ -1,11 +1,14 @@
 import Auth from "@aws-amplify/auth";
 
+export const namespaced = true;
+
 export const state = {
   authorized: false,
   user: null,
   registerConfirmEmail: "",
   confirm: false,
-  authError: null
+  authError: null,
+  test: "bob"
 };
 export const getters = {
   authUser: state => {
@@ -41,6 +44,9 @@ export const mutations = {
   },
   UPDATECONFIRMEMAIL(state, email) {
     state.registerConfirmEmail = email;
+  },
+  BEEMMEUP(state, item) {
+    state.test = item
   }
 };
 export const actions = {
@@ -120,5 +126,10 @@ export const actions = {
   },
   setError({ commit }, payload) {
     commit("ERRMESSAGE", payload);
+  },
+  testAction({ commit}, payload) {
+    commit("BEEMMEUP", payload)
+    console.log("passed", payload);
+    
   }
 };

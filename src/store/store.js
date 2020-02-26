@@ -1,7 +1,8 @@
 import Vue from "vue";
 import Vuex from "vuex";
-import * as authorisation from "./modules/authorisation";
+import * as authorisation from "./modules/authorisation.js";
 import * as appInfo from "./modules/appInfo";
+import * as search from "./modules/search";
 
 Vue.use(Vuex);
 
@@ -13,6 +14,7 @@ Vue.use(Vuex);
 */
 
 const store = new Vuex.Store({
+  namespaced: true,
   state: {
     // signedIn: false,
     // user: null
@@ -29,7 +31,8 @@ const store = new Vuex.Store({
   },
   modules: {
     authorisation,
-    appInfo
+    appInfo,
+    search
   }
 });
 
