@@ -224,7 +224,7 @@ export default {
     div[class^="response-n"] {
       font-size: 1.25rem;
       font-variant: all-petite-caps;
-      font-weight: 500;
+      font-weight: $heavy;
       line-height: 1.2rem;
     }
 

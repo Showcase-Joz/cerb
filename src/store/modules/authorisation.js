@@ -8,7 +8,6 @@ export const state = {
   registerConfirmEmail: "",
   confirm: false,
   authError: null,
-  test: "bob"
 };
 export const getters = {
   authUser: state => {
@@ -45,9 +44,6 @@ export const mutations = {
   UPDATECONFIRMEMAIL(state, email) {
     state.registerConfirmEmail = email;
   },
-  BEEMMEUP(state, item) {
-    state.test = item
-  }
 };
 export const actions = {
   async signin({ commit, dispatch, state }, { email, password }) {
@@ -126,10 +122,5 @@ export const actions = {
   },
   setError({ commit }, payload) {
     commit("ERRMESSAGE", payload);
-  },
-  testAction({ commit}, payload) {
-    commit("BEEMMEUP", payload)
-    console.log("passed", payload);
-    
   }
 };

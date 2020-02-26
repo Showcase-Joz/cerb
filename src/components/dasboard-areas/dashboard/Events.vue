@@ -164,7 +164,7 @@ export default {
     div[class^="response-n"] {
       font-size: 1.25rem;
       font-variant: all-petite-caps;
-      font-weight: 500;
+      font-weight: $heavy;
       line-height: 1.2rem;
     }
 
@@ -234,7 +234,7 @@ export default {
         border-radius: 3px;
         color: tint($color2, $tint100);
         cursor: help;
-        font-weight: 500;
+        font-weight: $heavy;
         min-width: max-content;
         // padding: 0.2rem 0.5rem;
         padding: calc(#{$spacingDefault} / 5) calc(#{$spacingDefault} / 2);

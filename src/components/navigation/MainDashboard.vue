@@ -83,7 +83,7 @@ export default {
       &.router-link-active {
         background-color: $valid;
         color: $color2;
-        font-weight: 600;
+        font-weight: $heavy;
       }
 
       &:hover {

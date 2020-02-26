@@ -288,7 +288,7 @@ export default {
           &:hover {
             background-color: $color2;
             color: tint($color1, $tint100);
-            font-weight: 500;
+            font-weight: $heavy;
             padding-right: $spacingLarge;
             transition: all ease-in 250ms;
           }

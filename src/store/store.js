@@ -18,17 +18,10 @@ const store = new Vuex.Store({
   state: {
     // signedIn: false,
     // user: null
-
   },
-  getters: {
-
-  },
-  mutations: {
-
-  },
-  actions: {
-
-  },
+  getters: {},
+  mutations: {},
+  actions: {},
   modules: {
     authorisation,
     appInfo,

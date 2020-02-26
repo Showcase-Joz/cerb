@@ -1,17 +1,30 @@
-
 @import "mixins";
 @import "functions";
+/*
+additional imports MIGHT be at the bottom of this file,
+if they require variables from this file!
+*/
 
+
+// padding and margin (spacing)
 $spacingDefault: 1rem;
 $spacingLarge: 2.5rem;
+
 
 // Grid measurements
 $col-gap: 0.25rem;
 
-$primary-font-family: "Avenir", Helvetica, Arial, sans-serif;
+
+// colors, shades & tints
+$neutral: blue;
+$valid: hsl(153, 47%, 49%);;
+$warning: hsl(22, 97%, 73%);
+$invalid: hsl(0, 100%, 66%);
+$unknown: hsl(33.7, 7.6%, 58.8%);
 
 $color1: hsl(153, 47%, 49%);
 $color2: hsl(0, 0%, 20%);
+
 $shade10: 10%;
 $shade25: 25%;
 $shade50: 50%;
@@ -27,32 +40,28 @@ $tint90: 90%;
 $tint100: 100%;
 
 
-$neutral: blue;
-$valid: hsl(153, 47%, 49%);;
-$warning: hsl(22, 97%, 73%);
-$invalid: hsl(0, 100%, 66%);
-
+// oddments
 $borderRadius: 5px;
+$status-size: 5px;
 
+
+// fonts and text
+$primary-font-family: "Avenir", Helvetica, Arial, sans-serif;
 $font-normal: 1rem;
 $font-size-xl: 1.2rem;
 $letter-spacing: calc(#{$font-normal} /8);
+$heavy: 500;
+
+
+// base-set text/content
 $strDefPattern: "a-z 0-9 .";
 $timestampDefPattern: "0-9";
 $textDefPattern: "you can use all characters";
 
+
+// breakpoint definitions
 $minViewport: 320px;
 
-::selection {
-  background: $neutral; /* WebKit/Blink Browsers */
-  color: tint($color2, $tint100);
-  
-}
-::-moz-selection {
-  background: $neutral; /* Gecko Browsers */
-  color: tint($color2, $tint100);
-}
 
-body {
-  overflow-y: hidden;
-}
+// post variable imports
+@import "base";

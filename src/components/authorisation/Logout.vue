@@ -1,9 +1,9 @@
 <template>
   <div id="logout">
-    <button v-if="this.$store.getters.authUser" @click="signOut">
+    <p v-if="this.authUser" >Would you like to <button @click="signOut">
       Sign Out
-    </button>
-    <div v-if="!this.$store.getters.authUser">
+    </button>?</p>
+    <div v-if="!this.authUser">
       <strong>You are already logged out</strong>.
       <p>
         Do you want to
@@ -14,14 +14,20 @@
 </template>
 
 <script>
+import { mapGetters } from 'vuex';
 export default {
   name: "Logout",
   methods: {
     signOut: function() {
-      this.$store.dispatch("logout").then(() => {
+      this.$store.dispatch("authorisaton/logout").then(() => {
         this.$router.push("/login");
       });
     }
+  },
+  computed: {
+    ...mapGetters({
+      authUser: "authorisation/authUser",
+    })
   }
 };
 </script>

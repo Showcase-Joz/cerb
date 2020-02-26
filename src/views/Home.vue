@@ -1,25 +1,25 @@
 <template>
   <div class="home">
     <img alt="Vue logo" src="../assets/logo.png" />
-    <p v-if="authUser">
+    <p v-if="this.authUser">
       Visit the
       <router-link to="/dashboard">Dashboard</router-link>
     </p>
-    <p v-if="authUser">
+    <p v-if="this.authUser">
       You are currently logged in as
       <strong>{{ currentEmail }}</strong
       >.
     </p>
-    <p v-if="this.$store.getters.errMessage">
+    <p v-if="this.errMessage">
       There was as error, most recently:
       <ErrorOutput />
     </p>
-    <p v-if="!authUser">
+    <p v-if="!this.authUser">
       You are currently logged out!
       <br />Please <router-link to="/login">Login</router-link> to continue.
     </p>
     <br />
-    <Logout v-if="authUser" />
+    <Logout v-if="this.authUser" />
   </div>
 </template>
 
@@ -39,7 +39,12 @@ export default {
     }
   },
   computed: {
-    ...mapGetters(["authUser", "currentEmail"])
+    // ...mapGetters(["authUser", "currentEmail"]),
+    ...mapGetters({
+      authUser: "authorisation/authUser",
+      currentEmail: "authorisation/currentEmail",
+      errMessage: "authorisation/errMessage"
+    })
   }
 };
 </script>
