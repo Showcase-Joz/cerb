@@ -123,7 +123,7 @@ export default {
         this.formResponses.createNewItem !== null &&
         this.$parent.$data.id === "Namespace"
       ) {
-        this.$http
+        api
           .put(initialMeta + "namespaces/" + this.formResponses.createNewItem)
           .then(response => {
             if (response.ok === true) {
@@ -135,7 +135,7 @@ export default {
         this.$parent.$data.id === "Name"
       ) {
         // console.log("sending data N", this.formResponses.createNewItem);
-        this.$http
+        api
           .put(initialMeta + this.nsString + this.formResponses.createNewItem)
           .then(response => {
             if (response.ok === true) {

@@ -98,7 +98,7 @@ export default {
   methods: {
     fetchName: function(namesQuery) {
       this.loading = true;
-      this.$http.get(namesQuery).then(
+      api.get(namesQuery).then(
         response => {
           if (response.ok === true) {
             this.loading = false;
@@ -127,7 +127,7 @@ export default {
 
       this.selectedN = name;
       // console.log(this.selectedNS, this.selectedN);
-      this.$http
+      api
         .delete(initialMeta + this.selectedNS + "/" + this.selectedN)
         .then(response => {
           if (response.ok === true && this.$data.id === "Name") {

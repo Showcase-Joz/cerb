@@ -54,7 +54,7 @@ export default {
     fetchPost: function() {
       // console.log("test ", this.postString);
 
-      this.$http.post("events", this.postString).then(
+      api.post("events", this.postString).then(
         response => {
           if (response.ok === true) {
             this.resultBoolean = true;

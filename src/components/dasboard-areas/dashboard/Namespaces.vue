@@ -51,7 +51,7 @@ export default {
   methods: {
     fetchNamespaces: function(stringSuffix) {
       this.loading = true;
-      this.$http.get(stringSuffix).then(
+      api.get(stringSuffix).then(
         response => {
           if (response.ok === true) {
             this.loading = false;
@@ -86,7 +86,7 @@ export default {
       this.$emit("handleNewNS", clearSearchInput);
     },
     deleteNS: function(namespace) {
-      this.$http.delete(initialMeta + "/" + namespace).then(response => {
+      api.delete(initialMeta + "/" + namespace).then(response => {
         if (response.ok === true && this.$data.id === "Namespace") {
           this.fetchNamespaces(initialMeta + maxLimit);
           this.$emit("handleNewNS", clearSearchInput);
