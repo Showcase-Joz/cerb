@@ -1,14 +1,14 @@
 <template>
   <div>
-    <div class="loading" v-if="loading">Loading...</div>
+    <div class="loading" v-if="this.loading">Loading...</div>
 
     
-      <div class="dashboard-main" v-if="!loading">
+      <div class="dashboard-main" v-if="!this.loading">
         <CreateItem :returnSolo="updateFromCreated" />
         
         <div
           class="item"
-          v-for="(namespace, index) in namespaceResults"
+          v-for="(namespace, index) in this.currentNamespaces"
           :key="index"
           @click="handleClick(namespace)"
           @keyup.enter="handleClick(namespace)"
@@ -22,6 +22,7 @@
 </template>
 <script>
 import CreateItem from "../../form/CreateItem";
+import { mapGetters } from 'vuex';
 const initialMeta = "metadata/namespaces";
 const andFilter = "?filter=";
 const maxLimit = "?limit=0";
@@ -42,30 +43,33 @@ export default {
       namespaceResults: [],
       searchInputUpdatedValue: null,
       selectedNS: null,
-      loading: false,
+      // loading: false,
       id: "Namespace"
     };
   },
-  beforeMount() {
-    this.fetchNamespaces(initialMeta + maxLimit);
+  async beforeMount() {
+    await this.fetchNamespaces(initialMeta + maxLimit);
   },
   methods: {
-    fetchNamespaces: function(stringSuffix) {
-      this.loading = true;
-     this.$http.get(stringSuffix).then(
-        response => {
-          if (response.status === 200) {
-            this.loading = false;
-            this.namespaceResults = response.data.namespaces;
-          } else if (response.status !== 200) {
-            this.resultBoolean = false;
-          }
-        },
-        error => {
-          console.log("Error: ", error);
-        }
-      );
+    async fetchNamespaces(stringSuffix) {
+      await this.$store.dispatch("namespace/getNS", stringSuffix)
     },
+    // fetchNamespaces: function(stringSuffix) {
+      // this.loading = true;
+    //  this.$http.get(stringSuffix).then(
+        // response => {
+          // if (response.status === 200) {
+            // this.loading = false;
+            // this.namespaceResults = response.data.namespaces;
+          // } else if (response.status !== 200) {
+        //     this.resultBoolean = false;
+        //   }
+        // },
+        // error => {
+        //   console.log("Error: ", error);
+        // }
+    //   );
+    // },
     updateNamespaces: function() {
       if (this.searchInputUpdatedValue.namespace.length < 1) {
         this.fetchNamespaces(initialMeta + maxLimit);
@@ -97,6 +101,12 @@ export default {
       //   "this deletes " + namespace + ", uncomment the code to continue"
       // );
     }
+  },
+  computed: {
+    ...mapGetters({
+      loading: "loading",
+      currentNamespaces: "namespace/currentNamespaces"
+    })
   },
   watch: {
     userInputMeta: function(newVal) {
@@ -193,10 +203,13 @@ export default {
       width: calc(100% - 0.4rem);
     }
   }
-  .loading {
+  
+}
+
+.loading {
     position: absolute;
     top: 10px;
     right: 10px;
+    color: tint($color2, $tint100);
   }
-}
 </style>

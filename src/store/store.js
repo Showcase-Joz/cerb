@@ -3,6 +3,7 @@ import Vuex from "vuex";
 import * as authorisation from "./modules/authorisation.js";
 import * as appInfo from "./modules/appInfo";
 import * as search from "./modules/search";
+import * as namespace from "./modules/namespace";
 
 Vue.use(Vuex);
 
@@ -18,14 +19,29 @@ const store = new Vuex.Store({
   state: {
     // signedIn: false,
     // user: null
+    loading: false
   },
-  getters: {},
-  mutations: {},
-  actions: {},
+  getters: {
+    loading: state => {
+      return state.loading;
+    }
+  },
+  mutations: {
+    LOADING_STATE(state, value) {
+      state.loading = value;
+      console.log("working", value);
+    }
+  },
+  actions: {
+    testAction({ commit }, payload) {
+      commit("LOADING_STATE", payload);      
+    }
+  },
   modules: {
     authorisation,
     appInfo,
-    search
+    search,
+    namespace
   }
 });
 
