@@ -11,7 +11,7 @@ import { mapGetters } from "vuex";
 export default {
   name: "Errors",
   computed: {
-    ...mapGetters(["errMessage"])
+    ...mapGetters({errMessage: "authorisation/errMessage"})
   }
 };
 </script>

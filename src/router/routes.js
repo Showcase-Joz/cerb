@@ -5,7 +5,7 @@ import store from "../store/store";
 // add packages
 import Auth from "@aws-amplify/auth";
 // add package config
-import awsExports from "../aws-exports"
+import awsExports from "../aws-exports";
 // add route end-points
 import Home from "../views/Home.vue";
 import LoginView from "../views/authorisation/LoginView.vue";
@@ -15,7 +15,7 @@ import SignupView from "../views/authorisation/SignupView.vue";
 Auth.configure(awsExports);
 
 Vue.use(VueRouter);
-Vue.use(Auth);
+// Vue.use(Auth);
 
 const router = new VueRouter({
   mode: "history",
@@ -85,8 +85,8 @@ const router = new VueRouter({
       component: () =>
         import(/* webpackChunkName: "dashboard" */ "../views/Dashboard.vue"),
 
-        // =========================
-        // GROUPED CHILD ROUTES ====
+      // =========================
+      // GROUPED CHILD ROUTES ====
       children: [
         {
           // Namespaces
@@ -115,7 +115,7 @@ const router = new VueRouter({
               /* webpackChunkName: "get" */ "../components/dasboard-areas/dashboard/Events.vue"
             )
         }
-      ],
+      ]
     },
     {
       path: "/settings",
@@ -140,26 +140,29 @@ const router = new VueRouter({
       // route level code-splitting
       // this generates a separate chunk (post.[hash].js) for this route
       // which is lazy-loaded when the route is visited.
-      component: () => import(/* webpackChunkName: "post" */ "../views/Post.vue")
+      component: () =>
+        import(/* webpackChunkName: "post" */ "../views/Post.vue")
     },
     {
       path: "*",
       name: "404",
-      component: () => import(/* webpackChunkName: "NotFound" */ "../views/NotFound.vue")
+      meta: {
+        public: true,
+        onlyWhenLoggedOut: false
+      },
+      component: () =>
+        import(/* webpackChunkName: "NotFound" */ "../views/NotFound.vue")
     }
   ]
 });
 
 router.beforeEach((to, from, next) => {
+  const loggedIn = store.getters["authorisation/authUser"];
   const isPublic = to.matched.some(record => record.meta.public);
   const onlyWhenLoggedOut = to.matched.some(
     record => record.meta.onlyWhenLoggedOut
   );
-  const loggedIn = !!store.state.authorisation.user;
-  // console.log(isPublic, onlyWhenLoggedOut, loggedIn);
-
   
-
   if (!isPublic && !loggedIn) {
     return next({
       path: "/login",
@@ -172,9 +175,8 @@ router.beforeEach((to, from, next) => {
     return next("/");
   }
 
-
-  if (!isPublic && loggedIn ) {
-    return next ()
+  if (!isPublic && loggedIn) {
+    return next();
   }
 
   next();

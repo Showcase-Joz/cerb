@@ -76,13 +76,13 @@ export default {
     fetchGet: function(prefix, suffix) {
       console.log("test ", prefix + suffix);
 
-      this.$http.get(prefix + suffix).then(
+     this.$http.get(prefix + suffix).then(
         response => {
           console.log(response);
-          if (response.ok === true) {
+          if (response.status === 200) {
             this.resultBoolean = true;
             this.getResponse = response;
-          } else if (response.ok === false) {
+          } else if (response.status !== 200) {
             this.resultBoolean = false;
           }
         },

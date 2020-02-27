@@ -99,10 +99,10 @@ export default {
     fetchName: function(namesQuery) {
       this.loading = true;
       this.$http.get(namesQuery).then(
-        response => {
-          if (response.ok === true) {
+        response => {       
+          if (response.status === 200) {
             this.loading = false;
-            this.fetchedNames = response.body;
+            this.fetchedNames = response.data;
           }
         },
         error => {
@@ -127,10 +127,9 @@ export default {
 
       this.selectedN = name;
       // console.log(this.selectedNS, this.selectedN);
-      this.$http
-        .delete(initialMeta + this.selectedNS + "/" + this.selectedN)
+      this.$http.delete(initialMeta + this.selectedNS + "/" + this.selectedN)
         .then(response => {
-          if (response.ok === true && this.$data.id === "Name") {
+          if (response.status === 200 && this.$data.id === "Name") {
             // console.log("fetching names again");
 
             this.fetchName(initialMeta + this.selectedNS + "/names" + maxLimit);
@@ -224,7 +223,7 @@ export default {
     div[class^="response-n"] {
       font-size: 1.25rem;
       font-variant: all-petite-caps;
-      font-weight: 500;
+      font-weight: $heavy;
       line-height: 1.2rem;
     }
 

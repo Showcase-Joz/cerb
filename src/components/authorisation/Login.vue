@@ -26,6 +26,7 @@
 </template>
 
 <script>
+
 import { mapGetters } from "vuex";
 import ErrorOutput from "../authorisation/helpers/ErrorOutput.vue";
 import Loading from "../authorisation/helpers/Loading.vue";
@@ -46,13 +47,13 @@ export default {
     async usersignin() {
       // check both fields are filled in
       if (this.signinEmail === null || this.signinPassword === null) {
-        this.$store.dispatch("setError", {
+        this.$store.dispatch("authorisation/setError", {
           name: "Please complete both fields"
         });
         return;
       }
       if (this.signinPassword === "") {
-        this.$store.dispatch("setError", {
+        this.$store.dispatch("authorisation/setError", {
           code: "local resolve",
           message: "Please enter your password!!"
         });
@@ -60,7 +61,7 @@ export default {
       }
       this.loading = true;
       await this.$store
-        .dispatch("signin", {
+        .dispatch("authorisation/signin", {
           email: this.signinEmail,
           password: this.signinPassword
         })
@@ -74,7 +75,9 @@ export default {
     }
   },
   computed: {
-    ...mapGetters(["authUser"])
+    ...mapGetters({
+      authUser: "authorisation/authUser"
+    })
   }
 };
 </script>

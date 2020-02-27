@@ -51,7 +51,7 @@ export default {
   .toggledOn {
     color: inherit;
     font-size: x-small;
-    font-weight: 500;
+    font-weight: $heavy;
     text-transform: uppercase;
 
     @include for-size(tablet-portrait-up) {

@@ -1,0 +1,39 @@
+
+
+body {
+  overflow-y: hidden;
+}
+
+
+// psudo selectors
+::selection {
+  background: $neutral; /* WebKit/Blink Browsers */
+  color: tint($color2, $tint100);
+  
+}
+::-moz-selection {
+  background: $neutral; /* Gecko Browsers */
+  color: tint($color2, $tint100);
+}
+
+
+// 
+.green-item {
+  color: $valid;
+}
+.red-item {
+  color: $invalid;
+}
+.unknown-item {
+  color: $unknown;
+}
+
+.green-bg {
+  background-color: $valid;
+}
+.red-bg {
+  background-color: $invalid;
+}
+.unknown-bg {
+  background-color: $unknown;
+}

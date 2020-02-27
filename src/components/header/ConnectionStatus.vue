@@ -4,17 +4,17 @@
 		<span
 			:title="this.computedConnectionMessage"
 			:class="{
-        'status-green': connectionStatus,
-        'status-red': !connectionStatus
+        'green-item': connectionStatus,
+        'red-item': !connectionStatus
       }"
 		>{{ connectionStatus ? "online" : "offline" }}</span>
-    <span
-			:title="this.computedConnectionMessage"
+		<span
+			:title="this.computedServerMessage"
 			:class="{
-        'status-green': serverStatus,
-        'status-red': !serverStatus
+        'green-item': serverStatus,
+        'red-item': !serverStatus
       }"
-		>&amp; {{ serverStatus ? "serving" : "not serving" }}</span>
+		>{{ serverStatus ? "serving" : "not serving" }}</span>
 	</sup>
 </template>
 <script>
@@ -23,20 +23,29 @@ export default {
 	name: "connectionStatus",
 	async beforeMount() {
 		// check status before view loads
-		await this.$store.dispatch("serverTest");
+		await this.$store.dispatch("appInfo/serverTest");
 	},
 	computed: {
-		...mapGetters(["connectionStatus", "serverStatus", "connectionErr"]),
+		...mapGetters({
+			connectionStatus: "appInfo/connectionStatus",
+			serverStatus: "appInfo/serverStatus",
+			connectionErr: "appInfo/connectionErr"
+		}),
 		computedConnectionMessage: function() {
 			return this.connectionStatus
-				? "Typhon is currently able to communicate with the API and serving ONLINE results"
-				: "Typhon is unable to communicate with the API and is therefore OFFLINE";
+				? "Typhon is currently able to connect to the internet; you are CONNECTED"
+				: "Typhon is unable to connect to the internet and is therefore OFFLINE!";
+		},
+		computedServerMessage: function() {
+			return this.serverStatus
+				? "Typhon can communicate with the API and is serving ONLINE results"
+				: "Typhon is unable to communicate with the API and is therefore OFFLINE!";
 		}
-	},
+	}
 	// watch: {
 	// 	connectionStatus: function(newVal) {
 	// 		if (newVal) {
-				
+
 	// 		}
 	// 	}
 	// }
@@ -54,36 +63,17 @@ export default {
 		width: max-content;
 
 		span {
-			&.status-red {
-				color: $invalid;
-				position: relative;
-
-				&::after {
-					background-color: shade($invalid, $shade10);
-					border-radius: 50%;
-					content: "";
-					bottom: 4px;
-					height: 10px;
-					margin-left: 4px;
-					position: absolute;
-					width: 10px;
-				}
+			
+			&:hover {
+				font-weight: $heavy;
+				text-decoration: underline $unknown;
 			}
 
-			&.status-green {
-				color: $valid;
+			&:last-of-type::before {
+				color: tint($color2, $tint100);
+				content: "\0026";
+				margin: auto 3px;
 				position: relative;
-
-				&::after {
-					background-color: $valid;
-					border-radius: 50%;
-					content: "";
-					bottom: 4px;
-					height: 10px;
-					position: absolute;
-					margin-left: 4px;
-					width: 10px;
-				}
 			}
 		}
 	}

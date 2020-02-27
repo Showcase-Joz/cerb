@@ -1,15 +1,23 @@
 import Auth from "@aws-amplify/auth";
 
+export const namespaced = true;
+
 export const state = {
   authorized: false,
   user: null,
   registerConfirmEmail: "",
   confirm: false,
-  authError: null
+  authError: null,
 };
 export const getters = {
   authUser: state => {
     return state.authorized;
+  },
+  user: state => {
+    return state.user;
+  },
+  confirm: state => {
+    return state.confirm;
   },
   currentEmail: state => {
     if (state.user) {
@@ -36,27 +44,27 @@ export const mutations = {
   CONFIRM(state, showConfirm) {
     state.confirm = !!showConfirm;
   },
-  ERRMESSAGE(state, issue) {
+  ERR_MESSAGE(state, issue) {
     state.authError = issue;
   },
   UPDATECONFIRMEMAIL(state, email) {
     state.registerConfirmEmail = email;
-  }
+  },
 };
 export const actions = {
   async signin({ commit, dispatch, state }, { email, password }) {
-    state.errMessage = "";
+    state.errMessage = null;
     try {
       await Auth.signIn(email, password);
     } catch (err) {
-      commit("ERRMESSAGE", err);
+      commit("ERR_MESSAGE", err);
       return;
     }
     await dispatch("fetchUser");
   },
   // register method that can call another method and sets state
   async register({ commit, state }, { email, password }) {
-    state.errMessage = "";
+    state.errMessage = null;
     state.registerConfirmEmail = "";
     try {
       // call Auth...
@@ -73,20 +81,20 @@ export const actions = {
       commit("CONFIRM", true);
       commit("UPDATECONFIRMEMAIL", email);
     } catch (err) {
-      commit("ERRMESSAGE", err);
+      commit("ERR_MESSAGE", err);
       commit("CONFIRM", false);
     }
   },
 
   async confirm({ commit, state }, { email, code }) {
-    state.errMessage = "";
+    state.errMessage = null;
     try {
       await Auth.confirmSignUp(email, code, {
         forceAliasCreation: true
       });
       commit("UPDATECONFIRMEMAIL", "");
     } catch (err) {
-      commit("ERRMESSAGE", err);
+      commit("ERR_MESSAGE", err);
       return;
     }
     commit("CONFIRM", false);
@@ -119,6 +127,6 @@ export const actions = {
     commit("CONFIRM", payload);
   },
   setError({ commit }, payload) {
-    commit("ERRMESSAGE", payload);
+    commit("ERR_MESSAGE", payload);
   }
 };
