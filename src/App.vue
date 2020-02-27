@@ -23,9 +23,9 @@ export default {
   async created() {
     await this.$store.dispatch("authorisation/fetchUser");
     await this.$store.dispatch("appInfo/connectionTest");
-    // if (this.authUser) {
-    //   this.$router.push("/dashboard")
-    // }
+    if (this.authUser) {
+      this.$router.push("/dashboard")
+    }
   },
   computed: {
     ...mapGetters({

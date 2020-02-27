@@ -15,7 +15,7 @@ import SignupView from "../views/authorisation/SignupView.vue";
 Auth.configure(awsExports);
 
 Vue.use(VueRouter);
-Vue.use(Auth);
+// Vue.use(Auth);
 
 const router = new VueRouter({
   mode: "history",
@@ -146,6 +146,10 @@ const router = new VueRouter({
     {
       path: "*",
       name: "404",
+      meta: {
+        public: true,
+        onlyWhenLoggedOut: false
+      },
       component: () =>
         import(/* webpackChunkName: "NotFound" */ "../views/NotFound.vue")
     }
@@ -153,12 +157,12 @@ const router = new VueRouter({
 });
 
 router.beforeEach((to, from, next) => {
+  const loggedIn = store.getters["authorisation/authUser"];
   const isPublic = to.matched.some(record => record.meta.public);
   const onlyWhenLoggedOut = to.matched.some(
     record => record.meta.onlyWhenLoggedOut
   );
-  const loggedIn = !!store.state.authorisation.user;
-  // console.log(isPublic, onlyWhenLoggedOut, loggedIn);
+  
   if (!isPublic && !loggedIn) {
     return next({
       path: "/login",

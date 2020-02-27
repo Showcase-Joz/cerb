@@ -71,11 +71,11 @@ export default {
   methods: {
     fetchName: function(eventsQuery) {
       this.loading = true;
-      api.get(eventsQuery).then(
+     this.$http.get(eventsQuery).then(
         response => {
-          if (response.ok === true) {
+          if (response.status === 200) {
             this.loading = false;
-            this.fetchedNames = response.body;
+            this.fetchedNames = response.data;
           }
         },
         error => {

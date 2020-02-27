@@ -1,4 +1,4 @@
-import Axios from "axios";
+import api from "../../services/api"
 
 export const namespaced = true;
 
@@ -43,7 +43,7 @@ export const mutations = {
 
 export const actions = {
   async connectionTest({ commit, dispatch }) {
-    state.connectionError = "";
+    state.connectionError = null;
     await window.addEventListener("offline", () => {
       commit("CONNECTION_STATUS", false);
       commit("SERVER_STATUS", false);
@@ -59,7 +59,7 @@ export const actions = {
   },
   async serverTest({ commit, dispatch }) {
     try {
-      await Axios.get("https://typhon-api.sst-l.com/check").then(response => {
+      await api.get("check").then(response => {
         if (response.status === 200) {
           commit("SERVER_STATUS", true);
         } else {

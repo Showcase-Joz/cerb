@@ -2,9 +2,10 @@
   <div>
     <div class="loading" v-if="loading">Loading...</div>
 
-    <transition name="fade">
+    
       <div class="dashboard-main" v-if="!loading">
         <CreateItem :returnSolo="updateFromCreated" />
+        
         <div
           class="item"
           v-for="(namespace, index) in namespaceResults"
@@ -16,7 +17,7 @@
           {{ namespace }}
         </div>
       </div>
-    </transition>
+    
   </div>
 </template>
 <script>
@@ -51,12 +52,12 @@ export default {
   methods: {
     fetchNamespaces: function(stringSuffix) {
       this.loading = true;
-      api.get(stringSuffix).then(
+     this.$http.get(stringSuffix).then(
         response => {
-          if (response.ok === true) {
+          if (response.status === 200) {
             this.loading = false;
-            this.namespaceResults = response.body.namespaces;
-          } else if (response.ok === false) {
+            this.namespaceResults = response.data.namespaces;
+          } else if (response.status !== 200) {
             this.resultBoolean = false;
           }
         },
@@ -86,8 +87,8 @@ export default {
       this.$emit("handleNewNS", clearSearchInput);
     },
     deleteNS: function(namespace) {
-      api.delete(initialMeta + "/" + namespace).then(response => {
-        if (response.ok === true && this.$data.id === "Namespace") {
+     this.$http.delete(initialMeta + "/" + namespace).then(response => {
+        if (response.status === 200 && this.$data.id === "Namespace") {
           this.fetchNamespaces(initialMeta + maxLimit);
           this.$emit("handleNewNS", clearSearchInput);
         }

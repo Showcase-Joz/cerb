@@ -54,13 +54,13 @@ export default {
     fetchPost: function() {
       // console.log("test ", this.postString);
 
-      api.post("events", this.postString).then(
+     this.$http.post("events", this.postString).then(
         response => {
-          if (response.ok === true) {
+          if (response.status === 200 || response.status === 201) {
             this.resultBoolean = true;
-            this.responseHref = response.body.href;
-            this.passedMessage = response.body.message;
-          } else if (response.ok === false) {
+            this.responseHref = response.data.href;
+            this.passedMessage = response.data.message;
+          } else if (response.status !== 200 || response.status !== 201) {
             this.resultBoolean = false;
           }
         },

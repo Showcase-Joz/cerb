@@ -26,6 +26,7 @@
 </template>
 
 <script>
+
 import { mapGetters } from "vuex";
 import ErrorOutput from "../authorisation/helpers/ErrorOutput.vue";
 import Loading from "../authorisation/helpers/Loading.vue";

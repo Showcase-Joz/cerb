@@ -12,32 +12,30 @@
 <script>
 import Register from "../../components/authorisation/Register.vue";
 import SignUpConfirm from "../../components/authorisation/RegisterConfirm.vue";
+import { mapGetters } from 'vuex';
 export default {
   name: "signup",
   components: {
     Register,
     SignUpConfirm
   },
-  data() {
-    return {
-      signupForm: false,
-      newpassword: false
-    };
-  },
   async created() {
     this.confirm =
-      this.$store.state.authorisation.user &&
-      this.$store.state.user.authorisation.attributes &&
-      !this.$store.state.user.authorisation.attributes.email_verified;
+    this.user &&
+    this.user.attributes &&
+    !this.user.attributes.email_verified;
   },
   methods: {},
   computed: {
+    ...mapGetters({
+      user: "authorisation/user"
+    }),
     confirm: {
       get() {
         return this.$store.state.authorisation.confirm;
       },
       set(value) {
-        this.$store.commit("CONFIRM", value);
+        this.$store.commit("authorisation/CONFIRM", value);
       }
     }
   }
