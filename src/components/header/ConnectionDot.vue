@@ -44,15 +44,17 @@ export default {
 
 <style lang="scss" scoped>
 .status-group {
-			align-self: center;
+			align-self: start;
 			column-gap: 0.04em;
 			display: grid;
 			grid-template-columns: -webkit-min-content -webkit-min-content;
 			grid-template-columns: min-content min-content;
+			grid-gap: 1px;
 			height: min-content;
 			left: 2px;
 			position: relative;
 			transform: rotate(45deg);
+			top: 2px;
       width: min-content;
 
 			& .status {

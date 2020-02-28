@@ -1,5 +1,5 @@
 <template>
-  <div>
+  <div class="register page">
     <Register v-if="!this.confirm" />
 
     <SignUpConfirm v-if="this.confirm" />

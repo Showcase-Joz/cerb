@@ -1,5 +1,5 @@
 <template>
-  <div class="get-view">
+  <div class="get-view page">
     <div class="view-atfold">
       <h1>This is a GET page</h1>
       <p v-if="!resultBoolean">

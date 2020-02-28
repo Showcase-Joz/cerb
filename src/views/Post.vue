@@ -1,5 +1,5 @@
 <template>
-  <div class="post-view">
+  <div class="post-view page">
     <div class="view-atfold">
       <h1>This is a POST page</h1>
       <p v-if="!resultBoolean">

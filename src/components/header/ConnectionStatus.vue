@@ -1,21 +1,24 @@
 <template>
-	<sup>
-		...is
-		<span
-			:title="this.computedConnectionMessage"
-			:class="{
+	<div>
+		<strong><sup>Logging</sup></strong>
+		<sup>
+			...is
+			<span
+				:title="this.computedConnectionMessage"
+				:class="{
         'green-item': connectionStatus,
         'red-item': !connectionStatus
       }"
-		>{{ connectionStatus ? "online" : "offline" }}</span>
-		<span
-			:title="this.computedServerMessage"
-			:class="{
+			>{{ connectionStatus ? "online" : "offline" }}</span>
+			<span
+				:title="this.computedServerMessage"
+				:class="{
         'green-item': serverStatus,
         'red-item': !serverStatus
       }"
-		>{{ serverStatus ? "serving" : "not serving" }}</span>
-	</sup>
+			>{{ serverStatus ? "serving" : "not serving" }}</span>
+		</sup>
+	</div>
 </template>
 <script>
 import { mapGetters } from "vuex";
@@ -42,19 +45,13 @@ export default {
 				: "Typhon is unable to communicate with the API and is therefore OFFLINE!";
 		}
 	}
-	// watch: {
-	// 	connectionStatus: function(newVal) {
-	// 		if (newVal) {
-
-	// 		}
-	// 	}
-	// }
 };
 </script>
 
 <style lang="scss" scoped>
 .header-wrapper {
 	& sup {
+		border-top: 1px solid tint($color2, $tint100);
 		cursor: help;
 		font-variant: all-petite-caps;
 		justify-self: end;
@@ -63,7 +60,6 @@ export default {
 		width: max-content;
 
 		span {
-			
 			&:hover {
 				font-weight: $heavy;
 				text-decoration: underline $unknown;

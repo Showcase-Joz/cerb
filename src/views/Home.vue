@@ -1,5 +1,5 @@
 <template>
-  <div class="home">
+  <div class="home page">
     <img alt="Vue logo" src="../assets/logo.png" />
     <p v-if="this.authUser">
       Visit the

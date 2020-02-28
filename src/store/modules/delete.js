@@ -3,35 +3,35 @@ import api from "../../services/api";
 export const namespaced = true;
 
 export const state = {
-  currentNamespaces: null
+  currentDelete: ""
 }
 
 export const getters = {
-  currentNamespaces: state => {
-    return state.currentNamespaces;
+  currentDelete: state => {
+    return state.currentDelete;
   }
 }
 
 export const mutations = {
-  CURRENT_NAMESPACES(state, namespaces) {
-    state.currentNamespaces = namespaces
+  CURRENT_DELETE(state, beingDeleted) {
+    state.currentDelete = beingDeleted;
   }
 }
 
 export const actions = {
-  async getNS({ commit, dispatch }, payload) {
+  async deleteNS({ commit, dispatch }, payload) {  
     dispatch("updateLoading", true, { root: true });
-    await api.get(payload)
-      .then(response => {
+    await api.delete(payload)  
+      .then(response => {        
         if (response.status === 200) {
           dispatch("updateLoading", false, { root: true });
-          commit("CURRENT_NAMESPACES", response.data.namespaces);
+          commit("CURRENT_DELETE", payload);
         } else if (response.status !== 200) {
-          commit("CURRENT_NAMESPACES", null);
+          commit("CURRENT_DELETE", "");
         }
       }),
       err => {
         console.log("Error: ", err);
       }
-  }
+  },
 }
