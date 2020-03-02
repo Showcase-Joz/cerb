@@ -19,7 +19,7 @@ const store = new Vuex.Store({
   namespaced: true,
   state: {
     // signedIn: false,
-    // user: null
+    // user: null,
     loading: false
   },
   getters: {

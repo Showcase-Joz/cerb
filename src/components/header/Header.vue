@@ -1,7 +1,7 @@
 <template>
 	<header>
 		<div class="header-wrapper">
-			<h1>Thphon</h1>
+			<h1>Typhon</h1>
 			<AppVersion />
 			<ConnectionStatus />
 			<ConnectionDot />

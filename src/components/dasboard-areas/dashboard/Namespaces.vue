@@ -44,9 +44,7 @@ export default {
 	},
 	async beforeMount() {
 		if (this.currentNamespaces === null) {
-			await setTimeout(() => {
-				this.fetchNamespaces(initialMeta + maxLimit);
-			}, 1500);
+			await this.fetchNamespaces(initialMeta + maxLimit);
 		}
 	},
 	methods: {

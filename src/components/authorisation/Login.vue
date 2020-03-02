@@ -17,6 +17,8 @@
           placeholder="password"
         />
         <br />
+        <Notice v-if="this.signUpSuccessful" />
+        <br />
         <input type="button" value="signin" @click="usersignin" />
       </form>
       <ErrorOutput />
@@ -29,18 +31,21 @@
 
 import { mapGetters } from "vuex";
 import ErrorOutput from "../authorisation/helpers/ErrorOutput.vue";
+import Notice from "../authorisation/helpers/NoticeOutput.vue";
 import Loading from "../authorisation/helpers/Loading.vue";
 export default {
   name: "signin",
   components: {
     Loading,
-    ErrorOutput
+    ErrorOutput,
+    Notice
   },
   data() {
     return {
       signinEmail: "joz@showcaseimagery.com",
-      signinPassword: "!Wired1755",
-      loading: false
+      signinPassword: "123456!Wa",
+      loading: false,
+      successURL: "<router-link to='/login'>About</router-link>"
     };
   },
   methods: {
@@ -76,7 +81,9 @@ export default {
   },
   computed: {
     ...mapGetters({
-      authUser: "authorisation/authUser"
+      authUser: "authorisation/authUser",
+      noticeMessage: "authorisation/noticeMessage",
+      signUpSuccessful: "authorisation/signUpSuccessful"
     })
   }
 };

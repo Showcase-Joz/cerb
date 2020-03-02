@@ -20,12 +20,14 @@ export const mutations = {
 
 export const actions = {
   async getNS({ commit, dispatch }, payload) {
-    dispatch("updateLoading", true, { root: true });
+    await dispatch("updateLoading", true, { root: true });
     await api.get(payload)
       .then(response => {
         if (response.status === 200) {
-          dispatch("updateLoading", false, { root: true });
-          commit("CURRENT_NAMESPACES", response.data.namespaces);
+          setTimeout(() => {
+            commit("CURRENT_NAMESPACES", response.data.namespaces);
+            dispatch("updateLoading", false, { root: true });
+          }, 2000);
         } else if (response.status !== 200) {
           commit("CURRENT_NAMESPACES", null);
         }
@@ -33,5 +35,6 @@ export const actions = {
       err => {
         console.log("Error: ", err);
       }
+    
   }
 }
