@@ -1,4 +1,5 @@
-# Typhon UI(cerberusvue)
+# Typhon UI
+######--(cerberusvue)
 
 ## Description
 User Interface for Typhon. There is currently a CodePipleline in place that uses the last build as the S3 bucket reference.
