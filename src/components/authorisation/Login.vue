@@ -28,7 +28,6 @@
 </template>
 
 <script>
-
 import { mapGetters } from "vuex";
 import ErrorOutput from "../authorisation/helpers/ErrorOutput.vue";
 import Notice from "../authorisation/helpers/NoticeOutput.vue";

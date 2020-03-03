@@ -99,7 +99,7 @@ export default {
     fetchName: function(namesQuery) {
       this.loading = true;
       this.$http.get(namesQuery).then(
-        response => {       
+        response => {
           if (response.status === 200) {
             this.loading = false;
             this.fetchedNames = response.data;
@@ -127,7 +127,8 @@ export default {
 
       this.selectedN = name;
       // console.log(this.selectedNS, this.selectedN);
-      this.$http.delete(initialMeta + this.selectedNS + "/" + this.selectedN)
+      this.$http
+        .delete(initialMeta + this.selectedNS + "/" + this.selectedN)
         .then(response => {
           if (response.status === 200 && this.$data.id === "Name") {
             // console.log("fetching names again");

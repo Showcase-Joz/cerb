@@ -12,11 +12,10 @@
       :selectedN="currentN"
       :newNS="createdNS"
     />
-    
   </div>
 </template>
 <script>
-import { mapGetters } from 'vuex';
+import { mapGetters } from "vuex";
 import Loading from "../helpers/Loading.vue";
 export default {
   name: "DashboardWrapper",

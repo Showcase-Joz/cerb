@@ -4,7 +4,7 @@ import App from "./App.vue";
 import "./registerServiceWorker";
 import router from "./router/routes";
 import store from "./store/store";
-import api from "./services/api"
+import api from "./services/api";
 import Vuelidate from "vuelidate";
 
 Vue.use(Vuex);

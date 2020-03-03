@@ -36,7 +36,7 @@ const store = new Vuex.Store({
   },
   actions: {
     updateLoading({ commit }, payload) {
-      commit("LOADING_STATE", payload);       
+      commit("LOADING_STATE", payload);
     }
   },
   modules: {

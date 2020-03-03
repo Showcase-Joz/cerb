@@ -1,7 +1,7 @@
 <template>
   <div class="logout page">
     <h3>LogoutView</h3>
-    <br>
+    <br />
     <p><strong>You are currently logged in!</strong></p>
     <Logout />
   </div>

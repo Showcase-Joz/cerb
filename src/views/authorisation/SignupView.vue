@@ -12,7 +12,7 @@
 <script>
 import Register from "../../components/authorisation/Register.vue";
 import SignUpConfirm from "../../components/authorisation/RegisterConfirm.vue";
-import { mapGetters } from 'vuex';
+import { mapGetters } from "vuex";
 export default {
   name: "signup",
   components: {
@@ -21,9 +21,7 @@ export default {
   },
   async created() {
     this.confirm =
-    this.user &&
-    this.user.attributes &&
-    !this.user.attributes.email_verified;
+      this.user && this.user.attributes && !this.user.attributes.email_verified;
   },
   methods: {},
   computed: {

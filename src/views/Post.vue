@@ -54,7 +54,7 @@ export default {
     fetchPost: function() {
       // console.log("test ", this.postString);
 
-     this.$http.post("events", this.postString).then(
+      this.$http.post("events", this.postString).then(
         response => {
           if (response.status === 200 || response.status === 201) {
             this.resultBoolean = true;

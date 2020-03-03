@@ -112,7 +112,8 @@ export const actions = {
       commit("UPDATECONFIRMEMAIL", "");
       commit("NOTICE_MESSAGE", {
         code: "success message",
-        message: "You have successfully verified your email address. Please now login!"
+        message:
+          "You have successfully verified your email address. Please now login!"
       });
     } catch (err) {
       commit("SIGNUPSUCCESSFUL", false);
@@ -124,8 +125,7 @@ export const actions = {
     if (this.authorized) {
       await dispatch("fetchUser");
       await commit("SIGNUPSUCCESSFUL", false);
-    }
-    else commit("authorisation/USER", null);
+    } else commit("authorisation/USER", null);
   },
   async fetchUser({ commit, dispatch }) {
     try {

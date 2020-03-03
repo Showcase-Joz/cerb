@@ -71,7 +71,7 @@ export default {
   methods: {
     fetchName: function(eventsQuery) {
       this.loading = true;
-     this.$http.get(eventsQuery).then(
+      this.$http.get(eventsQuery).then(
         response => {
           if (response.status === 200) {
             this.loading = false;

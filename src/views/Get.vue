@@ -76,7 +76,7 @@ export default {
     fetchGet: function(prefix, suffix) {
       console.log("test ", prefix + suffix);
 
-     this.$http.get(prefix + suffix).then(
+      this.$http.get(prefix + suffix).then(
         response => {
           console.log(response);
           if (response.status === 200) {
