@@ -1,9 +1,13 @@
 .lds-ring-container {
   position: absolute;
-  right: 45%;
+  
   top: 20%;
   animation: 1s cubic-bezier(0, 0.2, 0.8, 1) lds-ring;
   opacity: 1;
+
+  @include for-size(tablet-portrait-up) {
+    right: 45%;
+  }
 }
 
 .lds-ripple {
