@@ -1,7 +1,7 @@
 <template>
 	<header>
 		<div class="header-wrapper">
-			<h1>Typhus</h1>
+			<h1>Typhon</h1>
 			<AppVersion />
 			<ConnectionStatus />
 			<ConnectionDot />
@@ -43,14 +43,14 @@ header {
 		display: grid;
 		grid-template-columns: 1fr min-content;
 		grid-template-rows: 1fr min-content;
-		width: max-content;
 		justify-self: center;
 		margin: auto;
+		width: max-content;
 
 		& h1 {
 			color: tint($color2, $tint100);
+			margin-bottom: 3px;
 			max-height: 42px;
-			padding-right: 1px;
 		}
 	}
 }

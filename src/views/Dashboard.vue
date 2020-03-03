@@ -42,6 +42,7 @@ export default {
     "dashboard-wrapper";
   grid-template-columns: 1fr;
   height: calc(100vh - 120px);
+  position: relative;
 
   @include for-size(tablet-portrait-up) {
     align-content: center;

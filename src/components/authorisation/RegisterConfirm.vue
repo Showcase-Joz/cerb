@@ -29,6 +29,7 @@
 <script>
 import Loading from "../authorisation/helpers/Loading.vue";
 import ErrorOutput from "../authorisation/helpers/ErrorOutput.vue";
+import { mapGetters } from 'vuex';
 export default {
   name: "registerConfirm",
   components: {
@@ -42,17 +43,22 @@ export default {
       loading: false
     };
   },
+  beforeMount() {
+    if (this.registerConfirmEmail !== "") {
+      this.confirmEmail = this.registerConfirmEmail;
+    }
+  },
   methods: {
     async userConfirm() {
       if (this.confirmEmail === "") {
-        this.$store.dispatch("setError", {
+        this.$store.dispatch("authorisation/setError", {
           code: "local resolve",
           message: "Email cannot be empty"
         });
         return;
       }
       if (this.confirmCode === "") {
-        this.$store.dispatch("setError", {
+        this.$store.dispatch("authorisation/setError", {
           code: "local resolve",
           message: "Confirmation code cannot be empty"
         });
@@ -60,22 +66,30 @@ export default {
       }
       this.loading = true;
       await this.$store
-        .dispatch("confirm", {
+        .dispatch("authorisation/confirm", {
           email: this.confirmEmail,
           code: this.confirmCode
         })
         .then(() => {
           if (this.confirmEmail === "") {
             this.$router.push("/");
+          } else if (this.signUpSuccessful === true) {
+            this.$router.push("/login");
           }
         });
       this.loading = false;
       return false;
     },
     registerUser: function() {
-      this.$store.dispatch("updateConfirm", false);
-      this.$store.dispatch("setError", null);
+      this.$store.dispatch("authorisation/updateConfirm", false);
+      this.$store.dispatch("authorisation/setError", null);
     }
+  },
+  computed: {
+    ...mapGetters({
+      registerConfirmEmail: "authorisation/registerConfirmEmail",
+      signUpSuccessful: "authorisation/signUpSuccessful",
+    })
   }
 };
 </script>

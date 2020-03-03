@@ -1,5 +1,5 @@
 <template>
-  <div>
+  <div class="not-found page">
     <h1>404</h1>
     <p>Bob Hope lives here!</p>
   </div>

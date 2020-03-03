@@ -18,7 +18,7 @@ export default {
 
 <style lang="scss" scoped>
 .errorMsg {
-  background-color: red;
+  background-color: $invalid;
   border-radius: 5px;
   color: white;
   display: block;

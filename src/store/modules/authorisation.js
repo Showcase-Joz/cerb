@@ -8,6 +8,8 @@ export const state = {
   registerConfirmEmail: "",
   confirm: false,
   authError: null,
+  noticeMessage: null,
+  signUpSuccessful: false
 };
 export const getters = {
   authUser: state => {
@@ -29,10 +31,16 @@ export const getters = {
   registerConfirmEmail: state => {
     return state.registerConfirmEmail;
   },
+  signUpSuccessful: state => {
+    return state.signUpSuccessful;
+  },
   errMessage: state => {
     if (state.authError) {
       return state.authError;
     }
+  },
+  noticeMessage: state => {
+    return state.noticeMessage;
   }
 };
 export const mutations = {
@@ -50,6 +58,12 @@ export const mutations = {
   UPDATECONFIRMEMAIL(state, email) {
     state.registerConfirmEmail = email;
   },
+  SIGNUPSUCCESSFUL(state, value) {
+    state.signUpSuccessful = value;
+  },
+  NOTICE_MESSAGE(state, notice) {
+    state.noticeMessage = notice;
+  }
 };
 export const actions = {
   async signin({ commit, dispatch, state }, { email, password }) {
@@ -88,20 +102,30 @@ export const actions = {
 
   async confirm({ commit, state }, { email, code }) {
     state.errMessage = null;
+    commit("CONFIRM", false);
+    commit("SIGNUPSUCCESSFUL", false);
     try {
       await Auth.confirmSignUp(email, code, {
         forceAliasCreation: true
       });
+      commit("SIGNUPSUCCESSFUL", true);
       commit("UPDATECONFIRMEMAIL", "");
+      commit("NOTICE_MESSAGE", {
+        code: "success message",
+        message: "You have successfully verified your email address. Please now login!"
+      });
     } catch (err) {
+      commit("SIGNUPSUCCESSFUL", false);
       commit("ERR_MESSAGE", err);
       return;
     }
-    commit("CONFIRM", false);
   },
-  async authState({ commit, dispatch }, state) {
-    if (state === "signedIn") await dispatch("fetchUser");
-    else commit("USER", null);
+  async authState({ commit, dispatch }) {
+    if (this.authorized) {
+      await dispatch("fetchUser");
+      await commit("SIGNUPSUCCESSFUL", false);
+    }
+    else commit("authorisation/USER", null);
   },
   async fetchUser({ commit, dispatch }) {
     try {
@@ -122,6 +146,7 @@ export const actions = {
   async logout({ commit }) {
     await Auth.signOut();
     commit("USER", null);
+    commit("SIGNUPSUCCESSFUL", false);
   },
   updateConfirm({ commit }, payload) {
     commit("CONFIRM", payload);
