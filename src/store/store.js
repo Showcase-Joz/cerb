@@ -20,23 +20,45 @@ const store = new Vuex.Store({
   state: {
     // signedIn: false,
     // user: null,
-    loading: false
+    loading: false,
+    noticeMessage: null,
+    showNotice: false
   },
   getters: {
     loading: state => {
       return state.loading;
-    }
+    },
+    noticeMessage: state => {
+      return state.noticeMessage;
+    },
+    showNotice: state => {
+      return state.showNotice;
+    },
   },
   mutations: {
     LOADING_STATE(state, value) {
-      setTimeout(() => {
-        state.loading = value;
-      }, 1000);
+      state.loading = value;
+    },
+    NOTICE_MESSAGE(state, notice) {
+      if (notice === null) {
+        store.commit("SHOW_NOTICE", false);
+      } else {
+        state.noticeMessage = notice;
+      }
+    },
+    SHOW_NOTICE(state, value) {
+      state.showNotice = value;
     }
   },
   actions: {
     updateLoading({ commit }, payload) {
       commit("LOADING_STATE", payload);
+    },
+    updateNotice({ commit }, payload) {
+      commit("NOTICE_MESSAGE", payload)
+    },
+    updateShowNotice({ commit }, payload) {
+      commit("SHOW_NOTICE", payload);
     }
   },
   modules: {

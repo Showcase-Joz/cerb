@@ -8,8 +8,6 @@ export const state = {
   registerConfirmEmail: "",
   confirm: false,
   authError: null,
-  noticeMessage: null,
-  signUpSuccessful: false
 };
 export const getters = {
   authUser: state => {
@@ -31,17 +29,11 @@ export const getters = {
   registerConfirmEmail: state => {
     return state.registerConfirmEmail;
   },
-  signUpSuccessful: state => {
-    return state.signUpSuccessful;
-  },
   errMessage: state => {
     if (state.authError) {
       return state.authError;
     }
   },
-  noticeMessage: state => {
-    return state.noticeMessage;
-  }
 };
 export const mutations = {
   USER(state, user) {
@@ -57,12 +49,6 @@ export const mutations = {
   },
   UPDATECONFIRMEMAIL(state, email) {
     state.registerConfirmEmail = email;
-  },
-  SIGNUPSUCCESSFUL(state, value) {
-    state.signUpSuccessful = value;
-  },
-  NOTICE_MESSAGE(state, notice) {
-    state.noticeMessage = notice;
   }
 };
 export const actions = {
@@ -100,23 +86,23 @@ export const actions = {
     }
   },
 
-  async confirm({ commit, state }, { email, code }) {
+  async confirm({ commit, dispatch, state }, { email, code }) {
     state.errMessage = null;
     commit("CONFIRM", false);
-    commit("SIGNUPSUCCESSFUL", false);
+    await dispatch("updateShowNotice", false, { root: true });
     try {
       await Auth.confirmSignUp(email, code, {
         forceAliasCreation: true
       });
-      commit("SIGNUPSUCCESSFUL", true);
+      await dispatch("updateShowNotice", true, { root: true });
       commit("UPDATECONFIRMEMAIL", "");
-      commit("NOTICE_MESSAGE", {
-        code: "success message",
+      await dispatch("updateNotice", {
+        code: "neutral",
         message:
-          "You have successfully verified your email address. Please now login!"
-      });
+          "You have successfully verified your email address. You may now login!"
+      }, { root: true });
     } catch (err) {
-      commit("SIGNUPSUCCESSFUL", false);
+      await dispatch("updateShowNotice", false, { root: true });
       commit("ERR_MESSAGE", err);
       return;
     }
@@ -124,7 +110,7 @@ export const actions = {
   async authState({ commit, dispatch }) {
     if (this.authorized) {
       await dispatch("fetchUser");
-      await commit("SIGNUPSUCCESSFUL", false);
+      await dispatch("updateShowNotice", false, { root: true });
     } else commit("authorisation/USER", null);
   },
   async fetchUser({ commit, dispatch }) {
@@ -133,9 +119,9 @@ export const actions = {
       const expires =
         user.getSignInUserSession().getIdToken().payload.exp -
         Math.floor(new Date().getTime() / 1000);
-      console.log(`Token expires in ${expires} seconds`);
+      console.info(`Token expires in ${expires} seconds`);
       setTimeout(async () => {
-        console.log("Renewing Token");
+        console.info("Renewing Token");
         await dispatch("fetchUser");
       }, expires * 1000);
       commit("USER", user);
@@ -143,10 +129,10 @@ export const actions = {
       commit("USER", null);
     }
   },
-  async logout({ commit }) {
+  async logout({ commit, dispatch }) {
     await Auth.signOut();
     commit("USER", null);
-    commit("SIGNUPSUCCESSFUL", false);
+    await dispatch("updateShowNotice", false, { root: true });
   },
   updateConfirm({ commit }, payload) {
     commit("CONFIRM", payload);

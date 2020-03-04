@@ -8,8 +8,8 @@
         @keyup.enter="userConfirm"
         autocomplete="off"
       >
-        <input v-model="confirmEmail" required placeholder="email" />
-        <input v-model="confirmCode" type="text" required placeholder="code" />
+        <input v-model="confirmEmail" ref="email" required placeholder="email" />
+        <input v-model="confirmCode" ref="code" type="text" required placeholder="code" />
         <a @click="registerUser">not got a code?</a>
         <br />
 
@@ -48,7 +48,19 @@ export default {
       this.confirmEmail = this.registerConfirmEmail;
     }
   },
+  mounted() {
+    if (this.confirmEmail !== "") {
+      this.$refs["code"].focus();
+    } else {
+      this.$refs["email"].focus();
+    }
+  },
   methods: {
+    // focusInput: function(ref) {
+    //   if (this.confirmEmail !== "") {
+
+    //   }
+    // },
     async userConfirm() {
       if (this.confirmEmail === "") {
         this.$store.dispatch("authorisation/setError", {
@@ -73,7 +85,7 @@ export default {
         .then(() => {
           if (this.confirmEmail === "") {
             this.$router.push("/");
-          } else if (this.signUpSuccessful === true) {
+          } else if (this.showNotice === true) {
             this.$router.push("/login");
           }
         });
@@ -88,7 +100,7 @@ export default {
   computed: {
     ...mapGetters({
       registerConfirmEmail: "authorisation/registerConfirmEmail",
-      signUpSuccessful: "authorisation/signUpSuccessful"
+      showNotice: "showNotice"
     })
   }
 };

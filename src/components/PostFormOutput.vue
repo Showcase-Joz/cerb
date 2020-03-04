@@ -1,5 +1,5 @@
 <template>
-  <transition name="fade">
+  <transition name="fade-in">
     <div v-if="resultSwitch" class="sent-fetch-wrapper">
       <h3>
         Posted this data to the API
@@ -38,6 +38,7 @@ export default {
 };
 </script>
 <style lang="scss" src="@/styles/_form.scss" scoped></style>
+<style lang="scss" src="@/styles/animation/_fade-in.scss" scoped></style>
 <style lang="scss" scoped>
 .sent-fetch-data {
   background-color: lighten($color: $valid, $amount: 25%);

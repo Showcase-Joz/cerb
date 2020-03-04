@@ -1,5 +1,5 @@
 <template>
-  <transition name="fade">
+  <transition name="fade-in">
     <div v-if="resultSwitch" class="sent-fetch-wrapper">
       <div class="sent-fetch-data">
         <div class="response-ns">
@@ -64,6 +64,7 @@ export default {
 };
 </script>
 
+<style lang="scss" src="@/styles/animation/_fade-in.scss" scoped></style>
 <style lang="scss" scoped>
 .fade-enter {
   opacity: 0;

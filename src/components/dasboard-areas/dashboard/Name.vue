@@ -1,5 +1,5 @@
 <template>
-  <transition name="fade">
+  <transition name="fade-in">
     <div class="dashboard-main">
       <div class="loading" v-if="loading">Loading...</div>
       <CreateItem
@@ -146,6 +146,8 @@ export default {
   }
 };
 </script>
+
+<style lang="scss" src="@/styles/animation/_fade-in.scss" scoped></style>
 <style lang="scss" scoped>
 .dashboard-main {
   align-items: center;

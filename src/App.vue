@@ -1,7 +1,7 @@
 <template>
   <div id="app">
     <Header />
-    <transition name="fade">
+    <transition name="fade-in">
       <router-view />
     </transition>
   </div>
@@ -38,7 +38,7 @@ export default {
 };
 </script>
 
-<style lang="scss" src="@/styles/animation/_fade.scss" scoped></style>
+<style lang="scss" src="@/styles/animation/_fade-in.scss" scoped></style>
 <style lang="scss">
 *,
 *::before,

@@ -3,7 +3,7 @@ import api from "../../services/api";
 export const namespaced = true;
 
 export const state = {
-  currentNamespaces: null
+  currentNamespaces: null,
 };
 
 export const getters = {
@@ -21,12 +21,16 @@ export const mutations = {
 export const actions = {
   async getNS({ commit, dispatch }, payload) {
     await dispatch("updateLoading", true, { root: true });
+    await dispatch("updateNotice", {
+            code: "valid",
+            message: "Gathering your data!"
+          }, { root: true });
     await api.get(payload).then(response => {
       if (response.status === 200) {
         setTimeout(() => {
           commit("CURRENT_NAMESPACES", response.data.namespaces);
           dispatch("updateLoading", false, { root: true });
-        }, 2000);
+        }, 1500);
       } else if (response.status !== 200) {
         commit("CURRENT_NAMESPACES", null);
       }

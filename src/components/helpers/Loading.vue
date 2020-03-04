@@ -8,33 +8,50 @@
         <div></div>
       </div>
     </div>
+    <Notice v-if="this.loading" class="notice-wrapper" />
   </div>
 </template>
 
 <script>
+import Notice from "../helpers/NoticeOutput.vue";
+import { mapGetters } from "vuex";
 export default {
-  name: "Loading"
+	name: "Loading",
+	components: {
+		Notice
+	},
+	computed: {
+		...mapGetters({
+			loading: "loading"
+		})
+	}
 };
 </script>
 
 <style lang="scss" src="@/styles/animation/_spinner.scss" scoped></style>
 <style lang="scss" scoped>
 .loading {
-  align-items: center;
-  background-color: rgba(tint($color2, $tint10), 0.85);
-  cursor: progress;
-  display: flex;
-  height: 100%;
-  justify-content: center;
-  position: absolute;
-  transition: background-color 1s ease-in;
-  width: 100%;
-  z-index: 999;
+	align-items: center;
+	background-color: rgba(tint($color2, $tint10), 0.85);
+	cursor: progress;
+	display: grid;
+	height: 100%;
+	justify-items: center;
+	position: absolute;
+	transition: background-color 1s ease-in;
+	width: 100%;
+	z-index: 999;
 
-  .content {
-    color: tint($color2, $tint100);
-    font-size: calc(#{$font-size-xl} * 1.5);
+	.lds-ring-container,
+	.notice-wrapper {
+		transform: translateX(-25%);
+	}
+	.notice-wrapper {
+    align-self: start;
+    justify-self: center;
+		margin-top: 10%;
     text-transform: uppercase;
-  }
+    z-index: 998;
+	}
 }
 </style>

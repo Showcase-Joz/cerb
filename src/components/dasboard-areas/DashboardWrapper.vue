@@ -1,6 +1,6 @@
 <template>
   <div class="dashboard-wrapper">
-    <transition name="fade">
+    <transition name="fade-in">
       <Loading v-if="this.loading" />
     </transition>
     <router-view
