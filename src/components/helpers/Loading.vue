@@ -36,15 +36,18 @@ export default {
 	cursor: progress;
 	display: grid;
 	height: 100%;
-	justify-items: center;
+  justify-items: center;
+  opacity: 0.7;
 	position: absolute;
 	transition: background-color 1s ease-in;
 	width: 100%;
 	z-index: 999;
 
-	.lds-ring-container,
-	.notice-wrapper {
+	.lds-ring-container {
 		transform: translateX(-25%);
+  }
+  .notice-wrapper {
+		transform: translateX(-15%);
 	}
 	.notice-wrapper {
     align-self: start;

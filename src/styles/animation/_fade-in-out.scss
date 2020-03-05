@@ -1,17 +1,42 @@
 
-
-.fade-in-enter-active, .fade-in-leave-active {
-  transition: opacity .5s ease-in-out;
+.fade-in-enter {
+  // opacity: 0;
 }
 
 .fade-in-enter-active {
-  transition-delay: .5s;
+  animation: fade-in 0.75s ease-out forwards;
+  transition: opacity 0.75s;
+}
+.fade-in-leave {
+  // opacity: 1;
 }
 
-.fade-in-enter, .fade-in-leave-to {
-  opacity: 0;
+.fade-in-leave-active {
+  animation: fade-out 0.75s ease-out forwards;
+  transition: opacity 0.75s;
+  // opacity: 0;
+  position: absolute;
 }
 
-.fade-in-enter-to, .fade-in-leave {
-  opacity: 1;
+.fade-in-move {
+  transition: transform 0.75s;
+}
+
+
+@keyframes fade-in {
+  from {
+    opacity: 0;
+  }
+  to {
+    opacity: 1;
+  }
+}
+
+@keyframes fade-out {
+  from {
+    opacity: 1;
+  }
+  to {
+    opacity: 0;
+  }
 }

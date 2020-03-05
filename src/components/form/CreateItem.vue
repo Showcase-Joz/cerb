@@ -165,7 +165,8 @@ export default {
     grid-column: 1 / span 1;
     grid-row: 1 / span 1;
     grid-template-columns: 1fr;
-    opacity: 0.5;
+    grid-template-rows: 1fr;
+    opacity: 0.6;
 
     .create-title {
       grid-area: create-title;

@@ -71,7 +71,7 @@ export default {
         })
         .then(() => {
           if (this.authUser) {
-            this.$store.dispatch("updateShowNotice", false);
+            // this.$store.dispatch("updateShowNotice", false);
             this.$store.dispatch("updateNotice", null);
             this.$router.push("/");
           }
