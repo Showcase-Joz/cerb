@@ -2,18 +2,18 @@
   <div>
     <div class="dashboard-main">
       <transition-group appear name="fade-in">
-      <CreateItem :returnSolo="updateFromCreated" key="99999"/>
+        <CreateItem :returnSolo="updateFromCreated" key="99999" />
 
-      <div
-        class="item"
-        v-for="(namespace, index) in this.currentNamespaces"
-        :key="index"
-        @click="handleClick(namespace)"
-        @keyup.enter="handleClick(namespace)"
-      >
-        <div class="delete" @click.stop.prevent="deleteNamespace(namespace)">x</div>
-        {{ namespace }}
-      </div>
+        <div
+          class="item"
+          v-for="(namespace, index) in this.currentNamespaces"
+          :key="index"
+          @click="handleClick(namespace)"
+          @keyup.enter="handleClick(namespace)"
+        >
+          <div class="delete" @click.stop.prevent="deleteNamespace(namespace)">x</div>
+          {{ namespace }}
+        </div>
       </transition-group>
     </div>
   </div>
@@ -21,47 +21,36 @@
 <script>
 import { mapGetters } from "vuex";
 import CreateItem from "../../form/CreateItem.vue";
-// const initialMeta = "metadata/namespaces";
-// const andFilter = "?filter=";
-// const maxLimit = "?limit=0";
-// const clearSearchInput = "";
 
 export default {
 	name: "DashboardNamespaces",
 	inheritAttrs: false,
-	props: {
-		userInputMeta: {
-			type: Object
-		}
-	},
 	components: {
 		CreateItem
 	},
 	data() {
 		return {
-			namespaceResults: [],
-			searchInputUpdatedValue: null,
-			selectedNS: null,
 			id: "Namespace",
-			constructNS: {
-				initialMeta: "metadata/namespaces",
-				andFilter: "?filter=",
-				maxLimit: "?limit=0"
-			}
+			updatedSearchString: ""
 		};
+	},
+	created() {
+		this.initialMeta = "metadata/namespaces";
+		this.andFilter = "?filter=";
+		this.maxLimit = "?limit=0";
 	},
 	async beforeMount() {
 		if (this.currentNamespaces === null) {
-			await this.fetchNamespaces(this.constructNS.initialMeta + this.constructNS.maxLimit);
+			await this.fetchNamespaces(this.initialMeta + this.maxLimit);
 		}
 	},
 	methods: {
-		async fetchNamespaces(stringSuffix) {
-			await this.$store.dispatch("namespace/getNS", stringSuffix);
+		async fetchNamespaces(queryString) {
+			await this.$store.dispatch("namespace/getNS", queryString);
 		},
-		// fetchNamespaces: function(stringSuffix) {
+		// fetchNamespaces: function(queryString) {
 		// this.loading = true;
-		//  this.$http.get(stringSuffix).then(
+		//  this.$http.get(queryString).then(
 		// response => {
 		// if (response.status === 200) {
 		// this.loading = false;
@@ -76,31 +65,34 @@ export default {
 		//   );
 		// },
 		updateNamespaces: function() {
-			if (this.searchInputUpdatedValue.namespace.length < 1) {
-				this.fetchNamespaces(this.constructNS.initialMeta + this.constructNS.maxLimit);
+			if (this.updatedSearchString < 1) {
+				const fetchAllQuery = this.initialMeta + this.maxLimit;
+				this.$store.dispatch("namespace/getNS", fetchAllQuery);
 			} else {
-				const updatedMeta =
-					this.constructNS.initialMeta + this.constructNS.andFilter + this.searchInputUpdatedValue.namespace;
-				this.fetchNamespaces(updatedMeta);
+				const fetchSearchedQuery =
+					this.initialMeta + this.andFilter + this.updatedSearchString;
+				this.$store.dispatch("namespace/getNS", fetchSearchedQuery);
 			}
 		},
 		updateFromCreated: function(newNS) {
-			const justNewNS = this.constructNS.initialMeta + this.constructNS.andFilter + newNS;
+			const justNewNS = this.initialMeta + this.andFilter + newNS;
 			this.$emit("handleNewNS", newNS);
 			this.fetchNamespaces(justNewNS);
 		},
 		handleClick: function(namespace) {
-			this.selectedNS = namespace;
-			this.$emit("handleCurrentNS", this.selectedNS);
+      this.$store.dispatch("namespace/selectNS", namespace);
+      this.$store.dispatch("search/storedSearch", "");
 			this.$router.push("/dashboard/namespace/");
-			this.$emit("handleNewNS", "");
 		},
 		async deleteNamespace(namespace) {
 			await this.$store.dispatch(
 				"deletedItem/deleteNS",
-				this.constructNS.initialMeta + "/" + namespace
+				this.initialMeta + "/" + namespace
 			);
-			await this.$store.dispatch("namespace/getNS", this.constructNS.initialMeta + this.constructNS.maxLimit);
+			await this.$store.dispatch(
+				"namespace/getNS",
+				this.initialMeta + this.maxLimit
+			);
 			this.$emit("handleNewNS", "");
 		}
 		// deleteNS: function(namespace) {
@@ -118,12 +110,13 @@ export default {
 	computed: {
 		...mapGetters({
 			loading: "loading",
-			currentNamespaces: "namespace/currentNamespaces"
+			currentNamespaces: "namespace/currentNamespaces",
+			searchedContent: "search/searchedContent"
 		})
 	},
 	watch: {
-		userInputMeta: function(newVal) {
-			this.searchInputUpdatedValue = newVal;
+		searchedContent(newVal) {
+			this.updatedSearchString = newVal;
 			this.updateNamespaces();
 		}
 	}

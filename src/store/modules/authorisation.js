@@ -7,7 +7,7 @@ export const state = {
   user: null,
   registerConfirmEmail: "",
   confirm: false,
-  authError: null,
+  authError: null
 };
 export const getters = {
   authUser: state => {
@@ -33,7 +33,7 @@ export const getters = {
     if (state.authError) {
       return state.authError;
     }
-  },
+  }
 };
 export const mutations = {
   USER(state, user) {
@@ -96,11 +96,15 @@ export const actions = {
       });
       await dispatch("updateShowNotice", true, { root: true });
       commit("UPDATECONFIRMEMAIL", "");
-      await dispatch("updateNotice", {
-        code: "neutral",
-        message:
-          "You have successfully verified your email address. You may now login!"
-      }, { root: true });
+      await dispatch(
+        "updateNotice",
+        {
+          code: "neutral",
+          message:
+            "You have successfully verified your email address. You may now login!"
+        },
+        { root: true }
+      );
     } catch (err) {
       await dispatch("updateShowNotice", false, { root: true });
       commit("ERR_MESSAGE", err);

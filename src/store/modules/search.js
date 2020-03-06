@@ -19,12 +19,7 @@ export const mutations = {
 export const actions = {
   storedSearch({ commit }, payload) {
     commit("SEARCH_STRING", payload);
+    console.log("call");
+    
   }
 };
-
-// export const actions = {
-//   storedSearch({ commit, dispatch }, payload) {
-//     commit("SEARCH_STRING", payload);
-//     dispatch("authorisation/testAction", "steve", { root: true });
-//   }
-// };

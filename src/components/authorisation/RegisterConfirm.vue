@@ -8,8 +8,19 @@
         @keyup.enter="userConfirm"
         autocomplete="off"
       >
-        <input v-model="confirmEmail" ref="email" required placeholder="email" />
-        <input v-model="confirmCode" ref="code" type="text" required placeholder="code" />
+        <input
+          v-model="confirmEmail"
+          ref="email"
+          required
+          placeholder="email"
+        />
+        <input
+          v-model="confirmCode"
+          ref="code"
+          type="text"
+          required
+          placeholder="code"
+        />
         <a @click="registerUser">not got a code?</a>
         <br />
 

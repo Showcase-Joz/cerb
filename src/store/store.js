@@ -33,7 +33,7 @@ const store = new Vuex.Store({
     },
     showNotice: state => {
       return state.showNotice;
-    },
+    }
   },
   mutations: {
     LOADING_STATE(state, value) {
@@ -55,7 +55,7 @@ const store = new Vuex.Store({
       commit("LOADING_STATE", payload);
     },
     updateNotice({ commit }, payload) {
-      commit("NOTICE_MESSAGE", payload)
+      commit("NOTICE_MESSAGE", payload);
     },
     updateShowNotice({ commit }, payload) {
       commit("SHOW_NOTICE", payload);
