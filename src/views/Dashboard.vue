@@ -15,12 +15,12 @@ export default {
     MainDashNav,
     SearchInput,
     DashboardWrapper
-  },
+  }
 };
 </script>
 <style lang="scss" scoped>
 .dashboard {
-  align-content: flex-start;
+  align-content: start;
   display: grid;
   grid-template-areas:
     "dashboard-nav-main"

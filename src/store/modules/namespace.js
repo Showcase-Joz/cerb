@@ -41,7 +41,7 @@ export const actions = {
       err => {
         console.log("Error: ", err);
       };
-  }, 
+  },
   async selectNS({ commit }, payload) {
     await commit("SELECTED_NAMESPACE", payload);
   }

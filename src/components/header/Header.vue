@@ -32,6 +32,7 @@ header {
   color: tint($color2, $tint100);
   display: grid;
   grid-auto-rows: 1fr minmax(auto, max-content);
+  height: max-content;
   min-height: 120px;
   padding: 10px;
 

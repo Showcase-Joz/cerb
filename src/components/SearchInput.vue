@@ -47,10 +47,10 @@ import { mapGetters } from "vuex";
 const hasValueLength = value => value.length >= 1;
 const strDefPattern = helpers.regex("strDefPattern", /^[\d+\w+^.^-]+$/);
 export default {
-  name: "search-input",
-  mounted() {
-    this.$store.dispatch("search/storedSearch", "");
-  },
+	name: "search-input",
+	mounted() {
+		this.$store.dispatch("search/storedSearch", "");
+	},
 	updated() {
 		this.$refs.searchParent.classList.remove("invalid");
 	},
@@ -114,7 +114,8 @@ export default {
 <style lang="scss" src="@/styles/animation/_fade-in-out.scss" scoped></style>
 <style lang="scss" scoped>
 .form-wrapper.search-input {
-	// border: 1px $color2 solid;
+  // border: 1px $color2 solid;
+  background-color: tint($color2, $tint100);
 	grid-area: search-input;
 	max-height: 62px;
 	padding: $spacingDefault;

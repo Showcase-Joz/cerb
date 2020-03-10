@@ -7,7 +7,8 @@
         class="btn"
         exact
         @click.native="clearSearch()"
-      >Namespaces</router-link>
+        >Namespaces</router-link
+      >
     </div>
     <div class="dash-nav-item">
       <router-link
@@ -16,7 +17,8 @@
         tag="button"
         class="btn"
         @click.native="clearSearch()"
-      >Names</router-link>
+        >Names</router-link
+      >
     </div>
     <div class="dash-nav-item">
       <router-link
@@ -25,110 +27,117 @@
         tag="button"
         class="btn"
         @click.native="clearSearch()"
-      >Events</router-link>
+        >Events</router-link
+      >
     </div>
 
     <div class="dash-nav-item settings-nav">
-      <router-link to="/settings" tag="button" class="btn" @click.native="clearSearch()">Settings</router-link>
+      <router-link
+        to="/settings"
+        tag="button"
+        class="btn"
+        @click.native="clearSearch()"
+        >Settings</router-link
+      >
     </div>
   </div>
 </template>
 <script>
 import { mapGetters } from "vuex";
 export default {
-	name: "dashboard-nav-main",
-	data() {
-		return {
-			activeNav: null
-		};
-	},
-	methods: {
-		// activeLink: function(event) {
-		// 	const element = event.target;
-		// 	const link = element.dataset.link;
-		// 	this.activeNav = link;
-		// 	this.$router.push("/dashboard/" + link).catch(err => {err.message});
-		// },
-		clearSearch: function() {
-			this.$store.dispatch("search/storedSearch", "");
-		}
-	},
-	computed: {
-		...mapGetters({
-			selectedNamespace: "namespace/selectedNamespace",
-			selectedName: "name/selectedName"
-		}),
-		disabledNames() {
-			return this.selectedNamespace === "" ? true : false;
-		},
-		disabledEvents() {
-			return this.selectedName === "" ? true : false;
-		}
-	}
+  name: "dashboard-nav-main",
+  data() {
+    return {
+      activeNav: null
+    };
+  },
+  methods: {
+    // activeLink: function(event) {
+    // 	const element = event.target;
+    // 	const link = element.dataset.link;
+    // 	this.activeNav = link;
+    // 	this.$router.push("/dashboard/" + link).catch(err => {err.message});
+    // },
+    clearSearch: function() {
+      this.$store.dispatch("search/storedSearch", "");
+    }
+  },
+  computed: {
+    ...mapGetters({
+      selectedNamespace: "namespace/selectedNamespace",
+      selectedName: "name/selectedName"
+    }),
+    disabledNames() {
+      return this.selectedNamespace === "" ? true : false;
+    },
+    disabledEvents() {
+      return this.selectedName === "" ? true : false;
+    }
+  }
 };
 </script>
 <style lang="scss" scoped>
 .dashboard-nav-main {
-	align-items: center;
-	// align-self: stretch;
-	background-color: tint($color2, $tint15);
-	border-top: 1px inset tint($color2, $tint50);
-	display: inline-grid;
-	grid-area: dashboard-nav-main;
-	grid-gap: 1px;
-	grid-template-columns: repeat(auto-fit, minmax(50px, 1fr));
-	justify-items: center;
-	height: 100%;
+  align-items: center;
+  // align-self: stretch;
+  background-color: tint($color2, $tint15);
+  border-top: 1px inset tint($color2, $tint50);
+  display: inline-grid;
+  grid-area: dashboard-nav-main;
+  grid-gap: 1px;
+  grid-template-columns: repeat(auto-fit, minmax(50px, 1fr));
+  justify-items: center;
+  height: 100%;
 
-	@include for-size(tablet-portrait-up) {
-		grid-template-columns: 1fr;
-		grid-template-rows: repeat(auto-fill, minmax(50px, 1fr));
-	}
+  @include for-size(tablet-portrait-up) {
+    grid-template-columns: 1fr;
+    grid-template-rows: repeat(auto-fill, minmax(50px, 1fr));
+  }
 
-	.dash-nav-item {
-		align-items: stretch;
-		display: grid;
-		height: 50px;
-		text-align: center;
-		width: 100%;
+  .dash-nav-item {
+    align-items: stretch;
+    display: grid;
+    height: 50px;
+    text-align: center;
+    width: 100%;
 
-		&.settings-nav {
-			grid-row-end: -1;
-		}
+    &.settings-nav {
+      grid-row-end: -1;
+    }
 
-		@include for-size(tablet-portrait-up) {
-			height: 100%;
-		}
+    @include for-size(tablet-portrait-up) {
+      height: 100%;
+    }
 
-		button {
-			background-color: $color2;
-			border: none;
-			color: tint($color1, $tint100);
-			padding: calc(#{$spacingDefault} / 2);
+    button {
+      background-color: $color2;
+      border: none;
+      color: tint($color1, $tint100);
+      padding: calc(#{$spacingDefault} / 2);
 
-			&.router-link-active {
-				background-color: $valid;
-				color: $color2;
-				font-weight: $heavy;
-			}
+      &.router-link-active {
+        background-color: $valid;
+        color: $color2;
+        font-weight: $heavy;
+      }
 
-			&:hover {
-				background-color: shade($color1, $shade10);
-				color: $color2;
-				cursor: pointer;
-				text-decoration: underline;
-			}
+      &:hover {
+        background-color: shade($color1, $shade10);
+        color: $color2;
+        cursor: pointer;
+        text-decoration: underline;
+      }
 
-			&:disabled {
-				background-color: shade($unknown, $shade25);
-				cursor: not-allowed;
+      &:disabled {
+        background-color: shade($unknown, $shade25);
+        cursor: not-allowed;
         color: tint($color2, $shade75);
 
         &:hover {
           text-decoration: line-through;
         }
-			}
-		}
-	}
+      }
+    }
+  }
 }
 </style>

@@ -55,7 +55,7 @@
 </template>
 <script>
 import CreateItem from "../../form/CreateItem";
-import { mapGetters } from 'vuex';
+import { mapGetters } from "vuex";
 const initialMeta = "metadata/";
 // const andFilter = "?filter=";
 const maxLimit = "?limit=0";
@@ -128,7 +128,9 @@ export default {
         .delete(initialMeta + this.selectedNamespace + "/" + this.selectedN)
         .then(response => {
           if (response.status === 200 && this.$data.id === "Name") {
-            this.fetchName(initialMeta + this.selectedNamespace + "/names" + maxLimit);
+            this.fetchName(
+              initialMeta + this.selectedNamespace + "/names" + maxLimit
+            );
           }
         });
     }
@@ -136,7 +138,7 @@ export default {
   computed: {
     ...mapGetters({
       selectedNamespace: "namespace/selectedNamespace",
-      currentNames: "name/currentNames",
+      currentNames: "name/currentNames"
       // selectedName: "name/selectedName",
     })
   },

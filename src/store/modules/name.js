@@ -6,7 +6,7 @@ export const namespaced = true;
 export const state = {
   currentNames: null,
   selectedName: ""
-}
+};
 
 export const getters = {
   currentNames: state => {
@@ -15,16 +15,16 @@ export const getters = {
   selectedName: state => {
     return state.selectedName;
   }
-}
+};
 
 export const mutations = {
   CURRENT_NAMES(state, names) {
     state.currentNames = names;
   },
   SELECTED_NAME(state, selectedN) {
-    state.selectedN = selectedN
+    state.selectedN = selectedN;
   }
-}
+};
 
 export const actions = {
   async getN({ commit, dispatch }, payload) {
@@ -54,5 +54,4 @@ export const actions = {
   async selectedN({ commit }, payload) {
     await commit("SELECTED_NAME", payload);
   }
-}
-
+};

@@ -32,29 +32,53 @@ export default {
 <style lang="scss" scoped>
 .loading {
   align-items: center;
+  animation: opacity-fade 3s ease-in-out infinite alternate;
   background-color: rgba(tint($color2, $tint10), 0.85);
   cursor: progress;
   display: grid;
   height: 100%;
   justify-items: center;
-  opacity: 0.7;
   position: absolute;
   transition: background-color 1s ease-in;
   width: 100%;
   z-index: 999;
 
-  .lds-ring-container {
-    transform: translateX(-25%);
-  }
-  .notice-wrapper {
-    transform: translateX(-15%);
-  }
   .notice-wrapper {
     align-self: start;
     justify-self: center;
     margin-top: 10%;
     text-transform: uppercase;
+    max-width: 70%;
     z-index: 998;
+  }
+
+  @include for-size(phone-up) {
+    .lds-ring-container {
+      transform: translateX(0);
+    }
+
+    .notice-wrapper {
+      transform: translateX(0);
+    }
+  }
+
+  @include for-size(tablet-portrait-up) {
+    .lds-ring-container {
+      transform: translateX(-25%);
+    }
+
+    .notice-wrapper {
+      transform: translateX(-10%);
+    }
+  }
+}
+
+@keyframes opacity-fade {
+  from {
+    background-color: rgba(tint($color2, $tint10), 0.65);
+  }
+  to {
+    background-color: rgba(tint($color2, $tint10), 0.85);
   }
 }
 </style>

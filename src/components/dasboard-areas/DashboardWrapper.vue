@@ -25,7 +25,11 @@ export default {
 <style lang="scss" scoped>
 .dashboard-wrapper {
   grid-area: dashboard-wrapper;
-  max-height: inherit;
+  height: auto;
+  margin-bottom: calc(#{$spacingDefault} *2);
+  max-height: max-content;
   overflow-y: auto;
+  padding-bottom: calc(#{$spacingLarge} *2);
+  position: initial;
 }
 </style>
