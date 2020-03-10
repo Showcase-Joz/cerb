@@ -230,7 +230,7 @@ export default {
       Object.keys(this.formResponses).forEach(key => {
         if (key === dataKey) {
           return (this.formResponses[dataKey] = element.value
-            .replace(/\s/g, ".")
+            .replace(/[^a-zA-Z0-9]/g, ".")
             .toLowerCase());
         }
       });

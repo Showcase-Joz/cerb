@@ -9,7 +9,7 @@
       />
       <div
         class="item"
-        v-for="(names, index) in fetchedNames.names"
+        v-for="(names, index) in currentNames"
         :key="index"
         @click="handleClick(names)"
       >
@@ -78,6 +78,11 @@ export default {
       }
     };
   },
+  // created() {
+  //   if (this.selectedNamespace === "" || this.currentNamespaces === null) {
+  //     this.$router.push("/dashboard/namespace")
+  //   }
+  // },
   beforeMount() {
     // POSSIBLE CHANGE THIS LINE TO GET NAME FROM NAMESPACE!!!!!!!!!!!!!!!!!
     // !!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!
@@ -90,28 +95,32 @@ export default {
     }
   },
   methods: {
-    fetchName: function(namesQuery) {
-      this.loading = true;
-      this.$http.get(namesQuery).then(
-        response => {
-          if (response.status === 200) {
-            this.loading = false;
-            this.fetchedNames = response.data;
-          }
-        },
-        error => {
-          console.log("Error: ", error);
-        }
-      );
+    async fetchName(queryString) {
+      await this.$store.dispatch("name/getN", queryString);
     },
+    // fetchName: function(namesQuery) {
+    //   this.loading = true;
+    //   this.$http.get(namesQuery).then(
+    //     response => {
+    //       if (response.status === 200) {
+    //         this.loading = false;
+    //         this.fetchedNames = response.data;
+    //       }
+    //     },
+    //     error => {
+    //       console.log("Error: ", error);
+    //     }
+    //   );
+    // },
     updateFromCreated: function() {
       const newNsAndN = initialMeta + this.selectedNamespace + "/names";
       this.fetchName(newNsAndN);
     },
     handleClick: function(name) {
       this.selectedN = name;
+      this.$store.dispatch("selectedN", name);
+      // this.$store.dispatch("search/storedSearch", "");
       this.$router.push("/dashboard/events/");
-      this.$emit("handleCurrentN", this.selectedN);
     },
     deleteN: function(name) {
       this.selectedN = name;
@@ -126,7 +135,9 @@ export default {
   },
   computed: {
     ...mapGetters({
-      selectedNamespace: "namespace/selectedNamespace",  
+      selectedNamespace: "namespace/selectedNamespace",
+      currentNames: "name/currentNames",
+      // selectedName: "name/selectedName",
     })
   },
   watch: {

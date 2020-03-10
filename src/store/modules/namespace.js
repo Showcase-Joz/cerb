@@ -28,14 +28,6 @@ export const mutations = {
 export const actions = {
   async getNS({ commit, dispatch }, payload) {
     await dispatch("updateLoading", true, { root: true });
-    await dispatch(
-      "updateNotice",
-      {
-        code: "valid",
-        message: "Gathering your data!"
-      },
-      { root: true }
-    );
     await api.get(payload).then(response => {
       if (response.status === 200) {
         setTimeout(() => {
@@ -51,6 +43,6 @@ export const actions = {
       };
   }, 
   async selectNS({ commit }, payload) {
-    commit("SELECTED_NAMESPACE", payload);
+    await commit("SELECTED_NAMESPACE", payload);
   }
 };

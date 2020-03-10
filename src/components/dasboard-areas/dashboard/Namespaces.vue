@@ -66,11 +66,29 @@ export default {
 		// },
 		updateNamespaces: function() {
 			if (this.updatedSearchString < 1) {
+				// return ALL NS as result
 				const fetchAllQuery = this.initialMeta + this.maxLimit;
+				this.$store.dispatch(
+					"updateNotice",
+					{
+						code: "valid",
+						message: "Gathering all of the available Namespaces!"
+					},
+					{ root: true }
+				);
 				this.$store.dispatch("namespace/getNS", fetchAllQuery);
 			} else {
+				// return FILTERED NS as result
 				const fetchSearchedQuery =
 					this.initialMeta + this.andFilter + this.updatedSearchString;
+				this.$store.dispatch(
+					"updateNotice",
+					{
+						code: "valid",
+						message: `Filtering the Namespaces with ${this.searchedContent}`
+					},
+					{ root: true }
+				);
 				this.$store.dispatch("namespace/getNS", fetchSearchedQuery);
 			}
 		},
@@ -80,8 +98,8 @@ export default {
 			this.fetchNamespaces(justNewNS);
 		},
 		handleClick: function(namespace) {
-      this.$store.dispatch("namespace/selectNS", namespace);
-      this.$store.dispatch("search/storedSearch", "");
+			this.$store.dispatch("namespace/selectNS", namespace);
+			// this.$store.dispatch("search/storedSearch", "");
 			this.$router.push("/dashboard/namespace/");
 		},
 		async deleteNamespace(namespace) {
@@ -122,7 +140,7 @@ export default {
 	}
 };
 </script>
-<style lang="scss" src="@/styles/animation/_fade-in-out.scss" scoped></style>
+<style lang="scss" src="@/styles/animation/_animate-cards.scss" scoped></style>
 <style lang="scss" scoped>
 .dashboard-main span {
 	align-items: center;

@@ -113,7 +113,7 @@ export default {
 
       return (this.formResponses.createNewItem = value
         .replace(/[^a-zA-Z0-9]/g, ".")
-        // .replace(/\s/g, ".")
+        // .replace(/[^a-zA-Z0-9]/g, ".")
         .toLowerCase());
     },
     sendCreate: function() {

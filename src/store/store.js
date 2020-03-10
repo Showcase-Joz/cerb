@@ -4,6 +4,7 @@ import * as authorisation from "./modules/authorisation.js";
 import * as appInfo from "./modules/appInfo";
 import * as search from "./modules/search";
 import * as namespace from "./modules/namespace";
+import * as name from "./modules/name";
 import * as deletedItem from "./modules/delete";
 
 Vue.use(Vuex);
@@ -66,6 +67,7 @@ const store = new Vuex.Store({
     appInfo,
     search,
     namespace,
+    name,
     deletedItem
   }
 });

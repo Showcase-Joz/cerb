@@ -19,7 +19,5 @@ export const mutations = {
 export const actions = {
   storedSearch({ commit }, payload) {
     commit("SEARCH_STRING", payload);
-    console.log("call");
-    
   }
 };

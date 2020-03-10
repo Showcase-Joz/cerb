@@ -3,6 +3,7 @@
     <form id="formMetaSearch" @submit.prevent="collectInputs">
       <div class="form-group">
         <div
+          ref="searchParent"
           class="input-with-label"
           :class="{
             invalid: $v.searchString.$error,
@@ -10,6 +11,7 @@
           }"
         >
           <label
+            ref="searchLabel"
             for="searchString"
             :class="{
               hasValue: $v.searchString.hasValueLength
@@ -22,7 +24,13 @@
             v-on:input="cleanInputs"
             @blur="$v.searchString.$touch()"
           />
-          <div class="delete" @click.stop.prevent="clearSearch($event)">x</div>
+          <transition name="fade-in">
+            <button
+              v-if="this.clearBtn"
+              class="btn-clear"
+              @click.stop.prevent="clearSearch($event)"
+            >clear</button>
+          </transition>
         </div>
         <p class="form-field-msg" v-if="!$v.searchString.maxLength">
           Please add a searchString with no more than
@@ -38,15 +46,20 @@ import { maxLength, helpers } from "vuelidate/lib/validators";
 import { mapGetters } from "vuex";
 const hasValueLength = value => value.length >= 1;
 const strDefPattern = helpers.regex("strDefPattern", /^[\d+\w+^.^-]+$/);
-// let metaObj = {};
 export default {
-	name: "search-input",
+  name: "search-input",
+  mounted() {
+    this.$store.dispatch("search/storedSearch", "");
+  },
+	updated() {
+		this.$refs.searchParent.classList.remove("invalid");
+	},
 	data() {
 		return {
-			searchString: ""
+			searchString: "",
+			clearBtn: false
 		};
 	},
-
 	validations: {
 		searchString: {
 			maxLength: maxLength(200),
@@ -55,32 +68,34 @@ export default {
 		}
 	},
 	methods: {
-		cleanInputs: function() {
-			this.searchString = this.searchString.replace(/\s/g, ".").toLowerCase();
+		cleanInputs: function(event) {
+			const element = event.target;
+			const value = element.value;
+			this.$v.searchString.$touch();
+			this.searchString = value.replace(/[^a-zA-Z0-9]/g, ".").toLowerCase();
 			this.collectInputs();
 		},
 		collectInputs: function() {
 			if (!this.$v.searchString.$error) {
 				this.$store.dispatch("search/storedSearch", this.searchString);
 			} else if (
-				this.searchString.trim() === "" &&
-				this.searchString.length < 1
+				this.searchString.trim() === "" ||
+				this.$v.searchString.hasValueLength === false
 			) {
-				this.$store.dispatch("search/storedSearch", "");
+				this.clearSearch();
 			}
+			this.clearBtn = true;
 		},
 		clearInputs: function() {
-			this.searchString = "";
 			this.$store.dispatch("search/storedSearch", "");
 		},
-		clearSearch: function(event) {
-			const searchInput = event.target.previousElementSibling;
-			const searchParent = event.target.previousElementSibling.parentNode;
+		clearSearch: function() {
 			setTimeout(() => {
-				searchParent.classList.remove("invalid", "valid");
-				searchInput.blur();
-			}, 10);
+				this.$refs.searchLabel.blur();
+				this.$refs.searchParent.classList.remove("invalid", "valid");
+			}, 100);
 			this.clearInputs();
+			this.clearBtn = false;
 		}
 	},
 	computed: {
@@ -90,13 +105,13 @@ export default {
 	},
 	watch: {
 		searchedContent(newVal) {
-      this.searchString = newVal;
-      this.clearSearch();
-    }
+			this.searchString = newVal;
+		}
 	}
 };
 </script>
 <style lang="scss" src="@/styles/_form.scss"></style>
+<style lang="scss" src="@/styles/animation/_fade-in-out.scss" scoped></style>
 <style lang="scss" scoped>
 .form-wrapper.search-input {
 	// border: 1px $color2 solid;
@@ -129,7 +144,26 @@ export default {
 					border-bottom: 1px solid rgba($color: $valid, $alpha: 1);
 				}
 			}
+			.input-with-label input {
+				margin-right: 70px;
+			}
 		}
+	}
+	.btn-clear {
+		background: $invalid;
+		border: none;
+		border-radius: 5px;
+		color: white;
+		cursor: pointer;
+		height: 35px;
+		letter-spacing: 1px;
+		min-width: 40px;
+		padding: 0 1rem;
+		position: absolute;
+		text-transform: uppercase;
+		top: -10px;
+		right: 0;
+		z-index: 5;
 	}
 }
 </style>

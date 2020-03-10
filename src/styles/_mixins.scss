@@ -85,3 +85,14 @@
 @function shade($color, $percentage) {
   @return mix(black, $color, $percentage);
 }
+
+/* include ONLY if a POINTER DEVICE
+useful for improving the UX for a user of a touch device
+
++++++++ USAGE
+  @include pointer-only() {
+		style: property-here;
+  }
+------- USAGE
+
+*/
