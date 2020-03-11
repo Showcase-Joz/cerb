@@ -40,13 +40,14 @@ export default {
 	height: 27px;
 	width: 35px;
 	cursor: pointer;
-	z-index: 100;
+	z-index: 9999;
 	transition: opacity 0.25s ease;
 
 	&:hover {
 		opacity: 0.7;
 	}
 
+	// how the button looks when active 
 	&.active {
 		.top {
 			transform: translateY(11px) translateX(0) rotate(45deg);
@@ -63,6 +64,7 @@ export default {
 		}
 	}
 
+	// how the button looks by default
 	span {
 		background: $color1;
 		border: none;
@@ -84,6 +86,7 @@ export default {
 	}
 }
 
+// full screen cover for nav - HIDDEN 
 .overlay {
 	position: fixed;
 	background: $color2;
@@ -96,11 +99,12 @@ export default {
 	transition: opacity 0.35s, visibility 0.35s, height 0.35s;
 	overflow: hidden;
 
+	// full screen cover for nav - VISIBLE
 	&.open {
 		opacity: 1;
 		visibility: visible;
 		height: 100%;
-		z-index: 5;
+		z-index: 9998;
 
 		// li {
 		// 	animation: fadeInRight 0.5s ease forwards;
@@ -118,8 +122,7 @@ export default {
 		// }
 	}
 
-	.nav-wrapper #nav {
-		align-content: inherit;
+	#nav {
 		align-items: center;
 		display: grid;
 		font-size: large;
@@ -128,64 +131,34 @@ export default {
 		grid-template-columns: repeat(2, 1fr);
 		height: 80vh;
 		justify-content: center;
+		margin: 10vh auto;
 		padding: 5px;
 
-		a {
-			align-self: center;
-			display: grid;
-			height: 100%;
-		}
+		a,
+		a:link,
+		a:visited {
 
-		a {
-			color: inherit;
-			font-weight: bold;
-			padding: 0 5px;
-			position: relative;
-			text-decoration: none;
-			z-index: 1;
-
-			&::before {
-				background-color: $color1;
-				content: "";
-				display: block;
+				color: white;
+				position: relative;
 				height: 100%;
-				position: absolute;
-				transform: scale(0, 1);
-				transition: transform 0.5s cubic-bezier(0.175, 0.885, 0.72, 1.775);
 				width: 100%;
-				z-index: 0;
-			}
-
-			&:hover::before {
-				left: 0;
-				transform: scale(1, 1);
-				transition: transform 0.5s cubic-bezier(0.175, 0.885, 0.72, 1.775);
-				z-index: -1;
-			}
-
-			&.router-link-exact-active {
-				color: $color1;
-				cursor: not-allowed;
-			}
-
-			&.router-link-exact-active:hover {
-				color: $color2;
-				text-decoration: line-through;
-			}
-
-			&.router-link-exact-active:hover::before {
-				border: none;
-			}
-
-			@include for-size(phone-up) {
-				padding: initial;
 
 				&:hover {
-					color: tint($color2, $tint100);
-					text-decoration: none;
+					
 				}
-			}
+
+				&::before {
+					background-color: pink;
+					content: "";
+					top: 0;
+					left:0 ;
+					bottom: 0;
+					right: 0;
+					position: absolute;
+				}
 		}
+		
+
 	}
 }
 // @include for-size(tablet-portrait-up) {
