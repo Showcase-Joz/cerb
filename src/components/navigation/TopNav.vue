@@ -1,14 +1,14 @@
 <template>
   <div class="nav-wrapper">
-    <div class="button_container active" id="toggle">
+    <div class="button_container" :class="{active: this.navOpen}" id="toggle" @click="handleNav">
       <span class="top"></span>
       <span class="middle"></span>
       <span class="bottom"></span>
     </div>
-    <div class="overlay open" id="overlay">
+    <div class="overlay" :class="{open: this.navOpen}" id="overlay">
       <nav id="nav" class="overlay-menu">
         <router-link to="/">Home</router-link>
-        <router-link to="/dashboard">Dashboard</router-link>
+        <router-link id="dashboard" to="/dashboard">Dashboard</router-link>
         <router-link to="/get">Get</router-link>
         <router-link to="/post">Post</router-link>
         <router-link to="/about">About</router-link>
@@ -24,6 +24,16 @@
 import { mapGetters } from "vuex";
 export default {
 	name: "TopNav",
+	data () {
+		return {
+			navOpen: false,
+		}
+	},
+	methods: {
+		handleNav: function() {
+			this.navOpen = !this.navOpen;
+		}
+	},
 	computed: {
 		...mapGetters({
 			authUser: "authorisation/authUser"
@@ -42,12 +52,13 @@ export default {
 	cursor: pointer;
 	z-index: 9999;
 	transition: opacity 0.25s ease;
+	-webkit-tap-highlight-color: transparent;
 
 	&:hover {
 		opacity: 0.7;
 	}
 
-	// how the button looks when active 
+	// how the button looks when active
 	&.active {
 		.top {
 			transform: translateY(11px) translateX(0) rotate(45deg);
@@ -86,7 +97,7 @@ export default {
 	}
 }
 
-// full screen cover for nav - HIDDEN 
+// full screen cover for nav - HIDDEN
 .overlay {
 	position: fixed;
 	background: $color2;
@@ -126,41 +137,129 @@ export default {
 		align-items: center;
 		display: grid;
 		font-size: large;
-		grid-gap: 3px;
+		grid-gap: 3rem;
 		grid-template-rows: repeat(auto-fit, minmax(50px, auto));
 		grid-template-columns: repeat(2, 1fr);
 		height: 80vh;
 		justify-content: center;
-		margin: 10vh auto;
-		padding: 5px;
+		margin: 12vh 6vw;
 
-		a,
-		a:link,
-		a:visited {
+		a {
+			align-items: center;
+			// background-color: shade($color2, $shade25);
+			color: white;
+			display: grid;
+			font-size: calc(#{$font-normal} * 2);
+			height: 100%;
+			letter-spacing: $letter-spacing;
+			position: relative;
+			text-decoration: none;
+			top: calc(#{$matched-linespacing} * -1);
+			width: 100%;
+			-webkit-tap-highlight-color: transparent;
 
-				color: white;
-				position: relative;
-				height: 100%;
-				width: 100%;
+			&:hover {
+			}
 
-				&:hover {
-					
-				}
+			&::before {
+				animation: animate-menu-item-out 0.8s
+					cubic-bezier(0.895, 0.03, 0.685, 0.22);
+				background-color: $color1;
+				border-radius: $borderRadius;
+				content: "";
+				@include position-center;
+				top: $matched-linespacing;
+				transform: scale(0, 0);
+				transition: all 0.7s linear 0.2;
+				z-index: -1;
+			}
+			&:hover::before {
+				animation: animate-menu-item 0.5s cubic-bezier(0.895, 0.03, 0.685, 0.22);
+				border: $color2 double 6px;
+				transform: scale(1, 1);
+				transition: all 0.3s linear 0.2;
+			}
 
-				&::before {
-					background-color: pink;
-					content: "";
-					top: 0;
-					left:0 ;
-					bottom: 0;
-					right: 0;
-					position: absolute;
-				}
+			&::after {
+				animation: animate-menu-item-line-out 0.6s ease-in;
+				content: "";
+				border-bottom: solid 2px $color2;
+				@include position-center;
+				transition: all 0.25s ease-in-out;
+				z-index: -1;
+			}
+			&:hover::after {
+				animation: animate-menu-item-line 0.8s ease-out forwards 0.5s;
+				transition: all 0.5s ease-in-out 1.2s;
+			}
 		}
-		
-
 	}
 }
+
+@keyframes animate-menu-item {
+	0% {
+		border: none;
+		opacity: 0;
+		transform: scale(0.01, 0.005);
+	}
+	60% {
+		opacity: 1;
+		transform: scale(1, 0.005);
+	}
+	90% {
+		border: initial;
+		transform: scale(1, 1.1);
+	}
+	93% {
+		transform: scale(1, 0.93);
+	}
+	100% {
+		transform: scale(1, 1);
+	}
+}
+
+@keyframes animate-menu-item-out {
+	0% {
+		transform: scale(1, 1);
+	}
+	20% {
+		transform: scale(1, 0.93);
+	}
+	55% {
+		transform: scale(1, 1.1);
+	}
+	75% {
+		opacity: 1;
+		transform: scale(1, 0.005);
+	}
+	100% {
+		opacity: 0;
+		transform: scale(0.01, 0.005);
+	}
+}
+
+@keyframes animate-menu-item-line {
+	0% {
+		transform: scaleX(0)
+			translateY(calc(-50% + (#{$matched-linespacing} / 1.65)));
+	}
+	100% {
+		transform: scaleX(0.75)
+			translateY(calc(-50% + (#{$matched-linespacing} / 1.65)));
+	}
+}
+
+@keyframes animate-menu-item-line-out {
+	0% {
+		transform: scaleX(0.75)
+			translateY(calc(-50% + (#{$matched-linespacing} / 1.65)));
+	}
+	100% {
+		transform: scaleX(0)
+			translateY(calc(-50% + (#{$matched-linespacing} / 1.65)));
+	}
+}
+
 // @include for-size(tablet-portrait-up) {
 // .nav-wrapper #nav {
 // 	align-items: center;
@@ -288,4 +387,28 @@ export default {
 //   }
 // }
 // }
+
+// possibly have dash button as double width
+// #dashboard {
+// 	grid-column-start: 1;
+// 	grid-column-end: 3;
+// 	grid-row-start: 1;
+//       grid-row-end:auto;
+// }
+
+[id^="log-state"] {
+	display: inline-block;
+	grid-column-start: 2;
+		grid-row-end: 1;
+	position: absolute;
+	// right: 1rem;
+
+	// @include for-size(phone-up) {
+	// 	display: grid;
+	// 	grid-column-start: 2;
+	// 	grid-row-end: 1;
+	// 	position: relative;
+	// 	right: initial;
+	// }
+}
 </style>

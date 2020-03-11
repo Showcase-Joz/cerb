@@ -55,21 +55,6 @@
 /* creates a TINT or SHADE from HSL color space
 
 +++++++ USAGE
-@include pointer-only() {
-  background-color: pink;
-}
-------- USAGE
-*/
-
-@mixin pointer-only {
-  @media (pointer: coarse) {
-    @content;
-  }
-}
-
-/* creates a TINT or SHADE from HSL color space
-
-+++++++ USAGE
   color: tint(#BADA55, 42%);
   OR
   background-color: shade(#663399, 42%);
@@ -89,10 +74,35 @@
 /* include ONLY if a POINTER DEVICE
 useful for improving the UX for a user of a touch device
 
+
 +++++++ USAGE
-  @include pointer-only() {
-		style: property-here;
-  }
+@include pointer-only() {
+  background-color: pink;
+}
 ------- USAGE
 
 */
+
+@mixin pointer-only {
+  @media (pointer: coarse) {
+    @content;
+  }
+}
+
+
+/* position element absolute center
+
++++++++ USAGE
+  @include position-center;
+------- USAGE
+
+*/
+
+@mixin position-center {
+  position: absolute;
+  top: 0;
+  right: 0;
+  bottom: 0;
+  left: 0;
+  margin: auto;
+}
