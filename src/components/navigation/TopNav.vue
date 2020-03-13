@@ -11,7 +11,7 @@
       <span class="bottom"></span>
     </div>
     <div class="overlay" :class="{ open: this.navOpen }" id="overlay">
-      <nav id="nav" class="overlay-menu">
+      <nav id="nav" class="overlay-menu" @click="handleClose()">
         <router-link to="/">Home</router-link>
         <router-link id="dashboard" to="/dashboard">Dashboard</router-link>
         <router-link to="/get">Get</router-link>
@@ -41,6 +41,13 @@ export default {
   methods: {
     handleNav: function() {
       this.navOpen = !this.navOpen;
+    },
+    handleClose: function() {
+      if (this.navOpen) {
+        setTimeout(() => {
+          this.handleNav();
+        }, 150);
+      }
     }
   },
   computed: {
@@ -166,9 +173,6 @@ export default {
       top: calc(#{$matched-linespacing} * -1);
       width: 100%;
       -webkit-tap-highlight-color: transparent;
-
-      &:hover {
-      }
 
       &::before {
         animation: animate-menu-item-out 0.8s

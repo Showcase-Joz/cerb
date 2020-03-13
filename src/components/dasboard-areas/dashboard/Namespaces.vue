@@ -47,7 +47,7 @@ export default {
     }
   },
   methods: {
-    async fetchNamespaces(queryString) {
+    async fetchNamespaces(queryString) {     
       await this.$store.dispatch("namespace/getNS", queryString);
     },
     // fetchNamespaces: function(queryString) {
@@ -96,7 +96,6 @@ export default {
     },
     updateFromCreated: function(newNS) {
       const justNewNS = this.initialMeta + this.andFilter + newNS;
-      this.$emit("handleNewNS", newNS);
       this.fetchNamespaces(justNewNS);
     },
     handleClick: function(namespace) {

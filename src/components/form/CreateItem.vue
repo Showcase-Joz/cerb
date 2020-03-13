@@ -7,8 +7,8 @@
   >
     <span class="create-title">
       Create a new
-      <strong>{{ this.$parent.$data.id }}</strong>
-      {{ this.$parent.$data.id === "Name" ? "for this namespace" : "" }}
+      <strong>{{ this.$parent.$parent.$data.id }}</strong>
+      {{ this.$parent.$parent.$data.id === "Name" ? "for this namespace" : "" }}
     </span>
     <div class="form-group">
       <input
@@ -18,7 +18,7 @@
         class="create-input"
         name="newItem"
         :placeholder="
-          'Start typing here to create a new ' + this.$parent.$data.id
+          'Start typing here to create a new ' + this.$parent.$parent.$data.id
         "
         type="text"
       />
@@ -34,7 +34,7 @@
         @click="sendCreate"
         :disabled="$v.formResponses.createNewItem.$error"
       >
-        Add {{ this.$parent.$data.id }}
+        Add {{ this.$parent.$parent.$data.id }}
       </button>
     </div>
     <div class="errors">
@@ -42,7 +42,7 @@
         class="form-field-msg"
         v-if="!$v.formResponses.createNewItem.minLength"
       >
-        Please add a New {{ this.$parent.$data.id }} with at least
+        Please add a New {{ this.$parent.$parent.$data.id }} with at least
         {{ $v.formResponses.createNewItem.$params.minLength.min }}
         characters.
       </p>
@@ -50,7 +50,7 @@
         class="form-field-msg"
         v-if="!$v.formResponses.createNewItem.maxLength"
       >
-        Please add a New {{ this.$parent.$data.id }} with no more than
+        Please add a New {{ this.$parent.$parent.$data.id }} with no more than
         {{ $v.formResponses.createNewItem.$params.maxLength.max }}
         characters.
       </p>
@@ -61,7 +61,7 @@
             $v.formResponses.createNewItem.$dirty
         "
       >
-        New {{ this.$parent.$data.id }} must not be empty!
+        New {{ this.$parent.$parent.$data.id }} must not be empty!
       </p>
     </div>
   </label>
@@ -73,6 +73,7 @@ import {
   maxLength,
   helpers
 } from "vuelidate/lib/validators";
+import { mapGetters } from 'vuex';
 const initialMeta = "metadata/";
 const hasValueLength = value => value.length >= 1;
 const strDefPattern = helpers.regex("strDefPattern", /^[\d+\w+^.^-]+$/);
@@ -81,9 +82,6 @@ export default {
   props: {
     returnSolo: {
       type: Function
-    },
-    selectedNS: {
-      type: String
     }
   },
   data() {
@@ -116,41 +114,51 @@ export default {
         // .replace(/[^a-zA-Z0-9]/g, ".")
         .toLowerCase());
     },
-    sendCreate: function() {
-      // console.log(this.$parent.$data.id);
-      this.$emit("createdNewN", this.formResponses.createNewItem);
+    async sendCreate() {
+      // console.log(this.$parent.$parent.$data.id);
+      // this.$store.dispatch("create/createItem", this.formResponses.createNewItem)
+      // this.$emit("createdNewN", this.formResponses.createNewItem);
       if (
         this.formResponses.createNewItem !== null &&
-        this.$parent.$data.id === "Namespace"
+        this.$parent.$parent.$data.id === "Namespace"
       ) {
-        this.$http
-          .put(initialMeta + "namespaces/" + this.formResponses.createNewItem)
-          .then(response => {
-            if (response.status === 200) {
-              this.returnSolo(this.formResponses.createNewItem);
-            }
-          });
+        const createNsSting = initialMeta + "namespaces/" + this.formResponses.createNewItem;
+        await this.$store.dispatch("createItem/createNS", createNsSting);
+        await this.$store.dispatch("namespace/selectNS", this.createdNamespace)
+        // this.returnSolo("updateFromCreated", this.createdNamespace);
+        // this.$http
+        //   .put(initialMeta + "namespaces/" + this.formResponses.createNewItem)
+        //   .then(response => {
+        //     if (response.status === 200) {
+        //       this.returnSolo(this.formResponses.createNewItem);
+        //     }
+        //   });
       } else if (
         this.formResponses.createNewItem !== null &&
-        this.$parent.$data.id === "Name"
+        this.$parent.$parent.$data.id === "Name"
       ) {
+        const createNString = initialMeta + this.selectedNamespace + "/" + this.formResponses.createNewItem;
+        await this.$store.dispatch("createItem/createN", createNString);
+        this.$emit("updateFromCreated", this.createdName);
         // console.log("sending data N", this.formResponses.createNewItem);
-        this.$http
-          .put(initialMeta + this.nsString + this.formResponses.createNewItem)
-          .then(response => {
-            if (response.status === 200) {
-              this.returnSolo(this.formResponses.createNewItem);
-            }
-          });
+        // this.$http
+        //   .put(initialMeta + this.nsString + this.formResponses.createNewItem)
+        //   .then(response => {
+        //     if (response.status === 200) {
+        //       this.returnSolo(this.formResponses.createNewItem);
+        //     }
+        //   });
       } else {
         console.log("not sending data");
       }
     }
   },
   computed: {
-    nsString: function() {
-      return this.selectedNS + "/";
-    }
+    ...mapGetters({
+      selectedNamespace: "namespace/selectedNamespace",
+      createdNamespace: "createItem/createdNamespace",
+      createdName: "createItem/createdName"
+    })
   }
 };
 </script>
