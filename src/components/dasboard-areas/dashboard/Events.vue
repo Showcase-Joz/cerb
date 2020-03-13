@@ -1,9 +1,9 @@
 <template>
-  <div class="dashboard-main" v-if="this.fetchedNames.count === undefined">
-    Viewing events of [{{ this.$attrs.selectedN }}]
+  <div class="dashboard-main" v-if="this.currentEvents.total > 0">
+    Viewing events of [{{ this.selectedName }}]
     <div
       class="item"
-      v-for="(object, index) in fetchedNames.events"
+      v-for="(object, index) in currentEvents.events"
       :key="index"
     >
       <div class="response-n">{{ object.event.name }}</div>
@@ -43,46 +43,56 @@
   </div>
 </template>
 <script>
+import { mapGetters } from "vuex";
 export default {
   name: "Dashboard-Events",
   data() {
     return {
-      fetchedNames: {},
       loading: false
     };
   },
   beforeMount() {
     const groupEvents =
       "events?namespace=" +
-      this.$attrs.selectedNS +
+      this.selectedNamespace +
       "&name=" +
-      this.$attrs.selectedN +
+      this.selectedName +
       "&offset=25";
     // components.dashboardarea.dashboard.namescpaces
     // console.log(groupEvents);
 
     // const queryN = initialMeta + this.selectedNS + "/names" + maxLimit;
-    if (this.$attrs.selectedNS !== null && this.$attrs.selectedN !== null) {
+    if (this.selectedNamespace !== null && this.selectedName !== null) {
       this.fetchName(groupEvents);
     } else {
       console.warn("fetching local data");
     }
   },
   methods: {
-    fetchName: function(eventsQuery) {
-      this.loading = true;
-      this.$http.get(eventsQuery).then(
-        response => {
-          if (response.status === 200) {
-            this.loading = false;
-            this.fetchedNames = response.data;
-          }
-        },
-        error => {
-          console.log("Error: ", error);
-        }
-      );
+    async fetchName(queryString) {
+      await this.$store.dispatch("events/getEvents", queryString);
     }
+    // fetchName: function(eventsQuery) {
+    //   this.loading = true;
+    //   this.$http.get(eventsQuery).then(
+    //     response => {
+    //       if (response.status === 200) {
+    //         this.loading = false;
+    //         this.currentEvents = response.data;
+    //       }
+    //     },
+    //     error => {
+    //       console.log("Error: ", error);
+    //     }
+    //   );
+    // }
+  },
+  computed: {
+    ...mapGetters({
+      selectedNamespace: "namespace/selectedNamespace",
+      selectedName: "name/selectedName",
+      currentEvents: "events/currentEvents"
+    })
   }
 };
 </script>

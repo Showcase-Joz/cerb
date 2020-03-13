@@ -67,9 +67,6 @@ export default {
   },
   data() {
     return {
-      fetchedNames: {},
-      loading: false,
-      selectedN: null,
       id: "Name",
       constructN: {
         initialMeta: "metadata/",
@@ -118,7 +115,7 @@ export default {
     },
     handleClick: function(name) {
       this.selectedN = name;
-      this.$store.dispatch("selectedN", name);
+      this.$store.dispatch("name/selectedN", name);
       // this.$store.dispatch("search/storedSearch", "");
       this.$router.push("/dashboard/events/");
     },

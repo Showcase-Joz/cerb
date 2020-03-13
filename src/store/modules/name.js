@@ -22,7 +22,7 @@ export const mutations = {
     state.currentNames = names;
   },
   SELECTED_NAME(state, selectedN) {
-    state.selectedN = selectedN;
+    state.selectedName = selectedN;
   }
 };
 
@@ -33,7 +33,7 @@ export const actions = {
       "updateNotice",
       {
         code: "valid",
-        message: `Gathering you the names inside the ${NameSpace.state.selectedNamespace} namespace`
+        message: `Gathering the names inside the ${NameSpace.state.selectedNamespace} namespace`
       },
       { root: true }
     );
