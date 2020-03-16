@@ -51,8 +51,10 @@ const hasValueLength = value => value.length >= 1;
 const strDefPattern = helpers.regex("strDefPattern", /^[\d+\w+^.^-]+$/);
 export default {
   name: "search-input",
-  mounted() {
-    this.$store.dispatch("search/storedSearch", "");
+  created() {
+    if (this.searchedContent !== "") {
+      this.$store.dispatch("search/storedSearch", "");
+    }
   },
   updated() {
     this.$refs.searchParent.classList.remove("invalid");

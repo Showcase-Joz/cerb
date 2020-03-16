@@ -40,6 +40,7 @@ export const actions = {
         commit("CURRENT_EVENTS", null);
       }
     }),
+    await dispatch("updateNotice", null, { root: true });
       err => {
         console.log("Error: ", err);
       };

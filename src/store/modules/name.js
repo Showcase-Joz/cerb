@@ -44,11 +44,12 @@ export const actions = {
         setTimeout(() => {
           commit("CURRENT_NAMES", response.data.names);
           dispatch("updateLoading", false, { root: true });
-        }, 100);
+        }, 1000);
       } else if (response.status !== 200) {
         commit("CURRENT_NAMES", null);
       }
     }),
+    await dispatch("updateNotice", null, { root: true });
       err => {
         console.log("Error: ", err);
       };

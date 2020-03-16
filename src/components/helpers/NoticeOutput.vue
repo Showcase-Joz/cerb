@@ -14,7 +14,7 @@ export default {
   name: "Notice",
   created() {
     setTimeout(() => {
-      this.$store.dispatch("updateNotice", null);
+      this.$store.dispatch("updateNotice", null, { root: true });
     }, 1000);
   },
   computed: {

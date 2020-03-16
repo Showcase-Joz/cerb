@@ -42,6 +42,14 @@ export const mutations = {
 export const actions = {
   async getNS({ commit, dispatch }, payload) {
     await dispatch("updateLoading", true, { root: true });
+    await dispatch(
+      "updateNotice",
+      {
+        code: "valid",
+        message: `Gathering all the namespaces`
+      },
+      { root: true }
+    );
     await api.get(payload).then(response => {
       if (response.status === 200) {
         setTimeout(() => {
@@ -49,14 +57,15 @@ export const actions = {
           commit("CURRENT_TOTALCOUNT", response.data.totalFound);
           commit("CURRENT_COUNT", response.data.count);
           dispatch("updateLoading", false, { root: true });
-        }, 100);
+        }, 1000);
       } else if (response.status !== 200) {
         commit("CURRENT_NAMESPACES", null);
       }
-    }),
-      err => {
-        console.log("Error: ", err);
-      };
+    })
+    await dispatch("updateNotice", null, { root: true });
+    err => {
+      console.log("Error: ", err);
+    };
   },
   async selectNS({ commit }, payload) {
     await commit("SELECTED_NAMESPACE", payload);

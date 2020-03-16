@@ -8,13 +8,14 @@
           class="item"
           v-for="(namespace, index) in this.currentNamespaces"
           :key="index"
+          :id="index"
           @click="handleClick(namespace)"
           @keyup.enter="handleClick(namespace)"
         >
           <div class="delete" @click.stop.prevent="deleteNamespace(namespace)">x</div>
-          {{ namespace }}
+          <div class="title">{{ namespace }}</div>
           <div class="count">
-            <div>{{index}}</div>
+            <div>{{index + 1}}</div>
             /{{counts.count}}
           </div>
         </div>
@@ -44,8 +45,18 @@ export default {
 		this.maxLimit = "?limit=0";
 	},
 	async beforeMount() {
-		if (this.currentNamespaces === null) {
-			await this.fetchNamespaces(this.initialMeta + this.maxLimit);
+		await this.fetchNamespaces(this.initialMeta + this.maxLimit);
+
+		if (this.notBlank) {
+			return true;
+		}
+	},
+	beforeUpdate: function() {
+		if (this.selectedNamespace !== "") {
+			const highlightedNS = this.currentNamespaces.indexOf(
+				this.selectedNamespace
+			);
+			document.getElementById(highlightedNS).classList.add("highlighted");
 		}
 	},
 	methods: {
@@ -66,7 +77,7 @@ export default {
 				);
 				this.$store.dispatch("namespace/getNS", fetchAllQuery);
 			} else {
-				// return FILTERED NS as result
+				// return FILTERED NS or CREATED NS as result
 				const fetchSearchedQuery =
 					this.initialMeta + this.andFilter + this.updatedSearchString;
 				this.$store.dispatch(
@@ -80,9 +91,8 @@ export default {
 				this.$store.dispatch("namespace/getNS", fetchSearchedQuery);
 			}
 		},
-		updateFromCreated: function(newNS) {
-			const justNewNS = this.initialMeta + this.andFilter + newNS;
-			this.fetchNamespaces(justNewNS);
+		returnSelectedNS: function(returnedNS) {
+			this.fetchNamespaces(this.initialMeta + this.andFilter + returnedNS);
 		},
 		handleClick: function(namespace) {
 			this.$store.dispatch("namespace/selectNS", namespace);
@@ -117,9 +127,17 @@ export default {
 			loading: "loading",
 			currentNamespaces: "namespace/currentNamespaces",
 			selectedNamespace: "namespace/selectedNamespace",
+			createdNamespace: "createItem/createdNamespace",
 			counts: "namespace/counts",
 			searchedContent: "search/searchedContent"
-		})
+		}),
+		notBlank: function() {
+			if (this.selectedNamespace !== "") {
+				return true;
+			} else {
+				return false;
+			}
+		}
 	},
 	watch: {
 		searchedContent(newVal) {
@@ -127,7 +145,8 @@ export default {
 			this.updateNamespaces();
 		},
 		selectedNamespace(newVal) {
-			this.updateFromCreated(newVal);
+			// this.updateFromCreated(newVal);
+			this.returnSelectedNS(newVal);
 		}
 	}
 };
@@ -164,35 +183,12 @@ export default {
 		word-break: break-word;
 		z-index: 1;
 
-		& .delete {
-			align-items: center;
-			color: shade($color1, $shade100);
-			content: "x";
-			display: grid;
-			font-size: larger;
-			height: auto;
-			justify-content: center;
-			margin: 5px 7px;
-			max-height: 25px;
-			min-width: 25px;
-			opacity: 0;
-			position: absolute;
-			right: 0;
-			top: 0;
-			transition: opacity 0.3s ease-in;
-			width: 25px;
-			z-index: 5;
-		}
-
-		// &:hover :not(.active-item) {
-		//   opacity: 0.25;
-		// }
-
 		&:hover {
 			background-color: $color1;
 			border-radius: 0.4rem;
 			border-width: 3px;
 			color: $color2;
+			font-weight: $heavy;
 			transition: all 0.3s ease-in;
 
 			& .delete {
@@ -215,16 +211,11 @@ export default {
 					transition: font-size 0.25s ease;
 				}
 			}
+		}
 
-			// .inner-item {
-			// 	background-color: $color1;
-			// 	border: 2px groove $color1;
-			// 	color: $color2;
-			// 	font-size: 1.1rem;
-			// 	height: calc(100% - 0.5rem);
-			// 	width: calc(100% - 0.5rem);
-			// 	transition: all 0.3s ease-in;
-			// }
+		& .title {
+			justify-self: center;
+			max-width: 80%;
 		}
 
 		.count {
@@ -240,16 +231,42 @@ export default {
 			}
 		}
 
-		// .inner-item {
-		// 	align-items: center;
-		// 	background: $color2;
-		// 	border-radius: inherit;
-		// 	cursor: pointer;
-		// 	display: grid;
-		// 	height: calc(100% - 0.4rem);
-		// 	justify-self: center;
-		// 	width: calc(100% - 0.4rem);
-		// }
+		& .delete {
+			align-items: center;
+			color: shade($color1, $shade100);
+			content: "x";
+			display: grid;
+			font-size: larger;
+			height: auto;
+			justify-content: center;
+			margin: 5px 7px;
+			max-height: 25px;
+			min-width: 25px;
+			opacity: 0;
+			position: absolute;
+			right: 0;
+			top: 0;
+			transition: opacity 0.3s ease-in;
+			width: 25px;
+			z-index: 5;
+    }
+    &.highlighted {
+      animation: cycle 3s ease-in alternate infinite;
+      // box-shadow: 0 0 5px 10px $color1;
+      transition: animation ease-in;
+    }
 	}
+}
+
+@keyframes cycle {
+  from {
+    box-shadow: 0 0 5px 10px rgba($color1, 1);
+  }
+  50% {
+    box-shadow: 0 0 5px 10px rgba($color1, 0.3);
+  }
+  to {
+    box-shadow: 0 0 5px 10px rgba($color1, 1);
+  }
 }
 </style>
