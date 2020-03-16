@@ -5,7 +5,11 @@ export const namespaced = true;
 
 export const state = {
   currentNamespaces: null,
-  selectedNamespace: ""
+  selectedNamespace: "",
+  counts: {
+    totalCount: "",
+    count: ""
+  }
 };
 
 export const getters = {
@@ -14,6 +18,9 @@ export const getters = {
   },
   selectedNamespace: state => {
     return state.selectedNamespace;
+  },
+  counts: state => {
+    return state.counts;
   }
 };
 
@@ -23,6 +30,12 @@ export const mutations = {
   },
   SELECTED_NAMESPACE(state, selectedNS) {
     state.selectedNamespace = selectedNS;
+  },
+  CURRENT_TOTALCOUNT(state, value) {
+    state.counts.totalCount = value;
+  },
+  CURRENT_COUNT(state, value) {
+    state.counts.count = value;
   }
 };
 
@@ -33,6 +46,8 @@ export const actions = {
       if (response.status === 200) {
         setTimeout(() => {
           commit("CURRENT_NAMESPACES", response.data.namespaces);
+          commit("CURRENT_TOTALCOUNT", response.data.totalFound);
+          commit("CURRENT_COUNT", response.data.count);
           dispatch("updateLoading", false, { root: true });
         }, 100);
       } else if (response.status !== 200) {
