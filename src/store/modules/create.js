@@ -26,21 +26,29 @@ export const mutations = {
 }
 
 export const actions = {
-  async createNS({ commit, dispatch }, payload) {
+  async createNS({ dispatch }, payload) {
     /* !!!! create a three state button animation, default, working, confirm/error
 
     await dispatch("updateButton", true, { root: true });
     */
    await dispatch("namespace/createNamespace", payload, { root: true });
-   commit("SUB_STRING_NS", payload);
+   
+   
    
    // create updateButton confirm/error result
   },
-  async createN({ commit, dispatch }, payload) {
+  async createN({ dispatch }, payload) {
     // same as above here!!!
-   await dispatch("name/createName", payload, { root: true });
-   commit("SUB_STRING_N", payload);
+    await dispatch("name/createName", payload, { root: true });
 
+  },
+  async subStringNS({ commit, dispatch }, payload) {
+    commit("SUB_STRING_NS", payload);
+    await dispatch("namespace/selectNS", state.createdNamespace, { root: true });
+  },
+  async subStringN({ commit, dispatch }, payload) {
+    commit("SUB_STRING_N", payload);
+    await dispatch("name/selectN", state.createdName, { root: true });
   }
 }
 

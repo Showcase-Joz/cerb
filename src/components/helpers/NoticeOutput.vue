@@ -15,7 +15,7 @@ export default {
   created() {
     setTimeout(() => {
       this.$store.dispatch("updateNotice", null);
-    }, 5000);
+    }, 1000);
   },
   computed: {
     ...mapGetters({ noticeMessage: "noticeMessage" })

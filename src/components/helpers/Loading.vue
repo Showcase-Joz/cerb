@@ -32,7 +32,7 @@ export default {
 <style lang="scss" scoped>
 .loading {
   align-items: center;
-  animation: opacity-fade 3s ease-in-out infinite alternate;
+  animation: opacity-fade 1s ease-in-out infinite alternate;
   background-color: rgba(tint($color2, $tint10), 0.85);
   cursor: progress;
   display: grid;

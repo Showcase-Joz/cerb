@@ -2,7 +2,7 @@
   <div>
     <div class="dashboard-main">
       <transition-group appear name="fade-in">
-        <CreateItem :returnSolo="updateFromCreated" key="99999" />
+        <CreateItem key="99999" />
 
         <div
           class="item"
@@ -11,10 +11,9 @@
           @click="handleClick(namespace)"
           @keyup.enter="handleClick(namespace)"
         >
-          <div class="delete" @click.stop.prevent="deleteNamespace(namespace)">
-            x
-          </div>
+          <div class="delete" @click.stop.prevent="deleteNamespace(namespace)">x</div>
           {{ namespace }}
+          <div class="count">{{totalFound}}</div>
         </div>
       </transition-group>
     </div>
@@ -47,25 +46,9 @@ export default {
     }
   },
   methods: {
-    async fetchNamespaces(queryString) {     
+    async fetchNamespaces(queryString) {
       await this.$store.dispatch("namespace/getNS", queryString);
     },
-    // fetchNamespaces: function(queryString) {
-    // this.loading = true;
-    //  this.$http.get(queryString).then(
-    // response => {
-    // if (response.status === 200) {
-    // this.loading = false;
-    // this.namespaceResults = response.data.namespaces;
-    // } else if (response.status !== 200) {
-    //     this.resultBoolean = false;
-    //   }
-    // },
-    // error => {
-    //   console.log("Error: ", error);
-    // }
-    //   );
-    // },
     updateNamespaces: function() {
       if (this.updatedSearchString < 1) {
         // return ALL NS as result
@@ -130,6 +113,7 @@ export default {
     ...mapGetters({
       loading: "loading",
       currentNamespaces: "namespace/currentNamespaces",
+      selectedNamespace: "namespace/selectedNamespace",
       searchedContent: "search/searchedContent"
     })
   },
@@ -137,6 +121,9 @@ export default {
     searchedContent(newVal) {
       this.updatedSearchString = newVal;
       this.updateNamespaces();
+    },
+    selectedNamespace(newVal) {
+      this.updateFromCreated(newVal);
     }
   }
 };
@@ -192,6 +179,15 @@ export default {
       &:hover {
         background-color: $neutral;
         color: tint($color2, $tint100);
+      }
+
+      .count {
+        position: absolute;
+        bottom: 0;
+        right: 0;
+        padding: 5px;
+        font-size: 14px;
+
       }
     }
 

@@ -1,11 +1,11 @@
 import api from "../../services/api";
+import * as Created from "../modules/create";
 
 export const namespaced = true;
 
 export const state = {
   currentNamespaces: null,
-  selectedNamespace: "",
-  createdNamespace: false
+  selectedNamespace: ""
 };
 
 export const getters = {
@@ -14,9 +14,6 @@ export const getters = {
   },
   selectedNamespace: state => {
     return state.selectedNamespace;
-  },
-  createdNamespace: state => {
-    return state.createdNamespace;
   }
 };
 
@@ -26,9 +23,6 @@ export const mutations = {
   },
   SELECTED_NAMESPACE(state, selectedNS) {
     state.selectedNamespace = selectedNS;
-  },
-  CREATED_NAMESPACE(state, value) {
-    state.createNamespace = value;
   }
 };
 
@@ -40,7 +34,7 @@ export const actions = {
         setTimeout(() => {
           commit("CURRENT_NAMESPACES", response.data.namespaces);
           dispatch("updateLoading", false, { root: true });
-        }, 500);
+        }, 100);
       } else if (response.status !== 200) {
         commit("CURRENT_NAMESPACES", null);
       }
@@ -52,12 +46,19 @@ export const actions = {
   async selectNS({ commit }, payload) {
     await commit("SELECTED_NAMESPACE", payload);
   },
-  async createNamespace({ commit }, payload) {    
+  async createNamespace({ dispatch }, payload) {
     await api.put(payload).then(response => {
       if (response.status === 201) {
-        commit("CREATED_NAMESPACE", true);
+        dispatch("createItem/subStringNS", payload, { root: true })
       } else {
-        commit("CREATED_NAMESPACE", false);
+        dispatch(
+          "updateNotice",
+          {
+            code: "invalid",
+            message: `Failed to create ${Created.state.createdNamespace}`
+          },
+          { root: true }
+        );
       }
     })
   }

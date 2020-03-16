@@ -35,7 +35,7 @@ export const actions = {
         setTimeout(() => {
           commit("CURRENT_EVENTS", response.data);
           dispatch("updateLoading", false, { root: true });
-        }, 500);
+        }, 100);
       } else if (response.status !== 200) {
         commit("CURRENT_EVENTS", null);
       }

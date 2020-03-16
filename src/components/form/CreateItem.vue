@@ -33,23 +33,15 @@
         type="submit"
         @click="sendCreate"
         :disabled="$v.formResponses.createNewItem.$error"
-      >
-        Add {{ this.$parent.$parent.$data.id }}
-      </button>
+      >Add {{ this.$parent.$parent.$data.id }}</button>
     </div>
     <div class="errors">
-      <p
-        class="form-field-msg"
-        v-if="!$v.formResponses.createNewItem.minLength"
-      >
+      <p class="form-field-msg" v-if="!$v.formResponses.createNewItem.minLength">
         Please add a New {{ this.$parent.$parent.$data.id }} with at least
         {{ $v.formResponses.createNewItem.$params.minLength.min }}
         characters.
       </p>
-      <p
-        class="form-field-msg"
-        v-if="!$v.formResponses.createNewItem.maxLength"
-      >
+      <p class="form-field-msg" v-if="!$v.formResponses.createNewItem.maxLength">
         Please add a New {{ this.$parent.$parent.$data.id }} with no more than
         {{ $v.formResponses.createNewItem.$params.maxLength.max }}
         characters.
@@ -60,9 +52,7 @@
           !$v.formResponses.createNewItem.required &&
             $v.formResponses.createNewItem.$dirty
         "
-      >
-        New {{ this.$parent.$parent.$data.id }} must not be empty!
-      </p>
+      >New {{ this.$parent.$parent.$data.id }} must not be empty!</p>
     </div>
   </label>
 </template>
@@ -73,17 +63,12 @@ import {
   maxLength,
   helpers
 } from "vuelidate/lib/validators";
-import { mapGetters } from 'vuex';
+import { mapGetters } from "vuex";
 const initialMeta = "metadata/";
 const hasValueLength = value => value.length >= 1;
 const strDefPattern = helpers.regex("strDefPattern", /^[\d+\w+^.^-]+$/);
 export default {
   name: "CreateItem",
-  props: {
-    returnSolo: {
-      type: Function
-    }
-  },
   data() {
     return {
       formResponses: {
@@ -115,39 +100,23 @@ export default {
         .toLowerCase());
     },
     async sendCreate() {
-      // console.log(this.$parent.$parent.$data.id);
-      // this.$store.dispatch("create/createItem", this.formResponses.createNewItem)
-      // this.$emit("createdNewN", this.formResponses.createNewItem);
       if (
         this.formResponses.createNewItem !== null &&
         this.$parent.$parent.$data.id === "Namespace"
       ) {
-        const createNsSting = initialMeta + "namespaces/" + this.formResponses.createNewItem;
+        const createNsSting =
+          initialMeta + "namespaces/" + this.formResponses.createNewItem;
         await this.$store.dispatch("createItem/createNS", createNsSting);
-        await this.$store.dispatch("namespace/selectNS", this.createdNamespace)
-        // this.returnSolo("updateFromCreated", this.createdNamespace);
-        // this.$http
-        //   .put(initialMeta + "namespaces/" + this.formResponses.createNewItem)
-        //   .then(response => {
-        //     if (response.status === 200) {
-        //       this.returnSolo(this.formResponses.createNewItem);
-        //     }
-        //   });
       } else if (
         this.formResponses.createNewItem !== null &&
         this.$parent.$parent.$data.id === "Name"
       ) {
-        const createNString = initialMeta + this.selectedNamespace + "/" + this.formResponses.createNewItem;
+        const createNString =
+          initialMeta +
+          this.selectedNamespace +
+          "/" +
+          this.formResponses.createNewItem;
         await this.$store.dispatch("createItem/createN", createNString);
-        this.$emit("updateFromCreated", this.createdName);
-        // console.log("sending data N", this.formResponses.createNewItem);
-        // this.$http
-        //   .put(initialMeta + this.nsString + this.formResponses.createNewItem)
-        //   .then(response => {
-        //     if (response.status === 200) {
-        //       this.returnSolo(this.formResponses.createNewItem);
-        //     }
-        //   });
       } else {
         console.log("not sending data");
       }

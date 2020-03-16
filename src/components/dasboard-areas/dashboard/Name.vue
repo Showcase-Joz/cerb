@@ -95,20 +95,6 @@ export default {
     async fetchName(queryString) {
       await this.$store.dispatch("name/getN", queryString);
     },
-    // fetchName: function(namesQuery) {
-    //   this.loading = true;
-    //   this.$http.get(namesQuery).then(
-    //     response => {
-    //       if (response.status === 200) {
-    //         this.loading = false;
-    //         this.fetchedNames = response.data;
-    //       }
-    //     },
-    //     error => {
-    //       console.log("Error: ", error);
-    //     }
-    //   );
-    // },
     updateFromCreated: function() {
       const newNsAndN = initialMeta + this.selectedNamespace + "/names";
       this.fetchName(newNsAndN);
@@ -135,13 +121,16 @@ export default {
   computed: {
     ...mapGetters({
       selectedNamespace: "namespace/selectedNamespace",
+      selectedName: "name/selectedName",
       currentNames: "name/currentNames"
-      // selectedName: "name/selectedName",
     })
   },
   watch: {
     userInputMeta: function(newVal) {
       this.selectedN = newVal;
+    },
+    selectedName(newVal) {
+      this.updateFromCreated(newVal);
     }
   }
 };
