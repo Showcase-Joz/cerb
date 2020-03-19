@@ -140,7 +140,7 @@ h4 {
 }
 
 ::-webkit-scrollbar {
-  width: 10px;
+  width: 6px;
   background-color: tint($color1, $tint100);
 }
 

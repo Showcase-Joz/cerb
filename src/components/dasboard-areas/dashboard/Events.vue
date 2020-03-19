@@ -194,7 +194,8 @@ export default {
       justify-self: left;
       max-height: 100%;
       overflow-y: auto;
-      padding-top: 0.25rem;
+      padding-top: calc(#{$spacingDefault} /4);
+      padding-right: calc(#{$spacingDefault} /4);
       text-align: justify;
       width: 100%;
     }
