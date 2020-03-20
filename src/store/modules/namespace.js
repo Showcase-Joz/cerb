@@ -42,14 +42,6 @@ export const mutations = {
 export const actions = {
   async getNS({ commit, dispatch }, payload) {
     await dispatch("updateLoading", true, { root: true });
-    // await dispatch(
-    //   "updateNotice",
-    //   {
-    //     code: "valid",
-    //     message: `Gathering all the namespaces`
-    //   },
-    //   { root: true }
-    // );
     await api.get(payload).then(response => {
       if (response.status === 200) {
         setTimeout(() => {

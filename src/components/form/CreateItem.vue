@@ -116,7 +116,9 @@ export default {
       ) {
         const createNsSting =
           initialMeta + "namespaces/" + this.formResponses.createNewItem;
-        await this.$store.dispatch("createItem/createNS", createNsSting);
+        await this.$store.dispatch("createItem/createNS", createNsSting, {
+          root: true
+        });
       } else if (
         this.formResponses.createNewItem !== null &&
         this.$parent.$parent.$data.id === "Name"
@@ -126,7 +128,9 @@ export default {
           this.selectedNamespace +
           "/" +
           this.formResponses.createNewItem;
-        await this.$store.dispatch("createItem/createN", createNString);
+        await this.$store.dispatch("createItem/createN", createNString, {
+          root: true
+        });
       } else {
         console.log("not sending data");
       }

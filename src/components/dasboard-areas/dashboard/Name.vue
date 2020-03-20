@@ -2,16 +2,14 @@
   <div class="dashboard-main">
     <!-- <div class="loading" v-if="loading">Loading...</div> -->
     <transition-group appear name="animate-cards">
-      <CreateItem
-        :returnSolo="updateFromCreated"
-        @createdNewN="selectedN = $event"
-        key="99999"
-      />
+      <CreateItem key="99999" />
       <div
         class="item"
         v-for="(names, index) in currentNames"
         :key="index"
+        :ref="index"
         @click="handleClick(names)"
+        @keyup.enter="handleClick(names)"
       >
         <div class="delete" @click.stop.prevent="deleteN(names)">x</div>
         {{ names }}
@@ -56,9 +54,9 @@
 <script>
 import CreateItem from "../../form/CreateItem";
 import { mapGetters } from "vuex";
-const initialMeta = "metadata/";
+// constthis.initialMeta = "metadata/";
 // const andFilter = "?filter=";
-const maxLimit = "?limit=0";
+// const this.maxLimit = "?limit=0";
 export default {
   name: "DashboardNames",
   inheritAttrs: false,
@@ -68,11 +66,7 @@ export default {
   data() {
     return {
       id: "Name",
-      constructN: {
-        initialMeta: "metadata/",
-        andFilter: "?filter=",
-        maxLimit: "?limit=0"
-      }
+      updatedSearchString: ""
     };
   },
   // created() {
@@ -80,11 +74,17 @@ export default {
   //     this.$router.push("/dashboard/namespace")
   //   }
   // },
+  created() {
+    (this.initialMeta = "metadata/"),
+      (this.andFilter = "?filter="),
+      (this.maxLimit = "?limit=0");
+  },
   beforeMount() {
     // POSSIBLE CHANGE THIS LINE TO GET NAME FROM NAMESPACE!!!!!!!!!!!!!!!!!
     // !!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!
     // const queryNS = "events?namespace=" + this.selectedNamespace + "&offset=25";
-    const queryNS = initialMeta + this.selectedNamespace + "/names" + maxLimit;
+    const queryNS =
+      this.initialMeta + this.selectedNamespace + "/names" + this.maxLimit;
     if (this.selectedNamespace !== null) {
       this.fetchName(queryNS);
     } else {
@@ -96,12 +96,35 @@ export default {
       await this.$store.dispatch("name/getN", queryString);
     },
     updateFromCreated: function() {
-      const newNsAndN = initialMeta + this.selectedNamespace + "/names";
+      const newNsAndN = this.initialMeta + this.selectedNamespace + "/names";
       this.fetchName(newNsAndN);
     },
     updateNames: function() {
       if (this.updatedSearchString < 1) {
-        // this.$st
+        // return ALL NS as result of SEARCH being cleared
+        const fetchAllQuery = this.initialMeta + this.maxLimit;
+        this.$store.dispatch(
+          "updateNotice",
+          {
+            code: "valid",
+            message: "Gathering all of the available Names!"
+          },
+          { root: true }
+        );
+        this.$store.dispatch("name/getN", fetchAllQuery);
+      } else {
+        // return FILTERED NS or CREATED NS as result
+        const fetchSearchedQuery =
+          this.initialMeta + this.andFilter + this.updatedSearchString;
+        this.$store.dispatch(
+          "updateNotice",
+          {
+            code: "valid",
+            message: `Filtering the Names with ${this.searchedContent}`
+          },
+          { root: true }
+        );
+        this.$store.dispatch("name/getN", fetchSearchedQuery);
       }
     },
     handleClick: function(name) {
@@ -113,11 +136,16 @@ export default {
     deleteN: function(name) {
       this.selectedN = name;
       this.$http
-        .delete(initialMeta + this.selectedNamespace + "/" + this.selectedN)
+        .delete(
+          this.initialMeta + this.selectedNamespace + "/" + this.selectedN
+        )
         .then(response => {
           if (response.status === 200 && this.$data.id === "Name") {
             this.fetchName(
-              initialMeta + this.selectedNamespace + "/names" + maxLimit
+              this.initialMeta +
+                this.selectedNamespace +
+                "/names" +
+                this.maxLimit
             );
           }
         });
@@ -125,14 +153,17 @@ export default {
   },
   computed: {
     ...mapGetters({
-      selectedNamespace: "namespace/selectedNamespace",
+      currentNames: "name/currentNames",
       selectedName: "name/selectedName",
-      currentNames: "name/currentNames"
+      createdName: "createItem/createdName",
+      searchedContent: "search/searchedContent",
+      selectedNamespace: "namespace/selectedNamespace"
     })
   },
   watch: {
-    userInputMeta: function(newVal) {
-      this.selectedN = newVal;
+    searchedContent(newVal) {
+      this.updatedSearchString = newVal;
+      this.updateNames();
     },
     selectedName(newVal) {
       this.updateFromCreated(newVal);

@@ -3,11 +3,7 @@
     <div class="info">
       <div class="total-events">
         Viewing
-        <strong>
-          {{
-          this.totalEvents > 0 ? this.totalEvents : "0"
-          }}
-        </strong>
+        <strong>{{ this.totalEvents > 0 ? this.totalEvents : "0" }}</strong>
         events in
       </div>
       <div class="name-title">{{ this.selectedName }}</div>
@@ -122,19 +118,20 @@ export default {
 	}
 
 	.info {
-		border: 1px solid $color2;
+		cursor: help;
 		display: grid;
 		grid-template-areas:
 			"total-events"
 			"name-title"
 			"functional-buttons";
 		grid-template-columns: 1fr;
-		height: 100%;
+    height: 100%;
+    @include card--border;
 
 		.total-events {
 			align-self: center;
-      grid-area: total-events;
-      text-transform: uppercase;
+			grid-area: total-events;
+			text-transform: uppercase;
 		}
 
 		.name-title {
@@ -169,8 +166,8 @@ export default {
 		align-items: center;
 		border: 1px solid $color2;
 		background-color: $color2;
-		border-radius: 0.2rem;
-		color: tint($color2, $tint90);
+		border-radius: calc(#{$borderRadius} / 1);
+		color: tint($color2, $tint100);
 		cursor: pointer;
 		display: grid;
 		grid-template-columns: [col] minmax(auto, 1fr);
@@ -179,7 +176,11 @@ export default {
 		opacity: 1;
 		padding: $spacingDefault;
 		position: relative;
-		word-break: break-word;
+    word-break: break-word;
+    
+    &:hover {
+      color: $color1;
+    }
 
 		& .delete {
 			align-items: center;
@@ -227,9 +228,12 @@ export default {
 		div[class^="response-n"] {
 			font-size: 1.25rem;
 			font-variant: all-petite-caps;
-			font-weight: $heavy;
 			line-height: 1.2rem;
-		}
+    }
+    
+    &:hover div[class^="response-n"] {
+      font-weight: $heavy;
+    }
 
 		.response-extras {
 			grid-area: response-extras;
@@ -251,7 +255,12 @@ export default {
 			padding-right: calc(#{$spacingDefault} / 4);
 			text-align: justify;
 			width: 100%;
-		}
+    }
+    
+    &:hover .response-desc {
+      border-top-color: tint($color2, $tint100);
+      color: tint($color2, $tint100);
+    }
 
 		.response-extras {
 			align-items: center;
@@ -269,7 +278,7 @@ export default {
 				width: max-content;
 				text-transform: uppercase;
 				padding: 0.2rem 0.5rem;
-				border-radius: 3px;
+				border-radius: calc(#{$borderRadius} / 1.5);
 				color: tint($color2, $tint100);
 
 				&.event-type {
@@ -295,7 +304,7 @@ export default {
 
 			.log-version {
 				border-bottom: solid medium tint($color2, $tint100);
-				border-radius: 3px;
+				border-radius: calc(#{$borderRadius} / 1.5);
 				color: tint($color2, $tint100);
 				cursor: help;
 				font-weight: $heavy;
