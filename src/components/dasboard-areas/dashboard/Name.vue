@@ -99,9 +99,14 @@ export default {
       const newNsAndN = initialMeta + this.selectedNamespace + "/names";
       this.fetchName(newNsAndN);
     },
+    updateNames: function() {
+      if (this.updatedSearchString < 1) {
+        // this.$st
+      }
+    },
     handleClick: function(name) {
       this.selectedN = name;
-      this.$store.dispatch("name/selectedN", name);
+      this.$store.dispatch("name/selectN", name);
       // this.$store.dispatch("search/storedSearch", "");
       this.$router.push("/dashboard/events/");
     },

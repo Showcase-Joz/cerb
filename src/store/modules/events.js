@@ -4,18 +4,25 @@ import * as Name from "../modules/name";
 export const namespaced = true;
 
 export const state = {
-  currentEvents: null
+  currentEvents: null,
+  totalEvents: ""
 };
 
 export const getters = {
   currentEvents: state => {
     return state.currentEvents;
+  },
+  totalEvents: state => {
+    return state.totalEvents;
   }
 };
 
 export const mutations = {
   CURRENT_EVENTS(state, events) {
     state.currentEvents = events;
+  },
+  TOTAL_EVENTS(state, number) {
+    state.totalEvents = number;
   }
 };
 
@@ -32,17 +39,19 @@ export const actions = {
     );
     await api.get(payload).then(response => {
       if (response.status === 200) {
+        commit("TOTAL_EVENTS", response.data.total);
         setTimeout(() => {
-          commit("CURRENT_EVENTS", response.data);
+          commit("CURRENT_EVENTS", response.data.events);
           dispatch("updateLoading", false, { root: true });
         }, 100);
       } else if (response.status !== 200) {
+        commit("TOTAL_EVENTS", "");
         commit("CURRENT_EVENTS", null);
       }
     }),
-    await dispatch("updateNotice", null, { root: true });
-      err => {
-        console.log("Error: ", err);
-      };
+      await dispatch("updateNotice", null, { root: true });
+    err => {
+      console.log("Error: ", err);
+    };
   }
 };

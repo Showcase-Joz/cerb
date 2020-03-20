@@ -12,11 +12,13 @@
           @click="handleClick(namespace)"
           @keyup.enter="handleClick(namespace)"
         >
-          <div class="delete" @click.stop.prevent="deleteNamespace(namespace)">x</div>
+          <div class="delete" @click.stop.prevent="deleteNamespace(namespace)">
+            x
+          </div>
           <div class="title">{{ namespace }}</div>
           <div class="count">
-            <div>{{index + 1}}</div>
-            /{{counts.count}}
+            <div>{{ index + 1 }}</div>
+            /{{ counts.count }}
           </div>
         </div>
       </transition-group>
@@ -56,11 +58,19 @@ export default {
   },
   methods: {
     async fetchNamespaces(queryString) {
+			this.$store.dispatch(
+          "updateNotice",
+          {
+            code: "valid",
+            message: "Gathering all the namespaces"
+          },
+          { root: true }
+        );
       await this.$store.dispatch("namespace/getNS", queryString);
     },
     updateNamespaces: function() {
       if (this.updatedSearchString < 1) {
-        // return ALL NS as result
+        // return ALL NS as result of SEARCH being cleared
         const fetchAllQuery = this.initialMeta + this.maxLimit;
         this.$store.dispatch(
           "updateNotice",

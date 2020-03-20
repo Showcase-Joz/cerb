@@ -2,8 +2,8 @@ export const namespaced = true;
 
 export const state = {
   createdNamespace: "",
-  createdName: "",
-}
+  createdName: ""
+};
 
 export const getters = {
   createdNamespace: state => {
@@ -12,7 +12,7 @@ export const getters = {
   createdName: state => {
     return state.createdName;
   }
-}
+};
 
 export const mutations = {
   SUB_STRING_NS(state, payload) {
@@ -23,7 +23,7 @@ export const mutations = {
     const stripped = /[^/]*$/.exec(payload)[0];
     state.createdName = stripped;
   }
-}
+};
 
 export const actions = {
   async createNS({ dispatch }, payload) {
@@ -31,24 +31,22 @@ export const actions = {
 
     await dispatch("updateButton", true, { root: true });
     */
-   await dispatch("namespace/createNamespace", payload, { root: true });
-   
-   
-   
-   // create updateButton confirm/error result
+    await dispatch("namespace/createNamespace", payload, { root: true });
+
+    // create updateButton confirm/error result
   },
   async createN({ dispatch }, payload) {
     // same as above here!!!
     await dispatch("name/createName", payload, { root: true });
-
   },
   async subStringNS({ commit, dispatch }, payload) {
     commit("SUB_STRING_NS", payload);
-    await dispatch("namespace/selectNS", state.createdNamespace, { root: true });
+    await dispatch("namespace/selectNS", state.createdNamespace, {
+      root: true
+    });
   },
   async subStringN({ commit, dispatch }, payload) {
     commit("SUB_STRING_N", payload);
     await dispatch("name/selectN", state.createdName, { root: true });
   }
-}
-
+};

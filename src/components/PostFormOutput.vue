@@ -75,7 +75,9 @@ export default {
     white-space: pre-line;
 
     &.output-desc {
+      max-width: fit-content;
       text-align: justify;
+      word-break: break-word;
     }
   }
 

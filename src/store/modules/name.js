@@ -2,12 +2,11 @@ import api from "../../services/api";
 import * as NameSpace from "../modules/namespace";
 import * as Created from "../modules/create";
 
-
 export const namespaced = true;
 
 export const state = {
   currentNames: null,
-  selectedName: "",
+  selectedName: ""
 };
 
 export const getters = {
@@ -49,10 +48,10 @@ export const actions = {
         commit("CURRENT_NAMES", null);
       }
     }),
-    await dispatch("updateNotice", null, { root: true });
-      err => {
-        console.log("Error: ", err);
-      };
+      await dispatch("updateNotice", null, { root: true });
+    err => {
+      console.log("Error: ", err);
+    };
   },
   async selectN({ commit }, payload) {
     await commit("SELECTED_NAME", payload);
@@ -60,7 +59,7 @@ export const actions = {
   async createName({ dispatch }, payload) {
     await api.put(payload).then(response => {
       if (response.status === 201) {
-        dispatch("createItem/subStringN", payload, { root: true })
+        dispatch("createItem/subStringN", payload, { root: true });
       } else {
         dispatch(
           "updateNotice",
@@ -71,6 +70,6 @@ export const actions = {
           { root: true }
         );
       }
-    })
+    });
   }
 };

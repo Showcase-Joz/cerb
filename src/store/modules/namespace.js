@@ -42,14 +42,14 @@ export const mutations = {
 export const actions = {
   async getNS({ commit, dispatch }, payload) {
     await dispatch("updateLoading", true, { root: true });
-    await dispatch(
-      "updateNotice",
-      {
-        code: "valid",
-        message: `Gathering all the namespaces`
-      },
-      { root: true }
-    );
+    // await dispatch(
+    //   "updateNotice",
+    //   {
+    //     code: "valid",
+    //     message: `Gathering all the namespaces`
+    //   },
+    //   { root: true }
+    // );
     await api.get(payload).then(response => {
       if (response.status === 200) {
         setTimeout(() => {
@@ -61,7 +61,7 @@ export const actions = {
       } else if (response.status !== 200) {
         commit("CURRENT_NAMESPACES", null);
       }
-    })
+    });
     await dispatch("updateNotice", null, { root: true });
     err => {
       console.log("Error: ", err);
@@ -73,7 +73,7 @@ export const actions = {
   async createNamespace({ dispatch }, payload) {
     await api.put(payload).then(response => {
       if (response.status === 201) {
-        dispatch("createItem/subStringNS", payload, { root: true })
+        dispatch("createItem/subStringNS", payload, { root: true });
       } else {
         dispatch(
           "updateNotice",
@@ -84,6 +84,6 @@ export const actions = {
           { root: true }
         );
       }
-    })
+    });
   }
 };

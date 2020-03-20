@@ -33,15 +33,23 @@
         type="submit"
         @click="sendCreate"
         :disabled="$v.formResponses.createNewItem.$error"
-      >Add {{ this.$parent.$parent.$data.id }}</button>
+      >
+        Add {{ this.$parent.$parent.$data.id }}
+      </button>
     </div>
     <div class="errors">
-      <p class="form-field-msg" v-if="!$v.formResponses.createNewItem.minLength">
+      <p
+        class="form-field-msg"
+        v-if="!$v.formResponses.createNewItem.minLength"
+      >
         Please add a New {{ this.$parent.$parent.$data.id }} with at least
         {{ $v.formResponses.createNewItem.$params.minLength.min }}
         characters.
       </p>
-      <p class="form-field-msg" v-if="!$v.formResponses.createNewItem.maxLength">
+      <p
+        class="form-field-msg"
+        v-if="!$v.formResponses.createNewItem.maxLength"
+      >
         Please add a New {{ this.$parent.$parent.$data.id }} with no more than
         {{ $v.formResponses.createNewItem.$params.maxLength.max }}
         characters.
@@ -52,7 +60,9 @@
           !$v.formResponses.createNewItem.required &&
             $v.formResponses.createNewItem.$dirty
         "
-      >New {{ this.$parent.$parent.$data.id }} must not be empty!</p>
+      >
+        New {{ this.$parent.$parent.$data.id }} must not be empty!
+      </p>
     </div>
   </label>
 </template>
