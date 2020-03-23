@@ -62,6 +62,8 @@ export default {
   data() {
     return {
       searchString: "",
+      lastNamespace: "",
+      lastName: "",
       clearBtn: false
     };
   },
@@ -80,8 +82,10 @@ export default {
       this.searchString = value.replace(/[^a-zA-Z0-9]/g, ".").toLowerCase();
       this.collectInputs();
     },
+    storeSearch: function() {},
     collectInputs: function() {
       if (!this.$v.searchString.$error) {
+        this.storeSearch();
         this.$store.dispatch("search/storedSearch", this.searchString);
       } else if (
         this.searchString.trim() === "" ||

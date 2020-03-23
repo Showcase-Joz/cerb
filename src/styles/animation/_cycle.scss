@@ -1,0 +1,12 @@
+
+@keyframes cycle {
+	from {
+		box-shadow: 0 0 5px 10px rgba($color1, 1);
+	}
+	50% {
+		box-shadow: 0 0 5px 10px rgba($color1, 0.3);
+	}
+	to {
+		box-shadow: 0 0 5px 10px rgba($color1, 1);
+	}
+}

@@ -99,8 +99,15 @@ export default {
 		},
 		handleClick: function(namespace) {
 			this.$store.dispatch("namespace/selectNS", namespace);
-			// this.$store.dispatch("search/storedSearch", "");
+			this.saveSearch(this.searchedContent);
 			this.$router.push("/dashboard/namespace/");
+		},
+		saveSearch: function(saveNS) {
+			if (saveNS !== "") {
+				this.$store.dispatch("search/storedNS", saveNS, { root: true });
+				this.$store.dispatch("search/storedSearch", "", { root: true });
+			}
+			return;
 		},
 		highlighed: function() {
 			if (this.selectedNamespace !== "") {
@@ -209,7 +216,7 @@ export default {
 
 		&:hover {
 			background-color: $color1;
-			border: calc(#{$borderRadius} /1.25) ridge tint($color2, $tint25);
+			border: calc(#{$borderRadius} / 1.25) ridge tint($color2, $tint25);
 			border-radius: $borderRadius;
 			box-shadow: 1px 1px 4px 2px rgba(shade($color2, $shade100), 0.2),
 				-1px -1px 4px 2px rgba(shade($color2, $shade100), 0.2);
@@ -277,27 +284,8 @@ export default {
 			z-index: 5;
 		}
 		&.highlighted {
-			animation: cycle 3s ease-in alternate infinite;
-			background-color: shade($color2, $tint10);
-			border-color: tint($color2, $tint25);
-			border-style: ridge;
-			border-width: 5px;
-			color: tint($color2, $tint100);
-			// box-shadow: 0 0 5px 10px $color1;
-			transition: animation ease-in;
+			@include highlighted;
 		}
-	}
-}
-
-@keyframes cycle {
-	from {
-		box-shadow: 0 0 5px 10px rgba($color1, 1);
-	}
-	50% {
-		box-shadow: 0 0 5px 10px rgba($color1, 0.3);
-	}
-	to {
-		box-shadow: 0 0 5px 10px rgba($color1, 1);
 	}
 }
 </style>

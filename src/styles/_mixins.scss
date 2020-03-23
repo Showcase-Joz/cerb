@@ -115,3 +115,26 @@ useful for improving the UX for a user of a touch device
   box-shadow: 1px 1px 4px 2px rgba(shade($color2, $shade100), 0.2),
     -1px -1px 4px 2px rgba(shade($color2, $shade100), 0.2);
 }
+
+@mixin highlighted {
+  animation: cycle 3s ease-in alternate infinite;
+      background-color: shade($color2, $tint10);
+      border-color: tint($color2, $tint25);
+      border-style: ridge;
+      border-width: 5px;
+      color: tint($color2, $tint100);
+      // box-shadow: 0 0 5px 10px $color1;
+      transition: animation ease-in;
+
+      @keyframes cycle {
+        from {
+          box-shadow: 0 0 5px 10px rgba($color1, 1);
+        }
+        50% {
+          box-shadow: 0 0 5px 10px rgba($color1, 0.3);
+        }
+        to {
+          box-shadow: 0 0 5px 10px rgba($color1, 1);
+        }
+      }
+}
