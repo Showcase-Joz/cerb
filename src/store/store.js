@@ -2,6 +2,7 @@ import Vue from "vue";
 import Vuex from "vuex";
 import * as authorisation from "./modules/authorisation.js";
 import * as appInfo from "./modules/appInfo";
+import * as post from "./modules/post";
 import * as search from "./modules/search";
 import * as namespace from "./modules/namespace";
 import * as name from "./modules/name";
@@ -67,6 +68,7 @@ const store = new Vuex.Store({
   modules: {
     authorisation,
     appInfo,
+    post,
     search,
     namespace,
     name,

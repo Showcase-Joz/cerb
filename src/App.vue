@@ -1,5 +1,8 @@
 <template>
   <div id="app">
+    <transition name="fade-in">
+      <Loading v-if="this.loading" />
+    </transition>
     <Header />
     <transition name="fade-in">
       <router-view />
@@ -10,10 +13,12 @@
 <script>
 import { mapGetters } from "vuex";
 import Header from "./components/header/Header.vue";
+import Loading from "./components/helpers/Loading.vue";
 export default {
   name: "app",
   components: {
-    Header
+    Header,
+    Loading
   },
   beforeUpdate() {
     // clear error message from current view
@@ -32,7 +37,8 @@ export default {
   computed: {
     ...mapGetters({
       authUser: "authorisation/authUser",
-      errMessage: "authorisation/errMessage"
+      errMessage: "authorisation/errMessage",
+      loading: "loading"
     })
   }
 };

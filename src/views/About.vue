@@ -1,7 +1,7 @@
 <template>
   <div class="about page">
     <h1>About Typhon UI</h1>
-    <br >
+    <br />
     <h3>Development Log</h3>
     <div class="log-wrapper">
       <ul>
@@ -17,32 +17,32 @@
 
 <style lang="scss" scoped>
 .log-wrapper {
-	display: grid;
-	grid-template-columns: 0.8fr;
-	justify-content: center;
-	padding-top: 5rem;
+  display: grid;
+  grid-template-columns: 0.8fr;
+  justify-content: center;
+  padding-top: 5rem;
 
-	ul {
+  ul {
     counter-reset: update;
     list-style-type: none;
 
-		li {
-			border-bottom: $color2 dashed 1px;
-			border-bottom-left-radius: 15px;
-			border-top-left-radius: 20px;
-			border-left: green solid 3px;
-			margin-bottom: $spacingDefault;
+    li {
+      border-bottom: $color2 dashed 1px;
+      border-bottom-left-radius: 15px;
+      border-top-left-radius: 20px;
+      border-left: green solid 3px;
+      margin-bottom: $spacingDefault;
       padding: $spacingDefault calc(#{$spacingDefault} / 2);
       text-align: start;
-			width: 100%;
+      width: 100%;
 
-			&::before {
-				counter-increment: update;
+      &::before {
+        counter-increment: update;
         content: counter(update);
         left: -20px;
         position: absolute;
-			}
-		}
-	}
+      }
+    }
+  }
 }
 </style>

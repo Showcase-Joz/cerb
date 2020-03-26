@@ -116,6 +116,10 @@ useful for improving the UX for a user of a touch device
     -1px -1px 4px 2px rgba(shade($color2, $shade100), 0.2);
 }
 
+@mixin symbol-arrows {
+  color: tint($color2, $tint50);
+}
+
 @mixin highlighted {
   animation: cycle 3s ease-in alternate infinite;
       background-color: shade($color2, $tint10);

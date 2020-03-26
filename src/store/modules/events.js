@@ -23,6 +23,10 @@ export const mutations = {
   },
   TOTAL_EVENTS(state, number) {
     state.totalEvents = number;
+  },
+  CLEAR_DATA(state) {
+    state.currentEvents = null;
+    state.totalEvents = "";
   }
 };
 
@@ -53,5 +57,8 @@ export const actions = {
     err => {
       console.log("Error: ", err);
     };
+  },
+  clearData({ commit }) {
+    commit("CLEAR_DATA");
   }
 };

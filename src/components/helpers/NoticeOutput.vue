@@ -26,14 +26,15 @@ export default {
 <style lang="scss" scoped>
 .noticeMsg {
   background-color: $neutral;
-  border-radius: 5px;
-  color: white;
+  border-radius: $borderRadius;
+  color: tint($color2, $tint100);
   display: block;
-  margin: auto;
-  margin-bottom: 20px;
+  hyphens: auto;
   max-width: max-content;
-  padding: 3px 2rem;
+  padding: 3px calc(#{$spacingDefault} * 2);
   position: relative;
+  transform: translateY(7vh);
+  word-break: break-word;
 
   &::before {
     content: "\2192";

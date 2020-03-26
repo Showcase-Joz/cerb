@@ -1,7 +1,7 @@
 <template>
   <div class="post-view page">
     <div class="view-atfold">
-      <h1>This is a POST page</h1>
+      <h1>POST <span class="symbol-arrows">&#8594;</span> Typhon</h1>
       <p v-if="!resultBoolean">
         Please complete this form to POST data to the API for testing purposes
       </p>
@@ -25,7 +25,6 @@
 <script>
 import PostForm from "../components/form/PostForm";
 import PostFormOutput from "../components/PostFormOutput";
-
 export default {
   name: "post",
   props: {},
@@ -51,23 +50,31 @@ export default {
       this.postString = JSON.stringify(this.passedPost);
       this.fetchPost();
     },
-    fetchPost: function() {
-      // console.log("test ", this.postString);
-
-      this.$http.post("events", this.postString).then(
-        response => {
-          if (response.status === 200 || response.status === 201) {
-            this.resultBoolean = true;
-            this.responseHref = response.data.href;
-            this.passedMessage = response.data.message;
-          } else if (response.status !== 200 || response.status !== 201) {
-            this.resultBoolean = false;
-          }
+    async fetchPost() {
+      this.$store.dispatch(
+        "updateNotice",
+        {
+          code: "valid",
+          message: "Posting new data to the API"
         },
-        error => {
-          console.log("Error: ", error);
-        }
+        { root: true }
       );
+      await this.$store.dispatch("post/sendString", this.postString);
+      // .then(
+      //   response => {
+      //     if (response.status === 200 || response.status === 201) {
+      //       this.resultBoolean = true;
+      //       this.responseHref = response.data.href;
+      //       this.passedMessage = response.data.message;
+      //     } else if (response.status !== 200 || response.status !== 201) {
+      //       this.resultBoolean = false;
+      //     }
+      //   },
+      //   error => {
+      //     console.log("Error: ", error);
+      //     console.log(this.postString);
+      //   }
+      // );
     }
   }
 };
@@ -75,5 +82,9 @@ export default {
 <style lang="scss" scoped>
 .post-view {
   padding: $spacingDefault;
+
+  h1 span.symbol-arrows {
+    @include symbol-arrows;
+  }
 }
 </style>

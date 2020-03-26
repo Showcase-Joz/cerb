@@ -135,10 +135,23 @@ export default {
       }
     },
     handleClick: function(name) {
-      this.selectedN = name;
-      this.$store.dispatch("name/selectN", name);
-      this.saveSearch(this.searchedContent);
-      this.$router.push("/dashboard/events/");
+      if (this.selectedName !== name || this.selectedName === "") {
+        console.log(
+          "network fetch......",
+          "ns: ",
+          this.selectedName,
+          "n: ",
+          name
+        );
+        this.$store.dispatch("events/clearData");
+        this.$store.dispatch("name/selectN", name);
+        this.saveSearch(this.searchedContent);
+        this.$router.push("/dashboard/events/");
+      } else {
+        console.log("local fetch");
+        this.saveSearch(this.searchedContent);
+        this.$router.push("/dashboard/events/");
+      }
     },
     saveSearch: function(saveN) {
       if (saveN !== "") {
@@ -169,11 +182,8 @@ export default {
       }
     },
     deleteN: function(name) {
-      this.selectedN = name;
       this.$http
-        .delete(
-          this.initialMeta + this.selectedNamespace + "/" + this.selectedN
-        )
+        .delete(this.initialMeta + this.selectedNamespace + "/" + name)
         .then(response => {
           if (response.status === 200 && this.$data.id === "Name") {
             this.fetchName(
