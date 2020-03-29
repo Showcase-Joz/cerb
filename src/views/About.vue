@@ -30,7 +30,7 @@
       border-bottom: $color2 dashed 1px;
       border-bottom-left-radius: 15px;
       border-top-left-radius: 20px;
-      border-left: green solid 3px;
+      border-left: $color1 solid 3px;
       margin-bottom: $spacingDefault;
       padding: $spacingDefault calc(#{$spacingDefault} / 2);
       text-align: start;

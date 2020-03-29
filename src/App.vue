@@ -33,6 +33,7 @@ export default {
     if (this.authUser) {
       this.$router.push("/dashboard");
     }
+    console.warn("Why are you snooping on my logs?");
   },
   computed: {
     ...mapGetters({

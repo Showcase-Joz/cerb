@@ -159,7 +159,6 @@
         </p>
       </div>
       <input type="submit" value="Submit" class="btn btn-submit" />
-      {{ this.passedMessage }}
     </form>
   </div>
 </template>
@@ -183,9 +182,6 @@ export default {
     DescriptionTextArea
   },
   props: {
-    passedMessage: {
-      type: String
-    },
     resultSwitch: {
       type: Boolean
     }

@@ -41,8 +41,8 @@ export default {
   },
   data() {
     return {
-      signinEmail: "joz@showcaseimagery.com",
-      signinPassword: "123456!Wa",
+      signinEmail: "",
+      signinPassword: "",
       loading: false,
       successURL: "<router-link to='/login'>About</router-link>"
     };
