@@ -109,23 +109,47 @@ export default {
       height: 100%;
     }
 
-    button {
+    .btn {
       background-color: $color2;
       border: none;
       color: tint($color1, $tint100);
       padding: calc(#{$spacingDefault} / 2);
+      position: relative;
+
+      &::after {
+        border-bottom: tint($color1, $tint50) 2px solid;
+        bottom: 0;
+        content: "";
+        left: 0;
+        margin: 0 auto;
+        position: absolute;
+        right: 0;
+        top: 0;
+        transform: translateX(0);
+        transition: all 0.2s ease-in-out 0.2s;
+        width: 0%;
+      }
+
+      &:hover::after {
+        transform: translateX(1);
+        transition: all 0.3s ease-in-out 0s;
+        width: 100%;
+      }
 
       &.router-link-active {
         background-color: $valid;
         color: $color2;
+        font-size: smaller;
         font-weight: $heavy;
+        outline: none;
+        text-decoration: none;
       }
 
       &:hover {
         background-color: shade($color1, $shade10);
         color: $color2;
         cursor: pointer;
-        text-decoration: underline;
+        outline: inherit;
       }
 
       &:disabled {
@@ -135,6 +159,10 @@ export default {
 
         &:hover {
           text-decoration: line-through;
+        }
+
+        &::after {
+          content: none;
         }
       }
     }

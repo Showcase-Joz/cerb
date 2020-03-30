@@ -15,6 +15,7 @@
     "register-service-worker": "^1.6.2",
     "vue": "^2.6.11",
     "vue-cli-plugin-s3-deploy": "^4.0.0-rc3",
+    "vue-number-animation": "^1.0.5",
     "vue-resource": "^1.5.1",
     "vue-router": "^3.1.5",
     "vuelidate": "^0.7.5",

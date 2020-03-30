@@ -4,7 +4,7 @@ export const namespaced = true;
 
 export const state = {
   postString: null,
-  responseData: null,
+  responseData: null
 };
 
 export const getters = {
@@ -12,7 +12,7 @@ export const getters = {
     return state.postString;
   },
   responseData: state => {
-    return state.responseData
+    return state.responseData;
   }
 };
 

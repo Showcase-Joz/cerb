@@ -6,9 +6,11 @@ import router from "./router/routes";
 import store from "./store/store";
 import api from "./services/api";
 import Vuelidate from "vuelidate";
+import VueNumber from "vue-number-animation";
 
 Vue.use(Vuex);
 Vue.use(Vuelidate);
+Vue.use(VueNumber);
 
 // allows the use of Axios in components as this.$http.get(...)
 Vue.prototype.$http = api;

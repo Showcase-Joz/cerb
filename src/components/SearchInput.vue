@@ -82,11 +82,13 @@ export default {
       this.searchString = value.replace(/[^a-zA-Z0-9]/g, ".").toLowerCase();
       this.collectInputs();
     },
-    storeSearch: function() {},
+    // storeSearch: function() {},
     collectInputs: function() {
       if (!this.$v.searchString.$error) {
-        this.storeSearch();
-        this.$store.dispatch("search/storedSearch", this.searchString);
+        // this.storeSearch();
+        this.$store.dispatch("search/storedSearch", this.searchString, {
+          root: true
+        });
       } else if (
         this.searchString.trim() === "" ||
         this.$v.searchString.hasValueLength === false
@@ -96,7 +98,7 @@ export default {
       this.clearBtn = true;
     },
     clearInputs: function() {
-      this.$store.dispatch("search/storedSearch", "");
+      this.$store.dispatch("search/storedSearch", "", { root: true });
     },
     clearSearch: function() {
       setTimeout(() => {
