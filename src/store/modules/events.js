@@ -19,7 +19,9 @@ export const getters = {
 
 export const mutations = {
   CURRENT_EVENTS(state, events) {
-    state.currentEvents = events;
+    const sortedEvents = events.sort((a, b) => (a.event.created < b.event.created ? 1 : -1));
+
+    state.currentEvents = sortedEvents;
   },
   TOTAL_EVENTS(state, number) {
     state.totalEvents = number;
