@@ -1,5 +1,6 @@
 <template>
   <div id="app">
+    <Modal />
     <transition name="fade-in">
       <Loading v-if="this.loading" />
     </transition>
@@ -12,12 +13,14 @@
 
 <script>
 import { mapGetters } from "vuex";
-import Header from "./components/header/Header.vue";
-import Loading from "./components/helpers/Loading.vue";
+import Header from "./components/header/Header";
+import Modal from "./components/helpers/Modal";
+import Loading from "./components/helpers/Loading";
 export default {
   name: "app",
   components: {
     Header,
+    Modal,
     Loading
   },
   beforeUpdate() {

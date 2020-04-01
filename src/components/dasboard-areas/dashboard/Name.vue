@@ -61,7 +61,7 @@ export default {
 	name: "DashboardNames",
 	inheritAttrs: false,
 	components: {
-		CreateItem
+    CreateItem
 	},
 	data() {
 		return {
