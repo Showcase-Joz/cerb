@@ -153,7 +153,7 @@ export default {
       }
     }
   }
-  &.positive {
+  &.success {
     .modal-wrapper-topbar {
       background-color: $color1;
       border-bottom-color: shade($color1, $shade25);
@@ -176,7 +176,7 @@ export default {
     }
   }
 
-  &.negative {
+  &.danger {
     .modal-wrapper-topbar {
       background-color: $invalid;
       border-bottom-color: shade($invalid, $shade25);

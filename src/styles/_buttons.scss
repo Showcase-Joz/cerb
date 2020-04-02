@@ -1,8 +1,11 @@
-// arrow's used in title elements
+// default/reset button
 @mixin default-btn {
   all: initial;
   color: tint($color2, $tint100);
   cursor: pointer;
   font-family: $primary-font-family;
   font-size: $font-normal;
+
+  
+
 }
