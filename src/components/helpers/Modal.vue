@@ -13,7 +13,7 @@
           <button>ok</button>
         </div>
         <div class="modal-action-2">
-          <button></button>
+          <button data-action-2="delete" data-confirm="are you sure?"></button>
         </div>
       </div>
     </div>
@@ -56,11 +56,7 @@ export default {
 	width: 100%;
 
     & button {
-      all: initial;
-      color: tint($color2, $tint100);
-      cursor: pointer;
-      font-family: $primary-font-family;
-      font-size: $font-normal;
+      @include default-btn;
     }
 
     .modal-wrapper-topbar {
@@ -197,10 +193,13 @@ export default {
       & button::before {
         background-color: $invalid;
         bottom: 0;
-        content: "DELETE";
+        content: attr(data-action-2);
+        font-weight: $heavy;
+        left: 0;
+        letter-spacing: calc(#{$letter-spacing} /2);
         padding: calc(1rem / 2);
         position: absolute;
-        left: 0;
+        text-transform: uppercase;
         top: 0;
         right: 0;
       }
@@ -208,7 +207,7 @@ export default {
       & button:hover::after {
         background-color: $invalid;
         bottom: 0;
-        content: "are you sure?";
+        content: attr(data-confirm);
         padding: calc(1rem / 2);
         position: absolute;
         left: 0;
