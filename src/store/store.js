@@ -26,7 +26,8 @@ const store = new Vuex.Store({
     // user: null,
     loading: false,
     noticeMessage: null,
-    showNotice: false
+    showNotice: false,
+    showModal: true
   },
   getters: {
     loading: state => {
@@ -37,11 +38,14 @@ const store = new Vuex.Store({
     },
     showNotice: state => {
       return state.showNotice;
+    },
+    showModal: state => {
+      return state.showModal;
     }
   },
   mutations: {
-    LOADING_STATE(state, value) {
-      state.loading = value;
+    LOADING_STATE(state, boolean) {
+      state.loading = boolean;
     },
     NOTICE_MESSAGE(state, notice) {
       if (notice === null) {
@@ -50,8 +54,11 @@ const store = new Vuex.Store({
         state.noticeMessage = notice;
       }
     },
-    SHOW_NOTICE(state, value) {
-      state.showNotice = value;
+    SHOW_NOTICE(state, boolean) {
+      state.showNotice = boolean;
+    },
+    SHOW_MODAL(state, boolean) {
+      state.showModal = boolean;
     }
   },
   actions: {
@@ -63,6 +70,9 @@ const store = new Vuex.Store({
     },
     updateShowNotice({ commit }, payload) {
       commit("SHOW_NOTICE", payload);
+    },
+    updateShowModal({ commit }, payload) {
+      commit("SHOW_MODAL", payload);
     }
   },
   modules: {

@@ -1,11 +1,118 @@
+// include partials
+@import "../styles/animation/button-animations";
+
 // default/reset button
-@mixin default-btn {
+@mixin btn {
   all: initial;
   color: tint($color2, $tint100);
   cursor: pointer;
   font-family: $primary-font-family;
   font-size: $font-normal;
 
-  
+  &::before,
+  &::after {
+    border-radius: $borderRadius;
+  }
+}
 
+// group before properties
+@mixin btn-before-defaults {
+  bottom: 0;
+  content: attr(data-title);
+  font-weight: $heavy;
+  left: 0;
+  letter-spacing: calc(#{$letter-spacing} /2);
+  padding: calc(1rem / 2);
+  position: absolute;
+  // text-transform: uppercase;
+  top: 0;
+  right: 0;
+}
+
+// group after properties
+@mixin btn-after-defaults {
+  bottom: 0;
+  content: attr(data-title-confirm);
+  padding: calc(1rem / 2);
+  position: absolute;
+  left: 0;
+  right: 0;
+  top: 0;
+
+  //animation effect
+  @include button-anim-out;
+}
+
+
+/* add a danger btn element (element is absolute, wrap in relative wrapper!!)
+-- data-danger [default text]
+-- data-danger-confirm [hover text]
+*/
+@mixin danger {
+  background-color: $invalid;
+  border-radius: $borderRadius;
+
+  & button::before {
+    @include btn-before-defaults;
+    background-color: $invalid;
+  }
+
+  & button::after {
+    @include btn-after-defaults;
+    background-color: shade($invalid, $shade10);
+  }
+
+  & button:hover::after {
+    //animation effect
+    @include button-anim-in;
+  }
+}
+
+
+/* add a success btn element (element is absolute, wrap in relative wrapper!!)
+-- data-success [default text]
+-- data-success-confirm [hover text]
+*/
+@mixin success {
+  background-color: $valid;
+  border-radius: $borderRadius;
+
+  & button::before {
+    @include btn-before-defaults;
+    background-color: $valid;
+  }
+
+  & button::after {
+    @include btn-after-defaults;
+    background-color: shade($valid, $shade10);
+  }
+
+  & button:hover::after {
+    //animation effect
+    @include button-anim-in;
+  }
+}
+
+/* add a default btn element (element is absolute, wrap in relative wrapper!!)
+-- data-default [default text]
+-- data-default-confirm [hover text]
+*/
+@mixin default {
+  background-color: $unknown;
+  border-radius: $borderRadius;
+
+  & button::before {
+    @include btn-before-defaults;
+    background-color: $unknown;
+  }
+
+  & button::after {
+    @include btn-after-defaults;
+    background-color: shade($unknown, $shade10);
+  }
+
+  & button:hover::after {
+    //animation effect
+    @include button-anim-in;
+  }
 }

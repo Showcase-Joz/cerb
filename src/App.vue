@@ -1,6 +1,6 @@
 <template>
   <div id="app">
-    <Modal />
+    <Modal v-if="this.showModal" />
     <transition name="fade-in">
       <Loading v-if="this.loading" />
     </transition>
@@ -42,7 +42,8 @@ export default {
     ...mapGetters({
       authUser: "authorisation/authUser",
       errMessage: "authorisation/errMessage",
-      loading: "loading"
+      loading: "loading",
+      showModal: "showModal"
     })
   }
 };

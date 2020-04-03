@@ -1,0 +1,35 @@
+
+@mixin button-anim-out {
+  animation: view-out 0.3s ease-out forwards;
+  transform: scale(0, 0);
+  transition: animation ease-in;
+
+  @keyframes view-out {
+    from {
+      transform: scale(1, 1);
+    }
+
+    70% {
+      transform: scale(.7, 1);
+    }
+
+    to {
+      transform: scale(1, 0);
+    }
+  }
+}
+
+@mixin button-anim-in {
+  animation: view-in 0.3s ease-in forwards;
+  transition: animation ease-in;
+
+  @keyframes view-in {
+    from {
+      transform: scale(1, 0);
+    }
+
+    to {
+      transform: scale(1, 1);
+    }
+  }
+}

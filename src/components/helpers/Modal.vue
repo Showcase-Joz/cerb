@@ -3,17 +3,17 @@
     <div class="modal-wrapper">
       <div class="modal-wrapper-topbar">
         <div class="modal-title">Title</div>
-        <div class="modal-x" title="close this window">
+        <div @click="handleClose" class="modal-x" title="close this window">
           <button>X</button>
         </div>
       </div>
       <div class="modal-content">blurb</div>
       <div class="modal-wrapper-buttonsbar">
-        <div class="modal-action-1">
-          <button>ok</button>
+        <div class="modal-btn-default">
+          <button @click="handleClose" data-title="return" data-title-confirm="return"></button>
         </div>
-        <div class="modal-action-2">
-          <button data-action-2="delete" data-confirm="are you sure?"></button>
+        <div class="modal-btn-danger">
+          <button data-title="DELETE" data-title-confirm="are you sure?"></button>
         </div>
       </div>
     </div>
@@ -22,199 +22,171 @@
 
 <script>
 export default {
-  name: "modal"
+  name: "modal",
+  methods: {
+    handleClose: function() {
+      this.$store.dispatch("updateShowModal", false);
+      
+    }
+  }
 };
 </script>
 
 <style lang="scss" scoped>
 .modal {
-  align-content: center;
-  background-color: rgba($color2, 0.8);
-  cursor: default;
-  display: grid;
-  grid-template-columns: minmax(100px, 80vw);
-  grid-template-rows: minmax(200px, 30vh);
-  height: 100vh;
-  justify-content: center;
-  justify-items: center;
-  position: absolute;
-  width: 100vw;
-  z-index: 999999;
+	align-content: center;
+	background-color: rgba($color2, 0.8);
+	cursor: default;
+	display: grid;
+	grid-template-columns: minmax(100px, 80vw);
+	grid-template-rows: minmax(200px, 30vh);
+	height: 100vh;
+	justify-content: center;
+	justify-items: center;
+	position: absolute;
+	width: 100vw;
+	z-index: 999999;
 
-  .modal-wrapper {
-    align-self: center;
-    background-color: shade($color2, $shade50);
-    border: calc(#{$borderRadius} / 1.25) ridge $color2;
-    grid-template-columns: 1fr;
-    // grid-template-rows: min-content max-content min-content;
-    grid-template-areas:
-      "modal-wrapper-topbar"
-      "modal-content"
-	  "modal-wrapper-buttonsbar";
-	min-width: 250px;
-	max-width: 500px;
-	width: 100%;
+	& {
+		.modal-wrapper-topbar {
+			background-color: $unknown;
+			border-bottom-color: shade($unknown, $shade25);
+		}
+	}
 
-    & button {
-      @include default-btn;
-    }
+	&.success {
+		.modal-wrapper-topbar {
+			background-color: $valid;
+			border-bottom-color: shade($valid, $shade25);
+		}
+	}
 
-    .modal-wrapper-topbar {
-      background-color: inherit;
-      border-bottom-width: calc(#{$borderRadius} / 1.25);
-      border-bottom-style: ridge;
-      display: grid;
-      grid-area: modal-wrapper-topbar;
-      grid-template-columns: 1fr 30px;
-      justify-items: center;
-      letter-spacing: $letter-spacing;
-      margin: 2px 1px 0px;
-      text-transform: uppercase;
+	&.danger {
+		.modal-wrapper-topbar {
+			background-color: $invalid;
+			border-bottom-color: shade($invalid, $shade25);
+		}
+	}
 
-      div[class$="-title"] {
-        align-self: center;
-        color: tint($color1, $tint100);
-        font-weight: $heavy;
-        justify-self: start;
-        padding-left: 1rem;
-      }
-      div[class$="-x"] {
-        font-size: calc(#{$font-size-xl} * 1.2);
-        justify-self: center;
-        padding-right: 2px;
-        width: 100%;
+	div[class$="btn-success"] {
+		position: relative;
+		@include success;
+	}
 
-        button {
-          border-left: solid 1px rgba(shade($color2, $shade100), 0.3);
-          color: $color2;
+	div[class$="btn-default"] {
+		position: relative;
+		@include default;
+	}
 
-          text-align: center;
-          width: inherit;
+	div[class$="btn-danger"] {
+		position: relative;
+		@include danger;
+	}
 
-          &:hover {
-            color: tint($color2, $tint100);
-            font-weight: $heavy;
-          }
-        }
-      }
-    }
+	.modal-wrapper {
+		align-self: center;
+		background-color: shade($color2, $shade50);
+		border: calc(#{$borderRadius} / 1.25) ridge $color2;
+		grid-template-columns: 1fr;
+		// grid-template-rows: min-content max-content min-content;
+		grid-template-areas:
+			"modal-wrapper-topbar"
+			"modal-content"
+			"modal-wrapper-buttonsbar";
+		min-width: 250px;
+		max-width: 500px;
+		width: 100%;
 
-    .modal-content {
-      align-items: center;
-      color: tint($color2, $tint100);
-      display: grid;
-      grid-area: modal-content;
-      height: fit-content;
-      letter-spacing: calc(#{$letter-spacing} / 2);
-      padding: calc(#{$spacingDefault} / 2) calc(#{$spacingDefault} * 2);
-	  min-height: 100px;
-      text-align: left;
-    }
+		& button {
+			@include btn;
+		}
 
-    .modal-wrapper-buttonsbar {
-      display: grid;
-      grid-area: modal-wrapper-buttonsbar;
-      grid-gap: $spacingDefault;
-      grid-template-columns: repeat(auto-fit, minmax(120px, 1fr));
-      grid-auto-rows: 40px;
-      justify-items: center;
-      padding: $spacingDefault;
+		.modal-wrapper-topbar {
+			border-bottom-width: calc(#{$borderRadius} / 1.25);
+			border-bottom-style: ridge;
+			border-bottom-color: inherit;
+			display: grid;
+			grid-area: modal-wrapper-topbar;
+			grid-template-columns: 1fr 30px;
+			justify-items: center;
+			letter-spacing: $letter-spacing;
+			margin: 2px 1px 0px;
+			text-transform: uppercase;
 
-      @include for-size(phone-small) {
-        grid-gap: calc(#{$spacingDefault} / 2);
-      }
+			div[class$="-title"] {
+				align-self: center;
+				color: tint($color1, $tint100);
+				font-weight: $heavy;
+				justify-self: start;
+				padding-left: 1rem;
+			}
+			div[class$="-x"] {
+				font-size: calc(#{$font-size-xl} * 1.2);
+				justify-self: center;
+				padding-right: 2px;
+				width: 100%;
 
-      @include for-size(tablet-portrait-up) {
-        grid-gap: $spacingLarge;
-      }
+				button {
+					border-left: solid 1px rgba(shade($color2, $shade100), 0.3);
+					color: $color2;
 
-      & > div {
-        display: grid;
-        grid-gap: calc(#{$spacingDefault} * 2);
-        min-width: 100%;
-        // padding: $spacingDefault calc(#{$spacingDefault} / 2);
+					text-align: center;
+					width: inherit;
 
-        & button {
-          padding: 0 calc(#{$spacingDefault} / 2);
-          text-align: center;
+					&:hover {
+						color: tint($color2, $tint100);
+						font-weight: $heavy;
+					}
+				}
+			}
+		}
 
-          &:hover {
-            background-color: pink;
-          }
-        }
-      }
+		& {
+			.modal-wrapper-topbar {
+			}
+		}
 
-      div[class$="action-1"] {
-        background-color: $valid;
-      }
+		.modal-content {
+			align-items: center;
+			color: tint($color2, $tint100);
+			display: grid;
+			grid-area: modal-content;
+			height: fit-content;
+			letter-spacing: calc(#{$letter-spacing} / 2);
+			padding: calc(#{$spacingDefault} / 2) calc(#{$spacingDefault} * 2);
+			min-height: 100px;
+			text-align: left;
+		}
 
-      div[class$="action-2"] {
-        background-color: $invalid;
-      }
-    }
-  }
-  &.success {
-    .modal-wrapper-topbar {
-      background-color: $color1;
-      border-bottom-color: shade($color1, $shade25);
-    }
+		.modal-wrapper-buttonsbar {
+			display: grid;
+			grid-area: modal-wrapper-buttonsbar;
+			grid-gap: $spacingDefault;
+			grid-template-columns: repeat(auto-fit, minmax(120px, 1fr));
+			grid-auto-rows: 40px;
+			justify-items: center;
+			padding: $spacingDefault;
 
-    div[class$="action-1"] {
-      background-color: $valid;
+			@include for-size(phone-small) {
+				grid-gap: calc(#{$spacingDefault} / 2);
+			}
 
-      & button {
-        content: "ok";
-      }
-    }
+			@include for-size(tablet-portrait-up) {
+				grid-gap: $spacingLarge;
+			}
 
-    div[class$="action-2"] {
-      background-color: $invalid;
+			& > div {
+				display: grid;
+				grid-gap: calc(#{$spacingDefault} * 2);
+				min-width: 100%;
+				// padding: $spacingDefault calc(#{$spacingDefault} / 2);
 
-      & button {
-        content: "cancel";
-      }
-    }
-  }
-
-  &.danger {
-    .modal-wrapper-topbar {
-      background-color: $invalid;
-      border-bottom-color: shade($invalid, $shade25);
-    }
-
-    div[class$="action-1"] {
-      background-color: $unknown;
-    }
-
-    div[class$="action-2"] {
-      background-color: $invalid;
-      position: relative;
-
-      & button::before {
-        background-color: $invalid;
-        bottom: 0;
-        content: attr(data-action-2);
-        font-weight: $heavy;
-        left: 0;
-        letter-spacing: calc(#{$letter-spacing} /2);
-        padding: calc(1rem / 2);
-        position: absolute;
-        text-transform: uppercase;
-        top: 0;
-        right: 0;
-      }
-
-      & button:hover::after {
-        background-color: $invalid;
-        bottom: 0;
-        content: attr(data-confirm);
-        padding: calc(1rem / 2);
-        position: absolute;
-        left: 0;
-        top: 0;
-        right: 0;
-      }
-    }
-  }
+				& button {
+					padding: 0 calc(#{$spacingDefault} / 2);
+					text-align: center;
+				}
+			}
+		}
+	}
 }
 </style>
