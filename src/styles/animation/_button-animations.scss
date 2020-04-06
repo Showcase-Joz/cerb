@@ -6,15 +6,23 @@
 
   @keyframes view-out {
     from {
-      transform: scale(1, 1);
+      color: tint($color2, $tint100);
+      transform: translateX(0);
     }
 
-    70% {
-      transform: scale(.7, 1);
+    50% {
+      color: transparent;
+      transform: translateX(0);
+    }
+
+    75% {
+      color: transparent;
+      transform: translateX(-50%);
     }
 
     to {
-      transform: scale(1, 0);
+      color: transparent;
+      transform: translateX(-100%);
     }
   }
 }
@@ -25,11 +33,22 @@
 
   @keyframes view-in {
     from {
-      transform: scale(1, 0);
+      color: transparent;
+      transform: translateX(-100%);
+    }
+
+    50% {
+      color: transparent;
+      transform: translateX(0);
+    }
+    51% {
+      color: transparent;
+      transform: translateX(0);
     }
 
     to {
-      transform: scale(1, 1);
+      color: tint($color2, $tint100);
+      transform: translateX(0);
     }
   }
 }

@@ -34,11 +34,12 @@
   bottom: 0;
   content: attr(data-title-confirm);
   padding: calc(1rem / 2);
+  overflow: hidden;
   position: absolute;
   left: 0;
   right: 0;
   top: 0;
-
+  transform: translateX(-100%);
   //animation effect
   @include button-anim-out;
 }
@@ -49,8 +50,23 @@
 -- data-danger-confirm [hover text]
 */
 @mixin danger {
-  background-color: $invalid;
   border-radius: $borderRadius;
+  overflow: hidden;
+
+  & button {
+    background-color: $invalid;
+    
+
+    &:disabled {
+      color: shade($color2, $shade25);
+      cursor: not-allowed;
+      opacity: 0.5;
+
+      &::after {
+        content: none;
+      }
+    }
+  }
 
   & button::before {
     @include btn-before-defaults;
@@ -74,8 +90,22 @@
 -- data-success-confirm [hover text]
 */
 @mixin success {
-  background-color: $valid;
   border-radius: $borderRadius;
+  overflow: hidden;
+
+  & button {
+    background-color: $valid;
+
+    &:disabled {
+      color: shade($color2, $shade25);
+      cursor: not-allowed;
+      opacity: 0.5;
+
+      &::after {
+        content: none;
+      }
+    }
+  }
 
   & button::before {
     @include btn-before-defaults;
@@ -98,8 +128,22 @@
 -- data-default-confirm [hover text]
 */
 @mixin default {
-  background-color: $unknown;
   border-radius: $borderRadius;
+  overflow: hidden;
+
+  & button {
+    background-color: $unknown;
+
+    &:disabled {
+      color: shade($color2, $shade25);
+      cursor: not-allowed;
+      opacity: 0.5;
+
+      &::after {
+        content: none;
+      }
+    }
+  }
 
   & button::before {
     @include btn-before-defaults;

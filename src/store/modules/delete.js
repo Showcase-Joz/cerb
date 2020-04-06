@@ -20,11 +20,15 @@ export const mutations = {
 
 export const actions = {
   async deleteNS({ commit, dispatch }, payload) {
-    dispatch("updateLoading", true, { root: true });
+    // dispatch("updateLoading", true, { root: true });
+    dispatch("spinner", true, { root: true });
+    console.log(payload);
+    
     await api.delete(payload).then(response => {
       if (response.status === 200) {
-        dispatch("updateLoading", false, { root: true });
         commit("CURRENT_DELETE", payload);
+        dispatch("updateShowModal", false, { root: true });
+        dispatch("spinner", false, { root: true });
       } else if (response.status !== 200) {
         commit("CURRENT_DELETE", "");
       }
