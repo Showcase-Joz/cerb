@@ -52,7 +52,9 @@ export default {
 		}
 	},
 	updated() {
-		this.highlighed();
+		if (this.notBlank) {
+			this.highlighed();
+		}
 	},
 	methods: {
 		async fetchNamespaces(queryString) {
@@ -110,7 +112,7 @@ export default {
 			return;
 		},
 		highlighed: function() {
-			if (this.selectedNamespace !== "") {
+			if (this.currentNamespaces.includes(this.selectedNamespace)) {
 				// get the value of...
 				const highlightedNS = this.currentNamespaces.indexOf(
 					// selected namespace
@@ -133,27 +135,26 @@ export default {
 		async deleteNamespace(namespace) {
 			const verifyModal = {
 				modalState: !this.showModal,
-        actionName: "DELETE",
-        actionID: this.$data.id,
-        server: {
-          initialMeta: this.initialMeta,
-          maxLimit: this.maxLimit
-        },
+				actionName: "DELETE",
+				actionID: this.$data.id,
+				server: {
+					initialMeta: this.initialMeta,
+					maxLimit: this.maxLimit
+				},
 				deleteItem: namespace,
 				modalOptions: {
 					type: "danger",
 					title: `Delete this ${this.$data.id}?`,
-          content: `You are about to DELETE the ${namespace} ${this.$data.id}.\n\r` + `To confirm, select DELETE below.`,
+					content:
+						`You are about to DELETE the ${namespace} ${this.$data.id}.\n\r` +
+						`To confirm, select DELETE below.`,
 					leftAction: "cancel",
-          leftActionConfirm: "cancel",
+					leftActionConfirm: "cancel",
 					rightAction: "DELETE",
 					rightActionConfirm: "are you sure?"
 				}
 			};
-      await this.$store.dispatch("updateVerifyModal", verifyModal);
-      
-      // !!!!!!!!!!!!!!! is this needed, CHECK IT OUT
-			this.$emit("handleNewNS", "");
+			await this.$store.dispatch("updateVerifyModal", verifyModal);
 		}
 		// deleteNS: function(namespace) {
 		// 	this.$http.delete(initialMeta + "/" + namespace).then(response => {

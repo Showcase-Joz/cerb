@@ -117,6 +117,7 @@ export default {
   watch: {
     searchedContent(newVal) {
       this.searchString = newVal;
+      this.clearBtn = !this.clearBtn;
     }
   }
 };

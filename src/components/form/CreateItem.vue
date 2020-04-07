@@ -31,7 +31,7 @@
             $v.formResponses.createNewItem.$dirty
         }"
         type="submit"
-        @click="sendCreate"
+        @click="sendCreate($event)"
         :disabled="$v.formResponses.createNewItem.$error"
       >
         Add {{ this.$parent.$parent.$data.id }}
@@ -109,7 +109,7 @@ export default {
         // .replace(/[^a-zA-Z0-9]/g, ".")
         .toLowerCase());
     },
-    async sendCreate() {
+    async sendCreate(event) {
       if (
         this.formResponses.createNewItem !== null &&
         this.$parent.$parent.$data.id === "Namespace"
@@ -119,6 +119,9 @@ export default {
         await this.$store.dispatch("createItem/createNS", createNsSting, {
           root: true
         });
+        await setTimeout(() => {
+          event.target.blur();
+        }, 500);
       } else if (
         this.formResponses.createNewItem !== null &&
         this.$parent.$parent.$data.id === "Name"

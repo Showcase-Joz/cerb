@@ -22,6 +22,12 @@ export const mutations = {
   SUB_STRING_N(state, payload) {
     const stripped = /[^/]*$/.exec(payload)[0];
     state.createdName = stripped;
+  },
+  CLEAR_NS(state, payload) {
+    state.createdNamespace = payload;
+  },
+  CLEAR_N(state, payload) {
+    state.createdName = payload;
   }
 };
 
