@@ -8,7 +8,7 @@
   cursor: pointer;
   font-family: $primary-font-family;
   font-size: $font-normal;
-
+  
   &::before,
   &::after {
     border-radius: $borderRadius;
@@ -44,6 +44,11 @@
   @include button-anim-out;
 }
 
+@mixin matchedData {
+  content: attr(data-title);
+  font-weight: $heavy;
+  text-transform: uppercase;
+}
 
 /* add a danger btn element (element is absolute, wrap in relative wrapper!!)
 -- data-danger [default text]
@@ -56,7 +61,6 @@
   & button {
     background-color: $invalid;
     
-
     &:disabled {
       color: shade($color2, $shade25);
       cursor: not-allowed;
@@ -81,6 +85,10 @@
   & button:hover::after {
     //animation effect
     @include button-anim-in;
+  }
+
+  & button.data-matched:hover::after {
+    @include matchedData;
   }
 }
 
@@ -121,6 +129,10 @@
     //animation effect
     @include button-anim-in;
   }
+  
+  & button.data-matched:hover::after {
+    @include matchedData;
+  }
 }
 
 /* add a default btn element (element is absolute, wrap in relative wrapper!!)
@@ -144,7 +156,7 @@
       }
     }
   }
-
+  
   & button::before {
     @include btn-before-defaults;
     background-color: $unknown;
@@ -158,5 +170,10 @@
   & button:hover::after {
     //animation effect
     @include button-anim-in;
+  }
+
+  & button.data-matched::before,
+  & button.data-matched::after {
+    @include matchedData;
   }
 }

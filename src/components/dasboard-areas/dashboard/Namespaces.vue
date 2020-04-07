@@ -142,10 +142,10 @@ export default {
 				deleteItem: namespace,
 				modalOptions: {
 					type: "danger",
-					title: `Delele this ${this.$data.id}?`,
+					title: `Delete this ${this.$data.id}?`,
           content: `You are about to DELETE the ${namespace} ${this.$data.id}.\n\r` + `To confirm, select DELETE below.`,
 					leftAction: "cancel",
-					leftActionConfirm: "cancel",
+          leftActionConfirm: "cancel",
 					rightAction: "DELETE",
 					rightActionConfirm: "are you sure?"
 				}

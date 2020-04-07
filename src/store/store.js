@@ -29,7 +29,21 @@ const store = new Vuex.Store({
     noticeMessage: null,
     showNotice: false,
     showModal: false,
-    verifyModal: null
+    verifyModal: null,
+    verifyError: {
+      modalState: true,
+      actionName: "DELETE",
+      actionID: "ERROR",
+      modalOptions: {
+        type: "warning",
+        title: `An Error occurred!`,
+        content: `An error occurred while trying to complete an action. Please try again or check the logs.`,
+        leftAction: "UNDERSTOOD",
+        leftActionConfirm: "Go Back",
+        rightAction: "OK",
+        rightActionConfirm: "OK"
+      }
+    }
   },
   getters: {
     loading: state => {
@@ -92,7 +106,7 @@ const store = new Vuex.Store({
       commit("SHOW_MODAL", payload);
     },
     updateVerifyModal({ commit }, payload) {
-      commit("VERIFY_MODAL", payload);      
+      commit("VERIFY_MODAL", payload);
       commit("SHOW_MODAL", payload.modalState);
     },
     resetModal({ commit }, payload) {
