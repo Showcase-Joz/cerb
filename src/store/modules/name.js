@@ -28,7 +28,7 @@ export const mutations = {
 };
 
 export const actions = {
-  async getN({ commit, dispatch }, payload) {
+  async getN({ commit, dispatch }, payload) {  
     await dispatch("updateLoading", true, { root: true });
     await dispatch(
       "updateNotice",
@@ -53,8 +53,10 @@ export const actions = {
       console.log("Error: ", err);
     };
   },
-  async selectN({ commit }, payload) {
+  async selectN({ commit, dispatch }, payload) {
     await commit("SELECTED_NAME", payload);
+    await dispatch("search/storedSearch", "", { root: true });
+    await dispatch("search/storedN", payload, { root: true });
   },
   async createName({ dispatch }, payload) {
     await api.put(payload).then(response => {

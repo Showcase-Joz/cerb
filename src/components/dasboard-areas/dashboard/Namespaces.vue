@@ -101,16 +101,16 @@ export default {
 		},
 		handleClick: function(namespace) {
 			this.$store.dispatch("namespace/selectNS", namespace);
-			this.saveSearch(this.searchedContent);
+			// this.saveSearch(this.searchedContent);
 			this.$router.push("/dashboard/namespace/");
 		},
-		saveSearch: function(saveNS) {
-			if (saveNS !== "") {
-				this.$store.dispatch("search/storedNS", saveNS, { root: true });
-				this.$store.dispatch("search/storedSearch", "", { root: true });
-			}
-			return;
-		},
+		// saveSearch: function(saveNS) {
+		// 	if (saveNS !== "") {
+		// 		this.$store.dispatch("search/storedNS", saveNS, { root: true });
+		// 		this.$store.dispatch("search/storedSearch", "", { root: true });
+		// 	}
+		// 	return;
+		// },
 		highlighed: function() {
 			if (this.currentNamespaces.includes(this.selectedNamespace)) {
 				// get the value of...

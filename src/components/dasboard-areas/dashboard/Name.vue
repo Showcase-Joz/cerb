@@ -105,7 +105,7 @@ export default {
     updateNames: function() {
       if (this.updatedSearchString < 1) {
         // return ALL N as result of SEARCH being cleared
-        const fetchAllQuery = this.initialMeta + this.maxLimit;
+        const fetchAllQuery = this.initialMeta + this.selectedNamespace + "/names";
         this.$store.dispatch(
           "updateNotice",
           {
@@ -113,7 +113,7 @@ export default {
             message: "Gathering all of the available Names!"
           },
           { root: true }
-        );
+        );        
         this.$store.dispatch("name/getN", fetchAllQuery);
       } else {
         // return FILTERED NS or CREATED N as result
@@ -130,7 +130,7 @@ export default {
             message: `Filtering the Names with ${this.searchedContent}`
           },
           { root: true }
-        );
+        );        
         this.$store.dispatch("name/getN", fetchSearchedQuery);
       }
     },
@@ -145,21 +145,21 @@ export default {
         );
         this.$store.dispatch("events/clearData");
         this.$store.dispatch("name/selectN", name);
-        this.saveSearch(this.searchedContent);
+        // this.saveSearch(this.searchedContent);
         this.$router.push("/dashboard/events/");
       } else {
         console.log("local fetch");
-        this.saveSearch(this.searchedContent);
+        // this.saveSearch(this.searchedContent);
         this.$router.push("/dashboard/events/");
       }
     },
-    saveSearch: function(saveN) {
-      if (saveN !== "") {
-        this.$store.dispatch("search/storedN", saveN, { root: true });
-        this.$store.dispatch("search/storedSearch", "", { root: true });
-      }
-      return;
-    },
+    // saveSearch: function(saveN) {
+    //   if (saveN !== "") {
+    //     this.$store.dispatch("search/storedN", saveN, { root: true });
+    //     this.$store.dispatch("search/storedSearch", "", { root: true });
+    //   }
+    //   return;
+    // },
     highlighed: function() {
       if (this.selectedName !== "") {
         // get the value of...

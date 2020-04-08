@@ -61,7 +61,8 @@ export const actions = {
   },
   async selectNS({ commit, dispatch }, payload) {
     await commit("SELECTED_NAMESPACE", payload);
-    await dispatch("search/storedSearch", payload, { root: true });
+    await dispatch("search/storedSearch", "", { root: true });
+    await dispatch("search/storedNS", payload, { root: true });
   },
   async createNamespace({ dispatch }, payload) {
     await api.put(payload).then(response => {
