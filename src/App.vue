@@ -36,7 +36,6 @@ export default {
     if (this.authUser) {
       this.$router.push("/dashboard");
     }
-    console.warn("Why are you snooping on my logs?");
   },
   computed: {
     ...mapGetters({
@@ -57,6 +56,9 @@ export default {
   box-sizing: border-box;
   margin: 0;
   padding: 0;
+}
+*:focus {
+  outline: none;
 }
 
 #app {

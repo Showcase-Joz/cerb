@@ -16,7 +16,6 @@ input[type="checkbox"].switch {
   border-radius: 20px;
   box-shadow: inset 0 0 5px rgba(0, 0, 0, 0.2);
   height: 40px;
-  outline: none;
   position: relative;
 
   -webkit-appearance: none;

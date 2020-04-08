@@ -28,9 +28,9 @@ export const actions = {
         commit("CURRENT_DELETE", payload);
         // commit("namespace/SELECTED_NAMESPACE", "", { root: true });
         commit("createItem/CLEAR_NS", "", { root: true });
-        dispatch("spinner", false, { root: true });
         setTimeout(() => {
           dispatch("updateShowModal", false, { root: true });
+          dispatch("spinner", false, { root: true });
         }, 1500);
       } else if (response.status !== 200) {
         commit("CURRENT_DELETE", "");

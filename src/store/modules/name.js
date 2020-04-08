@@ -28,7 +28,7 @@ export const mutations = {
 };
 
 export const actions = {
-  async getN({ commit, dispatch }, payload) {  
+  async getN({ commit, dispatch }, payload) {
     await dispatch("updateLoading", true, { root: true });
     await dispatch(
       "updateNotice",
@@ -59,9 +59,13 @@ export const actions = {
     await dispatch("search/storedN", payload, { root: true });
   },
   async createName({ dispatch }, payload) {
+    dispatch("spinner", true, { root: true });
     await api.put(payload).then(response => {
       if (response.status === 201) {
         dispatch("createItem/subStringN", payload, { root: true });
+        setTimeout(() => {
+          dispatch("spinner", false, { root: true });
+        }, 1500);
       } else {
         dispatch(
           "updateNotice",

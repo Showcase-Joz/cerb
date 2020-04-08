@@ -158,7 +158,10 @@
           Please select a type for the log entry!
         </p>
       </div>
-      <input type="submit" value="Submit" class="btn btn-submit" />
+      <!-- <button type="submit" value="Submit" class="btn btn-submit" /></button> -->
+      <button type="submit" class="btn btn-submit">
+        Submit <LoadingSpinner v-if="this.spinner" />
+      </button>
     </form>
   </div>
 </template>
@@ -171,6 +174,8 @@ import {
   helpers
 } from "vuelidate/lib/validators";
 import DescriptionTextArea from "../form/form-elements/DescriptionTextArea";
+import LoadingSpinner from "../helpers/LoadingSpinner";
+import { mapGetters } from "vuex";
 // used to prevent UI covering user input when field has been completed
 const hasValueLength = value => value.length >= 1;
 const strDefPattern = helpers.regex("strDefPattern", /^[\d+\w+^.^-]+$/);
@@ -179,7 +184,8 @@ let newPost = {};
 export default {
   name: "PostForm",
   components: {
-    DescriptionTextArea
+    DescriptionTextArea,
+    LoadingSpinner
   },
   props: {
     resultSwitch: {
@@ -254,6 +260,11 @@ export default {
     onBlur() {
       this.hasFocus = false;
     }
+  },
+  computed: {
+    ...mapGetters({
+      spinner: "spinner"
+    })
   }
 };
 </script>
@@ -287,16 +298,16 @@ export default {
   }
 }
 .btn {
-  display: inline-block;
-  border: none;
-  background-color: #555;
-  color: #fff;
-  padding: 7px 20px;
-  cursor: pointer;
+  // display: inline-block;
+  // border: none;
+  // background-color: #555;
+  // color: #fff;
+  // padding: 7px 20px;
+  // cursor: pointer;
 
-  &:hover {
-    background-color: #666;
-  }
+  // &:hover {
+  //   background-color: #666;
+  // }
 }
 .btn-submit {
   background-color: $color1;

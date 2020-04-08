@@ -141,7 +141,6 @@ export default {
         color: $color2;
         font-size: smaller;
         font-weight: $heavy;
-        outline: none;
         text-decoration: none;
       }
 

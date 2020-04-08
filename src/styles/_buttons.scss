@@ -8,6 +8,7 @@
   cursor: pointer;
   font-family: $primary-font-family;
   font-size: $font-normal;
+  position: relative;
   
   &::before,
   &::after {
