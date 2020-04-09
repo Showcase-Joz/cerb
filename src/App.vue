@@ -1,7 +1,11 @@
 <template>
   <div id="app">
+    <Modal v-if="this.showModal" />
+    <transition name="fade-in">
+      <Loading v-if="this.loading" />
+    </transition>
     <Header />
-    <transition name="fade">
+    <transition name="fade-in">
       <router-view />
     </transition>
   </div>
@@ -9,11 +13,15 @@
 
 <script>
 import { mapGetters } from "vuex";
-import Header from "./components/header/Header.vue";
+import Header from "./components/header/Header";
+import Modal from "./components/helpers/Modal";
+import Loading from "./components/helpers/Loading";
 export default {
   name: "app",
   components: {
-    Header
+    Header,
+    Modal,
+    Loading
   },
   beforeUpdate() {
     // clear error message from current view
@@ -32,13 +40,15 @@ export default {
   computed: {
     ...mapGetters({
       authUser: "authorisation/authUser",
-      errMessage: "authorisation/errMessage"
+      errMessage: "authorisation/errMessage",
+      loading: "loading",
+      showModal: "showModal"
     })
   }
 };
 </script>
 
-<style lang="scss" src="@/styles/animation/_fade.scss" scoped></style>
+<style lang="scss" src="@/styles/animation/_fade-in.scss" scoped></style>
 <style lang="scss">
 *,
 *::before,
@@ -47,6 +57,9 @@ export default {
   margin: 0;
   padding: 0;
 }
+*:focus {
+  outline: none;
+}
 
 #app {
   color: tint($color2, $tint10);
@@ -54,9 +67,11 @@ export default {
   font-family: $primary-font-family;
   grid-template-columns: 1fr;
   grid-template-rows: minmax(auto, max-content) minmax(auto, max-content);
+  height: 100vh;
   overflow: hidden;
   min-width: $minViewport;
   text-align: center;
+  width: 100vw;
   -webkit-font-smoothing: antialiased;
   -moz-osx-font-smoothing: grayscale;
 }
@@ -138,46 +153,54 @@ h4 {
 }
 
 ::-webkit-scrollbar {
-  width: 12px;
+  width: 6px;
+  background-color: tint($color1, $tint100);
 }
 
 ::-webkit-scrollbar-track {
-  -webkit-box-shadow: inset 0 0 6px rgba(0, 0, 0, 0.3);
-  border-radius: 10px;
+  -webkit-box-shadow: inset 0 0 6px rgba(tint($color1, $tint50), 0.7);
+  box-shadow: inset 0 0 6px rgba(tint($color1, $tint50), 0.7);
+  background-color: tint($color1, $tint100);
 }
 
 ::-webkit-scrollbar-thumb {
-  border-radius: 10px;
-  -webkit-box-shadow: inset 0 0 6px rgba(0, 0, 0, 0.5);
+  background-color: $color1;
+  background-image: -webkit-linear-gradient(
+    45deg,
+    rgba(tint($color2, $tint100), 0.35) 25%,
+    transparent 25%,
+    transparent 50%,
+    rgba(tint($color2, $tint100), 0.35) 50%,
+    rgba(tint($color2, $tint100), 0.35) 75%,
+    transparent 75%,
+    transparent
+  );
 }
 
-// Animations
 
-@keyframes fadeIn {
-  0% {
-    opacity: 0;
-  }
-  100% {
-    opacity: 1;
+#message {
+  hyphens: auto;
+  line-height: 1.5rem;
+  margin: 1rem auto;
+  word-break: break-word;
+
+  & strong {
+    background-color: $invalid;
+    border-radius: $borderRadius;
+    color: tint($color2, $tint100);
+    font-size: smaller;
+    padding: 2px 5px;
+    text-transform: uppercase;
+    word-break: break-all;
+
+    &.warning {
+      border: 2px solid tint($color2, $tint100);
+      box-shadow: 0 0 5px 1px tint($color2, $tint100);
+    }
   }
 }
-@keyframes fadeOut {
-  0% {
-    opacity: 1;
-  }
-  100% {
-    opacity: 0;
-  }
-}
-@keyframes fadeOutSpecial {
-  0% {
-    opacity: 1;
-    height: inherit;
-  }
-  100% {
-    opacity: 0;
-    height: 0;
-    margin: 0;
-  }
+#message-confirm {
+  border-top: shade($invalid, $shade50) 2px outset;
+  padding-top: 1rem;
 }
 </style>

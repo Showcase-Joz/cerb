@@ -42,8 +42,8 @@ export default {
   data() {
     return {
       registerEmail: "",
-      registerPassword: "123456!Wa",
-      registerPasswordConfirm: "123456!Wa",
+      registerPassword: "",
+      registerPasswordConfirm: "",
       loading: false
     };
   },

@@ -7,8 +7,8 @@
   >
     <span class="create-title">
       Create a new
-      <strong>{{ this.$parent.$data.id }}</strong>
-      {{ this.$parent.$data.id === "Name" ? "for this namespace" : "" }}
+      <strong>{{ this.$parent.$parent.$data.id }}</strong>
+      {{ this.$parent.$parent.$data.id === "Name" ? "for this namespace" : "" }}
     </span>
     <div class="form-group">
       <input
@@ -18,7 +18,7 @@
         class="create-input"
         name="newItem"
         :placeholder="
-          'Start typing here to create a new ' + this.$parent.$data.id
+          'Start typing here to create a new ' + this.$parent.$parent.$data.id
         "
         type="text"
       />
@@ -31,26 +31,21 @@
             $v.formResponses.createNewItem.$dirty
         }"
         type="submit"
-        @click="sendCreate"
-        :disabled="$v.formResponses.createNewItem.$error"
+        @click="sendCreate($event)"
+        :disabled="$v.formResponses.createNewItem.$error || !$v.formResponses.createNewItem.$dirty || this.spinner"
       >
-        Add {{ this.$parent.$data.id }}
+        Add {{ this.$parent.$parent.$data.id }}
+        <LoadingSpinner v-if="this.spinner" />
       </button>
     </div>
     <div class="errors">
-      <p
-        class="form-field-msg"
-        v-if="!$v.formResponses.createNewItem.minLength"
-      >
-        Please add a New {{ this.$parent.$data.id }} with at least
+      <p class="form-field-msg" v-if="!$v.formResponses.createNewItem.minLength">
+        Please add a New {{ this.$parent.$parent.$data.id }} with at least
         {{ $v.formResponses.createNewItem.$params.minLength.min }}
         characters.
       </p>
-      <p
-        class="form-field-msg"
-        v-if="!$v.formResponses.createNewItem.maxLength"
-      >
-        Please add a New {{ this.$parent.$data.id }} with no more than
+      <p class="form-field-msg" v-if="!$v.formResponses.createNewItem.maxLength">
+        Please add a New {{ this.$parent.$parent.$data.id }} with no more than
         {{ $v.formResponses.createNewItem.$params.maxLength.max }}
         characters.
       </p>
@@ -60,252 +55,348 @@
           !$v.formResponses.createNewItem.required &&
             $v.formResponses.createNewItem.$dirty
         "
-      >
-        New {{ this.$parent.$data.id }} must not be empty!
-      </p>
+      >New {{ this.$parent.$parent.$data.id }} must not be empty!</p>
     </div>
   </label>
 </template>
 <script>
 import {
-  required,
-  minLength,
-  maxLength,
-  helpers
+	required,
+	minLength,
+	maxLength,
+	helpers
 } from "vuelidate/lib/validators";
+import { mapGetters } from "vuex";
+import LoadingSpinner from "../helpers/LoadingSpinner";
 const initialMeta = "metadata/";
+// const andFilter = "?filter=";
 const hasValueLength = value => value.length >= 1;
 const strDefPattern = helpers.regex("strDefPattern", /^[\d+\w+^.^-]+$/);
 export default {
-  name: "CreateItem",
-  props: {
-    returnSolo: {
-      type: Function
-    },
-    selectedNS: {
-      type: String
-    }
-  },
-  data() {
-    return {
-      formResponses: {
-        createNewItem: ""
-      },
-      passedNS: null
-    };
-  },
-  validations: {
-    formResponses: {
-      createNewItem: {
-        required,
-        minLength: minLength(3),
-        maxLength: maxLength(200),
-        hasValueLength,
-        strDefPattern
-      }
-    }
-  },
-  methods: {
-    handleInput: function(event) {
-      const element = event.target;
-      const value = element.value;
-      this.$v.formResponses.createNewItem.$touch();
+	name: "CreateItem",
+	components: {
+		LoadingSpinner
+	},
+	data() {
+		return {
+			formResponses: {
+				createNewItem: ""
+			},
+			passedNS: null
+		};
+	},
+	validations: {
+		formResponses: {
+			createNewItem: {
+				required,
+				minLength: minLength(3),
+				maxLength: maxLength(200),
+				hasValueLength,
+				strDefPattern
+			}
+		}
+	},
+	methods: {
+		handleInput: function(event) {
+			const element = event.target;
+			const value = element.value;
+			this.$v.formResponses.createNewItem.$touch();
 
-      return (this.formResponses.createNewItem = value
-        .replace(/[^a-zA-Z0-9]/g, ".")
-        // .replace(/\s/g, ".")
-        .toLowerCase());
-    },
-    sendCreate: function() {
-      // console.log(this.$parent.$data.id);
-      this.$emit("createdNewN", this.formResponses.createNewItem);
-      if (
-        this.formResponses.createNewItem !== null &&
-        this.$parent.$data.id === "Namespace"
-      ) {
-        this.$http
-          .put(initialMeta + "namespaces/" + this.formResponses.createNewItem)
-          .then(response => {
-            if (response.status === 200) {
-              this.returnSolo(this.formResponses.createNewItem);
-            }
-          });
-      } else if (
-        this.formResponses.createNewItem !== null &&
-        this.$parent.$data.id === "Name"
-      ) {
-        // console.log("sending data N", this.formResponses.createNewItem);
-        this.$http
-          .put(initialMeta + this.nsString + this.formResponses.createNewItem)
-          .then(response => {
-            if (response.status === 200) {
-              this.returnSolo(this.formResponses.createNewItem);
-            }
-          });
-      } else {
-        console.log("not sending data");
-      }
-    }
-  },
-  computed: {
-    nsString: function() {
-      return this.selectedNS + "/";
-    }
-  }
+			return (this.formResponses.createNewItem = value
+				.replace(/[^a-zA-Z0-9]/g, ".")
+				.toLowerCase());
+		},
+		async sendCreate(event) {
+			if (
+				this.formResponses.createNewItem.length > 0 &&
+				this.$parent.$parent.$data.id === "Namespace"
+			) {
+				const createNsString =
+					initialMeta + "namespaces/" + this.formResponses.createNewItem;
+				await this.$store.dispatch("createItem/createNS", createNsString, {
+					root: true
+        });
+        // // return FILTERED NS or CREATED NS as result
+				// const fetchSearchedQuery =
+				// 	initialMeta + "namespaces" + andFilter + this.formResponses.createNewItem;
+				// this.$store.dispatch(
+				// 	"updateNotice",
+				// 	{
+				// 		code: "valid",
+				// 		message: `Filtering the Namespaces with ${this.formResponses.createNewItem}`
+				// 	},
+				// 	{ root: true }
+				// );
+				// this.$store.dispatch("namespace/getNS", fetchSearchedQuery);
+				await this.blurCreate(event);
+			} else if (
+				this.formResponses.createNewItem.length > 0 &&
+				this.$parent.$parent.$data.id === "Name"
+			) {
+				const createNString =
+					initialMeta +
+					this.selectedNamespace +
+					"/" +
+					this.formResponses.createNewItem;
+				await this.$store.dispatch("createItem/createN", createNString, {
+					root: true
+				});
+				await this.blurCreate(event);
+			} else {
+				console.log("not sending data");
+			}
+		},
+		blurCreate(event) {
+			setTimeout(() => {
+				event.target.blur();
+			}, 1500);
+		}
+	},
+	computed: {
+		...mapGetters({
+			selectedNamespace: "namespace/selectedNamespace",
+			createdNamespace: "createItem/createdNamespace",
+			createdName: "createItem/createdName",
+			spinner: "spinner"
+		})
+	}
 };
 </script>
 <style lang="scss" scoped>
 .dashboard-main {
-  .item.item-create {
-    background-color: shade($color2, $shade25);
-    color: $color1;
-    cursor: pointer;
-    display: grid;
-    grid-template-areas: "create-title";
-    grid-column: 1 / span 1;
-    grid-row: 1 / span 1;
-    grid-template-columns: 1fr;
-    opacity: 0.5;
+	.item.item-create {
+		@mixin button-before {
+			content: "";
+			border-bottom: 1px solid white;
+			bottom: -8px;
+			right: 0px;
+			position: absolute;
+			transition: none;
+			width: 100%;
+		}
 
-    .create-title {
-      grid-area: create-title;
-    }
+		background-color: shade($color2, $shade25);
+		color: $color1;
+		cursor: pointer;
+		display: grid;
+		grid-template-areas: "create-title";
+		grid-column: 1 / span 1;
+		grid-row: 1 / span 1;
+		grid-template-columns: 1fr;
+		grid-template-rows: 1fr;
+		opacity: 0.6;
 
-    .form-group {
-      display: none;
-      flex-direction: row;
-      grid-area: form-group;
-      position: relative;
+		.create-title {
+			grid-area: create-title;
+		}
 
-      .create-input {
-        border: none;
-        border-bottom: 1px solid tint($color1, $tint100);
-        background-color: transparent;
-        color: tint($color1, $tint100);
-        display: block;
-        flex-grow: 2;
-        font-size: large;
-        // grid-area: create-input;
-        margin: $spacingDefault;
-        min-width: 95%;
-        padding: calc(#{$spacingDefault} / 3);
+		.form-group {
+			display: none;
+			flex-direction: row;
+			grid-area: form-group;
+			position: relative;
 
-        &:focus {
-          outline: none;
-        }
-      }
-      .add-created {
-        background: $color2;
-        border: none;
-        border-radius: $borderRadius;
-        color: tint($color1, $tint100);
-        cursor: copy;
-        height: 40px;
-        letter-spacing: $letter-spacing;
-        min-width: 40px;
-        padding: 0 $spacingDefault;
-        position: absolute;
-        right: $spacingDefault;
-        text-transform: uppercase;
+			.create-input {
+				background-color: transparent;
+				border: none;
+				border-bottom: 1px solid tint($color1, $tint100);
+				bottom: -1px;
+				color: tint($color1, $tint100);
+				display: block;
+				flex-grow: 2;
+				font-size: large;
+				margin: $spacingDefault;
+				padding: calc(#{$spacingDefault} / 3);
+				position: relative;
 
-        &:focus {
-          outline: none;
-          box-shadow: 0 0 0 2px $neutral;
-        }
-      }
-    }
+				&:focus {
+					&::placeholder {
+						opacity: 0.5;
+					}
+				}
+				&::placeholder {
+					color: tint($color2, $tint75);
+					font-size: inherit;
+				}
+			}
+			.add-created {
+				background: $color2;
+				border: none;
+				border-radius: $borderRadius;
+				color: tint($color1, $tint100);
+				cursor: copy;
+				height: 40px;
+				letter-spacing: $letter-spacing;
+				min-width: 160px;
+				padding: 0 $spacingDefault;
+				position: relative;
+				right: $spacingDefault;
+				text-align: start;
+				text-transform: uppercase;
 
-    .errors {
-      display: none;
-    }
+				&:focus {
+					box-shadow: 0 0 2px 1.5px tint($color2, $tint100);
+				}
 
-    &:hover,
-    &:focus-within {
-      background-color: $color1;
-      color: tint($color1, $tint100);
-      grid-template-areas:
-        "create-title .."
-        "form-group form-group";
-      grid-template-columns: 1fr 1fr;
-      grid-template-rows: 1fr 1fr;
-      grid-column: 1 / span 2;
-      grid-row: 1 / span 2;
-      opacity: 1;
-      transition: background-color 100ms ease-in;
+				&:disabled,
+				&:disabled:hover {
+					background-color: tint($color2, $tint10);
+					color: shade($color2, $shade75);
+					font-weight: $heavy;
+					opacity: 0.95;
+				}
+			}
+		}
 
-      .create-title {
-        font-size: $font-size-xl;
-      }
+		.errors {
+			display: none;
+		}
 
-      .form-group {
-        display: flex;
+		&:hover,
+		&:focus-within {
+			background-color: $color1;
+			color: tint($color1, $tint100);
+			grid-template-areas:
+				"create-title .."
+				"form-group form-group";
+			grid-template-columns: 1fr 1fr;
+			grid-template-rows: 1fr 1fr;
+			grid-column: 1 / span 2;
+			grid-row: 1 / span 2;
+			opacity: 1;
+			transition: background-color 100ms ease-in;
 
-        .create-input {
-          margin-right: 130px;
-        }
+			.create-title {
+				font-size: $font-size-xl;
+			}
 
-        button:disabled {
-          cursor: not-allowed;
-        }
+			.form-group {
+				display: flex;
 
-        button.invalid {
-          background-color: $invalid;
-          cursor: not-allowed;
-          text-decoration: line-through;
-          transition: all 350ms ease-in;
+				button {
+					&:hover {
+						background-color: tint($color2, $tint25);
+					}
+					&::before {
+						@include button-before;
+					}
+					&:hover::before {
+						@include button-before;
+						bottom: -8px;
+					}
+					&:disabled {
+						cursor: not-allowed;
+					}
+				}
 
-          &:before {
-            content: "";
-            border-bottom: 1px solid white;
-            bottom: -9px;
-            right: 0px;
-            position: absolute;
-            transition: none;
-            width: 120px;
-          }
-        }
+				button.invalid {
+					background-color: $invalid;
+					bottom: 0px;
+					cursor: not-allowed;
+					text-decoration: line-through;
+					transition: all 350ms ease-in;
 
-        button.valid {
-          background-color: tint($color2, $tint100);
-          color: $color2;
-          padding-right: 2.5rem;
-          transition: all 350ms ease-in;
+					&::before {
+						@include button-before;
+						bottom: -8px;
+					}
+				}
 
-          &:before {
-            content: "";
-            border-bottom: 1px solid white;
-            bottom: -9px;
-            right: 0px;
-            position: absolute;
-            transition: none;
-            width: 150px;
-          }
+				button.valid {
+					background-color: $color2;
+					color: tint($color2, $tint100);
+					padding-right: 2.5rem;
+					transition: all 350ms ease-in;
 
-          &:after {
-            content: "{...}";
-          }
+					&::before {
+						@include button-before;
+					}
 
-          &:hover {
-            background-color: $color2;
-            color: tint($color1, $tint100);
-            font-weight: $heavy;
-            padding-right: $spacingLarge;
-            transition: all ease-in 250ms;
-          }
-        }
-      }
+					&::after {
+						content: "{...}";
+					}
 
-      .errors {
-        display: block;
+					&:hover {
+						background-color: $color2;
+						color: tint($color1, $tint100);
+						font-weight: $heavy;
+						transition: all ease-in 250ms;
+					}
+				}
 
-        .form-field-msg {
-          color: tint($color2, $tint100);
-          font-size: $font-normal;
-          padding: $spacingDefault;
-          text-align: right;
-        }
-      }
-    }
-  }
+				@include for-size(phone-up) {
+					flex-flow: wrap;
+					justify-content: center;
+					min-height: 140px;
+
+					.create-input {
+						border-bottom: none;
+						flex-grow: 0;
+						margin: 0;
+						width: 95%;
+					}
+
+					.add-created {
+						right: unset;
+						text-align: center;
+						width: 95%;
+					}
+
+					button.valid,
+					button.invalid {
+						&::before {
+							border-bottom: none;
+						}
+					}
+				}
+			}
+
+			.errors {
+				display: block;
+
+				.form-field-msg {
+					color: tint($color2, $tint25);
+					font-size: $font-normal;
+					margin: 0;
+					padding: $spacingDefault;
+					text-align: right;
+				}
+			}
+		}
+
+		&:focus-within {
+			button {
+				&.add-created.invalid {
+					bottom: -2px;
+					transition: none;
+				}
+				&.add-created.valid {
+					bottom: -2px;
+					transition: none;
+				}
+				&:disabled {
+					bottom: -2px;
+					transition: none;
+				}
+			}
+		}
+
+		&:hover {
+			button {
+				&.add-created.invalid {
+					bottom: -1px;
+					transition: none;
+				}
+				&.add-created.valid {
+					bottom: -1px;
+					transition: none;
+				}
+				&:disabled {
+					bottom: -1px;
+					transition: none;
+				}
+			}
+		}
+	}
 }
 </style>

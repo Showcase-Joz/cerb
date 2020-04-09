@@ -1,29 +1,49 @@
 <template>
   <div class="dashboard-nav-main">
     <div class="dash-nav-item">
-      <router-link to="/dashboard/" tag="button" class="btn" exact
+      <router-link
+        to="/dashboard/"
+        tag="button"
+        class="btn"
+        exact
+        @click.native="clearSearch()"
         >Namespaces</router-link
       >
     </div>
     <div class="dash-nav-item">
-      <router-link to="/dashboard/namespace" tag="button" class="btn"
+      <router-link
+        :disabled="this.disabledNames"
+        to="/dashboard/namespace"
+        tag="button"
+        class="btn"
+        @click.native="clearSearch()"
         >Names</router-link
       >
     </div>
     <div class="dash-nav-item">
-      <router-link to="/dashboard/events" tag="button" class="btn"
+      <router-link
+        :disabled="this.disabledEvents"
+        to="/dashboard/events"
+        tag="button"
+        class="btn"
+        @click.native="clearSearch()"
         >Events</router-link
       >
     </div>
 
     <div class="dash-nav-item settings-nav">
-      <router-link to="/settings" tag="button" class="btn"
+      <router-link
+        to="/settings"
+        tag="button"
+        class="btn"
+        @click.native="clearSearch()"
         >Settings</router-link
       >
     </div>
   </div>
 </template>
 <script>
+import { mapGetters } from "vuex";
 export default {
   name: "dashboard-nav-main",
   data() {
@@ -33,11 +53,26 @@ export default {
   },
   methods: {
     // activeLink: function(event) {
-    //   const element = event.target;
-    //   const link = element.dataset.link;
-    //   this.activeNav = link;
-    //   this.$router.push("/dashboard/" + link).catch(err => {});
-    // }
+    // 	const element = event.target;
+    // 	const link = element.dataset.link;
+    // 	this.activeNav = link;
+    // 	this.$router.push("/dashboard/" + link).catch(err => {err.message});
+    // },
+    clearSearch: function() {
+      this.$store.dispatch("search/storedSearch", "");
+    }
+  },
+  computed: {
+    ...mapGetters({
+      selectedNamespace: "namespace/selectedNamespace",
+      selectedName: "name/selectedName"
+    }),
+    disabledNames() {
+      return this.selectedNamespace === "" ? true : false;
+    },
+    disabledEvents() {
+      return this.selectedName === "" ? true : false;
+    }
   }
 };
 </script>
@@ -74,23 +109,60 @@ export default {
       height: 100%;
     }
 
-    button {
+    .btn {
       background-color: $color2;
       border: none;
-      color: white;
+      color: tint($color1, $tint100);
       padding: calc(#{$spacingDefault} / 2);
+      position: relative;
+
+      &::after {
+        border-bottom: tint($color1, $tint50) 2px solid;
+        bottom: 0;
+        content: "";
+        left: 0;
+        margin: 0 auto;
+        position: absolute;
+        right: 0;
+        top: 0;
+        transform: translateX(0);
+        transition: all 0.2s ease-in-out 0.2s;
+        width: 0%;
+      }
+
+      &:hover::after {
+        transform: translateX(1);
+        transition: all 0.3s ease-in-out 0s;
+        width: 100%;
+      }
 
       &.router-link-active {
         background-color: $valid;
         color: $color2;
+        font-size: smaller;
         font-weight: $heavy;
+        text-decoration: none;
       }
 
       &:hover {
         background-color: shade($color1, $shade10);
         color: $color2;
         cursor: pointer;
-        text-decoration: underline;
+        outline: inherit;
+      }
+
+      &:disabled {
+        background-color: shade($unknown, $shade25);
+        cursor: not-allowed;
+        color: tint($color2, $shade75);
+
+        &:hover {
+          text-decoration: line-through;
+        }
+
+        &::after {
+          content: none;
+        }
       }
     }
   }

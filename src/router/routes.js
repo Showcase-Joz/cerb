@@ -151,7 +151,7 @@ const router = new VueRouter({
         onlyWhenLoggedOut: false
       },
       component: () =>
-        import(/* webpackChunkName: "NotFound" */ "../views/NotFound.vue")
+        import(/* webpackChunkName: "notfound" */ "../views/NotFound.vue")
     }
   ]
 });

@@ -30,5 +30,18 @@ module.exports = {
       pluginVersion: "4.0.0-rc3",
       uploadConcurrency: 5
     }
+  },
+
+  pwa: {
+    name: "Typhon Logging",
+    themeColor: "#333333",
+    msTileColor: "#42b883",
+    manifestCrossorigin: "anonymous",
+    manifestOptions: {
+      background_color: "#42b883",
+      start_url: ".",
+      display: "standalone",
+      short_name: "Typhon"
+    }
   }
 };

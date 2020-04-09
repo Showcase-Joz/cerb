@@ -1,93 +1,157 @@
 <template>
-  <div class="dashboard-main" v-if="this.fetchedNames.count === undefined">
-    Viewing events of [{{ this.$attrs.selectedN }}]
-    <div
-      class="item"
-      v-for="(object, index) in fetchedNames.events"
-      :key="index"
-    >
-      <div class="response-n">{{ object.event.name }}</div>
-      <div class="response-extras">
-        <div
-          :class="'event-type-' + object.event.type"
-          class="response-type"
-          title="the type of log {debug, info, warning, error}"
-        >
-          {{ object.event.type }}
+  <div class="dashboard-main">
+    <transition-group appear name="animate-cards">
+      <div class="info" key="99999">
+        <div class="total-events">
+          Viewing
+          <strong>
+            <number
+              ref="number1"
+              :to="this.totalEvents > 0 ? this.totalEvents : '0'"
+              :duration="3"
+              :delay="0.5"
+              easing="Power0.easeOut"
+            />
+          </strong>
+          events in
         </div>
-        <div class="log-version" title="current verson of this log">
-          v: {{ object.event.version }}
-        </div>
-        <div class="status-group">
-          <div
-            class="status-setting"
-            title="an external large details stored on S3"
-            :class="{
-              'status-green': object.haslargedetails,
-              'status-red': !object.haslargedetails
-            }"
-          ></div>
-          <div
-            class="status-setting"
-            title="this log has details available"
-            :class="{
-              'status-green': object.weredetailsfound,
-              'status-red': !object.weredetailsfound
-            }"
-          ></div>
+        <div class="name-title">{{ this.selectedName }}</div>
+        <div class="functional-buttons">
+          <div class="function-l">l</div>
+          <div class="function-m">m</div>
+          <div class="function-r">r</div>
         </div>
       </div>
-      <div class="response-n">{{ object.event.name }}</div>
-      <p class="response-desc">{{ object.event.description }}</p>
-    </div>
+
+      <div class="item" v-for="(item, index) in currentEvents" :key="index">
+        <div class="response-timestamp">
+          {{ item.event.created | convertEpoch }}
+        </div>
+        <div class="response-extras">
+          <div
+            :class="'event-type-' + item.event.type"
+            class="response-type"
+            title="the type of log {debug, info, warning, error}"
+          >
+            {{ item.event.type }}
+          </div>
+          <div class="log-version" title="current verson of this log">
+            v: {{ item.event.version }}
+          </div>
+          <div class="status-group">
+            <div
+              class="status-setting"
+              title="an external large details stored on S3"
+              :class="{
+                'status-green': item.haslargedetails,
+                'status-red': !item.haslargedetails
+              }"
+            ></div>
+            <div
+              class="status-setting"
+              title="this log has details available"
+              :class="{
+                'status-green': item.weredetailsfound,
+                'status-red': !item.weredetailsfound
+              }"
+            ></div>
+          </div>
+        </div>
+        <div class="response-event">{{ item.event.name }}</div>
+        <p class="response-desc">{{ item.event.description }}</p>
+      </div>
+    </transition-group>
   </div>
 </template>
 <script>
+import { mapGetters } from "vuex";
+
 export default {
   name: "Dashboard-Events",
   data() {
     return {
-      fetchedNames: {},
       loading: false
     };
   },
   beforeMount() {
     const groupEvents =
       "events?namespace=" +
-      this.$attrs.selectedNS +
+      this.selectedNamespace +
       "&name=" +
-      this.$attrs.selectedN +
-      "&offset=25";
+      this.selectedName +
+      "&offset=16";
     // components.dashboardarea.dashboard.namescpaces
     // console.log(groupEvents);
 
     // const queryN = initialMeta + this.selectedNS + "/names" + maxLimit;
-    if (this.$attrs.selectedNS !== null && this.$attrs.selectedN !== null) {
+    if (this.selectedNamespace !== null && this.selectedName !== null) {
       this.fetchName(groupEvents);
     } else {
       console.warn("fetching local data");
     }
   },
   methods: {
-    fetchName: function(eventsQuery) {
-      this.loading = true;
-      this.$http.get(eventsQuery).then(
-        response => {
-          if (response.status === 200) {
-            this.loading = false;
-            this.fetchedNames = response.data;
-          }
-        },
-        error => {
-          console.log("Error: ", error);
+    async fetchName(queryString) {
+      await this.$store.dispatch("events/getEvents", queryString);
+    }
+    // fetchName: function(eventsQuery) {
+    //   this.loading = true;
+    //   this.$http.get(eventsQuery).then(
+    //     response => {
+    //       if (response.status === 200) {
+    //         this.loading = false;
+    //         this.currentEvents = response.data;
+    //       }
+    //     },
+    //     error => {
+    //       console.log("Error: ", error);
+    //     }
+    //   );
+    // }
+  },
+  computed: {
+    ...mapGetters({
+      selectedNamespace: "namespace/selectedNamespace",
+      selectedName: "name/selectedName",
+      currentEvents: "events/currentEvents",
+      totalEvents: "events/totalEvents"
+    })
+  },
+  filters: {
+    convertEpoch: function(timeStamp) {
+      if (timeStamp) {
+        const now = new Date(),
+          secondsPast = (now.getTime() - timeStamp) / 1000;
+        if (secondsPast < 60) {
+          return parseInt(secondsPast) + "s ago";
         }
-      );
+        if (secondsPast < 3600) {
+          return parseInt(secondsPast / 60) + "m ago";
+        }
+        if (secondsPast <= 86400) {
+          return parseInt(secondsPast / 3600) + "h ago";
+        }
+        if (secondsPast > 86400) {
+          const tdStamp = new Date(timeStamp);
+          const day = tdStamp.getDate();
+          const month = tdStamp
+            .toDateString()
+            .match(/ [a-zA-Z]*/)[0]
+            .replace(" ", "");
+          const year =
+            tdStamp.getFullYear() === now.getFullYear()
+              ? ""
+              : " " + tdStamp.getFullYear();
+          return `On the ${day} ${month} ${year}`;
+        }
+      }
     }
   }
 };
 </script>
+<style lang="scss" src="@/styles/animation/_animate-cards.scss" scoped></style>
 <style lang="scss" scoped>
-.dashboard-main {
+.dashboard-main > span {
   align-items: center;
   // background-color: rgb(42, 166, 166);
   display: grid;
@@ -99,24 +163,83 @@ export default {
   width: 100%;
 
   @include for-size(tablet-portrait-up) {
-    grid-template-columns: repeat(auto-fill, minmax(275px, 1fr));
+    grid-template-columns: repeat(auto-fill, minmax(375px, 1fr));
+  }
+
+  .info {
+    cursor: help;
+    display: grid;
+    grid-template-areas:
+      "total-events"
+      "name-title"
+      "functional-buttons";
+    grid-template-columns: 1fr;
+    height: 100%;
+    @include card--border;
+
+    .total-events {
+      align-self: center;
+      grid-area: total-events;
+      text-transform: uppercase;
+    }
+
+    .name-title {
+      background-color: $color1;
+      color: tint($color2, $tint100);
+      font-weight: $heavy;
+      grid-area: name-title;
+      padding: $spacingDefault;
+      word-break: break-word;
+    }
+
+    .functional-buttons {
+      align-self: center;
+      display: flex;
+      justify-content: space-around;
+
+      .function-l {
+        grid-area: function-l;
+      }
+
+      .function-m {
+        grid-area: function-m;
+      }
+
+      .function-r {
+        grid-area: function-r;
+      }
+    }
   }
 
   .item {
     align-items: center;
     border: 1px solid $color2;
     background-color: $color2;
-    border-radius: 0.2rem;
-    color: tint($color2, $tint90);
+    border-radius: calc(#{$borderRadius} / 1);
+    color: tint($color2, $tint100);
     cursor: pointer;
     display: grid;
+    grid-gap: 0.5rem;
+    grid-template-areas:
+      "response-timestamp response-timestamp"
+      "response-event response-event"
+      "response-desc response-desc";
     grid-template-columns: [col] minmax(auto, 1fr);
-    grid-template-rows: repeat(3, [row] auto);
+    grid-template-rows: repeat(3, [row] minmax(auto, min-content));
     height: 100%;
     opacity: 1;
-    padding: $spacingDefault;
+    padding: calc(#{$spacingDefault} / 2);
     position: relative;
     word-break: break-word;
+
+    &:hover {
+      .response-event {
+        color: $color1;
+      }
+      .response-desc {
+        border-top-color: rgba(tint($color2, $tint100), 0.5);
+      }
+    }
 
     & .delete {
       align-items: center;
@@ -141,50 +264,45 @@ export default {
       }
     }
 
+    .response-timestamp {
+      font-size: larger;
+      font-variant: all-petite-caps;
+      grid-area: response-timestamp;
+      justify-self: start;
+      letter-spacing: $letter-spacing;
+      width: max-content;
+    }
+
     p {
       white-space: pre-line;
     }
 
-    .response-ns {
-      grid-area: response-ns;
-      grid-column: col / span 2;
-      grid-row: row 1;
-      justify-self: left;
-    }
-    .response-n {
-      grid-area: response-n;
-      grid-column: col / span 3;
-      grid-row: row 2;
-      margin-bottom: 0.75rem;
-      justify-self: left;
-      text-align: left;
-      word-break: break-word;
-    }
-
-    div[class^="response-n"] {
+    .response-event {
       font-size: 1.25rem;
       font-variant: all-petite-caps;
-      font-weight: $heavy;
-      line-height: 1.2rem;
-    }
+      grid-area: response-event;
+      grid-column: col / span 4;
+      grid-row: row 2;
+      line-height: $spacingDefault;
+      text-align: left;
+      word-break: break-word;
 
-    .response-extras {
-      grid-area: response-extras;
-      grid-column: col / span -1;
-      grid-row: row 1;
-      justify-self: right;
+      &:hover {
+        font-weight: $heavy;
+      }
     }
 
     .response-desc {
       border-top: solid rgba($color1, 0.5) 1px;
       font-size: smaller;
-      grid-area: response-main;
-      grid-column: col / span 3;
+      grid-area: response-desc;
+      grid-column: col / span 4;
       grid-row: row 3;
       justify-self: left;
       max-height: 100%;
       overflow-y: auto;
-      padding-top: 0.25rem;
+      padding-top: calc(#{$spacingDefault} / 4);
+      padding-right: calc(#{$spacingDefault} / 4);
       text-align: justify;
       width: 100%;
     }
@@ -193,9 +311,13 @@ export default {
       align-items: center;
       column-gap: calc(#{$col-gap} * 2);
       display: grid;
+      font-size: 0.75rem;
+      grid-area: response-extras;
+      grid-column: col / span -1;
+      grid-row: row 1;
       grid-template-areas: "response-type log-version status-group";
       grid-template-columns: repeat(3, minmax(max-content, 1fr));
-      font-size: 0.75rem;
+      justify-self: right;
       max-width: min-content;
 
       .response-type {
@@ -205,7 +327,7 @@ export default {
         width: max-content;
         text-transform: uppercase;
         padding: 0.2rem 0.5rem;
-        border-radius: 3px;
+        border-radius: calc(#{$borderRadius} / 1.5);
         color: tint($color2, $tint100);
 
         &.event-type {
@@ -231,7 +353,7 @@ export default {
 
       .log-version {
         border-bottom: solid medium tint($color2, $tint100);
-        border-radius: 3px;
+        border-radius: calc(#{$borderRadius} / 1.5);
         color: tint($color2, $tint100);
         cursor: help;
         font-weight: $heavy;

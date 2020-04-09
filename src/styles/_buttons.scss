@@ -1,0 +1,180 @@
+// include partials
+@import "../styles/animation/button-animations";
+
+// default/reset button
+@mixin btn {
+  all: initial;
+  color: tint($color2, $tint100);
+  cursor: pointer;
+  font-family: $primary-font-family;
+  font-size: $font-normal;
+  position: relative;
+  
+  &::before,
+  &::after {
+    border-radius: $borderRadius;
+  }
+}
+
+// group before properties
+@mixin btn-before-defaults {
+  bottom: 0;
+  content: attr(data-title);
+  font-weight: $heavy;
+  left: 0;
+  letter-spacing: calc(#{$letter-spacing} /2);
+  padding: calc(1rem / 2);
+  position: absolute;
+  // text-transform: uppercase;
+  top: 0;
+  right: 0;
+}
+
+// group after properties
+@mixin btn-after-defaults {
+  bottom: 0;
+  content: attr(data-title-confirm);
+  padding: calc(1rem / 2);
+  overflow: hidden;
+  position: absolute;
+  left: 0;
+  right: 0;
+  top: 0;
+  transform: translateX(-100%);
+  //animation effect
+  @include button-anim-out;
+}
+
+@mixin matchedData {
+  content: attr(data-title);
+  font-weight: $heavy;
+  text-transform: uppercase;
+}
+
+/* add a danger btn element (element is absolute, wrap in relative wrapper!!)
+-- data-danger [default text]
+-- data-danger-confirm [hover text]
+*/
+@mixin danger {
+  border-radius: $borderRadius;
+  overflow: hidden;
+
+  & button {
+    background-color: $invalid;
+    
+    &:disabled {
+      color: shade($color2, $shade25);
+      cursor: not-allowed;
+      opacity: 0.5;
+
+      &::after {
+        content: none;
+      }
+    }
+  }
+
+  & button::before {
+    @include btn-before-defaults;
+    background-color: $invalid;
+  }
+
+  & button::after {
+    @include btn-after-defaults;
+    background-color: shade($invalid, $shade10);
+  }
+
+  & button:hover::after {
+    //animation effect
+    @include button-anim-in;
+  }
+
+  & button.data-matched:hover::after {
+    @include matchedData;
+  }
+}
+
+
+/* add a success btn element (element is absolute, wrap in relative wrapper!!)
+-- data-success [default text]
+-- data-success-confirm [hover text]
+*/
+@mixin success {
+  border-radius: $borderRadius;
+  overflow: hidden;
+
+  & button {
+    background-color: $valid;
+
+    &:disabled {
+      color: shade($color2, $shade25);
+      cursor: not-allowed;
+      opacity: 0.5;
+
+      &::after {
+        content: none;
+      }
+    }
+  }
+
+  & button::before {
+    @include btn-before-defaults;
+    background-color: $valid;
+  }
+
+  & button::after {
+    @include btn-after-defaults;
+    background-color: shade($valid, $shade10);
+  }
+
+  & button:hover::after {
+    //animation effect
+    @include button-anim-in;
+  }
+  
+  & button.data-matched:hover::after {
+    @include matchedData;
+  }
+}
+
+/* add a default btn element (element is absolute, wrap in relative wrapper!!)
+-- data-default [default text]
+-- data-default-confirm [hover text]
+*/
+@mixin default {
+  border-radius: $borderRadius;
+  overflow: hidden;
+
+  & button {
+    background-color: $unknown;
+
+    &:disabled {
+      color: shade($color2, $shade25);
+      cursor: not-allowed;
+      opacity: 0.5;
+
+      &::after {
+        content: none;
+      }
+    }
+  }
+  
+  & button::before {
+    @include btn-before-defaults;
+    background-color: $unknown;
+  }
+
+  & button::after {
+    @include btn-after-defaults;
+    background-color: shade($unknown, $shade10);
+  }
+
+  & button:hover::after {
+    //animation effect
+    @include button-anim-in;
+  }
+
+  & button.data-matched::before,
+  & button.data-matched::after {
+    @include matchedData;
+  }
+}

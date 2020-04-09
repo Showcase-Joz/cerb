@@ -1,7 +1,7 @@
 <template>
   <div class="get-view page">
     <div class="view-atfold">
-      <h1>This is a GET page</h1>
+      <h1>GET <span class="symbol-arrows">&#8592;</span> Typhon</h1>
       <p v-if="!resultBoolean">
         Please complete this form to GET data to the API for testing purposes
       </p>
@@ -97,5 +97,9 @@ export default {
 <style lang="scss" scoped>
 .get-view {
   padding: $spacingDefault;
+
+  h1 span.symbol-arrows {
+    @include symbol-arrows;
+  }
 }
 </style>

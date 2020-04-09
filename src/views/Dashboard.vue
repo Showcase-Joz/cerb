@@ -1,8 +1,8 @@
 <template>
   <div class="dashboard">
     <MainDashNav />
-    <SearchInput v-on:handleMeta="retainMeta" :setNS="setNS" />
-    <DashboardWrapper :userInputMeta="passedMeta" v-on:selectedNS="passNS" />
+    <SearchInput />
+    <DashboardWrapper />
   </div>
 </template>
 <script>
@@ -11,30 +11,16 @@ import SearchInput from "../components/SearchInput";
 import DashboardWrapper from "../components/dasboard-areas/DashboardWrapper";
 export default {
   name: "dashboard",
-  data() {
-    return {
-      passedMeta: {},
-      setNS: null
-    };
-  },
   components: {
     MainDashNav,
     SearchInput,
     DashboardWrapper
-  },
-  methods: {
-    retainMeta: function(metaObj) {
-      this.passedMeta = metaObj;
-    },
-    passNS: function(createdNS) {
-      this.setNS = createdNS;
-    }
   }
 };
 </script>
 <style lang="scss" scoped>
 .dashboard {
-  align-content: flex-start;
+  align-content: start;
   display: grid;
   grid-template-areas:
     "dashboard-nav-main"

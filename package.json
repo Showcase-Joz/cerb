@@ -6,7 +6,7 @@
     "serve": "vue-cli-service serve",
     "build": "vue-cli-service build",
     "lint": "vue-cli-service lint",
-    "deploy": "vue-cli-service s3-deploy"
+    "deploy": "vue-cli-service lint && vue-cli-service build && vue-cli-service s3-deploy"
   },
   "dependencies": {
     "@aws-amplify/auth": "^2.1.3",
@@ -15,6 +15,7 @@
     "register-service-worker": "^1.6.2",
     "vue": "^2.6.11",
     "vue-cli-plugin-s3-deploy": "^4.0.0-rc3",
+    "vue-number-animation": "^1.0.5",
     "vue-resource": "^1.5.1",
     "vue-router": "^3.1.5",
     "vuelidate": "^0.7.5",
@@ -45,14 +46,20 @@
     },
     "extends": [
       "plugin:vue/essential",
+      "plugin:prettier/recommended",
       "@vue/prettier"
     ],
     "rules": {
-      "no-console": 0
+      "no-console": 0,
+      "no-debugger": 0
     },
     "parserOptions": {
       "parser": "babel-eslint"
     }
+  },
+  "prettier": {
+    "semi": true,
+    "singleQuotes": true
   },
   "postcss": {
     "plugins": {

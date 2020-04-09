@@ -1,55 +1,26 @@
 <template>
-  <div class="dashboard-wrapper">
-    <transition name="fade">
-      <Loading v-if="this.loading" />
-    </transition>
-    <router-view
-      :userInputMeta="userInputMeta"
-      v-on:handleCurrentNS="retainCurrentNS"
-      v-on:handleCurrentN="retainCurrentN"
-      v-on:handleNewNS="retainNewNS"
-      :selectedNS="currentNS"
-      :selectedN="currentN"
-      :newNS="createdNS"
-    />
+  <div class="dashboard-wrapper" @keyup.enter.prevent="handleSearch">
+    <router-view />
   </div>
 </template>
 <script>
-import { mapGetters } from "vuex";
-import Loading from "../helpers/Loading.vue";
 export default {
   name: "DashboardWrapper",
-  props: {
-    userInputMeta: {
-      type: Object
-    }
-  },
-  components: {
-    Loading
-  },
-  data() {
-    return {
-      currentNS: null,
-      createdNS: null,
-      currentN: null
-    };
+  created() {
+    document.addEventListener("keyup", this.handleSearch);
   },
   methods: {
-    retainCurrentNS: function(selectedNS) {
-      this.currentNS = selectedNS;
-    },
-    retainCurrentN: function(selectedN) {
-      this.currentN = selectedN;
-    },
-    retainNewNS: function(createdNS) {
-      this.createdNS = createdNS;
-      this.$emit("selectedNS", createdNS);
+    handleSearch: function(e) {
+      var map = { e };
+      onkeydown = onkeyup = function(e) {
+        e = e || event; // to deal with IE
+        map[e.keyCode] = e.type == "keydown";
+        if (map[18] && map[91]) {
+          document.getElementsByName("searchString")[0].focus();
+          // searchInput[0].focus();
+        }
+      };
     }
-  },
-  computed: {
-    ...mapGetters({
-      loading: "loading"
-    })
   }
 };
 </script>
@@ -57,7 +28,11 @@ export default {
 <style lang="scss" scoped>
 .dashboard-wrapper {
   grid-area: dashboard-wrapper;
-  max-height: inherit;
+  height: auto;
+  padding-bottom: calc(#{$spacingDefault} * 2);
+  max-height: max-content;
   overflow-y: auto;
+  padding-bottom: calc(#{$spacingLarge} * 2);
+  position: initial;
 }
 </style>

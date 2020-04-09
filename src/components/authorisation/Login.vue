@@ -17,7 +17,7 @@
           placeholder="password"
         />
         <br />
-        <Notice v-if="this.signUpSuccessful" />
+        <Notice v-if="this.showNotice" />
         <br />
         <input type="button" value="signin" @click="usersignin" />
       </form>
@@ -30,7 +30,7 @@
 <script>
 import { mapGetters } from "vuex";
 import ErrorOutput from "../authorisation/helpers/ErrorOutput.vue";
-import Notice from "../authorisation/helpers/NoticeOutput.vue";
+import Notice from "../helpers/NoticeOutput.vue";
 import Loading from "../authorisation/helpers/Loading.vue";
 export default {
   name: "signin",
@@ -41,8 +41,8 @@ export default {
   },
   data() {
     return {
-      signinEmail: "joz@showcaseimagery.com",
-      signinPassword: "123456!Wa",
+      signinEmail: "",
+      signinPassword: "",
       loading: false,
       successURL: "<router-link to='/login'>About</router-link>"
     };
@@ -71,6 +71,8 @@ export default {
         })
         .then(() => {
           if (this.authUser) {
+            // this.$store.dispatch("updateShowNotice", false);
+            this.$store.dispatch("updateNotice", null);
             this.$router.push("/");
           }
         });
@@ -81,8 +83,7 @@ export default {
   computed: {
     ...mapGetters({
       authUser: "authorisation/authUser",
-      noticeMessage: "authorisation/noticeMessage",
-      signUpSuccessful: "authorisation/signUpSuccessful"
+      showNotice: "showNotice"
     })
   }
 };
