@@ -176,4 +176,31 @@ h4 {
     transparent
   );
 }
+
+
+#message {
+  hyphens: auto;
+  line-height: 1.5rem;
+  margin: 1rem auto;
+  word-break: break-word;
+
+  & strong {
+    background-color: $invalid;
+    border-radius: $borderRadius;
+    color: tint($color2, $tint100);
+    font-size: smaller;
+    padding: 2px 5px;
+    text-transform: uppercase;
+    word-break: break-all;
+
+    &.warning {
+      border: 2px solid tint($color2, $tint100);
+      box-shadow: 0 0 5px 1px tint($color2, $tint100);
+    }
+  }
+}
+#message-confirm {
+  border-top: shade($invalid, $shade50) 2px outset;
+  padding-top: 1rem;
+}
 </style>

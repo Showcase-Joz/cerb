@@ -32,7 +32,7 @@
         }"
         type="submit"
         @click="sendCreate($event)"
-        :disabled="$v.formResponses.createNewItem.$error || this.spinner"
+        :disabled="$v.formResponses.createNewItem.$error || !$v.formResponses.createNewItem.$dirty || this.spinner"
       >
         Add {{ this.$parent.$parent.$data.id }}
         <LoadingSpinner v-if="this.spinner" />
@@ -69,6 +69,7 @@ import {
 import { mapGetters } from "vuex";
 import LoadingSpinner from "../helpers/LoadingSpinner";
 const initialMeta = "metadata/";
+// const andFilter = "?filter=";
 const hasValueLength = value => value.length >= 1;
 const strDefPattern = helpers.regex("strDefPattern", /^[\d+\w+^.^-]+$/);
 export default {
@@ -103,7 +104,6 @@ export default {
 
 			return (this.formResponses.createNewItem = value
 				.replace(/[^a-zA-Z0-9]/g, ".")
-				// .replace(/[^a-zA-Z0-9]/g, ".")
 				.toLowerCase());
 		},
 		async sendCreate(event) {
@@ -115,7 +115,19 @@ export default {
 					initialMeta + "namespaces/" + this.formResponses.createNewItem;
 				await this.$store.dispatch("createItem/createNS", createNsString, {
 					root: true
-				});
+        });
+        // // return FILTERED NS or CREATED NS as result
+				// const fetchSearchedQuery =
+				// 	initialMeta + "namespaces" + andFilter + this.formResponses.createNewItem;
+				// this.$store.dispatch(
+				// 	"updateNotice",
+				// 	{
+				// 		code: "valid",
+				// 		message: `Filtering the Namespaces with ${this.formResponses.createNewItem}`
+				// 	},
+				// 	{ root: true }
+				// );
+				// this.$store.dispatch("namespace/getNS", fetchSearchedQuery);
 				await this.blurCreate(event);
 			} else if (
 				this.formResponses.createNewItem.length > 0 &&
@@ -128,10 +140,10 @@ export default {
 					this.formResponses.createNewItem;
 				await this.$store.dispatch("createItem/createN", createNString, {
 					root: true
-        });
-        await this.blurCreate(event);
+				});
+				await this.blurCreate(event);
 			} else {
-        console.log("not sending data");
+				console.log("not sending data");
 			}
 		},
 		blurCreate(event) {
@@ -185,17 +197,17 @@ export default {
 			position: relative;
 
 			.create-input {
+				background-color: transparent;
 				border: none;
 				border-bottom: 1px solid tint($color1, $tint100);
-				background-color: transparent;
+				bottom: -1px;
 				color: tint($color1, $tint100);
 				display: block;
 				flex-grow: 2;
 				font-size: large;
-				// grid-area: create-input;
 				margin: $spacingDefault;
-				// min-width: 95%;
 				padding: calc(#{$spacingDefault} / 3);
+				position: relative;
 
 				&:focus {
 					&::placeholder {
@@ -261,20 +273,16 @@ export default {
 			.form-group {
 				display: flex;
 
-				.create-input {
-					// margin-right: 130px;
-				}
-
 				button {
 					&:hover {
-            background-color: tint($color2, $tint25);
+						background-color: tint($color2, $tint25);
 					}
 					&::before {
 						@include button-before;
-          }
-          &:hover::before {
-            @include button-before;
-            bottom: -8px;
+					}
+					&:hover::before {
+						@include button-before;
+						bottom: -8px;
 					}
 					&:disabled {
 						cursor: not-allowed;
@@ -283,12 +291,14 @@ export default {
 
 				button.invalid {
 					background-color: $invalid;
+					bottom: 0px;
 					cursor: not-allowed;
 					text-decoration: line-through;
 					transition: all 350ms ease-in;
 
 					&::before {
 						@include button-before;
+						bottom: -8px;
 					}
 				}
 
@@ -350,6 +360,40 @@ export default {
 					margin: 0;
 					padding: $spacingDefault;
 					text-align: right;
+				}
+			}
+		}
+
+		&:focus-within {
+			button {
+				&.add-created.invalid {
+					bottom: -2px;
+					transition: none;
+				}
+				&.add-created.valid {
+					bottom: -2px;
+					transition: none;
+				}
+				&:disabled {
+					bottom: -2px;
+					transition: none;
+				}
+			}
+		}
+
+		&:hover {
+			button {
+				&.add-created.invalid {
+					bottom: -1px;
+					transition: none;
+				}
+				&.add-created.valid {
+					bottom: -1px;
+					transition: none;
+				}
+				&:disabled {
+					bottom: -1px;
+					transition: none;
 				}
 			}
 		}

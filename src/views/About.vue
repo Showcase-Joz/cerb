@@ -26,8 +26,15 @@
                 removed soem console bugs caused by the auto highlight feature
                 when arary item was deleted.
               </li>
-              <li>updated the "create" box (NS &amp; N) with a better (small mobile) breakpoint. improved layout and added spinner animation when awaiting api response.</li>
+              <li>
+                updated the "create" box (NS &amp; N) with a better (small
+                mobile) breakpoint. improved layout and added spinner animation
+                when awaiting api response.
+              </li>
               <li>removed all outline styles; will reapply as UX demands/1</li>
+              <li>refactored methods that pass-through the modal</li>
+              <li>improved modal conditional handling</li>
+              <li>tidied up namespaces.vue and names.vue</li>
             </ol>
           </details>
         </li>
