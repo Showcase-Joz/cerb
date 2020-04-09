@@ -1,5 +1,3 @@
-
-
 body {
   overflow: hidden;
 }
@@ -7,12 +5,15 @@ body {
 
 // psudo selectors
 ::selection {
-  background: $neutral; /* WebKit/Blink Browsers */
+  background: $neutral;
+  /* WebKit/Blink Browsers */
   color: tint($color2, $tint100);
-  
+
 }
+
 ::-moz-selection {
-  background: $neutral; /* Gecko Browsers */
+  background: $neutral;
+  /* Gecko Browsers */
   color: tint($color2, $tint100);
 }
 
@@ -21,9 +22,11 @@ body {
 .green-item {
   color: $valid;
 }
+
 .red-item {
   color: $invalid;
 }
+
 .unknown-item {
   color: $unknown;
 }
@@ -31,9 +34,11 @@ body {
 .green-bg {
   background-color: $valid;
 }
+
 .red-bg {
   background-color: $invalid;
 }
+
 .unknown-bg {
   background-color: $unknown;
 }

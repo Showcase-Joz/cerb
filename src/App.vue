@@ -1,5 +1,6 @@
 <template>
   <div id="app">
+    <Modal v-if="this.showModal" />
     <transition name="fade-in">
       <Loading v-if="this.loading" />
     </transition>
@@ -12,12 +13,14 @@
 
 <script>
 import { mapGetters } from "vuex";
-import Header from "./components/header/Header.vue";
-import Loading from "./components/helpers/Loading.vue";
+import Header from "./components/header/Header";
+import Modal from "./components/helpers/Modal";
+import Loading from "./components/helpers/Loading";
 export default {
   name: "app",
   components: {
     Header,
+    Modal,
     Loading
   },
   beforeUpdate() {
@@ -33,13 +36,13 @@ export default {
     if (this.authUser) {
       this.$router.push("/dashboard");
     }
-    console.warn("Why are you snooping on my logs?");
   },
   computed: {
     ...mapGetters({
       authUser: "authorisation/authUser",
       errMessage: "authorisation/errMessage",
-      loading: "loading"
+      loading: "loading",
+      showModal: "showModal"
     })
   }
 };
@@ -53,6 +56,9 @@ export default {
   box-sizing: border-box;
   margin: 0;
   padding: 0;
+}
+*:focus {
+  outline: none;
 }
 
 #app {
@@ -169,5 +175,32 @@ h4 {
     transparent 75%,
     transparent
   );
+}
+
+
+#message {
+  hyphens: auto;
+  line-height: 1.5rem;
+  margin: 1rem auto;
+  word-break: break-word;
+
+  & strong {
+    background-color: $invalid;
+    border-radius: $borderRadius;
+    color: tint($color2, $tint100);
+    font-size: smaller;
+    padding: 2px 5px;
+    text-transform: uppercase;
+    word-break: break-all;
+
+    &.warning {
+      border: 2px solid tint($color2, $tint100);
+      box-shadow: 0 0 5px 1px tint($color2, $tint100);
+    }
+  }
+}
+#message-confirm {
+  border-top: shade($invalid, $shade50) 2px outset;
+  padding-top: 1rem;
 }
 </style>

@@ -163,7 +163,11 @@ export default {
   width: 100%;
 
   @include for-size(tablet-portrait-up) {
+<<<<<<< HEAD
     grid-template-columns: repeat(auto-fill, minmax(275px, 1fr));
+=======
+    grid-template-columns: repeat(auto-fill, minmax(375px, 1fr));
+>>>>>>> working
   }
 
   .info {

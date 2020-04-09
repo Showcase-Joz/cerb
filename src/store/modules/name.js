@@ -53,13 +53,19 @@ export const actions = {
       console.log("Error: ", err);
     };
   },
-  async selectN({ commit }, payload) {
+  async selectN({ commit, dispatch }, payload) {
     await commit("SELECTED_NAME", payload);
+    await dispatch("search/storedSearch", "", { root: true });
+    await dispatch("search/storedN", payload, { root: true });
   },
   async createName({ dispatch }, payload) {
+    dispatch("spinner", true, { root: true });
     await api.put(payload).then(response => {
       if (response.status === 201) {
         dispatch("createItem/subStringN", payload, { root: true });
+        setTimeout(() => {
+          dispatch("spinner", false, { root: true });
+        }, 1500);
       } else {
         dispatch(
           "updateNotice",

@@ -59,13 +59,19 @@ export const actions = {
       console.log("Error: ", err);
     };
   },
-  async selectNS({ commit }, payload) {
+  async selectNS({ commit, dispatch }, payload) {
     await commit("SELECTED_NAMESPACE", payload);
+    await dispatch("search/storedSearch", "", { root: true });
+    await dispatch("search/storedNS", payload, { root: true });
   },
   async createNamespace({ dispatch }, payload) {
+    dispatch("spinner", true, { root: true });
     await api.put(payload).then(response => {
       if (response.status === 201) {
         dispatch("createItem/subStringNS", payload, { root: true });
+        setTimeout(() => {
+          dispatch("spinner", false, { root: true });
+        }, 1500);
       } else {
         dispatch(
           "updateNotice",

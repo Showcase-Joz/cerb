@@ -98,7 +98,10 @@ export default {
       this.clearBtn = true;
     },
     clearInputs: function() {
-      this.$store.dispatch("search/storedSearch", "", { root: true });
+      this.searchString = "";
+      this.$store.dispatch("search/storedSearch", this.searchString, {
+        root: true
+      });
     },
     clearSearch: function() {
       setTimeout(() => {
@@ -106,7 +109,6 @@ export default {
         this.$refs.searchParent.classList.remove("invalid", "valid");
       }, 100);
       this.clearInputs();
-      this.clearBtn = false;
     }
   },
   computed: {
@@ -116,7 +118,13 @@ export default {
   },
   watch: {
     searchedContent(newVal) {
-      this.searchString = newVal;
+      if (newVal.length > 0) {
+        this.searchString = newVal;
+        this.clearBtn = true;
+      } else {
+        this.searchString = "";
+        this.clearBtn = false;
+      }
     }
   }
 };

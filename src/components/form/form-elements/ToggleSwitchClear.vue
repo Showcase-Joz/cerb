@@ -79,7 +79,6 @@ export default {
     border-radius: 0.3rem;
     box-shadow: inset 0 0 5px shade($color1, $shade25);
     height: 40px;
-    outline: none;
     position: relative;
     width: 80px;
 

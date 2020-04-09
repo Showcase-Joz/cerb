@@ -22,7 +22,6 @@ export const mutations = {
     const sortedEvents = events.sort((a, b) =>
       a.event.created < b.event.created ? 1 : -1
     );
-
     state.currentEvents = sortedEvents;
   },
   TOTAL_EVENTS(state, number) {
