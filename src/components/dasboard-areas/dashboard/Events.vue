@@ -8,9 +8,9 @@
             <number
               ref="number1"
               :to="this.totalEvents > 0 ? this.totalEvents : '0'"
-              :duration="2"
+              :duration="3"
               :delay="0.5"
-              easing="Power4.easeIn"
+              easing="Power0.easeOut"
             />
           </strong>
           events in
@@ -164,10 +164,14 @@ export default {
 
   @include for-size(tablet-portrait-up) {
 <<<<<<< HEAD
+<<<<<<< HEAD
     grid-template-columns: repeat(auto-fill, minmax(275px, 1fr));
 =======
     grid-template-columns: repeat(auto-fill, minmax(375px, 1fr));
 >>>>>>> working
+=======
+    grid-template-columns: repeat(auto-fill, minmax(375px, 1fr));
+>>>>>>> 9410beea965312aa45e9ea32907da08246bb1ff1
   }
 
   .info {
