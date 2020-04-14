@@ -123,6 +123,8 @@ export default {
             // inline: "center"
           });
         });
+      } else {
+        return;
       }
     },
     async deleteNamespace(namespace) {

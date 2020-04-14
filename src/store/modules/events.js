@@ -14,9 +14,11 @@ export const getters = {
     // checks searchedContent for a length > 0
     // if true; filters currentEvents that includes the searchedContent phrase
     // else displays all currentEvents
-    return rootState.search.searchedContent.length > 0 ? state.filteredEvents = state.currentEvents.filter(events =>
-      events.event.description.includes(rootState.search.searchedContent)) : state.currentEvents;
-
+    return rootState.search.searchedContent.length > 0
+      ? (state.filteredEvents = state.currentEvents.filter(events =>
+          events.event.description.includes(rootState.search.searchedContent)
+        ))
+      : state.currentEvents;
   },
   totalEvents: state => {
     return state.totalEvents;

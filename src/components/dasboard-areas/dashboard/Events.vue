@@ -4,17 +4,32 @@
       <div class="info" key="99999">
         <div class="total-events">
           Viewing
-          <strong v-if="this.currentEvents.length !== this.totalEvents">
-            <number
-              :title="`There are ${this.currentEvents.length < this.totalEvents ? this.currentEvents.length : '0'} filtered/sorted results`"
-              ref="number2"
-              :to="this.currentEvents.length > 0 && this.currentEvents.length < this.totalEvents ? this.currentEvents.length : '0'"
-              :duration="3"
-              :delay="0.5"
-              easing="Power0.easeIn"
-            />
-          </strong>
-          <span v-if="this.currentEvents.length !== this.totalEvents">&sol;</span>
+          <transition-group name="fade-in">
+            <span v-if="this.currentEvents !== null" key="99998">
+              <strong v-if="this.currentEvents.length !== this.totalEvents">
+              <number
+                :title="
+                `There are ${
+                  this.currentEvents.length < this.totalEvents
+                    ? this.currentEvents.length
+                    : '0'
+                } filtered/sorted results`
+              "
+                ref="number2"
+                :to="
+                this.currentEvents.length > 0 &&
+                this.currentEvents.length < this.totalEvents
+                  ? this.currentEvents.length
+                  : '0'
+              "
+                :duration="3"
+                :delay="0.5"
+                easing="Power0.easeIn"
+              />
+            </strong>
+            <span v-if="this.currentEvents.length !== this.totalEvents">&sol;</span>
+            </span>
+          </transition-group>
           <strong>
             <number
               :title="`There are a total of ${this.totalEvents} results`"
@@ -33,8 +48,7 @@
           <div class="function-m">m</div>
           <div class="function-r">r</div>
         </div>
-      </div>
-
+      </div>    
       <div class="item" v-for="(item, index) in currentEvents" :key="index">
         <div class="response-timestamp">{{ item.event.created | convertEpoch }}</div>
         <div class="response-extras">
@@ -92,10 +106,7 @@ export default {
 			"&name=" +
 			this.selectedName +
 			"&offset=25";
-		// components.dashboardarea.dashboard.namescpaces
-		// console.log(this.groupEvents);
-
-		// const queryN = initialMeta + this.selectedNS + "/names" + maxLimit;
+		
 		if (this.selectedNamespace !== null && this.selectedName !== null) {
 			this.fetchName(this.groupEvents);
 		} else {
@@ -158,6 +169,7 @@ export default {
 };
 </script>
 <style lang="scss" src="@/styles/animation/_animate-cards.scss" scoped></style>
+<style lang="scss" src="@/styles/animation/_fade-in.scss" scoped></style>
 <style lang="scss" scoped>
 .dashboard-main > span {
 	align-items: center;

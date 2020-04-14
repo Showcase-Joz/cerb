@@ -14,7 +14,9 @@
                 css based on modal type [success, danger, warning].
               </li>
               <li>
-                added event filter (search) so user can narrow down content based on description. also shows conditional count in event static card (top left one).
+                added event filter (search) so user can narrow down content
+                based on description. also shows conditional count in event
+                static card (top left one).
               </li>
               <li>
                 added action button spinner animation while awaiting api

@@ -269,6 +269,7 @@ export default {
 };
 </script>
 <style lang="scss" src="@/styles/_form.scss" scoped></style>
+
 <style lang="scss" scoped>
 .form-wrapper {
   border: 1px $color2 solid;
@@ -298,6 +299,8 @@ export default {
   }
 }
 .btn {
+  @include btn;
+
   // display: inline-block;
   // border: none;
   // background-color: #555;
@@ -310,6 +313,6 @@ export default {
   // }
 }
 .btn-submit {
-  background-color: $color1;
+  // background-color: $color1;
 }
 </style>
