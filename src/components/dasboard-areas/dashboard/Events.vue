@@ -24,20 +24,14 @@
       </div>
 
       <div class="item" v-for="(item, index) in currentEvents" :key="index">
-        <div class="response-timestamp">
-          {{ item.event.created | convertEpoch }}
-        </div>
+        <div class="response-timestamp">{{ item.event.created | convertEpoch }}</div>
         <div class="response-extras">
           <div
             :class="'event-type-' + item.event.type"
             class="response-type"
             title="the type of log {debug, info, warning, error}"
-          >
-            {{ item.event.type }}
-          </div>
-          <div class="log-version" title="current verson of this log">
-            v: {{ item.event.version }}
-          </div>
+          >{{ item.event.type }}</div>
+          <div class="log-version" title="current verson of this log">v: {{ item.event.version }}</div>
           <div class="status-group">
             <div
               class="status-setting"
@@ -70,22 +64,28 @@ export default {
   name: "Dashboard-Events",
   data() {
     return {
-      loading: false
+      loading: false,
+      updatedSearchString: ""
     };
   },
+  created() {
+    (this.initialMeta = "metadata/"),
+      (this.andFilter = "?filter="),
+      (this.maxLimit = "?limit=0");
+  },
   beforeMount() {
-    const groupEvents =
+    this.groupEvents =
       "events?namespace=" +
       this.selectedNamespace +
       "&name=" +
       this.selectedName +
-      "&offset=16";
+      "&offset=25";
     // components.dashboardarea.dashboard.namescpaces
-    // console.log(groupEvents);
+    // console.log(this.groupEvents);
 
     // const queryN = initialMeta + this.selectedNS + "/names" + maxLimit;
     if (this.selectedNamespace !== null && this.selectedName !== null) {
-      this.fetchName(groupEvents);
+      this.fetchName(this.groupEvents);
     } else {
       console.warn("fetching local data");
     }
@@ -93,29 +93,33 @@ export default {
   methods: {
     async fetchName(queryString) {
       await this.$store.dispatch("events/getEvents", queryString);
+    },
+    updateEvents: function(groupEvents) {
+      // if (this.updatedSearchString.length < 1) {
+        // return ALL EVENTS (from API) as result of SEARCH being cleared
+        // this is incase any NEW events need to be captured from the API        
+        this.fetchName(groupEvents);
+      // } 
+      // else if (this.updatedSearchString.length > 0) {
+      //   // do local filtering through events.js action
+      //   this.$store.dispatch("events/filterSearched");
+      // }
     }
-    // fetchName: function(eventsQuery) {
-    //   this.loading = true;
-    //   this.$http.get(eventsQuery).then(
-    //     response => {
-    //       if (response.status === 200) {
-    //         this.loading = false;
-    //         this.currentEvents = response.data;
-    //       }
-    //     },
-    //     error => {
-    //       console.log("Error: ", error);
-    //     }
-    //   );
-    // }
   },
   computed: {
     ...mapGetters({
       selectedNamespace: "namespace/selectedNamespace",
       selectedName: "name/selectedName",
+      searchedContent: "search/searchedContent",
       currentEvents: "events/currentEvents",
       totalEvents: "events/totalEvents"
     })
+  },
+  watch: {
+    searchedContent(newVal) {
+      this.updatedSearchString = newVal;
+      this.updateEvents(this.groupEvents);
+    }
   },
   filters: {
     convertEpoch: function(timeStamp) {

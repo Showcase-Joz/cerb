@@ -1,16 +1,26 @@
 import api from "../../services/api";
 import * as Name from "../modules/name";
+import * as Search from "../modules/search";
 
 export const namespaced = true;
 
 export const state = {
   currentEvents: null,
+  filteredEvents: null,
   totalEvents: ""
 };
 
 export const getters = {
-  currentEvents: state => {
-    return state.currentEvents;
+  currentEvents: (state, getters, rootState, rootGetters) => {
+    // console.log(state.currentEvents[0].event.description);
+    if (Search.state.searchedContent) {
+      state.filteredEvents = state.currentEvents.filter(events => events.event.description.includes(Search.state.searchedContent));
+      
+      
+      return state.currentEvents;
+    } else {
+      return state.currentEvents;
+    }
   },
   totalEvents: state => {
     return state.totalEvents;
@@ -63,5 +73,8 @@ export const actions = {
   },
   clearData({ commit }) {
     commit("CLEAR_DATA");
+  },
+  async filterSearched({ commit }) {
+    await commit("FILTER_SEARCHED");
   }
 };
