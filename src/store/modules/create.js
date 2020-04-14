@@ -22,7 +22,7 @@ export const mutations = {
   SUB_STRING_N(state, payload) {
     const stripped = /[^/]*$/.exec(payload)[0];
     state.createdName = stripped;
-  },
+  }
 };
 
 export const actions = {

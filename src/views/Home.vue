@@ -7,7 +7,8 @@
     </p>
     <p v-if="this.authUser">
       You are currently logged in as
-      <strong>{{ currentEmail }}</strong>.
+      <strong>{{ currentEmail }}</strong
+      >.
     </p>
     <p v-if="this.errMessage">
       There was as error, most recently:
@@ -15,8 +16,7 @@
     </p>
     <p v-if="!this.authUser">
       You are currently logged out!
-      <br />Please
-      <router-link to="/login">Login</router-link>to continue.
+      <br />Please <router-link to="/login">Login</router-link>to continue.
     </p>
     <br />
     <Logout v-if="this.authUser" />
@@ -25,11 +25,8 @@
     <br />
     <br />
     <hr style="width:80%; margin: 0 auto;" />
-    <br />Check out the
-    <router-link to="/about">dev log</router-link>to see what's
-    <em>changed</em>,
-    <strike>broke</strike>/fixed,
-    <strong>new</strong>.
+    <br />Check out the <router-link to="/about">dev log</router-link>to see
+    what's <em>changed</em>, <strike>broke</strike>/fixed, <strong>new</strong>.
   </div>
 </template>
 

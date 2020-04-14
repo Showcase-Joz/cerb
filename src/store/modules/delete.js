@@ -25,7 +25,7 @@ export const actions = {
     dispatch("spinner", true, { root: true });
     await api.delete(payload).then(response => {
       if (response.status === 200) {
-        commit("CURRENT_DELETE", payload);       
+        commit("CURRENT_DELETE", payload);
         setTimeout(() => {
           dispatch("updateShowModal", false, { root: true });
           dispatch("spinner", false, { root: true });
@@ -54,7 +54,7 @@ export const actions = {
         }, 1500);
       } else if (response.status !== 200) {
         commit("CURRENT_DELETE", "");
-        dispatch("updateVerifyModal", store.state.verifyError, { root: true })
+        dispatch("updateVerifyModal", store.state.verifyError, { root: true });
       }
     }),
       err => {

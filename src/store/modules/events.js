@@ -1,6 +1,5 @@
 import api from "../../services/api";
 import * as Name from "../modules/name";
-import * as Search from "../modules/search";
 
 export const namespaced = true;
 
@@ -11,16 +10,13 @@ export const state = {
 };
 
 export const getters = {
-  currentEvents: (state, getters, rootState, rootGetters) => {
-    // console.log(state.currentEvents[0].event.description);
-    if (Search.state.searchedContent) {
-      state.filteredEvents = state.currentEvents.filter(events => events.event.description.includes(Search.state.searchedContent));
-      
-      
-      return state.currentEvents;
-    } else {
-      return state.currentEvents;
-    }
+  currentEvents: (state, getters, rootState) => {
+    // checks searchedContent for a length > 0
+    // if true; filters currentEvents that includes the searchedContent phrase
+    // else displays all currentEvents
+    return rootState.search.searchedContent.length > 0 ? state.filteredEvents = state.currentEvents.filter(events =>
+      events.event.description.includes(rootState.search.searchedContent)) : state.currentEvents;
+
   },
   totalEvents: state => {
     return state.totalEvents;
@@ -37,9 +33,12 @@ export const mutations = {
   TOTAL_EVENTS(state, number) {
     state.totalEvents = number;
   },
-  CLEAR_DATA(state) {
+  CLEAR_CURRENT(state) {
     state.currentEvents = null;
     state.totalEvents = "";
+  },
+  CLEAR_FILTERED(state) {
+    state.filteredEvents = null;
   }
 };
 
@@ -71,10 +70,7 @@ export const actions = {
       console.log("Error: ", err);
     };
   },
-  clearData({ commit }) {
-    commit("CLEAR_DATA");
-  },
-  async filterSearched({ commit }) {
-    await commit("FILTER_SEARCHED");
+  clearCurrent({ commit }) {
+    commit("CLEAR_CURRENT");
   }
 };

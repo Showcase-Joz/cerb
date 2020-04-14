@@ -33,6 +33,9 @@ export const mutations = {
 export const actions = {
   storedSearch({ commit }, payload) {
     commit("SEARCH_STRING", payload);
+    if (payload.length === 0) {
+      commit("events/CLEAR_FILTERED", null, { root: true });
+    }
   },
   storedNS({ commit }, payload) {
     commit("STORE_NS", payload);
