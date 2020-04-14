@@ -7,11 +7,14 @@
       <ul>
         <li>
           <details class="update">
-            <summary>08/04/20</summary>
+            <summary>14/04/20</summary>
             <ol>
               <li>
                 added a modal component with a bit of variable automation in the
                 css based on modal type [success, danger, warning].
+              </li>
+              <li>
+                added event filter (search) so user can narrow down content based on description. also shows conditional count in event static card (top left one).
               </li>
               <li>
                 added action button spinner animation while awaiting api
@@ -23,7 +26,7 @@
               </li>
               <li>re-wrote some stuff - search, methods and actions.</li>
               <li>
-                removed soem console bugs caused by the auto highlight feature
+                removed some console bugs caused by the auto highlight feature
                 when arary item was deleted.
               </li>
               <li>
