@@ -7,6 +7,25 @@
       <ul>
         <li>
           <details class="update">
+            <summary>15/04/20</summary>
+            <ol>
+              <li>re-wrote a lot of the POST views/components; converting methods into actions; generally cleaning up the code and reducing file sizes</li>
+              <li>debugged the post types error msg, no longer on show 24/7</li>
+              <li>improved the post submit styling</li>
+              <li>added loading spinner to post sumbit</li>
+              <li>improved the UX on a post's sequence of actions</li>
+              <li>added color styles to the noticeMessage {neutral, invalid and valid</li>
+              <li>improved UX for erroring in the UI; user now has to clear an error overlay, giving more time for user to compute a failled action</li>
+              <li>updated some base states to reflect above item's defaults</li>
+            </ol>
+            <hr>
+            <ol>
+              <li>NEED TO APPEND (TO AN ARRAY) POST ACTIONS IN THE POST VIEW SO THE USER CAN SEE A TRAIL OF PREVIOUS POST ACTIONS</li>
+            </ol>
+          </details>
+        </li>
+        <li>
+          <details class="update">
             <summary>14/04/20</summary>
             <ol>
               <li>

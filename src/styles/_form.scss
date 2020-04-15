@@ -218,6 +218,7 @@
             height: 18px;
             position: absolute;
             transform: translateX(-50%) translateY(-50%);
+            transition: border .25s linear;
             width: 18px;
           }
 
@@ -226,16 +227,19 @@
             height: 12px;
             position: absolute;
             transform: translateX(-50%) translateY(-50%);
+            transition: border .25s linear;
             width: 12px;
           }
 
-          &:checked::after {
+          &:checked::after,
+          &::after:focus {
             @extend input[type="radio"]::after;
             background-color: $color1;
             content: "";
+            transition: border .25s linear;
           }
         }
-
+        
         @include for-size(desktop-up) {
           width: max-content;
 

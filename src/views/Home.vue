@@ -25,7 +25,7 @@
     <br />
     <br />
     <hr style="width:80%; margin: 0 auto;" />
-    <br />Check out the <router-link to="/about">dev log</router-link>to see
+    <br />Check out the <router-link to="/about">dev log</router-link> to see
     what's <em>changed</em>, <strike>broke</strike>/fixed, <strong>new</strong>.
   </div>
 </template>

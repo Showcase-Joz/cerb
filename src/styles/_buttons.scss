@@ -10,7 +10,7 @@
   font-size: $font-normal;
   position: relative;
   text-align: center;
-  
+
   &::before,
   &::after {
     border-radius: $borderRadius;
@@ -46,10 +46,46 @@
   @include button-anim-out;
 }
 
+@mixin disabled {
+  color: shade($color2, $shade25);
+  cursor: not-allowed;
+  opacity: 0.5;
+}
+
 @mixin matchedData {
   content: attr(data-title);
   font-weight: $heavy;
   text-transform: uppercase;
+}
+
+@mixin btn-success {
+  background-color: $valid;
+  padding: calc(#{$spacingDefault} /2);
+  text-transform: uppercase;
+
+  &:hover,
+  &:focus {
+    background-color: shade($valid, $shade10);
+  }
+
+  &:disabled {
+    @include disabled;
+  }
+}
+
+@mixin btn-danger {
+  background-color: $invalid;
+  padding: calc(#{$spacingDefault} /2);
+  text-transform: uppercase;
+
+  &:hover,
+  &:focus {
+    background-color: shade($invalid, $shade10);
+  }
+
+  &:disabled {
+    @include disabled;
+  }
 }
 
 /* add a danger btn element (element is absolute, wrap in relative wrapper!!)
@@ -62,11 +98,9 @@
 
   & button {
     background-color: $invalid;
-    
+
     &:disabled {
-      color: shade($color2, $shade25);
-      cursor: not-allowed;
-      opacity: 0.5;
+
 
       &::after {
         content: none;
@@ -131,7 +165,7 @@
     //animation effect
     @include button-anim-in;
   }
-  
+
   & button.data-matched:hover::after {
     @include matchedData;
   }
@@ -158,7 +192,7 @@
       }
     }
   }
-  
+
   & button::before {
     @include btn-before-defaults;
     background-color: $unknown;
