@@ -208,8 +208,10 @@
 
         input[type="radio"] {
           appearance: none;
+          border: initial;
           cursor: inherit;
           position: relative;
+          transition: border .25s linear;
 
           &::before {
             border: 1px solid $color1;

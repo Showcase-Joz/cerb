@@ -14,7 +14,7 @@
               <li>improved the post submit styling</li>
               <li>added loading spinner to post sumbit</li>
               <li>improved the UX on a post's sequence of actions</li>
-              <li>added color styles to the noticeMessage {neutral, invalid and valid</li>
+              <li>added color styles to the noticeMessage {neutral (automatic action), invalid (failed action) and valid (user action)</li>
               <li>improved UX for erroring in the UI; user now has to clear an error overlay, giving more time for user to compute a failled action</li>
               <li>updated some base states to reflect above item's defaults</li>
             </ol>

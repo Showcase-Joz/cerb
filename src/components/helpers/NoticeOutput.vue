@@ -20,17 +20,6 @@
 import { mapGetters } from "vuex";
 export default {
 	name: "Notice",
-	// created() {
-	// 	if (this.noticeMessage.message !== "") {
-	// 		setTimeout(() => {
-	// 			this.$store.dispatch(
-	// 				"updateNotice",
-	// 				{ code: "", message: "" },
-	// 				{ root: true }
-	// 			);
-	// 		}, 1000);
-	// 	}
-	// },
 	methods: {
 		handleReset: function() {
 			this.$store.dispatch("resetAction", "", { root: true });
@@ -44,7 +33,6 @@ export default {
 
 <style lang="scss" scoped>
 .noticeMsg {
-	background-color: $neutral;
 	border-radius: $borderRadius;
 	color: tint($color2, $tint100);
 	display: block;
@@ -54,6 +42,10 @@ export default {
 	position: relative;
 	transform: translateY(7vh);
 	word-break: break-word;
+
+	&.neutral {
+		background-color: $neutral;
+	}
 
 	&.invalid {
 		background-color: $invalid;

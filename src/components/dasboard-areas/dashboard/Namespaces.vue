@@ -61,7 +61,7 @@ export default {
       this.$store.dispatch(
         "updateNotice",
         {
-          code: "valid",
+          code: "neutral",
           message: "Gathering all the namespaces"
         },
         { root: true }

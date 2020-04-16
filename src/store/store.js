@@ -26,10 +26,7 @@ const store = new Vuex.Store({
     // user: null,
     loading: false,
     spinner: false,
-    noticeMessage: {
-      code: "",
-      message: ""
-    },
+    noticeMessage: null,
     showNotice: false,
     showModal: false,
     verifyModal: null,
@@ -78,7 +75,7 @@ const store = new Vuex.Store({
     NOTICE_MESSAGE(state, notice) {
       if (notice === null) {
         store.commit("SHOW_NOTICE", false);
-        state.noticeMessage = { code: "", message: "" };
+        // state.noticeMessage = { code: "", message: "" };
       } else {
         state.noticeMessage = notice;
       }
