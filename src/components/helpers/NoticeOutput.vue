@@ -1,12 +1,7 @@
 <template>
   <div>
     <transition-group appear name="fade-in">
-      <em
-        key="1"
-        v-if="!!noticeMessage"
-        class="noticeMsg"
-        :class="this.noticeMessage.code"
-      >{{ noticeMessage.message }}</em>
+      <p key="1" v-if="!!noticeMessage" v-html="this.noticeMessage.message" class="noticeMsg" :class="this.noticeMessage.code"></p>
       <button
         key="2"
         v-if="this.noticeMessage.code === 'invalid'"
@@ -58,11 +53,13 @@ export default {
 	&::before {
 		content: "\2192";
 		font-size: large;
+		padding-inline-end: 10px;
 	}
 
 	&::after {
 		content: "\2190";
 		font-size: large;
+		padding-inline-start: 10px;
 	}
 }
 

@@ -4,6 +4,7 @@
     class="item item-create"
     tabindex="-1"
     v-on:keyup.enter.prevent="sendCreate"
+    @keyup.esc="clearInputs"
   >
     <span class="create-title">
       Create a new
@@ -157,6 +158,9 @@ export default {
       } else {
         console.log("not sending data");
       }
+    },
+    clearInputs: function() {
+      this.formResponses.createNewItem = "";
     },
     blurCreate(event) {
       setTimeout(() => {

@@ -7,27 +7,54 @@
       <ul>
         <li>
           <details class="update">
-            <summary>15/04/20</summary>
+            <summary>24/04/20</summary>
             <ol>
-              <li>re-wrote a lot of the POST views/components; converting methods into actions; generally cleaning up the code and reducing file sizes</li>
-              <li>debugged the post types error msg, no longer on show 24/7</li>
-              <li>improved the post submit styling</li>
-              <li>added loading spinner to post sumbit</li>
-              <li>improved the UX on a post's sequence of actions</li>
-              <li>added color styles to the noticeMessage {neutral (automatic action), invalid (failed action) and valid (user action)</li>
-              <li>improved UX for erroring in the UI; user now has to clear an error overlay, giving more time for user to compute a failled action</li>
-              <li>updated some base states to reflect above item's defaults</li>
-            </ol>
-            <hr>
-            <ol>
-              <li>NEED TO APPEND (TO AN ARRAY) POST ACTIONS IN THE POST VIEW SO THE USER CAN SEE A TRAIL OF PREVIOUS POST ACTIONS</li>
+              <li>added escape key to clear values in "search content" and "createNS/N" - shortcut keys</li>
+              <li>improved some highlight styling on notice overlays, to aid user to understand the action. default timeout's now 2 seconds as well</li>
+              <li>re-wrote currentNamespaces/Names getters to now include a filtered data value, which keeps original data in currentNamespaces/Names, while presenting the filtered results. removes necessity for additional api calls</li>
+              <li>all searching (filter's) on Names/Events are now done locally (from cached data). saving on unnecessary XHR when displaying results. a step closes to PWA off-line mode!</li>
+
             </ol>
           </details>
         </li>
         <li>
           <details class="update">
-            <summary>14/04/20</summary>
+            <summary>17/04/20</summary>
             <ol>
+              <li>
+                re-wrote a lot of the POST views/components; converting methods
+                into actions; generally cleaning up the code and reducing file
+                sizes
+              </li>
+              <li>debugged the post types error msg, no longer on show 24/7</li>
+              <li>improved the post submit styling</li>
+              <li>added loading spinner to post sumbit</li>
+              <li>improved the UX on a post's sequence of actions</li>
+              <li>
+                added color styles to the noticeMessage {neutral (automatic
+                action), invalid (failed action) and valid (user action)
+              </li>
+              <li>
+                improved UX for erroring in the UI; user now has to clear an
+                error overlay, giving more time for user to compute a failled
+                action
+              </li>
+              <li>updated some base states to reflect above item's defaults</li>
+            </ol>
+            <hr />
+            <ol>
+              <li>
+                NEED TO APPEND (TO AN ARRAY) POST ACTIONS IN THE POST VIEW SO
+                THE USER CAN SEE A TRAIL OF PREVIOUS POST ACTIONS
+              </li>
+            </ol>
+          </details>
+        </li>
+        <li>
+          <details class="update">
+            <summary>10/04/20</summary>
+            <ol>
+              <li>ALT + COMMAND (mac) now gives "search content" focus - shortcut keys</li>
               <li>
                 added a modal component with a bit of variable automation in the
                 css based on modal type [success, danger, warning].

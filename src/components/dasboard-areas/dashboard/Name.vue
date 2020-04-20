@@ -37,13 +37,27 @@ export default {
       (this.andFilter = "?filter="),
       (this.maxLimit = "?limit=0");
   },
-  beforeMount() {
-    const queryNS =
+  async beforeMount() {
+    this.groupNames =
       this.initialMeta + this.selectedNamespace + "/names" + this.maxLimit;
-    if (this.selectedNamespace !== null) {
-      this.fetchName(queryNS);
+    if (this.selectedName === "" && this.currentNames === null) {
+      // initial fetch
+      await this.fetchName(this.groupNames);
+    } else if (this.currentNames.length === 1 && this.storedN !== "") {
+      // fetch if "search content" has been used (as it reduces the currentNames array to 1)
+      await this.fetchName(this.groupNames);
+      await this.$store.dispatch("search/storedN", "", { root: true });
     } else {
-      console.log("local");
+      await this.$store.dispatch(
+				"updateNotice",
+				{
+					code: "valid",
+					message: `Fetching <em>all</em> locally stored Names`
+				},
+				{ root: true }
+			);
+			await this.$store.dispatch("name/getLocalN");
+      console.warn("fetching local N on mount");
     }
   },
   updated() {
@@ -53,59 +67,50 @@ export default {
     async fetchName(queryString) {
       await this.$store.dispatch("name/getN", queryString);
     },
-    updateFromCreated: function() {
-      const newNsAndN = this.initialMeta + this.selectedNamespace + "/names";
-      this.fetchName(newNsAndN);
-    },
-    updateNames: function() {
-      if (this.updatedSearchString < 1) {
+    // updateFromCreated: function() {
+    // 	const newNsAndN = this.initialMeta + this.selectedNamespace + "/names";
+    // 	this.fetchName(newNsAndN);
+    // },
+    async updateNames() {
+      if (this.updatedSearchString.length === 0) {
         // return ALL N as result of SEARCH being cleared
         const fetchAllQuery =
           this.initialMeta + this.selectedNamespace + "/names";
-        this.$store.dispatch(
+        await this.$store.dispatch(
           "updateNotice",
           {
             code: "valid",
-            message: "Gathering all of the available Names!"
+            message: `Gathering <strong id='msgStrong'>all of the available</strong> Names through the API`
           },
           { root: true }
         );
-        this.$store.dispatch("name/getN", fetchAllQuery);
+        await this.$store.dispatch("name/getN", fetchAllQuery);
       } else {
         // return FILTERED NS or CREATED N as result
-        const fetchSearchedQuery =
-          this.initialMeta +
-          this.selectedNamespace +
-          "/names" +
-          this.andFilter +
-          this.updatedSearchString;
-        this.$store.dispatch(
+        // const fetchSearchedQuery =
+        //   this.initialMeta +
+        //   this.selectedNamespace +
+        //   "/names" +
+        //   this.andFilter +
+        //   this.updatedSearchString;
+        await this.$store.dispatch(
           "updateNotice",
           {
             code: "valid",
-            message: `Filtering the Names with ${this.searchedContent}`
+            message: `${this.searchedContent.length > 0 ? `Filtering available Names <em>locally</em> with <strong id='msgStrong'>${this.searchedContent}</strong>` : `Fetching <em>all</em> locally stored Names`}`
           },
           { root: true }
         );
-        this.$store.dispatch("name/getN", fetchSearchedQuery);
+        await this.$store.dispatch("name/getLocalN",);
       }
     },
     handleClick: function(name) {
       if (this.selectedName !== name || this.selectedName === "") {
-        console.log(
-          "network fetch......",
-          "ns: ",
-          this.selectedName,
-          "n: ",
-          name
-        );
         this.$store.dispatch("events/clearCurrent");
         this.$store.dispatch("name/selectN", name);
-        // this.saveSearch(this.searchedContent);
         this.$router.push("/dashboard/events/");
       } else {
-        console.log("local fetch");
-        // this.saveSearch(this.searchedContent);
+        console.warn("local fetch E");
         this.$router.push("/dashboard/events/");
       }
     },
@@ -162,7 +167,9 @@ export default {
       currentNames: "name/currentNames",
       selectedName: "name/selectedName",
       createdName: "createItem/createdName",
+      counts: "name/counts",
       searchedContent: "search/searchedContent",
+      storedN: "search/storedN",
       selectedNamespace: "namespace/selectedNamespace"
     })
   },
@@ -170,10 +177,11 @@ export default {
     searchedContent(newVal) {
       this.updatedSearchString = newVal;
       this.updateNames();
-    },
-    selectedName(newVal) {
-      this.updateFromCreated(newVal);
     }
+    // selectedName(newVal) {
+    //   // this.updateFromCreated(newVal);
+    //   this.$store.dispatch("name/selectN", newVal)
+    // }
   }
 };
 </script>

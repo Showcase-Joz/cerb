@@ -51,7 +51,7 @@ export const actions = {
       "updateNotice",
       {
         code: "valid",
-        message: `Gathering the events inside the ${Name.state.selectedName} name`
+        message: `Gathering the events inside the <strong id="msgStrong">${Name.state.selectedName}</strong> name`
       },
       { root: true }
     );

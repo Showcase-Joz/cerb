@@ -2,7 +2,9 @@
   <div
     class="form-wrapper"
     :class="{
-      'rollup-form': this.hasFocus === false && this.responseData !== null || this.hasFocus === false
+      'rollup-form':
+        (this.hasFocus === false && this.responseData !== null) ||
+        this.hasFocus === false
     }"
   >
     <form id="formPost" @submit.prevent="collectInputs">
@@ -21,7 +23,8 @@
             :class="{
               hasValue: $v.formResponses.namespace.hasValueLength
             }"
-          >Namespace</label>
+            >Namespace</label
+          >
           <input
             type="text"
             name="namespace"
@@ -47,7 +50,9 @@
             !$v.formResponses.namespace.required &&
               $v.formResponses.namespace.$dirty
           "
-        >Namespace must not be empty!</p>
+        >
+          Namespace must not be empty!
+        </p>
       </div>
       <div class="form-group">
         <div
@@ -62,7 +67,8 @@
             :class="{
               hasValue: $v.formResponses.name.hasValueLength
             }"
-          >Name</label>
+            >Name</label
+          >
           <input
             v-model="formResponses.name"
             v-on:input="cleanInputs"
@@ -86,7 +92,9 @@
         <p
           class="form-field-msg"
           v-if="!$v.formResponses.name.required && $v.formResponses.name.$dirty"
-        >Name must not be empty!</p>
+        >
+          Name must not be empty!
+        </p>
       </div>
 
       <DescriptionTextArea
@@ -148,10 +156,18 @@
           :class="{
             hidden: $v.formResponses.type.required
           }"
-        >Please select (spacebar/click/touch) a type for this log entry!</p>
+        >
+          Please select (spacebar/click/touch) a type for this log entry!
+        </p>
       </div>
       <!-- <button type="submit" value="Submit" class="btn btn-submit" /></button> -->
-      <button type="submit" class="btn btn-submit" :disabled="this.spinner" @blur="onBlur()" @focus="onFocus()">
+      <button
+        type="submit"
+        class="btn btn-submit"
+        :disabled="this.spinner"
+        @blur="onBlur()"
+        @focus="onFocus()"
+      >
         Submit
         <LoadingSpinner v-if="this.spinner" />
       </button>
@@ -161,10 +177,10 @@
 
 <script>
 import {
-	required,
-	minLength,
-	maxLength,
-	helpers
+  required,
+  minLength,
+  maxLength,
+  helpers
 } from "vuelidate/lib/validators";
 import DescriptionTextArea from "../form/form-elements/DescriptionTextArea";
 import LoadingSpinner from "../helpers/LoadingSpinner";
@@ -175,133 +191,133 @@ const strDefPattern = helpers.regex("strDefPattern", /^[\d+\w+^.^-]+$/);
 let newPost = {};
 
 export default {
-	name: "PostForm",
-	components: {
-		DescriptionTextArea,
-		LoadingSpinner
-	},
-	data() {
-		return {
-			uiState: "submit issue",
-			noErrors: false,
-			formResponses: {
-				namespace: "",
-				name: "",
-				type: null,
-				description: ""
-			},
-			hasFocus: false
-		};
-	},
-	validations: {
-		formResponses: {
-			namespace: {
-				required,
-				minLength: minLength(3),
-				maxLength: maxLength(200),
-				hasValueLength,
-				strDefPattern
-			},
-			name: {
-				required,
-				minLength: minLength(3),
-				maxLength: maxLength(200),
-				hasValueLength,
-				strDefPattern
-			},
-			type: {
-				required
-			}
-		}
-	},
-	methods: {
-		cleanInputs: function(event) {
-			const element = event.target;
-			const dataKey = element.name;
-			Object.keys(this.formResponses).forEach(key => {
-				if (key === dataKey) {
-					return (this.formResponses[dataKey] = element.value
-						.replace(/[^a-zA-Z0-9]/g, ".")
-						.toLowerCase());
-				}
-			});
-		},
-		collectInputs: function() {
-			this.noErrors = !this.$v.formResponses.$invalid;
-			newPost = {
-				namespace: this.formResponses.namespace,
-				name: this.formResponses.name,
-				type: this.formResponses.type,
-				description: this.formResponses.description
-			};
-			if (this.noErrors) {
-				this.uiState = "form submitted!";
-				// send to vuex action
-				this.fetchPost(newPost)
-			} else {
-				console.warn("There was a form submission error: ", newPost);
-			}
+  name: "PostForm",
+  components: {
+    DescriptionTextArea,
+    LoadingSpinner
+  },
+  data() {
+    return {
+      uiState: "submit issue",
+      noErrors: false,
+      formResponses: {
+        namespace: "",
+        name: "",
+        type: null,
+        description: ""
+      },
+      hasFocus: false
+    };
+  },
+  validations: {
+    formResponses: {
+      namespace: {
+        required,
+        minLength: minLength(3),
+        maxLength: maxLength(200),
+        hasValueLength,
+        strDefPattern
+      },
+      name: {
+        required,
+        minLength: minLength(3),
+        maxLength: maxLength(200),
+        hasValueLength,
+        strDefPattern
+      },
+      type: {
+        required
+      }
+    }
+  },
+  methods: {
+    cleanInputs: function(event) {
+      const element = event.target;
+      const dataKey = element.name;
+      Object.keys(this.formResponses).forEach(key => {
+        if (key === dataKey) {
+          return (this.formResponses[dataKey] = element.value
+            .replace(/[^a-zA-Z0-9]/g, ".")
+            .toLowerCase());
+        }
+      });
+    },
+    collectInputs: function() {
+      this.noErrors = !this.$v.formResponses.$invalid;
+      newPost = {
+        namespace: this.formResponses.namespace,
+        name: this.formResponses.name,
+        type: this.formResponses.type,
+        description: this.formResponses.description
+      };
+      if (this.noErrors) {
+        this.uiState = "form submitted!";
+        // send to vuex action
+        this.fetchPost(newPost);
+      } else {
+        console.warn("There was a form submission error: ", newPost);
+      }
     },
     async fetchPost(newPost) {
       await this.$store.dispatch("post/sendString", newPost);
     },
-		onFocus() {
-			this.hasFocus = true;
-		},
-		onBlur() {
-			this.hasFocus = false;
-		}
-	},
-	computed: {
-		...mapGetters({
-			spinner: "spinner",
-			responseData: "post/responseData"
-		})
-	}
+    onFocus() {
+      this.hasFocus = true;
+    },
+    onBlur() {
+      this.hasFocus = false;
+    }
+  },
+  computed: {
+    ...mapGetters({
+      spinner: "spinner",
+      responseData: "post/responseData"
+    })
+  }
 };
 </script>
 <style lang="scss" src="@/styles/_form.scss" scoped></style>
 <style lang="scss" scoped>
 .form-wrapper {
-	border: 1px $color2 solid;
-	margin-bottom: $spacingLarge;
-	overflow-y: hidden;
-	padding: $spacingLarge;
+  border: 1px $color2 solid;
+  margin-bottom: $spacingLarge;
+  overflow-y: hidden;
+  padding: $spacingLarge;
 
-	@include for-size(phone-small) {
-		padding: $spacingDefault;
-	}
+  @include for-size(phone-small) {
+    padding: $spacingDefault;
+  }
 
-	&.rollup-form {
-		height: 100px;
-		transition: height 0.75s ease-in;
-	}
+  &.rollup-form {
+    height: 100px;
+    transition: height 0.75s ease-in;
+  }
 
   &:not(.rollup-form) {
-		height: 100%;
-		transition: height 0.75s;
-	}
+    height: 100%;
+    transition: height 0.75s;
+  }
 
-	@include for-size(desktop-up) {
+  @include for-size(desktop-up) {
     &.rollup-form,
     &:focus-within {
-			height: inherit;
-		}
-	}
+      height: inherit;
+    }
+  }
 }
 .btn {
-	@include btn;
+  @include btn;
 
-	// display: inline-block;
-	// border: none;
-	// background-color: #555;
-	// color: #fff;
-	// padding: 7px 20px;
-	// cursor: pointer;
+  // display: inline-block;
+  // border: none;
+  // background-color: #555;
+  // color: #fff;
+  // padding: 7px 20px;
+  // cursor: pointer;
 
-	// &:hover {
-	//   background-color: #666;
-	// }
+  // &:hover {
+  //   background-color: #666;
+  // }
 }
 .btn-submit {
   @include btn-success;
