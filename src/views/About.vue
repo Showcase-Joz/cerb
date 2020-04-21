@@ -10,6 +10,10 @@
             <summary>24/04/20</summary>
             <ol>
               <li>
+                created outline framework for new sort/filter selector buttons -
+                found next to the search feature
+              </li>
+              <li>
                 added escape key to clear values in "search content" and
                 "createNS/N" - shortcut keys
               </li>

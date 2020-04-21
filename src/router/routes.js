@@ -108,7 +108,7 @@ const router = new VueRouter({
         },
         {
           // Events
-          path: "events",
+          path: "events/",
           name: "events",
           component: () =>
             import(
@@ -116,7 +116,7 @@ const router = new VueRouter({
             )
         },
         {
-          // Events
+          // Details
           path: "details",
           name: "details",
           component: () =>

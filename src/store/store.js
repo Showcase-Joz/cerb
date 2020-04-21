@@ -7,6 +7,7 @@ import * as search from "./modules/search";
 import * as namespace from "./modules/namespace";
 import * as name from "./modules/name";
 import * as events from "./modules/events";
+import * as details from "./modules/details";
 import * as createItem from "./modules/create";
 import * as deletedItem from "./modules/delete";
 
@@ -134,6 +135,7 @@ const store = new Vuex.Store({
     namespace,
     name,
     events,
+    details,
     createItem,
     deletedItem
   }

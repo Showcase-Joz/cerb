@@ -1,13 +1,25 @@
 <template>
   <div>
-    details view
+    <transition name="animate-cards">
+      <div class="item">
+        {{this.currentDetails.event.details}}
+      </div>
+    </transition>
   </div>
 </template>
 
 <script>
+import { mapGetters } from "vuex";
 export default {
-  name: "Details"
+  name: "Details",
+  computed: {
+    ...mapGetters({
+      currentDetails: "details/currentDetails"
+    })
+  }
 };
 </script>
+<style lang="scss" src="@/styles/animation/_animate-cards.scss" scoped></style>
+<style lang="scss" scoped>
 
-<style lang="scss" scoped></style>
+</style>
