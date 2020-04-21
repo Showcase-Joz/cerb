@@ -9,11 +9,26 @@
           <details class="update">
             <summary>24/04/20</summary>
             <ol>
-              <li>added escape key to clear values in "search content" and "createNS/N" - shortcut keys</li>
-              <li>improved some highlight styling on notice overlays, to aid user to understand the action. default timeout's now 2 seconds as well</li>
-              <li>re-wrote currentNamespaces/Names getters to now include a filtered data value, which keeps original data in currentNamespaces/Names, while presenting the filtered results. removes necessity for additional api calls</li>
-              <li>all searching (filter's) on Names/Events are now done locally (from cached data). saving on unnecessary XHR when displaying results. a step closes to PWA off-line mode!</li>
-
+              <li>
+                added escape key to clear values in "search content" and
+                "createNS/N" - shortcut keys
+              </li>
+              <li>
+                improved some highlight styling on notice overlays, to aid user
+                to understand the action. default timeout's now 2 seconds as
+                well
+              </li>
+              <li>
+                re-wrote currentNamespaces/Names getters to now include a
+                filtered data value, which keeps original data in
+                currentNamespaces/Names, while presenting the filtered results.
+                removes necessity for additional api calls
+              </li>
+              <li>
+                all searching (filter's) on Names/Events are now done locally
+                (from cached data). saving on unnecessary XHR when displaying
+                results. a step closes to PWA off-line mode!
+              </li>
             </ol>
           </details>
         </li>
@@ -54,7 +69,10 @@
           <details class="update">
             <summary>10/04/20</summary>
             <ol>
-              <li>ALT + COMMAND (mac) now gives "search content" focus - shortcut keys</li>
+              <li>
+                ALT + COMMAND (mac) now gives "search content" focus - shortcut
+                keys
+              </li>
               <li>
                 added a modal component with a bit of variable automation in the
                 css based on modal type [success, danger, warning].

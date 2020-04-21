@@ -30,6 +30,16 @@
         >Events</router-link
       >
     </div>
+    <div class="dash-nav-item">
+      <router-link
+        :disabled="this.disabledDetails"
+        to="/dashboard/details"
+        tag="button"
+        class="btn"
+        @click.native="clearSearch()"
+        >Details</router-link
+      >
+    </div>
 
     <div class="dash-nav-item settings-nav">
       <router-link
@@ -65,13 +75,17 @@ export default {
   computed: {
     ...mapGetters({
       selectedNamespace: "namespace/selectedNamespace",
-      selectedName: "name/selectedName"
+      selectedName: "name/selectedName",
+      selectedEvent: "events/selectedEvent"
     }),
     disabledNames() {
       return this.selectedNamespace === "" ? true : false;
     },
     disabledEvents() {
       return this.selectedName === "" ? true : false;
+    },
+    disabledDetails() {
+      return this.selectedEvent === "" ? true : false;
     }
   }
 };

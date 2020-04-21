@@ -3,7 +3,8 @@ export const namespaced = true;
 export const state = {
   searchedContent: "",
   storedNS: "",
-  storedN: ""
+  storedN: "",
+  storedE: ""
 };
 
 export const getters = {
@@ -15,6 +16,9 @@ export const getters = {
   },
   storedN: state => {
     return state.storedN;
+  },
+  storedE: state => {
+    return state.storedE;
   }
 };
 
@@ -27,6 +31,9 @@ export const mutations = {
   },
   STORE_N(state, value) {
     state.storedN = value;
+  },
+  STORE_E(state, value) {
+    state.storedE = value;
   }
 };
 
@@ -42,5 +49,8 @@ export const actions = {
   },
   storedN({ commit }, payload) {
     commit("STORE_N", payload);
+  },
+  storedE({ commit }, payload) {
+    commit("STORE_E", payload);
   }
 };

@@ -114,6 +114,15 @@ const router = new VueRouter({
             import(
               /* webpackChunkName: "get" */ "../components/dasboard-areas/dashboard/Events.vue"
             )
+        },
+        {
+          // Events
+          path: "details",
+          name: "details",
+          component: () =>
+            import(
+              /* webpackChunkName: "get" */ "../components/dasboard-areas/dashboard/Details.vue"
+            )
         }
       ]
     },

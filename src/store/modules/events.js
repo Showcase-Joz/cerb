@@ -6,6 +6,7 @@ export const namespaced = true;
 export const state = {
   currentEvents: null,
   filteredEvents: null,
+  selectedEvent: "",
   totalEvents: ""
 };
 
@@ -20,6 +21,9 @@ export const getters = {
         ))
       : state.currentEvents;
   },
+  selectedEvent: state => {
+    return state.selectedEvent;
+  },
   totalEvents: state => {
     return state.totalEvents;
   }
@@ -31,6 +35,9 @@ export const mutations = {
       a.event.created < b.event.created ? 1 : -1
     );
     state.currentEvents = sortedEvents;
+  },
+  SELECTED_EVENT(state, selectedE) {
+    state.selectedEvent = selectedE;
   },
   TOTAL_EVENTS(state, number) {
     state.totalEvents = number;
@@ -71,6 +78,11 @@ export const actions = {
     err => {
       console.log("Error: ", err);
     };
+  },
+  async selectE({ commit, dispatch }, payload) {
+    await commit("SELECTED_EVENT", payload);
+    await dispatch("search/storedSearch", "", { root: true });
+    await dispatch("search/storedE", payload, { root: true });
   },
   clearCurrent({ commit }) {
     commit("CLEAR_CURRENT");

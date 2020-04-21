@@ -43,20 +43,20 @@ export default {
     if (this.selectedName === "" && this.currentNames === null) {
       // initial fetch
       await this.fetchName(this.groupNames);
-    } else if (this.currentNames.length === 1 && this.storedN !== "") {
+      // } else if (this.currentNames.length === 1 && this.storedN !== "") {
       // fetch if "search content" has been used (as it reduces the currentNames array to 1)
-      await this.fetchName(this.groupNames);
-      await this.$store.dispatch("search/storedN", "", { root: true });
+      // await this.fetchName(this.groupNames);
+      // await this.$store.dispatch("search/storedN", "", { root: true });
     } else {
       await this.$store.dispatch(
-				"updateNotice",
-				{
-					code: "valid",
-					message: `Fetching <em>all</em> locally stored Names`
-				},
-				{ root: true }
-			);
-			await this.$store.dispatch("name/getLocalN");
+        "updateNotice",
+        {
+          code: "valid",
+          message: `Fetching <em>all</em> locally stored Names`
+        },
+        { root: true }
+      );
+      await this.$store.dispatch("name/getLocalN");
       console.warn("fetching local N on mount");
     }
   },
@@ -97,11 +97,15 @@ export default {
           "updateNotice",
           {
             code: "valid",
-            message: `${this.searchedContent.length > 0 ? `Filtering available Names <em>locally</em> with <strong id='msgStrong'>${this.searchedContent}</strong>` : `Fetching <em>all</em> locally stored Names`}`
+            message: `${
+              this.searchedContent.length > 0
+                ? `Filtering available Names <em>locally</em> with <strong id='msgStrong'>${this.searchedContent}</strong>`
+                : `Fetching <em>all</em> locally stored Names`
+            }`
           },
           { root: true }
         );
-        await this.$store.dispatch("name/getLocalN",);
+        await this.$store.dispatch("name/getLocalN");
       }
     },
     handleClick: function(name) {

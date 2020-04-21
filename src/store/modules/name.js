@@ -18,8 +18,8 @@ export const getters = {
   currentNames: (state, getters, rootState) => {
     return rootState.search.searchedContent.length > 0
       ? (state.filteredNames = state.currentNames.filter(names =>
-        names.includes(rootState.search.searchedContent)
-      ))
+          names.includes(rootState.search.searchedContent)
+        ))
       : state.currentNames;
   },
   selectedName: state => {

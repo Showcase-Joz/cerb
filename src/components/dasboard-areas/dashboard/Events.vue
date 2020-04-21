@@ -51,7 +51,13 @@
           <div class="function-r">r</div>
         </div>
       </div>
-      <div class="item" v-for="(item, index) in currentEvents" :key="index">
+      <div
+        class="item"
+        v-for="(item, index) in currentEvents"
+        :key="index"
+        @click="handleClick(item, index)"
+        @keyup.enter="handleClick(item, index)"
+      >
         <div class="response-timestamp">
           {{ item.event.created | convertEpoch }}
         </div>
@@ -127,6 +133,9 @@ export default {
     },
     updateEvents: function(groupEvents) {
       this.fetchName(groupEvents);
+    },
+    handleClick: function(event, index) {
+      console.log(event, index);
     }
   },
   computed: {
