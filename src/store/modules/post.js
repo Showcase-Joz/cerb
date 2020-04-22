@@ -37,31 +37,31 @@ export const actions = {
       },
       { root: true }
     );
-    await api.post("events", JSON.stringify(payload)).then(response => {
-      if (response.status === 201) {
-        commit("UPDATE_POST_STRING", payload);
-        commit("RESPONSE_DATA", response.data);
-        setTimeout(() => {
-          dispatch("updateNotice", null, { root: true });
-          dispatch("updateLoading", false, { root: true });
-          dispatch("spinner", false, { root: true });
-        }, 1500);
-      } else if (response.status !== 201) {
-        dispatch(
-          "updateNotice",
-          {
-            code: "invalid",
-            message: "There was an ERROR posting to the API"
-          },
-          { root: true }
-        );
-        console.log(response);
-        console.log("we shit out with POST");
-      }
-    });
-
-    err => {
-      console.log("Error: ", err);
-    };
+    await api.post("events", JSON.stringify(payload))
+      .then(response => {
+        if (response.status === 201) {
+          commit("UPDATE_POST_STRING", payload);
+          commit("RESPONSE_DATA", response.data);
+          setTimeout(() => {
+            dispatch("updateNotice", null, { root: true });
+            dispatch("updateLoading", false, { root: true });
+            dispatch("spinner", false, { root: true });
+          }, 1500);
+        } else if (response.status !== 201) {
+          dispatch(
+            "updateNotice",
+            {
+              code: "invalid",
+              message: "There was an ERROR posting to the API"
+            },
+            { root: true }
+          );
+          console.log(response);
+          console.log("we shit out with POST");
+        }
+      })
+      .catch(err => {
+        console.log("Error: ", err);
+      });
   }
 };

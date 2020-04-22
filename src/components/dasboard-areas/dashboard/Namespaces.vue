@@ -60,7 +60,7 @@ export default {
       );
       await this.$store.dispatch("namespace/getLocalNS");
       console.warn("fetching local NS on mount");
-    }
+    };
     if (this.notBlank) {
       return true;
     }

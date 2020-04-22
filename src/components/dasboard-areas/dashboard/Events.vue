@@ -134,21 +134,21 @@ export default {
       this.fetchName(groupEvents);
     },
     async handleClick(item, index) {
-			await this.$store.dispatch(
-          "updateNotice",
-          {
-            code: "valid",
-            message: `Analysing the selected event details`
-          },
-          { root: true }
-        );
-			await this.$store.dispatch("details/pushEventDetails", {item, index});
-			this.$store.dispatch("events/selectE", index);
-			this.pushClick();	
-		},
-		pushClick: function() {
-			this.$router.push("/dashboard/details/");		
-		}
+      await this.$store.dispatch(
+        "updateNotice",
+        {
+          code: "valid",
+          message: `Analysing the selected event details`
+        },
+        { root: true }
+      );
+      await this.$store.dispatch("details/pushEventDetails", { item, index });
+      this.$store.dispatch("events/selectE", index);
+      this.pushClick();
+    },
+    pushClick: function() {
+      this.$router.push("/dashboard/details/");
+    }
   },
   computed: {
     ...mapGetters({
@@ -335,10 +335,6 @@ export default {
       line-height: $spacingDefault;
       text-align: left;
       word-break: break-word;
-
-      &:hover {
-        font-weight: $heavy;
-      }
     }
 
     .response-desc {

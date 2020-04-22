@@ -47,7 +47,7 @@ export const mutations = {
 export const actions = {
   async getNS({ commit, dispatch }, payload) {
     await dispatch("updateLoading", true, { root: true });
-    await api.get(payload).then(response => {
+    await api.get(payload).then(response => {      
       if (response.status === 200) {
         setTimeout(() => {
           commit("CURRENT_NAMESPACES", response.data.namespaces);
@@ -62,14 +62,6 @@ export const actions = {
     await dispatch("updateNotice", null, { root: true });
     err => {
       console.log("Error: ", err);
-      dispatch(
-        "updateNotice",
-        {
-          code: "invalid",
-          message: `Failed to get Namespaces`
-        },
-        { root: true }
-      );
     };
   },
   async getLocalNS({ dispatch }) {
@@ -84,7 +76,7 @@ export const actions = {
         "updateNotice",
         {
           code: "invalid",
-          message: `Failed to get local Namespaces`
+          message: `Failed to create ${Created.state.createdNamespace}`
         },
         { root: true }
       );

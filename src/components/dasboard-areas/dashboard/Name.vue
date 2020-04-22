@@ -119,6 +119,8 @@ export default {
       }
     },
     highlighed: function() {
+      console.log("test: ", this.currentNames, this.selectedName);
+      
       if (this.currentNames.includes(this.selectedName)) {
         // get the value of...
         const highlightedN = this.currentNames.indexOf(
@@ -137,8 +139,9 @@ export default {
             // inline: "center"
           });
         });
+        return true;
       } else {
-        return;
+        return false;
       }
     },
     async deleteName(name) {

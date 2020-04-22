@@ -2,7 +2,7 @@
   <div>
     <transition name="animate-cards">
       <div class="item">
-        {{this.currentDetails.event.details}}
+        {{ this.currentDetails.event.details }}
       </div>
     </transition>
   </div>
@@ -20,6 +20,4 @@ export default {
 };
 </script>
 <style lang="scss" src="@/styles/animation/_animate-cards.scss" scoped></style>
-<style lang="scss" scoped>
-
-</style>
+<style lang="scss" scoped></style>
