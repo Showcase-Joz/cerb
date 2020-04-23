@@ -81,6 +81,7 @@ import {
 } from "vuelidate/lib/validators";
 import { mapGetters } from "vuex";
 import LoadingSpinner from "../helpers/LoadingSpinner";
+import { flash } from "../../variables";
 const initialMeta = "metadata/";
 // const andFilter = "?filter=";
 const hasValueLength = value => value.length >= 1;
@@ -130,17 +131,6 @@ export default {
           root: true
         });
         // // return FILTERED NS or CREATED NS as result
-        // const fetchSearchedQuery =
-        // 	initialMeta + "namespaces" + andFilter + this.formResponses.createNewItem;
-        // this.$store.dispatch(
-        // 	"updateNotice",
-        // 	{
-        // 		code: "valid",
-        // 		message: `Filtering the Namespaces with ${this.formResponses.createNewItem}`
-        // 	},
-        // 	{ root: true }
-        // );
-        // this.$store.dispatch("namespace/getNS", fetchSearchedQuery);
         await this.blurCreate(event);
       } else if (
         this.formResponses.createNewItem.length > 0 &&
@@ -165,7 +155,7 @@ export default {
     blurCreate(event) {
       setTimeout(() => {
         event.target.blur();
-      }, 1500);
+      }, flash);
     }
   },
   computed: {

@@ -10,6 +10,13 @@
             <summary>24/04/20</summary>
             <ol>
               <li>
+                added UX for response 200 on NS/N create - "data already exists"
+              </li>
+              <li>
+                fixed a failed api call (bug) when returning to a previous (not
+                last local) name.
+              </li>
+              <li>
                 created outline framework for new sort/filter selector buttons -
                 found next to the search feature
               </li>

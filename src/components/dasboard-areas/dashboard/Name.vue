@@ -29,42 +29,64 @@ export default {
   data() {
     return {
       id: "Name",
-      updatedSearchString: ""
+      updatedSearchString: "",
+      updatedCreatedName: ""
     };
   },
   created() {
     (this.initialMeta = "metadata/"),
       (this.andFilter = "?filter="),
       (this.maxLimit = "?limit=0");
-  },
-  async beforeMount() {
     this.groupNames =
       this.initialMeta + this.selectedNamespace + "/names" + this.maxLimit;
+  },
+  async beforeMount() {
+    this.$store.dispatch("search/storedSearch", "");
     if (this.selectedName === "" && this.currentNames === null) {
       // initial fetch
       await this.fetchName(this.groupNames);
-      // } else if (this.currentNames.length === 1 && this.storedN !== "") {
-      // fetch if "search content" has been used (as it reduces the currentNames array to 1)
-      // await this.fetchName(this.groupNames);
-      // await this.$store.dispatch("search/storedN", "", { root: true });
     } else {
       await this.$store.dispatch(
         "updateNotice",
         {
           code: "valid",
-          message: `Fetching <em>all</em> locally stored Names`
-        },
-        { root: true }
+          message: `Gathering <em>all</em> locally stored Names`
+        }
       );
       await this.$store.dispatch("name/getLocalN");
       console.warn("fetching local N on mount");
     }
+    if (this.currentNames !== null) {
+      this.highlighted();
+    }
   },
-  updated() {
-    this.highlighed();
+  async updated() {
+    if (this.currentNames !== null) {
+      this.highlighted();
+    }
+
+    if (
+      this.searchedContent !== "" &&
+      this.searchedContent === this.createdName
+    ) {
+      console.log("ran");
+
+      await this.$store.dispatch(
+        "updateNotice",
+        {
+          code: "valid",
+          message: `Creating the <strong id='msgStrong'>${this.createdName}</strong> Name inside the ${this.selectedNamespace} Namespace`
+        }
+      );
+    }
   },
   methods: {
     async fetchName(queryString) {
+      await this.$store.dispatch("updateLoading", true);
+      await this.$store.dispatch("updateNotice", {
+        code: "valid",
+        message: `Gathering the names inside the <strong id="msgStrong">${this.selectedNamespace}</strong> namespace`
+      });
       await this.$store.dispatch("name/getN", queryString);
     },
     // updateFromCreated: function() {
@@ -81,18 +103,12 @@ export default {
           {
             code: "valid",
             message: `Gathering <strong id='msgStrong'>all of the available</strong> Names through the API`
-          },
-          { root: true }
+          }
         );
         await this.$store.dispatch("name/getN", fetchAllQuery);
       } else {
         // return FILTERED NS or CREATED N as result
-        // const fetchSearchedQuery =
-        //   this.initialMeta +
-        //   this.selectedNamespace +
-        //   "/names" +
-        //   this.andFilter +
-        //   this.updatedSearchString;
+
         await this.$store.dispatch(
           "updateNotice",
           {
@@ -100,10 +116,9 @@ export default {
             message: `${
               this.searchedContent.length > 0
                 ? `Filtering available Names <em>locally</em> with <strong id='msgStrong'>${this.searchedContent}</strong>`
-                : `Fetching <em>all</em> locally stored Names`
+                : `Gathering <em>all</em> locally stored Names`
             }`
-          },
-          { root: true }
+          }
         );
         await this.$store.dispatch("name/getLocalN");
       }
@@ -118,9 +133,7 @@ export default {
         this.$router.push("/dashboard/events/");
       }
     },
-    highlighed: function() {
-      console.log("test: ", this.currentNames, this.selectedName);
-      
+    highlighted: function() {
       if (this.currentNames.includes(this.selectedName)) {
         // get the value of...
         const highlightedN = this.currentNames.indexOf(
@@ -139,9 +152,8 @@ export default {
             // inline: "center"
           });
         });
-        return true;
       } else {
-        return false;
+        return;
       }
     },
     async deleteName(name) {
@@ -183,6 +195,10 @@ export default {
   watch: {
     searchedContent(newVal) {
       this.updatedSearchString = newVal;
+      this.updateNames();
+    },
+    createdName(newVal) {
+      this.updatedCreatedName = newVal;
       this.updateNames();
     }
     // selectedName(newVal) {

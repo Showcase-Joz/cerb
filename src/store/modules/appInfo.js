@@ -3,7 +3,7 @@ import api from "../../services/api";
 export const namespaced = true;
 
 export const state = {
-  appVersion: "0.2.4",
+  appVersion: "1.3.7",
   connectionStatus: navigator.onLine,
   serverStatus: false,
   connectionError: null

@@ -47,7 +47,7 @@ export const mutations = {
 export const actions = {
   async getNS({ commit, dispatch }, payload) {
     await dispatch("updateLoading", true, { root: true });
-    await api.get(payload).then(response => {      
+    await api.get(payload).then(response => {
       if (response.status === 200) {
         setTimeout(() => {
           commit("CURRENT_NAMESPACES", response.data.namespaces);
@@ -95,6 +95,16 @@ export const actions = {
         setTimeout(() => {
           dispatch("spinner", false, { root: true });
         }, 1500);
+      } else if (response.status === 200) {
+        dispatch("updateLoading", true, { root: true });
+        dispatch(
+          "updateNotice",
+          {
+            code: "invalid",
+            message: `Failed to create ${Created.state.createdNamespace} because: <strong id='msgStrong'>${response.data.message}</strong>`
+          },
+          { root: true }
+        );
       } else {
         dispatch(
           "updateNotice",

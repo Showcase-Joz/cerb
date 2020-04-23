@@ -51,15 +51,16 @@
 <script>
 import { maxLength, helpers } from "vuelidate/lib/validators";
 import { mapGetters } from "vuex";
+import { tickPlus } from "../../variables";
 const hasValueLength = value => value.length >= 1;
 const strDefPattern = helpers.regex("strDefPattern", /^[\d+\w+^.^-]+$/);
 export default {
   name: "search-input",
-  created() {
-    if (this.searchedContent !== "") {
-      this.$store.dispatch("search/storedSearch", "");
-    }
-  },
+  // created() {
+  //   if (this.searchedContent !== "") {
+  //     this.$store.dispatch("search/storedSearch", "");
+  //   }
+  // },
   updated() {
     this.$refs.searchParent.classList.remove("invalid");
   },
@@ -90,9 +91,7 @@ export default {
     collectInputs: function() {
       if (!this.$v.searchString.$error) {
         // this.storeSearch();
-        this.$store.dispatch("search/storedSearch", this.searchString, {
-          root: true
-        });
+        this.$store.dispatch("search/storedSearch", this.searchString);
       } else if (
         this.searchString.trim() === "" ||
         this.$v.searchString.hasValueLength === false
@@ -103,15 +102,13 @@ export default {
     },
     clearInputs: function() {
       this.searchString = "";
-      this.$store.dispatch("search/storedSearch", this.searchString, {
-        root: true
-      });
+      this.$store.dispatch("search/storedSearch", this.searchString);
     },
     clearSearch: function() {
       setTimeout(() => {
         this.$refs.searchLabel.blur();
         this.$refs.searchParent.classList.remove("invalid", "valid");
-      }, 100);
+      }, tickPlus);
       this.clearInputs();
     }
   },

@@ -37,7 +37,8 @@ export default {
   data() {
     return {
       id: "Namespace",
-      updatedSearchString: ""
+      updatedSearchString: "",
+      updatedCreatedNamespace: ""
     };
   },
   created() {
@@ -54,20 +55,19 @@ export default {
         "updateNotice",
         {
           code: "valid",
-          message: `Fetching <em>all</em> locally stored Namespaces`
-        },
-        { root: true }
+          message: `Gathering <em>all</em> locally stored Namespaces`
+        }
       );
       await this.$store.dispatch("namespace/getLocalNS");
       console.warn("fetching local NS on mount");
-    };
-    if (this.notBlank) {
-      return true;
+    }
+    if (this.currentNamespaces !== null) {
+      this.highlighted();
     }
   },
   updated() {
-    if (this.notBlank) {
-      this.highlighed();
+    if (this.currentNamespaces !== null) {
+      this.highlighted();
     }
   },
   methods: {
@@ -77,8 +77,7 @@ export default {
         {
           code: "neutral",
           message: `Gathering <em>all</em> the namespaces`
-        },
-        { root: true }
+        }
       );
       await this.$store.dispatch("namespace/getNS", queryString);
     },
@@ -91,10 +90,17 @@ export default {
           {
             code: "valid",
             message: `Gathering <strong id='msgStrong'>all of the available</strong> Namespaces through the API`
-          },
-          { root: true }
+          }
         );
         await this.$store.dispatch("namespace/getNS", fetchAllQuery);
+      } else if (this.createdNamespace !== "") {
+        await this.$store.dispatch(
+          "updateNotice",
+          {
+            code: "valid",
+            message: `Creating the <strong id='msgStrong'>${this.createdNamespace}</strong> Namespace`
+          }
+        );
       } else {
         // return FILTERED NS or CREATED NS as result
         // const fetchSearchedQuery =
@@ -106,10 +112,9 @@ export default {
             message: `${
               this.searchedContent.length > 0
                 ? `Filtering available Namespaces <em>locally</em> with <strong id='msgStrong'>${this.searchedContent}</strong>`
-                : `Fetching <em>all</em> locally stored Namespaces`
+                : `Gathering <em>all</em> locally stored Namespaces`
             }`
-          },
-          { root: true }
+          }
         );
         await this.$store.dispatch("namespace/getLocalNS");
       }
@@ -130,7 +135,7 @@ export default {
         this.$router.push("/dashboard/namespace/");
       }
     },
-    highlighed: function() {
+    highlighted: function() {
       if (this.currentNamespaces.includes(this.selectedNamespace)) {
         // get the value of...
         const highlightedNS = this.currentNamespaces.indexOf(
@@ -184,18 +189,15 @@ export default {
       counts: "namespace/counts",
       searchedContent: "search/searchedContent",
       showModal: "showModal"
-    }),
-    notBlank: function() {
-      if (this.selectedNamespace !== "") {
-        return true;
-      } else {
-        return false;
-      }
-    }
+    })
   },
   watch: {
     searchedContent(newVal) {
       this.updatedSearchString = newVal;
+      this.updateNamespaces();
+    },
+    createdNamespace(newVal) {
+      this.updatedCreatedNamespace = newVal;
       this.updateNamespaces();
     }
     // selectedNamespace(newVal) {

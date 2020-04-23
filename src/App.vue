@@ -33,8 +33,7 @@ export default {
   async created() {
     await this.$store.dispatch(
       "updateNotice",
-      { code: "", message: "" },
-      { root: true }
+      { code: "", message: "" }
     );
     await this.$store.dispatch("authorisation/fetchUser");
     await this.$store.dispatch("appInfo/connectionTest");

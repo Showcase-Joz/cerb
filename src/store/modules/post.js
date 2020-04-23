@@ -37,7 +37,8 @@ export const actions = {
       },
       { root: true }
     );
-    await api.post("events", JSON.stringify(payload))
+    await api
+      .post("events", JSON.stringify(payload))
       .then(response => {
         if (response.status === 201) {
           commit("UPDATE_POST_STRING", payload);

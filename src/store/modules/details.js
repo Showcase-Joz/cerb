@@ -26,7 +26,7 @@ export const mutations = {
 export const actions = {
   async pushEventDetails({ commit, dispatch }, payload) {
     await dispatch("updateLoading", true, { root: true });
-    await commit("CURRENT_DETAILS", payload);
+    commit("CURRENT_DETAILS", payload);
     setTimeout(() => {
       dispatch("updateLoading", false, { root: true });
     }, 2000);

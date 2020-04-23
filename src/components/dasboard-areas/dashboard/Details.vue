@@ -1,6 +1,6 @@
 <template>
   <div>
-    <transition name="animate-cards">
+    <transition appear name="fade-in">
       <div class="item">
         {{ this.currentDetails.event.details }}
       </div>
@@ -19,5 +19,5 @@ export default {
   }
 };
 </script>
-<style lang="scss" src="@/styles/animation/_animate-cards.scss" scoped></style>
+<style lang="scss" src="@/styles/animation/_fade-in.scss" scoped></style>
 <style lang="scss" scoped></style>

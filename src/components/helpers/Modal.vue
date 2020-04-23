@@ -73,10 +73,10 @@ export default {
           "deletedItem/deleteNS",
           `${this.verifyModal.server.initialMeta}/${this.verifyModal.deleteItem}`
         );
-        await this.$store.dispatch("search/storedNS", "", { root: true });
+        await this.$store.dispatch("search/storedNS", "");
         // clears searched result if same item
         if (this.searchedContent === this.verifyModal.deleteItem) {
-          this.$store.dispatch("search/storedSearch", "", { root: true });
+          this.$store.dispatch("search/storedSearch", "");
         }
         // refreshes the view after delete
         await this.$store.dispatch(
@@ -89,10 +89,10 @@ export default {
           "deletedItem/deleteN",
           `${this.verifyModal.server.initialMeta}${this.verifyModal.parentNamespace}/${this.verifyModal.deleteItem}`
         );
-        await this.$store.dispatch("search/storedN", "", { root: true });
+        await this.$store.dispatch("search/storedN", "");
         // clears searched result if same item
         if (this.searchedContent === this.verifyModal.deleteItem) {
-          this.$store.dispatch("search/storedSearch", "", { root: true });
+          this.$store.dispatch("search/storedSearch", "");
         }
         // refreshes the view after delete
         await this.$store.dispatch(

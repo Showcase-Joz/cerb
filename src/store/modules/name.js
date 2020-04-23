@@ -1,5 +1,4 @@
 import api from "../../services/api";
-import * as NameSpace from "../modules/namespace";
 import * as Created from "../modules/create";
 
 export const namespaced = true;
@@ -39,6 +38,7 @@ export const mutations = {
   },
   CLEAR_CURRENT(state) {
     state.currentNames = null;
+    state.selectedName = "";
   },
   CURRENT_TOTALCOUNT(state, value) {
     state.counts.totalCount = value;
@@ -51,14 +51,6 @@ export const mutations = {
 export const actions = {
   async getN({ commit, dispatch }, payload) {
     await dispatch("updateLoading", true, { root: true });
-    await dispatch(
-      "updateNotice",
-      {
-        code: "valid",
-        message: `Gathering the names inside the <strong id="msgStrong">${NameSpace.state.selectedNamespace}</strong> namespace`
-      },
-      { root: true }
-    );
     await api.get(payload).then(response => {
       if (response.status === 200) {
         setTimeout(() => {
@@ -115,6 +107,16 @@ export const actions = {
         setTimeout(() => {
           dispatch("spinner", false, { root: true });
         }, 2000);
+      } else if (response.status === 200) {
+        dispatch("updateLoading", true, { root: true });
+        dispatch(
+          "updateNotice",
+          {
+            code: "invalid",
+            message: `Failed to create ${Created.state.createdName} because: <strong id='msgStrong'>${response.data.message}</strong>`
+          },
+          { root: true }
+        );
       } else {
         dispatch(
           "updateNotice",

@@ -4,7 +4,7 @@
       <div class="info" key="99999">
         <div class="total-events">
           Viewing
-          <transition-group name="fade-in">
+          <transition name="animate-cards">
             <span v-if="this.currentEvents !== null" key="99998">
               <strong v-if="this.currentEvents.length !== this.totalEvents">
                 <number
@@ -31,7 +31,7 @@
                 >&sol;</span
               >
             </span>
-          </transition-group>
+          </transition>
           <strong>
             <number
               :title="`There are a total of ${this.totalEvents} results`"
@@ -55,6 +55,7 @@
         class="item"
         v-for="(item, index) in currentEvents"
         :key="index"
+				:ref="index"
         @click="handleClick(item, index)"
         @keyup.enter="handleClick(item, index)"
       >
@@ -119,12 +120,16 @@ export default {
       "&name=" +
       this.selectedName +
       "&offset=25";
-
+    this.$store.dispatch("search/storedSearch", "");
     if (this.selectedNamespace !== null && this.selectedName !== null) {
       this.fetchName(this.groupEvents);
     } else {
       console.warn("fetching local data");
-    }
+		}
+    this.highlighted();
+	},
+	updated() {
+      this.highlighted();
   },
   methods: {
     async fetchName(queryString) {
@@ -139,21 +144,43 @@ export default {
         {
           code: "valid",
           message: `Analysing the selected event details`
-        },
-        { root: true }
+        }
       );
       await this.$store.dispatch("details/pushEventDetails", { item, index });
       this.$store.dispatch("events/selectE", index);
-      this.pushClick();
-    },
-    pushClick: function() {
       this.$router.push("/dashboard/details/");
+		},
+		highlighted: function() {
+			console.log(":test");
+			
+      if (this.currentEvents !== null && this.selectedEvent !== "") {
+        // get the value of...
+        const highlightedE = this.currentEvents.indexOf(
+          // selected namespace
+          // previously captured in vuex, now has value
+          this.selectedEvent
+        );
+        // use value to drill into div.items array and get
+        const element = this.$refs[highlightedE][0];
+        // add a class to the node
+        element.classList.add("highlighted");
+        this.$nextTick(function() {
+          element.scrollIntoView({
+            behavior: "smooth",
+            block: "center"
+            // inline: "center"
+          });
+        });
+      } else {
+        return;
+      }
     }
-  },
+	},
   computed: {
     ...mapGetters({
       selectedNamespace: "namespace/selectedNamespace",
       selectedName: "name/selectedName",
+      selectedEvent: "events/selectedEvent",
       searchedContent: "search/searchedContent",
       currentEvents: "events/currentEvents",
       totalEvents: "events/totalEvents"
@@ -414,6 +441,9 @@ export default {
         height: 100%;
       }
     }
-  }
+	}
+	&.highlighted {
+      @include highlighted;
+    }
 }
 </style>

@@ -25,7 +25,7 @@ export default {
   name: "Notice",
   methods: {
     handleReset: function() {
-      this.$store.dispatch("resetAction", "", { root: true });
+      this.$store.dispatch("resetAction", "");
     }
   },
   computed: {
@@ -73,11 +73,13 @@ export default {
 
 button {
   @include btn;
-  @include btn-danger;
+  @include btn-success;
   border: none;
+  border-radius: $borderRadius;
+  padding: $spacingDefault;
   position: relative;
   top: 60vh;
-  transition: all 700ms linear;
+  transition: all 700ms cubic-bezier(0.32, 2, 0.55, 0.27);
 }
 .fade-in-enter-active,
 .fade-in-leave-active {
@@ -87,18 +89,18 @@ button {
 
 .fade-in-enter-active {
   transition-delay: 0.5s;
-  top: 0;
+  top: -20vh;
 }
 
 .fade-in-enter,
 .fade-in-leave-to {
   opacity: 0;
-  top: 100%;
+  top: -20vh;
 }
 
 .fade-in-enter-to,
 .fade-in-leave {
   opacity: 1;
-  top: 0;
+  top: -20vh;
 }
 </style>
