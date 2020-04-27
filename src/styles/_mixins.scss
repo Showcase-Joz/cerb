@@ -76,15 +76,27 @@ useful for improving the UX for a user of a touch device
 
 
 +++++++ USAGE
-@include pointer-only() {
+@include touch-only() {
   background-color: pink;
 }
 ------- USAGE
 
 */
 
-@mixin pointer-only {
+@mixin touch-only {
   @media (pointer: coarse) {
+    @content;
+  }
+}
+
+@mixin pointer-only {
+  @media (pointer: fine) {
+    @content;
+  }
+}
+
+@mixin touch-and-pointer {
+  @media(hover: hover) and (pointer: fine) {
     @content;
   }
 }

@@ -51,13 +51,10 @@ export default {
       // initial fetch
       await this.fetchNamespaces(this.initialMeta + this.maxLimit);
     } else {
-      await this.$store.dispatch(
-        "updateNotice",
-        {
-          code: "valid",
-          message: `Gathering <em>all</em> locally stored Namespaces`
-        }
-      );
+      await this.$store.dispatch("updateNotice", {
+        code: "valid",
+        message: `Gathering <em>all</em> locally stored Namespaces`
+      });
       await this.$store.dispatch("namespace/getLocalNS");
       console.warn("fetching local NS on mount");
     }
@@ -72,50 +69,38 @@ export default {
   },
   methods: {
     async fetchNamespaces(queryString) {
-      this.$store.dispatch(
-        "updateNotice",
-        {
-          code: "neutral",
-          message: `Gathering <em>all</em> the namespaces`
-        }
-      );
+      this.$store.dispatch("updateNotice", {
+        code: "neutral",
+        message: `Gathering <em>all</em> the namespaces`
+      });
       await this.$store.dispatch("namespace/getNS", queryString);
     },
     async updateNamespaces() {
       if (this.updatedSearchString.length === 0) {
         // return ALL NS as result of SEARCH being cleared
         const fetchAllQuery = this.initialMeta + this.maxLimit;
-        await this.$store.dispatch(
-          "updateNotice",
-          {
-            code: "valid",
-            message: `Gathering <strong id='msgStrong'>all of the available</strong> Namespaces through the API`
-          }
-        );
+        await this.$store.dispatch("updateNotice", {
+          code: "valid",
+          message: `Gathering <strong id='msgStrong'>all of the available</strong> Namespaces through the API`
+        });
         await this.$store.dispatch("namespace/getNS", fetchAllQuery);
       } else if (this.createdNamespace !== "") {
-        await this.$store.dispatch(
-          "updateNotice",
-          {
-            code: "valid",
-            message: `Creating the <strong id='msgStrong'>${this.createdNamespace}</strong> Namespace`
-          }
-        );
+        await this.$store.dispatch("updateNotice", {
+          code: "valid",
+          message: `Creating the <strong id='msgStrong'>${this.createdNamespace}</strong> Namespace`
+        });
       } else {
         // return FILTERED NS or CREATED NS as result
         // const fetchSearchedQuery =
         //   this.initialMeta + this.andFilter + this.updatedSearchString;
-        await this.$store.dispatch(
-          "updateNotice",
-          {
-            code: "valid",
-            message: `${
-              this.searchedContent.length > 0
-                ? `Filtering available Namespaces <em>locally</em> with <strong id='msgStrong'>${this.searchedContent}</strong>`
-                : `Gathering <em>all</em> locally stored Namespaces`
-            }`
-          }
-        );
+        await this.$store.dispatch("updateNotice", {
+          code: "valid",
+          message: `${
+            this.searchedContent.length > 0
+              ? `Filtering available Namespaces <em>locally</em> with <strong id='msgStrong'>${this.searchedContent}</strong>`
+              : `Gathering <em>all</em> locally stored Namespaces`
+          }`
+        });
         await this.$store.dispatch("namespace/getLocalNS");
       }
     },

@@ -55,7 +55,7 @@
         class="item"
         v-for="(item, index) in currentEvents"
         :key="index"
-				:ref="index"
+        :ref="index"
         @click="handleClick(item, index)"
         @keyup.enter="handleClick(item, index)"
       >
@@ -125,11 +125,10 @@ export default {
       this.fetchName(this.groupEvents);
     } else {
       console.warn("fetching local data");
-		}
+    }
+  },
+  updated() {
     this.highlighted();
-	},
-	updated() {
-      this.highlighted();
   },
   methods: {
     async fetchName(queryString) {
@@ -139,29 +138,22 @@ export default {
       this.fetchName(groupEvents);
     },
     async handleClick(item, index) {
-      await this.$store.dispatch(
-        "updateNotice",
-        {
-          code: "valid",
-          message: `Analysing the selected event details`
-        }
-      );
+      await this.$store.dispatch("updateNotice", {
+        code: "valid",
+        message: `Analysing the selected event details`
+      });
       await this.$store.dispatch("details/pushEventDetails", { item, index });
       this.$store.dispatch("events/selectE", index);
       this.$router.push("/dashboard/details/");
-		},
-		highlighted: function() {
-			console.log(":test");
-			
-      if (this.currentEvents !== null && this.selectedEvent !== "") {
-        // get the value of...
-        const highlightedE = this.currentEvents.indexOf(
-          // selected namespace
-          // previously captured in vuex, now has value
-          this.selectedEvent
-        );
+    },
+    highlighted: function() {
+      if (
+        this.currentEvents !== null &&
+        this.selectedEvent !== "" &&
+        this.selectedEvent <= this.currentEvents.length
+      ) {
         // use value to drill into div.items array and get
-        const element = this.$refs[highlightedE][0];
+        const element = this.$refs[this.selectedEvent][0];
         // add a class to the node
         element.classList.add("highlighted");
         this.$nextTick(function() {
@@ -171,11 +163,9 @@ export default {
             // inline: "center"
           });
         });
-      } else {
-        return;
       }
     }
-	},
+  },
   computed: {
     ...mapGetters({
       selectedNamespace: "namespace/selectedNamespace",
@@ -441,9 +431,9 @@ export default {
         height: 100%;
       }
     }
-	}
-	&.highlighted {
+    &.highlighted {
       @include highlighted;
     }
+  }
 }
 </style>

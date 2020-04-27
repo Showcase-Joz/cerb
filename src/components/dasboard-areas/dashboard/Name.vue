@@ -46,13 +46,10 @@ export default {
       // initial fetch
       await this.fetchName(this.groupNames);
     } else {
-      await this.$store.dispatch(
-        "updateNotice",
-        {
-          code: "valid",
-          message: `Gathering <em>all</em> locally stored Names`
-        }
-      );
+      await this.$store.dispatch("updateNotice", {
+        code: "valid",
+        message: `Gathering <em>all</em> locally stored Names`
+      });
       await this.$store.dispatch("name/getLocalN");
       console.warn("fetching local N on mount");
     }
@@ -71,13 +68,10 @@ export default {
     ) {
       console.log("ran");
 
-      await this.$store.dispatch(
-        "updateNotice",
-        {
-          code: "valid",
-          message: `Creating the <strong id='msgStrong'>${this.createdName}</strong> Name inside the ${this.selectedNamespace} Namespace`
-        }
-      );
+      await this.$store.dispatch("updateNotice", {
+        code: "valid",
+        message: `Creating the <strong id='msgStrong'>${this.createdName}</strong> Name inside the ${this.selectedNamespace} Namespace`
+      });
     }
   },
   methods: {
@@ -98,28 +92,22 @@ export default {
         // return ALL N as result of SEARCH being cleared
         const fetchAllQuery =
           this.initialMeta + this.selectedNamespace + "/names";
-        await this.$store.dispatch(
-          "updateNotice",
-          {
-            code: "valid",
-            message: `Gathering <strong id='msgStrong'>all of the available</strong> Names through the API`
-          }
-        );
+        await this.$store.dispatch("updateNotice", {
+          code: "valid",
+          message: `Gathering <strong id='msgStrong'>all of the available</strong> Names through the API`
+        });
         await this.$store.dispatch("name/getN", fetchAllQuery);
       } else {
         // return FILTERED NS or CREATED N as result
 
-        await this.$store.dispatch(
-          "updateNotice",
-          {
-            code: "valid",
-            message: `${
-              this.searchedContent.length > 0
-                ? `Filtering available Names <em>locally</em> with <strong id='msgStrong'>${this.searchedContent}</strong>`
-                : `Gathering <em>all</em> locally stored Names`
-            }`
-          }
-        );
+        await this.$store.dispatch("updateNotice", {
+          code: "valid",
+          message: `${
+            this.searchedContent.length > 0
+              ? `Filtering available Names <em>locally</em> with <strong id='msgStrong'>${this.searchedContent}</strong>`
+              : `Gathering <em>all</em> locally stored Names`
+          }`
+        });
         await this.$store.dispatch("name/getLocalN");
       }
     },
