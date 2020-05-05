@@ -1,13 +1,10 @@
 <template>
   <div class="dashboard-nav-main">
     <div class="dash-nav-item">
-      <router-link
-        to="/dashboard/"
-        tag="button"
-        class="btn"
-        exact
-        @click.native="clearSearch()"
-      >Namespaces</router-link>
+      <router-link to="/dashboard/" tag="button" class="btn" exact @click.native="clearSearch()">
+        Namespaces
+        <ItemCount :counts="countsNS" />
+      </router-link>
     </div>
     <div class="dash-nav-item">
       <router-link
@@ -16,7 +13,10 @@
         tag="button"
         class="btn"
         @click.native="clearSearch()"
-      >Names</router-link>
+      >
+        Names
+        <ItemCount :counts="countsN" />
+      </router-link>
     </div>
     <div class="dash-nav-item">
       <router-link
@@ -25,7 +25,10 @@
         tag="button"
         class="btn"
         @click.native="clearSearch()"
-      >Events</router-link>
+      >
+        Events
+        <ItemCount :counts="countsE" />
+      </router-link>
     </div>
     <div class="dash-nav-item">
       <router-link
@@ -43,6 +46,7 @@
   </div>
 </template>
 <script>
+import ItemCount from "../helpers/ItemCount";
 import { mapGetters } from "vuex";
 export default {
 	name: "dashboard-nav-main",
@@ -50,6 +54,9 @@ export default {
 		return {
 			activeNav: null
 		};
+	},
+	components: {
+		ItemCount
 	},
 	methods: {
 		// activeLink: function(event) {
@@ -66,8 +73,18 @@ export default {
 		...mapGetters({
 			selectedNamespace: "namespace/selectedNamespace",
 			selectedName: "name/selectedName",
-			selectedEvent: "events/selectedEvent"
+			selectedEvent: "events/selectedEvent",
+			countsNS: "namespace/counts",
+			countsN: "name/counts",
+			currentEvents: "events/currentEvents",
+			totatEvents: "events/totalEvents"
 		}),
+		countsE() {
+			return {
+				totalCount: this.totatEvents,
+				count: this.currentEvents === null ? "0" : this.currentEvents.length
+			};
+		},
 		disabledNames() {
 			return this.selectedNamespace === "" ? true : false;
 		},
@@ -110,14 +127,22 @@ export default {
 			display: none;
 
 			@include pointer-only() {
+				@include for-size(tablet-landscape-up) {
+					display: grid;
+				}
+			}
+
+			@include touch-only() {
 				@include for-size(tablet-portrait-up) {
 					display: grid;
 				}
 			}
-			@include touch-and-pointer () {
+
+			@include touch-and-pointer() {
+				@include for-size(tablet-portrait-up) {
 					display: grid;
-      }
-      
+				}
+			}
 		}
 
 		@include for-size(tablet-portrait-up) {

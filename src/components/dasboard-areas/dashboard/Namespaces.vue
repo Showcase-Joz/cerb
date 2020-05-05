@@ -49,7 +49,8 @@ export default {
   async beforeMount() {
     if (this.selectedNamespace === "" && this.currentNamespaces === null) {
       // initial fetch
-      await this.fetchNamespaces(this.initialMeta + this.maxLimit);
+      // await this.fetchNamespaces(this.initialMeta + this.maxLimit);
+      await this.fetchNamespaces(this.initialMeta);
     } else {
       await this.$store.dispatch("updateNotice", {
         code: "valid",

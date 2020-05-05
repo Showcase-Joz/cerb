@@ -53,6 +53,7 @@ export const mutations = {
 
 export const actions = {
   async getEvents({ commit, dispatch }, payload) {
+    console.log(payload);
     await dispatch("updateLoading", true, { root: true });
     await dispatch(
       "updateNotice",

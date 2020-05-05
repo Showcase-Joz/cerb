@@ -330,7 +330,7 @@ export default {
           }
         }
 
-        @include for-size(phone-up) {
+        @include for-size(phone) {
           flex-flow: wrap;
           justify-content: center;
           min-height: 140px;

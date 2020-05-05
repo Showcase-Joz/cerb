@@ -1,6 +1,12 @@
 /* breakpoint mixin. sets the default breakpoints for the app
 
 +++++++ USAGE
+    -- phone-small
+    -- phone
+    -- tablet-portrait-up
+    -- tablet-landscape-up
+    -- desktop-up
+    -- desktop-big-up
 
     @include for-size(desktop-up) {
       property: value;
@@ -21,7 +27,7 @@
     }
   }
 
-  @else if $range==phone-up {
+  @else if $range==phone {
     @media (max-width: #{$phone-upper-boundary - 1}) {
       @content;
     }
@@ -45,7 +51,7 @@
     }
   }
 
-  @else if $range==big-desktop-up {
+  @else if $range==desktop-big-up {
     @media (min-width: $desktop-upper-boundary) {
       @content;
     }

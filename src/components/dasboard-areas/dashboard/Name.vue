@@ -66,8 +66,6 @@ export default {
       this.searchedContent !== "" &&
       this.searchedContent === this.createdName
     ) {
-      console.log("ran");
-
       await this.$store.dispatch("updateNotice", {
         code: "valid",
         message: `Creating the <strong id='msgStrong'>${this.createdName}</strong> Name inside the ${this.selectedNamespace} Namespace`

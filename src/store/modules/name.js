@@ -50,6 +50,8 @@ export const mutations = {
 
 export const actions = {
   async getN({ commit, dispatch }, payload) {
+    console.log(payload);
+    
     await dispatch("updateLoading", true, { root: true });
     await api.get(payload).then(response => {
       if (response.status === 200) {
