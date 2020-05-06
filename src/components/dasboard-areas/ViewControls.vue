@@ -1,15 +1,20 @@
 <template>
   <div class="view-controls" title="WIP - sort/filter types">
-    <div class="vc-item">filter text</div>
-    <div class="vc-item">desc/asc sort</div>
-    <div class="vc-item">type only</div>
-    <div class="vc-item">between dates</div>
+    <div class="vc-item" id="filterText" @click="restrictData($event)">filter text</div>
+    <div class="vc-item" id="ascDesc" @click="restrictData($event)">desc/asc sort</div>
+    <div class="vc-item" id="type" @click="restrictData($event)">type only</div>
+    <div class="vc-item" id="dateRange" @click="restrictData($event)">between dates</div>
   </div>
 </template>
 
 <script>
 export default {
-  name: "View-Controls"
+  name: "View-Controls",
+  methods: {
+    restrictData: function(event) {
+      this.$emit("switchRestrict", event.target.id);
+    }
+  }
 };
 </script>
 

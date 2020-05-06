@@ -1,23 +1,42 @@
 <template>
   <div class="dashboard">
     <MainDashNav />
-    <SearchInput />
-    <ViewControls />
+    <AscDescInput v-if="this.switchValue === 'ascDesc'" />
+    <DateRangeInput v-if="this.switchValue === 'dateRange'" />
+    <SearchInput v-if="this.switchValue === 'filterText'" />
+    <TypeInput v-if="this.switchValue === 'type'" />
+    <ViewControls v-on:switchRestrict="switchType" />
     <DashboardWrapper />
   </div>
 </template>
 <script>
 import MainDashNav from "../components/navigation/MainDashboard";
+import AscDescInput from "../components/dasboard-areas/AscDescInput";
+import DateRangeInput from "../components/dasboard-areas/DateRangeInput";
 import SearchInput from "../components/dasboard-areas/SearchInput";
+import TypeInput from "../components/dasboard-areas/TypeInput";
 import ViewControls from "../components/dasboard-areas/ViewControls";
 import DashboardWrapper from "../components/dasboard-areas/DashboardWrapper";
 export default {
   name: "dashboard",
+  data() {
+    return {
+      switchValue: "filterText"
+    }
+  },
   components: {
     MainDashNav,
+    AscDescInput,
+    DateRangeInput,
     SearchInput,
+    TypeInput,
     ViewControls,
     DashboardWrapper
+  },
+  methods: {
+    switchType: function(type) {
+      this.switchValue = type;
+    }
   }
 };
 </script>
@@ -28,7 +47,7 @@ export default {
   grid-template-areas:
     "dashboard-nav-main"
     "view-controls"
-    "search-input"
+    "switch-input"
     "dashboard-wrapper";
   grid-template-columns: 1fr;
   height: calc(100vh - 120px);
@@ -37,7 +56,7 @@ export default {
   @include for-size(tablet-portrait-up) {
     align-content: center;
     grid-template-areas:
-      "dashboard-nav-main search-input view-controls"
+      "dashboard-nav-main switch-input view-controls"
       "dashboard-nav-main dashboard-wrapper dashboard-wrapper";
     grid-template-columns: minmax(auto, 100px) 1fr;
     grid-auto-rows: max-content 1fr;

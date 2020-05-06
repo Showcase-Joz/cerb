@@ -22,9 +22,7 @@
           <details class="update">
             <summary>24/04/20</summary>
             <ol>
-              <li>
-                added UX for response 200 on NS/N create - "data already exists"
-              </li>
+              <li>added UX for response 200 on NS/N create - "data already exists"</li>
               <li>
                 fixed a failed api call (bug) when returning to a previous (not
                 last local) name.
@@ -67,7 +65,7 @@
               </li>
               <li>debugged the post types error msg, no longer on show 24/7</li>
               <li>improved the post submit styling</li>
-              <li>added loading spinner to post sumbit</li>
+              <li>added loading spinner to post submit</li>
               <li>improved the UX on a post's sequence of actions</li>
               <li>
                 added color styles to the noticeMessage {neutral (automatic
@@ -79,6 +77,7 @@
                 action
               </li>
               <li>updated some base states to reflect above item's defaults</li>
+              <li>added view scrollbars to about, in order to view off the page content</li>
             </ol>
             <hr />
             <ol>
@@ -157,65 +156,69 @@
 
 <script>
 export default {
-  name: "About",
-  mounted() {
-    setTimeout(() => {
-      const active = document.querySelector("details");
-      active.setAttribute("open", "");
-    }, 2500);
-  }
+	name: "About",
+	mounted() {
+		setTimeout(() => {
+			const active = document.querySelector("details");
+			active.setAttribute("open", "");
+		}, 2500);
+	}
 };
 </script>
 
 <style lang="scss" scoped>
+.about.page {
+	height: 100%;
+	overflow-y: overlay;
+}
 .log-wrapper {
-  display: grid;
-  grid-template-columns: 0.8fr;
-  justify-content: center;
-  padding-top: 5rem;
+	display: grid;
+	grid-template-columns: 0.8fr;
+	justify-content: center;
+	padding-top: 5rem;
 
-  & ul {
-    list-style-type: none;
-    & > li {
-      border-bottom: $color2 dashed 1px;
-      border-bottom-left-radius: 15px;
-      border-top-left-radius: 20px;
-      border-left: $color1 solid 3px;
-      margin-bottom: $spacingDefault;
-      padding: $spacingDefault calc(#{$spacingDefault} / 2);
-      text-align: start;
-      width: 100%;
-    }
-  }
+	& ul {
+		list-style-type: none;
+		& > li {
+			border-bottom: $color2 dashed 1px;
+			border-bottom-left-radius: 15px;
+			border-top-left-radius: 20px;
+			border-left: $color1 solid 3px;
+			margin-bottom: $spacingDefault;
+			padding: $spacingDefault calc(#{$spacingDefault} / 2);
+			text-align: start;
+			width: 100%;
+		}
+	}
 
-  details {
-    cursor: pointer;
+	details {
+		cursor: pointer;
 
-    &[open] summary {
-      border-bottom: $color1 dashed 2px;
-    }
+		&[open] summary {
+			border-bottom: $color1 dashed 2px;
+		}
 
-    &:not([open]) {
-      opacity: 0.3;
-    }
+		&:not([open]) {
+			opacity: 0.3;
+		}
 
-    summary {
-      border-bottom: 1px solid $unknown;
-      width: max-content;
-    }
-    & ol {
-      counter-reset: update;
-      list-style-type: none;
+		summary {
+			border-bottom: 1px solid $unknown;
+			width: max-content;
+		}
+		& ol {
+			counter-reset: update;
+			list-style-type: none;
 
-      & li {
-        margin-left: $spacingDefault;
+			& li {
+				margin-left: $spacingDefault;
 
-        &::before {
-          counter-increment: update;
-          content: counter(update) ").";
-        }
-      }
-    }
-  }
+				&::before {
+					counter-increment: update;
+					content: counter(update) ").";
+				}
+			}
+		}
+	}
 }
 </style>

@@ -22,7 +22,7 @@ export default {
 <style lang="scss" scoped>
 .count {
 	bottom: 1px;
-	color: tint($color1, $tint15);
+	color: shade($color1, $tint25);
 	font-size: xx-small;
   left: 2px;
 	position: absolute;
