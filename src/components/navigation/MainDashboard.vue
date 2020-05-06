@@ -3,7 +3,7 @@
     <div class="dash-nav-item">
       <router-link to="/dashboard/" tag="button" class="btn" exact @click.native="clearSearch()">
         Namespaces
-        <ItemCount :counts="countsNS" />
+        <ItemCount ref="1" :counts="countsNS" />
       </router-link>
     </div>
     <div class="dash-nav-item">
@@ -15,7 +15,7 @@
         @click.native="clearSearch()"
       >
         Names
-        <ItemCount :counts="countsN" />
+        <ItemCount ref="2" :counts="countsN" />
       </router-link>
     </div>
     <div class="dash-nav-item">
@@ -27,7 +27,7 @@
         @click.native="clearSearch()"
       >
         Events
-        <ItemCount :counts="countsE" />
+        <ItemCount ref="3" :counts="countsE" />
       </router-link>
     </div>
     <div class="dash-nav-item">

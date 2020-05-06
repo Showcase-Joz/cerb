@@ -7,6 +7,19 @@
       <ul>
         <li>
           <details class="update">
+            <summary>07/05/20</summary>
+            <ol>
+              <li>added total/count component to main nav elements which gives user an idea of the array lengths during each step of the process. also pre-requ for lazyload "more" items, again giving user feedback on current lengths.</li>
+              <li>added a details view (based on lorenzo request). This view is allowed when an event has true/true on haslargedetails/weredetailsfound and the view will display the content of a detail - WHEN I CAN WORKOUT WHAT A DETAIL "SHOULD" ACTUALLY LOOK LIKE.</li>
+              <li>refactored NS and N.vue methods to improve readability/usability (from dev prospective) and performance.</li>
+              <li>added UX spinners to the create card and delete modal's</li>
+              <li>refactored the highlighter (green ring around active/previously active card) which got rid of a few bugs and made it easier to add to future components too.</li>
+              <li>added another "settings" button, based on certain viewports only</li>
+            </ol>
+          </details>
+        </li>
+        <li>
+          <details class="update">
             <summary>24/04/20</summary>
             <ol>
               <li>
