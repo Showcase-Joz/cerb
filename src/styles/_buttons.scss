@@ -7,9 +7,13 @@
   color: tint($color2, $tint100);
   cursor: pointer;
   font-family: $primary-font-family;
-  font-size: $font-normal;
+  font-size: x-small;
   position: relative;
   text-align: center;
+
+  @include for-size(tablet-portrait-up) {
+    font-size: $font-normal;
+  }
 
   &::before,
   &::after {
@@ -47,9 +51,13 @@
 }
 
 @mixin disabled {
-  color: shade($color2, $shade25);
   cursor: not-allowed;
-  opacity: 0.5;
+  text-decoration: line-through;
+  opacity: 0.8;
+
+  &:hover {
+    font-weight: unset;
+  }
 }
 
 @mixin matchedData {
@@ -211,5 +219,113 @@
   & button.data-matched::before,
   & button.data-matched::after {
     @include matchedData;
+  }
+}
+
+/* multi-use button:
+.
+.btn-general - a GENERAL btn that's grey in color
+.btn-general-info - a GENERAL btn that's neutral in color
+.btn-error - a red action btn
+.btn-toggle-warning - a two state btn in orange
+*/
+
+@mixin general {
+  border: none;
+  border-radius: 5px;
+  color: tint($color2, $tint100);
+  cursor: pointer;
+  height: 35px;
+  letter-spacing: 1px;
+  min-width: 40px;
+  padding: 0 1rem;
+  text-transform: uppercase;
+
+  // unknown color
+  background-color: $unknown;
+
+  &:hover,
+  &:focus {
+    background-color: shade($unknown, $shade10);
+    font-weight: 500;
+    letter-spacing: calc(#{$letter-spacing} /2.5);
+  }
+
+  &:disabled {
+    @include disabled;
+    color: shade(set-text-color($unknown), $shade50);
+    background-color: shade($unknown, $shade25);
+  }
+
+  // green color
+  &[class$="-debug"] {
+    background-color: $valid;
+
+    &:hover,
+    &:focus {
+      background-color: shade($valid, $shade10);
+      font-weight: 500;
+      letter-spacing: calc(#{$letter-spacing} /2.5);
+    }
+
+    &:disabled {
+      @include disabled;
+      color: shade(set-text-color($valid), $shade50);
+      background-color: shade($valid, $shade25);
+    }
+  }
+
+  // neutral color
+  &[class$="-info"] {
+    background-color: $neutral;
+
+    &:hover,
+    &:focus {
+      background-color: shade($neutral, $shade10);
+      font-weight: 500;
+      letter-spacing: calc(#{$letter-spacing} /2.5);
+    }
+
+    &:disabled {
+      @include disabled;
+      color: shade(set-text-color($neutral), $shade50);
+      background-color: shade($neutral, $shade25);
+    }
+  }
+
+  // orange color
+  &[class$="-warning"] {
+    background-color: $warning;
+
+    &:hover,
+    &:focus {
+      background-color: shade($warning, $shade10);
+      font-weight: 500;
+      letter-spacing: calc(#{$letter-spacing} /2.5);
+    }
+
+    &:disabled {
+      @include disabled;
+      color: shade(set-text-color($warning), $shade50);
+      background-color: shade($warning, $shade25);
+    }
+  }
+
+  // red color
+  &[class$="-error"] {
+    background-color: $invalid;
+
+    &:hover,
+    &:focus {
+      background-color: shade($invalid, $shade10);
+      font-weight: 500;
+      letter-spacing: calc(#{$letter-spacing} /2.5);
+    }
+
+    &:disabled {
+      @include disabled;
+      color: shade(set-text-color($invalid), $shade50);
+      background-color: shade($invalid, $shade25);
+    }
   }
 }

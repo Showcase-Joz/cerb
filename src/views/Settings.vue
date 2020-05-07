@@ -3,9 +3,7 @@
     SETTINGS
 
     <div class="dash-nav-item">
-      <router-link to="/" tag="button" class="btn"
-        >Home</router-link
-      >
+      <router-link to="/" tag="button" class="btn">Home</router-link>
     </div>
   </div>
 </template>

@@ -24,27 +24,27 @@ export default {
   display: flex;
   align-items: center;
   min-width: 50px;
-	justify-content: center;
+  justify-content: center;
 
   @include pointer-only() {
     @include for-size(tablet-portrait-up) {
       display: none;
-		}
-		// @include for-size(desktop-up) {
+    }
+    // @include for-size(desktop-up) {
     //   display: flex;
     // }
-	}
+  }
 
-	@include touch-only() {
+  @include touch-only() {
     @include for-size(tablet-portrait-up) {
       display: flex;
-		}
-		@include for-size(tablet-landscape-up) {
+    }
+    @include for-size(tablet-landscape-up) {
       display: none;
-		}
-	}
-	
-	@include touch-and-pointer() {
+    }
+  }
+
+  @include touch-and-pointer() {
     @include for-size(phone-small) {
       display: flex;
     }

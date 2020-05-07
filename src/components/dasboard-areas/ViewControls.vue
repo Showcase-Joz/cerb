@@ -1,9 +1,15 @@
 <template>
   <div class="view-controls" title="WIP - sort/filter types">
-    <div class="vc-item" id="filterText" @click="restrictData($event)">filter text</div>
-    <div class="vc-item" id="ascDesc" @click="restrictData($event)">desc/asc sort</div>
+    <div class="vc-item" id="filterText" @click="restrictData($event)">
+      filter text
+    </div>
+    <div class="vc-item" id="ascDesc" @click="restrictData($event)">
+      desc/asc sort
+    </div>
     <div class="vc-item" id="type" @click="restrictData($event)">type only</div>
-    <div class="vc-item" id="dateRange" @click="restrictData($event)">between dates</div>
+    <div class="vc-item" id="dateRange" @click="restrictData($event)">
+      between dates
+    </div>
   </div>
 </template>
 
@@ -31,6 +37,7 @@ export default {
   grid-template-columns: repeat(auto-fit, minmax(50px, 1fr));
   height: 62px;
   line-height: 1;
+  z-index: 100;
 
   @include for-size(tablet-portrait-up) {
     background-color: tint($color2, $tint100);
