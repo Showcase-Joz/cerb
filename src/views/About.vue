@@ -9,6 +9,10 @@
           <details class="update">
             <summary>07/05/20</summary>
             <ol>
+              <li>added transitions to filter/sort group</li>
+              <li>added type only action buttons - code to follow</li>
+              <li>created the three (additional) components needed for sort/filter, and added filterText to group</li>
+              <li>created a set of UI buttons with various flavours and uses</li>
               <li>
                 added total/count component to main nav elements which gives
                 user an idea of the array lengths during each step of the
