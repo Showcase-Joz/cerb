@@ -6,7 +6,7 @@
 
 <script>
 export default {
-	name: "ascDesc-input"
+  name: "ascDesc-input"
 };
 </script>
 
@@ -14,10 +14,10 @@ export default {
 <style lang="scss" src="@/styles/animation/_slide-right.scss" scoped></style>
 <style lang="scss" scoped>
 .form-wrapper.switch-input {
-	// border: 1px $color2 solid;
-	background-color: tint($color2, $tint100);
-	grid-area: switch-input;
-	max-height: 62px;
-	padding: $spacingDefault;
+  // border: 1px $color2 solid;
+  background-color: tint($color2, $tint100);
+  grid-area: switch-input;
+  max-height: 62px;
+  padding: $spacingDefault;
 }
 </style>

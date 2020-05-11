@@ -2,7 +2,8 @@
   <div id="logout">
     <p v-if="this.authUser">
       Would you like to
-      <button @click="signOut">Sign Out</button>?
+      <button class="btn-sign-small-invalid" @click="signOut">Sign Out</button
+      >&nbsp;?
     </p>
     <div v-if="!this.authUser">
       <strong>You are already logged out</strong>.
@@ -33,3 +34,8 @@ export default {
 };
 </script>
 <style lang="scss" src="@/styles/_authorisation.scss"></style>
+<style lang="scss" scoped>
+.btn-sign {
+  @include small;
+}
+</style>

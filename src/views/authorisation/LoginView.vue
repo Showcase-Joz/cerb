@@ -2,7 +2,6 @@
   <div class="login page">
     <Login />
 
-    <br />
     <router-link active-class="btn-link" to="/register"
       >Register as new User</router-link
     >

@@ -47,6 +47,7 @@ $status-size: 5px;
 
 // fonts and text
 $primary-font-family: "Avenir", Helvetica, Arial, sans-serif;
+$font-small: 0.7rem;
 $font-normal: 1rem;
 $font-size-xl: 1.2rem;
 $letter-spacing: calc(#{$font-normal} /8);
@@ -56,6 +57,8 @@ $heavy: 500;
 
 // base-set text/content
 $strDefPattern: "a-z 0-9 .";
+$emailDefPattern: "[3]@[2].[2]";
+$pasDefPattern: "[A-Z],[a-z],[0-9],\00000a[!@#$&*],{8}";
 $timestampDefPattern: "0-9";
 $textDefPattern: "you can use all characters";
 

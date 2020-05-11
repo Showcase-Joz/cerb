@@ -11,6 +11,10 @@
   position: relative;
   text-align: center;
 
+  &[class*="-small"] {
+    @include small;
+  }
+
   @include for-size(tablet-portrait-up) {
     font-size: $font-normal;
   }
@@ -19,6 +23,11 @@
   &::after {
     border-radius: $borderRadius;
   }
+}
+
+@mixin small {
+  font-size: $font-small;
+  max-height: 30px;
 }
 
 // group before properties
@@ -231,8 +240,9 @@
 */
 
 @mixin general {
+  @include btn;
   border: none;
-  border-radius: 5px;
+  border-radius: $borderRadius;
   color: tint($color2, $tint100);
   cursor: pointer;
   height: 35px;
@@ -258,7 +268,8 @@
   }
 
   // green color
-  &[class$="-debug"] {
+  &[class$="-debug"],
+  &[class$="-valid"] {
     background-color: $valid;
 
     &:hover,
@@ -276,7 +287,8 @@
   }
 
   // neutral color
-  &[class$="-info"] {
+  &[class$="-info"],
+  &[class$="-neutral"] {
     background-color: $neutral;
 
     &:hover,
@@ -312,7 +324,8 @@
   }
 
   // red color
-  &[class$="-error"] {
+  &[class$="-error"],
+  &[class$="-invalid"] {
     background-color: $invalid;
 
     &:hover,
@@ -329,3 +342,4 @@
     }
   }
 }
+

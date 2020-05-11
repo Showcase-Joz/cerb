@@ -1,9 +1,36 @@
+// include partials
+@import "../styles/form";
+
 #login,
 #logout,
 #register,
 #register-confirm {
+  h4 {
+    text-decoration: underline;
+  }
+
   form {
+    margin: auto;
     margin-bottom: 10px;
+    max-width: 280px;
+
+    .form-group {
+      width: 100%;
+
+      input[type="button"] {
+        @include general;
+        padding: 0;
+        width: 100%;
+
+        &[class*="-small"] {
+          font-size: $font-normal;
+          max-height: 50px;
+          @include for-size(tablet-portrait-up) {
+            @include small;
+          }
+        }
+      }
+    }
 
     a {
       color: blue;
@@ -24,9 +51,15 @@
       width: max-content;
     }
   }
+}
 
-  button,
-  input[type="button"] {
-    cursor: pointer;
+a,
+a:visited {
+  color: $unknown;
+
+  &:hover,
+  &:focus {
+    color: shade($unknown, $shade10);
+    font-weight: 500;
   }
 }
