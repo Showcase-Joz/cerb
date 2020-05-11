@@ -7,6 +7,16 @@
       <ul>
         <li>
           <details class="update">
+            <summary>15/05/20</summary>
+            <ol>
+              <li>replaced all the Auth component styles to match the app</li>
+              <li>updated all of the Auth components with Vuelidate validations to match other form(s) functonality</li>
+              
+            </ol>
+          </details>
+        </li>
+        <li>
+          <details class="update">
             <summary>07/05/20</summary>
             <ol>
               <li>added transitions to filter/sort group</li>

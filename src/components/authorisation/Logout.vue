@@ -35,7 +35,16 @@ export default {
 </script>
 <style lang="scss" src="@/styles/_authorisation.scss"></style>
 <style lang="scss" scoped>
-.btn-sign {
-  @include small;
-}
+button {
+        @include general;
+
+        &[class*="-small"] {
+          font-size: $font-normal;
+          max-height: 50px;
+
+          @include for-size(tablet-portrait-up) {
+            @include small;
+          }
+        }
+      }
 </style>
