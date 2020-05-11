@@ -57,6 +57,7 @@ $heavy: 500;
 
 // base-set text/content
 $strDefPattern: "a-z 0-9 .";
+$codeDefPattern: "6 digits";
 $emailDefPattern: "[3]@[2].[2]";
 $pasDefPattern: "[A-Z],[a-z],[0-9],\00000a[!@#$&*],{8}";
 $timestampDefPattern: "0-9";

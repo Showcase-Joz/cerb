@@ -123,6 +123,12 @@
         content: $emailDefPattern;
       }
 
+      &.code:focus-within::after,
+      &.code.invalid::after,
+      &.code.valid::after {
+        content: $codeDefPattern;
+      }
+
       &.password:focus-within::after,
       &.password.invalid::after,
       &.password.valid::after {

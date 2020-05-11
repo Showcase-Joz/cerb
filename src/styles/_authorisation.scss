@@ -25,23 +25,11 @@
         &[class*="-small"] {
           font-size: $font-normal;
           max-height: 50px;
+
           @include for-size(tablet-portrait-up) {
             @include small;
           }
         }
-      }
-    }
-
-    a {
-      color: blue;
-      cursor: pointer;
-      font-size: x-small;
-      padding-top: 5px;
-      text-decoration: underline;
-      text-transform: uppercase;
-
-      &:hover {
-        color: initial;
       }
     }
 
@@ -54,8 +42,14 @@
 }
 
 a,
-a:visited {
+a:visited,
+.router-link-active a,
+.router-link-active a:visited {
   color: $unknown;
+  cursor: pointer;
+  font-size: smaller;
+  text-decoration: underline;
+  text-transform: uppercase;
 
   &:hover,
   &:focus {
