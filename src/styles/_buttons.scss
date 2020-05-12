@@ -15,6 +15,10 @@
     @include small;
   }
 
+  &[class*="-smaller-"] {
+    @include smaller;
+  }
+
   @include for-size(tablet-portrait-up) {
     font-size: $font-normal;
   }
@@ -28,6 +32,13 @@
 @mixin small {
   font-size: $font-small;
   max-height: 30px;
+}
+
+@mixin smaller {
+  font-size: xx-small;
+  max-height: 20px;
+  max-width: 100%;
+  padding: 0 0.5rem;
 }
 
 // group before properties
@@ -271,18 +282,29 @@
   &[class$="-debug"],
   &[class$="-valid"] {
     background-color: $valid;
+    transition: all ease-in .5s;
 
     &:hover,
     &:focus {
       background-color: shade($valid, $shade10);
       font-weight: 500;
       letter-spacing: calc(#{$letter-spacing} /2.5);
+      transition: all ease-in .5s;
     }
 
     &:disabled {
       @include disabled;
-      color: shade(set-text-color($valid), $shade50);
+      color: tint(set-text-color($valid), $tint100);
       background-color: shade($valid, $shade25);
+      transition: all ease-in .5s;
+    }
+  }
+
+  &[class*="-auth"] {
+    &:disabled {
+      @include disabled;
+      background-color: $unknown;
+      transition: all ease-in .5s;
     }
   }
 

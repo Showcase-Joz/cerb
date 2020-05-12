@@ -1,6 +1,7 @@
 <template>
   <div class="logout page">
-    <h3>LogoutView</h3>
+    <br>
+    <h4>Sign Out</h4>
     <br />
     <p><strong>You are currently logged in!</strong></p>
     <Logout />
@@ -16,3 +17,9 @@ export default {
   }
 };
 </script>
+<style lang="scss" scoped>
+h4 {
+  color: $valid;
+  text-decoration: underline;
+}
+</style>

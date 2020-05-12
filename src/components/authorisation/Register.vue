@@ -11,7 +11,7 @@
             class="input-with-label email"
             :class="{
               invalid: $v.registerEmail.$error && $v.registerEmail.$dirty,
-              valid: !$v.registerEmail.$error && $v.registerEmail.$dirty
+              valid: !$v.registerEmail.$error && $v.registerEmail.$dirty || !$v.registerEmail.$invalid
             }"
           >
             <label
@@ -19,8 +19,7 @@
               :class="{
                 hasValue: $v.registerEmail.hasValueLength
               }"
-              >Email</label
-            >
+            >Email</label>
             <input
               v-model="registerEmail"
               type="email"
@@ -39,19 +38,18 @@
             {{ $v.registerEmail.$params.maxLength.max }}
             characters long.
           </span>
-          <span class="form-field-msg" v-if="!$v.registerEmail.email"
-            >{{
-              !$v.registerEmail.minLength || !$v.registerEmail.maxLength
-                ? "and"
-                : "Your"
+          <span class="form-field-msg" v-if="!$v.registerEmail.email">
+            {{
+            !$v.registerEmail.minLength || !$v.registerEmail.maxLength
+            ? "and"
+            : "Your"
             }}
-            email address looks malformed!</span
-          >
+            email address looks malformed!
+          </span>
           <span
             class="form-field-msg"
             v-if="!$v.registerEmail.required && $v.registerEmail.$dirty"
-            >Your email shouldn't be empty!</span
-          >
+          >Your email shouldn't be empty!</span>
         </div>
 
         <div class="form-group">
@@ -59,7 +57,7 @@
             class="input-with-label password"
             :class="{
               invalid: $v.registerPassword.$error && $v.registerPassword.$dirty,
-              valid: !$v.registerPassword.$error && $v.registerPassword.$dirty
+              valid: !$v.registerPassword.$error && $v.registerPassword.$dirty || !$v.registerPassword.$invalid
             }"
           >
             <label
@@ -67,8 +65,7 @@
               :class="{
                 hasValue: $v.registerPassword.hasValueLength
               }"
-              >Password</label
-            >
+            >Password</label>
             <input
               v-model="registerPassword"
               type="password"
@@ -87,26 +84,25 @@
             {{ $v.registerPassword.$params.maxLength.max }}
             characters long.
           </span>
-          <span class="form-field-msg" v-if="!$v.registerPassword.pasDefPattern"
-            >{{
-              !$v.registerPassword.minLength || !$v.registerPassword.maxLength
-                ? "and"
-                : "Your"
+          <span class="form-field-msg" v-if="!$v.registerPassword.pasDefPattern">
+            {{
+            !$v.registerPassword.minLength || !$v.registerPassword.maxLength
+            ? "and"
+            : "Your"
             }}
-            password looks malformed!</span
-          >
+            password looks malformed!
+          </span>
           <span
             class="form-field-msg"
             v-if="!$v.registerPassword.required && $v.registerPassword.$dirty"
-            >Your password is empty, duh!</span
-          >
+          >Your password is empty, duh!</span>
         </div>
         <div class="form-group">
           <div
             class="input-with-label password"
             :class="{
-              invalid: !$v.registerPasswordConfirm.sameAsPassword,
-              valid: $v.registerPasswordConfirm.sameAsPassword
+              invalid: $v.registerPasswordConfirm.$error && $v.registerPasswordConfirm.$dirty,
+              valid: !$v.registerPasswordConfirm.$error && $v.registerPasswordConfirm.$dirty || !$v.registerPasswordConfirm.$invalid
             }"
           >
             <label
@@ -114,8 +110,7 @@
               :class="{
                 hasValue: $v.registerPasswordConfirm.hasValueLength
               }"
-              >Confirm Password</label
-            >
+            >Confirm Password</label>
             <input
               v-model="registerPasswordConfirm"
               type="password"
@@ -130,131 +125,126 @@
               !$v.registerPasswordConfirm.sameAsPassword &&
                 $v.registerPasswordConfirm.$dirty
             "
-            >Your passwords don't match</span
-          >
+          >Your passwords don't match</span>
         </div>
         <div class="form-group">
           <a @click="verifyCode">Already got a Code?</a>
         </div>
         <div class="form-group">
-          <input
-            class="btn-sign-small-valid"
-            type="button"
-            value="Register"
+          <button
+            class="btn-sign-small-auth-valid"
+            :disabled="
+          $v.registerEmail.$error && $v.registerEmail.$dirty ||
+            $v.registerPassword.$error && $v.registerPassword.$dirty ||
+            this.spinner
+        "
+            type="submit"
             @click="userRegister"
-          />
+          >
+            Register
+            <LoadingSpinner v-if="this.spinner" />
+          </button>
         </div>
       </form>
-      <ErrorOutput />
+      <transition appear name="fade-in">
+        <ErrorOutput />
+      </transition>
     </div>
-    <!-- loading (during async await) -->
-    <Loading v-if="loading" />
   </div>
 </template>
 
 <script>
 import {
-  email,
-  required,
-  minLength,
-  maxLength,
-  sameAs,
-  helpers
+	email,
+	required,
+	minLength,
+	maxLength,
+	sameAs,
+	helpers
 } from "vuelidate/lib/validators";
-import Loading from "../authorisation/helpers/Loading.vue";
+import LoadingSpinner from "../helpers/LoadingSpinner";
 import ErrorOutput from "../authorisation/helpers/ErrorOutput.vue";
+import { mapGetters } from "vuex";
 // used to prevent UI covering user input when field has been completed
 const hasValueLength = value => value.length >= 1;
 const pasDefPattern = helpers.regex(
-  "pasDefPattern",
-  /^(?=.*[A-Z])(?=.*[!@#$&*])(?=.*[0-9])(?=.*[a-z]).{8,200}$/
+	"pasDefPattern",
+	/^(?=.*[A-Z])(?=.*[!@#$&*])(?=.*[0-9])(?=.*[a-z]).{8,200}$/
 );
 export default {
-  name: "register",
-  components: {
-    Loading,
-    ErrorOutput
-  },
-  data() {
-    return {
-      registerEmail: "",
-      registerPassword: "",
-      registerPasswordConfirm: "",
-      hasFocus: false,
-      loading: false
-    };
-  },
-  validations: {
-    registerEmail: {
-      required,
-      minLength: minLength(3),
-      maxLength: maxLength(200),
-      hasValueLength,
-      email
-    },
-    registerPassword: {
-      required,
-      minLength: minLength(8),
-      maxLength: maxLength(200),
-      hasValueLength,
-      pasDefPattern
-    },
-    registerPasswordConfirm: {
-      required,
-      hasValueLength,
-      sameAsPassword: sameAs("registerPassword")
-    }
-  },
-  methods: {
-    // tried to sign a user up
-    async userRegister() {
-      // checks passwords match before calling Auth...
-      if (this.registerEmail === "") {
-        await this.$store.dispatch("authorisation/setError", {
-          code: "local resolve",
-          message: "Email cannot be empty"
-        });
-        return;
-      }
-      if (this.registerPassword !== this.registerPasswordConfirm) {
-        await this.$store.dispatch("authorisation/setError", {
-          code: "local resolve",
-          message: "Confirmation password must match"
-        });
-        return;
-      }
-      // set component elements ready for ux
-      this.loading = true;
-      // calls Vuex method [signup] with collected local details (email/pword)
-      await this.$store.dispatch("authorisation/register", {
-        email: this.registerEmail,
-        password: this.registerPassword
-      });
-      this.loading = false;
-      return false;
-    },
-    verifyCode: function() {
-      this.$store.dispatch("authorisation/updateConfirm", true);
-      this.$store.dispatch("authorisation/setError", null);
-    },
-    onFocus() {
-      this.hasFocus = true;
-    },
-    onBlur() {
-      this.hasFocus = false;
-    }
-  }
+	name: "register",
+	components: {
+		LoadingSpinner,
+		ErrorOutput
+	},
+	data() {
+		return {
+			registerEmail: "",
+			registerPassword: "",
+			registerPasswordConfirm: "",
+			hasFocus: false,
+		};
+	},
+	validations: {
+		registerEmail: {
+			required,
+			minLength: minLength(3),
+			maxLength: maxLength(200),
+			hasValueLength,
+			email
+		},
+		registerPassword: {
+			required,
+			minLength: minLength(8),
+			maxLength: maxLength(200),
+			hasValueLength,
+			pasDefPattern
+		},
+		registerPasswordConfirm: {
+			required,
+			hasValueLength,
+			sameAsPassword: sameAs("registerPassword")
+		}
+	},
+	methods: {
+		// tried to sign a user up
+		async userRegister() {
+			// set component elements ready for ux
+			// calls Vuex method [signup] with collected local details (email/pword)
+			await this.$store.dispatch("authorisation/register", {
+				email: this.registerEmail,
+				password: this.registerPassword
+			});
+			return false;
+		},
+		verifyCode: function() {
+			this.$store.dispatch("authorisation/updateConfirm", true);
+			this.$store.dispatch("authorisation/setError", null);
+		},
+		onFocus() {
+			this.hasFocus = true;
+		},
+		onBlur() {
+			this.hasFocus = false;
+		}
+	},
+	computed: {
+		...mapGetters({
+			spinner: "spinner"
+		})
+	}
 };
 </script>
 <style lang="scss" src="@/styles/_authorisation.scss"></style>
+<style lang="scss" src="@/styles/animation/_fade-in.scss" scoped></style>
 <style lang="scss" scoped>
 #register {
-  display: block;
+	display: block;
 
-  form {
-    .input-with-label {
-      min-height: 50px;
-    }
-  }
+	form {
+		.input-with-label {
+			min-height: 50px;
+		}
+	}
 }
 </style>

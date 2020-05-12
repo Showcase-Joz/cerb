@@ -17,7 +17,28 @@
     .form-group {
       width: 100%;
 
-      input[type="button"] {
+      & div > span > .noticeMsg {
+        transform: unset;
+        top: unset;
+      }
+
+      input[type="number"] {
+
+        /* Chrome, Safari, Edge, Opera */
+        &::-webkit-outer-spin-button,
+        &::-webkit-inner-spin-button {
+          -webkit-appearance: none;
+          margin: 0;
+        }
+
+        /* Firefox */
+        input[type=number] {
+          -moz-appearance: textfield;
+        }
+      }
+
+      input[type="button"],
+      button[type="submit"] {
         @include general;
         padding: 0;
         width: 100%;

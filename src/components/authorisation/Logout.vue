@@ -2,7 +2,7 @@
   <div id="logout">
     <p v-if="this.authUser">
       Would you like to
-      <button class="btn-sign-small-invalid" @click="signOut">Sign Out</button
+      <button class="btn-sign-smaller-invalid" @click="signOut">Sign Out</button
       >&nbsp;?
     </p>
     <div v-if="!this.authUser">
@@ -21,9 +21,7 @@ export default {
   name: "Logout",
   methods: {
     signOut: function() {
-      this.$store.dispatch("authorisation/logout").then(() => {
-        this.$router.push("/login");
-      });
+      this.$store.dispatch("authorisation/logout");
     }
   },
   computed: {
@@ -36,15 +34,15 @@ export default {
 <style lang="scss" src="@/styles/_authorisation.scss"></style>
 <style lang="scss" scoped>
 button {
-        @include general;
+  @include general;
 
-        &[class*="-small"] {
-          font-size: $font-normal;
-          max-height: 50px;
+  &[class*="-smaller"] {
+    font-size: $font-normal;
+    max-height: 50px;
 
-          @include for-size(tablet-portrait-up) {
-            @include small;
-          }
-        }
-      }
+    @include for-size(tablet-portrait-up) {
+      @include smaller;
+    }
+  }
+}
 </style>
