@@ -20,7 +20,7 @@
   }
 
   @include for-size(tablet-portrait-up) {
-    font-size: $font-normal;
+    font-size: $font-clamp1;
   }
 
   &::before,
@@ -264,6 +264,7 @@
 
   // unknown color
   background-color: $unknown;
+  color: set-text-color(shade($unknown, $shade25));
 
   &:hover,
   &:focus {
@@ -282,6 +283,7 @@
   &[class$="-debug"],
   &[class$="-valid"] {
     background-color: $valid;
+    color: set-text-color($valid);
     transition: all ease-in .5s;
 
     &:hover,
@@ -300,18 +302,11 @@
     }
   }
 
-  &[class*="-auth"] {
-    &:disabled {
-      @include disabled;
-      background-color: $unknown;
-      transition: all ease-in .5s;
-    }
-  }
-
   // neutral color
   &[class$="-info"],
   &[class$="-neutral"] {
     background-color: $neutral;
+    color: set-text-color($neutral);
 
     &:hover,
     &:focus {
@@ -330,6 +325,7 @@
   // orange color
   &[class$="-warning"] {
     background-color: $warning;
+    color: set-text-color($warning);
 
     &:hover,
     &:focus {
@@ -349,6 +345,7 @@
   &[class$="-error"],
   &[class$="-invalid"] {
     background-color: $invalid;
+    color: set-text-color($invalid);
 
     &:hover,
     &:focus {
@@ -361,6 +358,14 @@
       @include disabled;
       color: shade(set-text-color($invalid), $shade50);
       background-color: shade($invalid, $shade25);
+    }
+  }
+
+  &[class*="-auth"] {
+    &:disabled {
+      @include disabled;
+      background-color: $unknown;
+      transition: all ease-in .5s;
     }
   }
 }

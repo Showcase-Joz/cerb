@@ -45,7 +45,7 @@
         color: tint($color2, $tint50);
         left: 0;
         line-height: 2rem;
-        padding-left: 5px;
+        padding-right: 5px;
         position: absolute;
         top: auto;
         transition: font-size 500ms ease-out 300ms, transform 300ms ease-out;
@@ -72,7 +72,7 @@
         bottom: 0;
         font-size: inherit;
         left: 0;
-        padding-left: 5px;
+        padding-right: calc((#{$spacingLarge} / 2) * 1.5);
         top: 0;
         width: 100%;
         z-index: 1;

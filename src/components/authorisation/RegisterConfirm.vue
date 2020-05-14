@@ -112,14 +112,15 @@
           <button
             class="btn-sign-small-auth-valid"
             :disabled="
-          $v.confirmEmail.$error && $v.confirmEmail.$dirty ||
-            $v.confirmCode.$error && $v.confirmCode.$dirty ||
-            this.spinner
-        "
+              ($v.confirmEmail.$error && $v.confirmEmail.$dirty) ||
+                ($v.confirmCode.$error && $v.confirmCode.$dirty) ||
+                this.spinner
+            "
             type="submit"
             @click="userConfirm"
-          >Confirm my Code
-          <LoadingSpinner v-if="this.spinner" />
+          >
+            Confirm my Code
+            <LoadingSpinner v-if="this.spinner" />
           </button>
         </div>
 
@@ -155,7 +156,7 @@ export default {
   data() {
     return {
       confirmEmail: "",
-      confirmCode: "",
+      confirmCode: ""
     };
   },
   validations: {

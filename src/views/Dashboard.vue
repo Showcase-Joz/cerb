@@ -54,12 +54,13 @@ export default {
   position: relative;
 
   @include for-size(tablet-portrait-up) {
-    align-content: center;
+    align-content: end;
     grid-template-areas:
       "dashboard-nav-main switch-input view-controls"
       "dashboard-nav-main dashboard-wrapper dashboard-wrapper";
-    grid-template-columns: minmax(auto, 100px) 1fr;
+    grid-template-columns: minmax(max-content, 150px) 1fr minmax(min-content, max-content);
     grid-auto-rows: max-content 1fr;
   }
+
 }
 </style>

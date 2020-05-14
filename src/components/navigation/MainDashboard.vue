@@ -125,7 +125,7 @@ export default {
   z-index: 150;
 
   @include for-size(tablet-portrait-up) {
-    grid-template-columns: 1fr;
+    grid-template-columns: auto;
     grid-template-rows: repeat(auto-fill, minmax(50px, 1fr));
   }
 

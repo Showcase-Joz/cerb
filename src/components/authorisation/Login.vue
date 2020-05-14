@@ -11,7 +11,9 @@
             class="input-with-label email"
             :class="{
               invalid: $v.signinEmail.$error && $v.signinEmail.$dirty,
-              valid: !$v.signinEmail.$error && $v.signinEmail.$dirty || !$v.signinEmail.$invalid
+              valid:
+                (!$v.signinEmail.$error && $v.signinEmail.$dirty) ||
+                !$v.signinEmail.$invalid
             }"
           >
             <label
@@ -19,7 +21,8 @@
               :class="{
                 hasValue: $v.signinEmail.hasValueLength
               }"
-            >Email</label>
+              >Email</label
+            >
             <input
               v-model="signinEmail"
               type="email"
@@ -40,16 +43,17 @@
           </span>
           <span class="form-field-msg" v-if="!$v.signinEmail.email">
             {{
-            !$v.signinEmail.minLength || !$v.signinEmail.maxLength
-            ? "and"
-            : "Your"
+              !$v.signinEmail.minLength || !$v.signinEmail.maxLength
+                ? "and"
+                : "Your"
             }}
             email address looks malformed!
           </span>
           <span
             class="form-field-msg"
             v-if="!$v.signinEmail.required && $v.signinEmail.$dirty"
-          >Your email shouldn't be empty!</span>
+            >Your email shouldn't be empty!</span
+          >
         </div>
 
         <div class="form-group">
@@ -57,7 +61,9 @@
             class="input-with-label password"
             :class="{
               invalid: $v.signinPassword.$error && $v.signinPassword.$dirty,
-              valid: !$v.signinPassword.$error && $v.signinPassword.$dirty || !$v.signinPassword.$invalid
+              valid:
+                (!$v.signinPassword.$error && $v.signinPassword.$dirty) ||
+                !$v.signinPassword.$invalid
             }"
           >
             <label
@@ -65,7 +71,8 @@
               :class="{
                 hasValue: $v.signinPassword.hasValueLength
               }"
-            >Password</label>
+              >Password</label
+            >
             <input
               v-model="signinPassword"
               type="password"
@@ -86,16 +93,17 @@
           </span>
           <span class="form-field-msg" v-if="!$v.signinPassword.pasDefPattern">
             {{
-            !$v.signinPassword.minLength || !$v.signinPassword.maxLength
-            ? "and"
-            : "Your"
+              !$v.signinPassword.minLength || !$v.signinPassword.maxLength
+                ? "and"
+                : "Your"
             }}
             password looks malformed!
           </span>
           <span
             class="form-field-msg"
             v-if="!$v.signinPassword.required && $v.signinPassword.$dirty"
-          >Your password is empty, duh!</span>
+            >Your password is empty, duh!</span
+          >
         </div>
         <div class="form-group">
           <Notice v-if="this.showNotice" />
@@ -104,10 +112,10 @@
           <button
             class="btn-sign-small-auth-valid"
             :disabled="
-          $v.signinEmail.$error && $v.signinEmail.$dirty ||
-            $v.signinPassword.$error && $v.signinPassword.$dirty ||
-            this.spinner
-        "
+              ($v.signinEmail.$error && $v.signinEmail.$dirty) ||
+                ($v.signinPassword.$error && $v.signinPassword.$dirty) ||
+                this.spinner
+            "
             @click="usersignin"
             type="submit"
           >
@@ -126,11 +134,11 @@
 <script>
 import { mapGetters } from "vuex";
 import {
-	email,
-	required,
-	minLength,
-	maxLength,
-	helpers
+  email,
+  required,
+  minLength,
+  maxLength,
+  helpers
 } from "vuelidate/lib/validators";
 import ErrorOutput from "../authorisation/helpers/ErrorOutput";
 import Notice from "../helpers/NoticeOutput";
@@ -138,92 +146,93 @@ import LoadingSpinner from "../helpers/LoadingSpinner";
 // used to prevent UI covering user input when field has been completed
 const hasValueLength = value => value.length >= 1;
 const pasDefPattern = helpers.regex(
-	"pasDefPattern",
-	/^(?=.*[A-Z])(?=.*[!@#$&*])(?=.*[0-9])(?=.*[a-z]).{8,200}$/
+  "pasDefPattern",
+  /^(?=.*[A-Z])(?=.*[!@#$&*])(?=.*[0-9])(?=.*[a-z]).{8,200}$/
 );
 export default {
-	name: "signin",
-	components: {
-		LoadingSpinner,
-		ErrorOutput,
-		Notice
+  name: "signin",
+  components: {
+    LoadingSpinner,
+    ErrorOutput,
+    Notice
   },
   beforeMount() {
     if (this.registerConfirmEmail !== "") {
       this.signinEmail = this.registerConfirmEmail;
     }
   },
-	data() {
-		return {
-			signinEmail: "",
-			signinPassword: "",
-			loading: false,
-			hasFocus: false,
-			successURL: "<router-link to='/login'>About</router-link>"
-		};
-	},
-	validations: {
-		signinEmail: {
-			required,
-			minLength: minLength(3),
-			maxLength: maxLength(200),
-			hasValueLength,
-			email
-		},
-		signinPassword: {
-			required,
-			minLength: minLength(8),
-			maxLength: maxLength(200),
-			hasValueLength,
-			pasDefPattern
-		}
-	},
-	methods: {
-		async usersignin() {
-			// check both fields are filled in
-			this.loading = true;
-			await this.$store
-				this.$store.dispatch("authorisation/signin", {
-					email: this.signinEmail,
-					password: this.signinPassword
-				})
-				.then(() => {
-					if (this.authUser) {
+  data() {
+    return {
+      signinEmail: "",
+      signinPassword: "",
+      loading: false,
+      hasFocus: false,
+      successURL: "<router-link to='/login'>About</router-link>"
+    };
+  },
+  validations: {
+    signinEmail: {
+      required,
+      minLength: minLength(3),
+      maxLength: maxLength(200),
+      hasValueLength,
+      email
+    },
+    signinPassword: {
+      required,
+      minLength: minLength(8),
+      maxLength: maxLength(200),
+      hasValueLength,
+      pasDefPattern
+    }
+  },
+  methods: {
+    async usersignin() {
+      // check both fields are filled in
+      this.loading = true;
+      await this.$store;
+      this.$store
+        .dispatch("authorisation/signin", {
+          email: this.signinEmail,
+          password: this.signinPassword
+        })
+        .then(() => {
+          if (this.authUser) {
             this.$store.dispatch("updateNotice", null);
-            this.$store.dispatch("spinner", false,);
-						this.$router.push("/");
-					}
-				});
+            this.$store.dispatch("spinner", false);
+            this.$router.push("/");
+          }
+        });
       this.loading = false;
-			return false;
-		},
-		onFocus() {
-			this.hasFocus = true;
-		},
-		onBlur() {
-			this.hasFocus = false;
-		}
-	},
-	computed: {
-		...mapGetters({
+      return false;
+    },
+    onFocus() {
+      this.hasFocus = true;
+    },
+    onBlur() {
+      this.hasFocus = false;
+    }
+  },
+  computed: {
+    ...mapGetters({
       authUser: "authorisation/authUser",
       registerConfirmEmail: "authorisation/registerConfirmEmail",
       showNotice: "showNotice",
       spinner: "spinner"
-		})
-	}
+    })
+  }
 };
 </script>
 <style lang="scss" src="@/styles/_authorisation.scss"></style>
 <style lang="scss" src="@/styles/animation/_fade-in.scss" scoped></style>
 <style lang="scss" scoped>
 #login {
-	display: block;
+  display: block;
 
-	form {
-		.input-with-label {
-			min-height: 50px;
-		}
-	}
+  form {
+    .input-with-label {
+      min-height: 50px;
+    }
+  }
 }
 </style>

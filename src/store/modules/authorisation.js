@@ -54,7 +54,7 @@ export const mutations = {
 export const actions = {
   async signin({ commit, dispatch }, { email, password }) {
     commit("ERR_MESSAGE", null);
-    dispatch("spinner", true, { root : true });
+    dispatch("spinner", true, { root: true });
     try {
       await Auth.signIn(email, password);
     } catch (err) {
@@ -62,7 +62,7 @@ export const actions = {
       setTimeout(() => {
         commit("ERR_MESSAGE", null);
       }, 5000);
-      dispatch("spinner", false, { root : true });
+      dispatch("spinner", false, { root: true });
       return;
     }
     await dispatch("fetchUser");
@@ -71,7 +71,7 @@ export const actions = {
   async register({ commit, dispatch }, { email, password }) {
     // commit("UPDATECONFIRMEMAIL", "");
     commit("ERR_MESSAGE", null);
-    dispatch("spinner", true, { root : true });
+    dispatch("spinner", true, { root: true });
     try {
       // call Auth...
       await Auth.signUp({
@@ -87,29 +87,28 @@ export const actions = {
       commit("UPDATECONFIRMEMAIL", email);
       setTimeout(() => {
         commit("CONFIRM", true);
-        dispatch("spinner", false, { root : true });
+        dispatch("spinner", false, { root: true });
       }, 2000);
-      
     } catch (err) {
       commit("ERR_MESSAGE", err);
       setTimeout(() => {
         commit("ERR_MESSAGE", null);
       }, 5000);
-      dispatch("spinner", false, { root : true });
+      dispatch("spinner", false, { root: true });
       commit("CONFIRM", false);
     }
   },
 
   async confirm({ commit, dispatch }, { email, code }) {
     commit("ERR_MESSAGE", null);
-    dispatch("spinner", true, { root : true });
+    dispatch("spinner", true, { root: true });
     await dispatch("updateShowNotice", false, { root: true });
     try {
       await Auth.confirmSignUp(email, code, {
         forceAliasCreation: true
       });
       setTimeout(() => {
-        dispatch("spinner", false, { root : true });
+        dispatch("spinner", false, { root: true });
         commit("CONFIRM", false);
       }, 2000);
       await dispatch("updateShowNotice", true, { root: true });
@@ -131,7 +130,7 @@ export const actions = {
       setTimeout(() => {
         commit("ERR_MESSAGE", null);
       }, 5000);
-      dispatch("spinner", false, { root : true });
+      dispatch("spinner", false, { root: true });
       commit("CONFIRM", false);
       return;
     }

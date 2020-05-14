@@ -1,6 +1,6 @@
 <template>
   <div class="logout page">
-    <br>
+    <br />
     <h4>Sign Out</h4>
     <br />
     <p><strong>You are currently logged in!</strong></p>
