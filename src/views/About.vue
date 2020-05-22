@@ -9,11 +9,19 @@
           <details class="update">
             <summary>15/05/20</summary>
             <ol>
-              
-              <li>re-coloured come of the main colours, improving the contrasts slightly</li>
+              <li>
+                re-coloured come of the main colours, improving the contrasts
+                slightly
+              </li>
               <li>responsive styling for soft/filter icons</li>
-              <li>updated search &amp; type components, adjusting to new layout (with icons)</li>
-              <li>deisgned a few [static] icons for sort/filter, added to viewControls over 600px breakpoint</li>
+              <li>
+                updated search &amp; type components, adjusting to new layout
+                (with icons)
+              </li>
+              <li>
+                deisgned a few [static] icons for sort/filter, added to
+                viewControls over 600px breakpoint
+              </li>
               <li>replaced all the Auth component styles to match the app</li>
               <li>
                 updated all of the Auth components with Vuelidate validations to

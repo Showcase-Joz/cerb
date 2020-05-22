@@ -54,6 +54,7 @@ export default {
 </script>
 
 <style lang="scss" src="@/styles/animation/_fade-in.scss" scoped></style>
+<style lang="scss" src="@/styles/animation/_shake.scss" scoped></style>
 <style lang="scss">
 *,
 *::before,

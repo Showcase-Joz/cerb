@@ -58,9 +58,11 @@ export default {
     grid-template-areas:
       "dashboard-nav-main switch-input view-controls"
       "dashboard-nav-main dashboard-wrapper dashboard-wrapper";
-    grid-template-columns: minmax(max-content, 150px) 1fr minmax(min-content, max-content);
+    grid-template-columns: minmax(max-content, 150px) 1fr minmax(
+        min-content,
+        max-content
+      );
     grid-auto-rows: max-content 1fr;
   }
-
 }
 </style>

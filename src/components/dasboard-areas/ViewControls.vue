@@ -32,10 +32,10 @@ export default {
 
 <style lang="scss" scoped>
 .view-controls {
-  align-items: center;
+	align-items: center;
 	background-color: $color2;
 	color: tint($color2, $tint50);
-	cursor: help;
+	cursor: pointer;
 	display: grid;
 	font-variant-caps: all-petite-caps;
 	grid-area: view-controls;
@@ -71,11 +71,23 @@ export default {
 			width: 100%;
 
 			img {
+				filter: grayscale(80%);
 				height: auto;
+				object-fit: cover;
 				min-width: 25px;
 				max-width: 50px;
 				width: 100%;
-				object-fit: cover;
+				transition: 0.5s filter cubic-bezier(0.175, 0.885, 0.32, 1.275) 1s,
+					0.5s -webkit-filter cubic-bezier(0.175, 0.885, 0.32, 1.275) 1s;
+
+				&:hover {
+					animation: shake 0.82s cubic-bezier(0.36, 0.07, 0.19, 0.97) both;
+					backface-visibility: hidden;
+          filter: none;
+          transform: translate3d(0, 0, 0);
+					transition: 0.5s filter cubic-bezier(0.175, 0.885, 0.32, 1.275),
+						0.5s -webkit-filter cubic-bezier(0.175, 0.885, 0.32, 1.275);
+				}
 			}
 		}
 
@@ -85,7 +97,25 @@ export default {
 		& span {
 			display: none;
 		}
-	}
+  }
+  
+  @keyframes shake {
+  10%, 90% {
+    transform: translate3d(-1px, 0, 0);
+  }
+  
+  20%, 80% {
+    transform: translate3d(2px, 0, 0);
+  }
+
+  30%, 50%, 70% {
+    transform: translate3d(-4px, 0, 0);
+  }
+
+  40%, 60% {
+    transform: translate3d(4px, 0, 0);
+  }
+}
 
 	@media screen and (min-width: 600px) and (max-width: 700px) {
 		grid-gap: 1vw;
