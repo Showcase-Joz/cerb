@@ -47,7 +47,9 @@
         <div class="name-title">{{ this.selectedName }}</div>
         <div class="functional-buttons">
           <div class="function-l">l</div>
-          <div class="function-m">m</div>
+          <div class="function-m">
+            <button type="submit" @click="runDummyData">dummy data</button>
+          </div>
           <div class="function-r">r</div>
         </div>
       </div>
@@ -111,7 +113,8 @@ export default {
   created() {
     (this.initialMeta = "metadata/"),
       (this.andFilter = "?filter="),
-      (this.maxLimit = "?limit=0");
+      (this.maxLimit = "?limit=0"),
+      (this.utc = this.getNathPoch());
   },
   beforeMount() {
     this.groupEvents =
@@ -119,7 +122,8 @@ export default {
       this.selectedNamespace +
       "&name=" +
       this.selectedName +
-      "&offset=25";
+      "&offset=25" +
+      `&from=${this.utc}`;
     this.$store.dispatch("search/storedSearch", "");
     if (this.selectedNamespace !== null && this.selectedName !== null) {
       this.fetchName(this.groupEvents);
@@ -164,6 +168,25 @@ export default {
           });
         });
       }
+    },
+    runDummyData: function() {
+      let seconds = Math.floor(Date.now() / 1000);      
+      const dummyPost = {
+        namespace: this.selectedNamespace,
+        name: this.selectedName,
+        type: "debug",
+        description: `this is an automated test (${seconds}) so i've got 'something' to look at while developing the layout`
+      };
+      this.$store.dispatch("post/sendString", dummyPost);
+    },
+    getNathPoch: function() {
+      // gets current date
+      const currentDate = new Date();
+      // minus 1 hour (60 mins) from now date
+      const utcDate = currentDate.setMinutes( currentDate.getMinutes() - 60 );
+      // convert to iso and condence to digits only
+      const nathPoch = new Date(utcDate).toISOString().replace(/[^0-9]/g, "");
+      return nathPoch;
     }
   },
   computed: {
