@@ -90,6 +90,10 @@
         <p class="response-desc">{{ item.event.description }}</p>
       </div>
     </transition-group>
+    <div ref="moreContent">
+      <div v-if="this.moreEvents !== ''" @click="this.getEvents">Load more events</div>
+      <p v-else-if="this.moreEvents === ''">there are no more events</p>
+    </div>
   </div>
 </template>
 <script>
@@ -109,19 +113,7 @@ export default {
 			(this.utc = this.getNathPoch());
 	},
 	beforeMount() {
-		this.groupEvents =
-			"events?namespace=" +
-			this.selectedNamespace +
-			"&name=" +
-			this.selectedName +
-			"&offset=10" +
-			`&from=${this.utc}`;
-		this.$store.dispatch("search/storedSearch", "");
-		if (this.selectedNamespace !== null && this.selectedName !== null) {
-			this.fetchName(this.groupEvents);
-		} else {
-			console.warn("fetching local data");
-		}
+		this.getEvents();
 	},
 	updated() {
 		this.highlighted();
@@ -129,6 +121,19 @@ export default {
 	methods: {
 		async fetchName(queryString) {
 			await this.$store.dispatch("events/getEvents", queryString);
+		},
+		getEvents: function() {
+			this.groupEvents = `events?namespace=${this.selectedNamespace}&name=${
+				this.selectedName
+			}&offset=10&from=${this.utc}${
+				this.moreEvents !== "" ? `&nextitem=${this.moreEvents}` : ""
+			}`;
+			this.$store.dispatch("search/storedSearch", "");
+			if (this.selectedNamespace !== null && this.selectedName !== null) {
+				this.fetchName(this.groupEvents);
+			} else {
+				console.warn("fetching local data");
+			}
 		},
 		updateEvents: function(groupEvents) {
 			this.fetchName(groupEvents);
@@ -188,6 +193,7 @@ export default {
 			selectedEvent: "events/selectedEvent",
 			searchedContent: "search/searchedContent",
 			currentEvents: "events/currentEvents",
+			moreEvents: "events/moreEvents",
 			totalEvents: "events/totalEvents"
 		})
 	},

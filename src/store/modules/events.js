@@ -7,6 +7,7 @@ export const state = {
   currentEvents: null,
   filteredEvents: null,
   selectedEvent: "",
+  moreEvents: "",
   totalEvents: ""
 };
 
@@ -17,12 +18,15 @@ export const getters = {
     // else displays all currentEvents
     return rootState.search.searchedContent.length > 0
       ? (state.filteredEvents = state.currentEvents.filter(events =>
-          events.event.description.includes(rootState.search.searchedContent)
-        ))
+        events.event.description.includes(rootState.search.searchedContent)
+      ))
       : state.currentEvents;
   },
   selectedEvent: state => {
     return state.selectedEvent;
+  },
+  moreEvents: state => {
+    return state.moreEvents;
   },
   totalEvents: state => {
     return state.totalEvents;
@@ -39,11 +43,18 @@ export const mutations = {
   SELECTED_EVENT(state, selectedE) {
     state.selectedEvent = selectedE;
   },
+  MORE_EVENTS(state, nextItem) {
+    state.moreEvents = nextItem;
+  },
+  APPEND_EVENTS(state, addEvents) {
+   state.currentEvents.push(addEvents);
+  },
   TOTAL_EVENTS(state, number) {
     state.totalEvents = number;
   },
   CLEAR_CURRENT(state) {
     state.currentEvents = null;
+    state.moreEvents = "";
     state.totalEvents = "";
   },
   CLEAR_FILTERED(state) {
@@ -66,6 +77,12 @@ export const actions = {
     await api.get(payload).then(response => {
       if (response.status === 200) {
         commit("TOTAL_EVENTS", response.data.total);
+        if ("nextitem" in response.data) {
+          commit("MORE_EVENTS", response.data.nextitem);
+          // commit("APPEND_EVENTS", response.data.events);
+        } else {
+          commit("MORE_EVENTS", "");
+        }
         setTimeout(() => {
           commit("CURRENT_EVENTS", response.data.events);
           dispatch("updateLoading", false, { root: true });
