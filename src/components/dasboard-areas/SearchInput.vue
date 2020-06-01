@@ -169,7 +169,7 @@ export default {
 
         &.valid:focus-within,
         &.valid {
-          border-bottom: 1px solid rgba($color: $valid, $alpha: 1);
+          border-bottom: 1px solid rgba($color: $valid, $alpha: 0.2);
           margin-left: -$spacingDefault;
           // padding-left: $spacingDefault;
         }

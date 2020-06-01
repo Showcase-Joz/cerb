@@ -34,13 +34,14 @@ export const getters = {
 };
 
 export const mutations = {
-  CURRENT_EVENTS(state, events) {   
-    console.log(events);
+  CURRENT_EVENTS(state, events) {
+    
     
     const sortedEvents = events.sort((a, b) =>
       a.event.created < b.event.created ? 1 : -1
     );
     state.currentEvents = sortedEvents;
+    console.log("calling currEv", state.currentEvents);
   },
   SELECTED_EVENT(state, selectedE) {
     state.selectedEvent = selectedE;
@@ -49,13 +50,14 @@ export const mutations = {
     state.moreEvents = nextItem;
   },
   APPEND_EVENTS(state, addEvents) {
-    console.log(state.currentEvents, addEvents);
+    
     
     state.totalEvents = state.currentEvents.length + addEvents.length;
     const events = [...addEvents, ...state.currentEvents];
     const reSortedEvents = events.sort((a, b) => a.event.created < b.event.created ? 1 : -1
     );
     state.currentEvents = reSortedEvents;
+    console.log("calling appEv", state.currentEvents);
   },
   TOTAL_EVENTS(state, number) {
     state.totalEvents = number;
