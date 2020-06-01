@@ -34,7 +34,9 @@ export const getters = {
 };
 
 export const mutations = {
-  CURRENT_EVENTS(state, events) {
+  CURRENT_EVENTS(state, events) {   
+    console.log(events);
+    
     const sortedEvents = events.sort((a, b) =>
       a.event.created < b.event.created ? 1 : -1
     );
@@ -47,7 +49,13 @@ export const mutations = {
     state.moreEvents = nextItem;
   },
   APPEND_EVENTS(state, addEvents) {
-   state.currentEvents.push(addEvents);
+    console.log(state.currentEvents, addEvents);
+    
+    state.totalEvents = state.currentEvents.length + addEvents.length;
+    const events = [...addEvents, ...state.currentEvents];
+    const reSortedEvents = events.sort((a, b) => a.event.created < b.event.created ? 1 : -1
+    );
+    state.currentEvents = reSortedEvents;
   },
   TOTAL_EVENTS(state, number) {
     state.totalEvents = number;
@@ -63,6 +71,31 @@ export const mutations = {
 };
 
 export const actions = {
+  async addEvents({ commit, dispatch }, payload) {
+    console.log(payload);
+    await api.get(payload).then(response => {
+      if (response.status === 200) {        
+        commit("TOTAL_EVENTS", response.data.total);
+        if ("nextitem" in response.data) {
+          commit("MORE_EVENTS", response.data.nextitem);
+        } else {
+          commit("MORE_EVENTS", "");
+        }
+        setTimeout(() => {
+          commit("APPEND_EVENTS", response.data.events);
+        }, 100);
+      } else if (response.status !== 200) {
+        commit("TOTAL_EVENTS", "");
+        commit("CURRENT_EVENTS", null);
+        commit("MORE_EVENTS", "");
+        commit("APPEND_EVENTS", "");
+      }
+    }),
+      await dispatch("updateNotice", null, { root: true });
+    err => {
+      console.log("Error: ", err);
+    };
+  },
   async getEvents({ commit, dispatch }, payload) {
     console.log(payload);
     await dispatch("updateLoading", true, { root: true });
@@ -79,7 +112,6 @@ export const actions = {
         commit("TOTAL_EVENTS", response.data.total);
         if ("nextitem" in response.data) {
           commit("MORE_EVENTS", response.data.nextitem);
-          // commit("APPEND_EVENTS", response.data.events);
         } else {
           commit("MORE_EVENTS", "");
         }

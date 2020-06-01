@@ -16,15 +16,15 @@
                     } filtered/sorted results`
                   "
                   ref="number2"
+                  from="0"
                   :to="
                     this.currentEvents.length > 0 &&
                     this.currentEvents.length < this.totalEvents
                       ? this.currentEvents.length
                       : '0'
                   "
-                  :duration="3"
                   :delay="0.5"
-                  easing="Power0.easeIn"
+                  easing="Power2.easeIn"
                 />
               </strong>
               <span v-if="this.currentEvents.length !== this.totalEvents">&sol;</span>
@@ -34,10 +34,10 @@
             <number
               :title="`There are a total of ${this.totalEvents} results`"
               ref="number1"
+              from="0"
               :to="this.totalEvents > 0 ? this.totalEvents : '0'"
-              :duration="3"
               :delay="0.5"
-              easing="Power0.easeIn"
+              easing="Power2.easeIn"
             />
           </strong>
           events in
@@ -91,7 +91,7 @@
       </div>
     </transition-group>
     <div ref="moreContent">
-      <div v-if="this.moreEvents !== ''" @click="this.getEvents">Load more events</div>
+      <div v-if="this.moreEvents !== ''" @click="this.addEvents">Load more events</div>
       <p v-else-if="this.moreEvents === ''">there are no more events</p>
     </div>
   </div>
@@ -119,24 +119,35 @@ export default {
 		this.highlighted();
 	},
 	methods: {
-		async fetchName(queryString) {
+		async fetchEvents(queryString) {
 			await this.$store.dispatch("events/getEvents", queryString);
 		},
+		async appendEvents(queryString) {
+			await this.$store.dispatch("events/addEvents", queryString);
+		},
 		getEvents: function() {
+			this.groupEvents = `events?namespace=${this.selectedNamespace}&name=${this.selectedName}&offset=10&from=${this.utc}`;
+			this.$store.dispatch("search/storedSearch", "");
+			if (this.selectedNamespace !== null && this.selectedName !== null) {
+				this.fetchEvents(this.groupEvents);
+			} else {
+				console.warn("fetching local data");
+			}
+		},
+		addEvents: function() {
 			this.groupEvents = `events?namespace=${this.selectedNamespace}&name=${
 				this.selectedName
 			}&offset=10&from=${this.utc}${
 				this.moreEvents !== "" ? `&nextitem=${this.moreEvents}` : ""
 			}`;
-			this.$store.dispatch("search/storedSearch", "");
 			if (this.selectedNamespace !== null && this.selectedName !== null) {
-				this.fetchName(this.groupEvents);
+				this.appendEvents(this.groupEvents);
 			} else {
 				console.warn("fetching local data");
 			}
 		},
 		updateEvents: function(groupEvents) {
-			this.fetchName(groupEvents);
+			this.fetchEvents(groupEvents);
 		},
 		async handleClick(item, index) {
 			await this.$store.dispatch("updateNotice", {
