@@ -18,8 +18,8 @@ export const getters = {
     // else displays all currentEvents
     return rootState.search.searchedContent.length > 0
       ? (state.filteredEvents = state.currentEvents.filter(events =>
-        events.event.description.includes(rootState.search.searchedContent)
-      ))
+          events.event.description.includes(rootState.search.searchedContent)
+        ))
       : state.currentEvents;
   },
   selectedEvent: state => {
@@ -35,13 +35,11 @@ export const getters = {
 
 export const mutations = {
   CURRENT_EVENTS(state, events) {
-    
-    
     const sortedEvents = events.sort((a, b) =>
       a.event.created < b.event.created ? 1 : -1
     );
     state.currentEvents = sortedEvents;
-    console.log("calling currEv", state.currentEvents);
+    // console.log("calling currEv", state.currentEvents);
   },
   SELECTED_EVENT(state, selectedE) {
     state.selectedEvent = selectedE;
@@ -50,14 +48,13 @@ export const mutations = {
     state.moreEvents = nextItem;
   },
   APPEND_EVENTS(state, addEvents) {
-    
-    
     state.totalEvents = state.currentEvents.length + addEvents.length;
     const events = [...addEvents, ...state.currentEvents];
-    const reSortedEvents = events.sort((a, b) => a.event.created < b.event.created ? 1 : -1
+    const reSortedEvents = events.sort((a, b) =>
+      a.event.created < b.event.created ? 1 : -1
     );
     state.currentEvents = reSortedEvents;
-    console.log("calling appEv", state.currentEvents);
+    // console.log("calling appEv", state.currentEvents);
   },
   TOTAL_EVENTS(state, number) {
     state.totalEvents = number;
@@ -74,9 +71,9 @@ export const mutations = {
 
 export const actions = {
   async addEvents({ commit, dispatch }, payload) {
-    console.log(payload);
+    // console.log(payload);
     await api.get(payload).then(response => {
-      if (response.status === 200) {        
+      if (response.status === 200) {
         commit("TOTAL_EVENTS", response.data.total);
         if ("nextitem" in response.data) {
           commit("MORE_EVENTS", response.data.nextitem);
@@ -99,7 +96,7 @@ export const actions = {
     };
   },
   async getEvents({ commit, dispatch }, payload) {
-    console.log(payload);
+    // console.log(payload);
     await dispatch("updateLoading", true, { root: true });
     await dispatch(
       "updateNotice",

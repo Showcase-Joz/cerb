@@ -64,6 +64,12 @@ export default {
   //     this.$store.dispatch("search/storedSearch", "");
   //   }
   // },
+  beforeMount() {
+    if (this.searchedContent !== "") {
+      this.searchString = this.searchedContent;
+      this.clearBtn = true;
+    }
+  },
   updated() {
     this.$refs.searchParent.classList.remove("invalid");
   },
