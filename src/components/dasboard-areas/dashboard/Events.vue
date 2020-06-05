@@ -206,14 +206,17 @@ export default {
       }
     },
     loadMoreCallback() {
-      console.log("test callback");
+			console.log("test callback");
+			this.addEvents();
     },
     handleIntersect(entries) {
       if (entries[0].isIntersecting) {
         console.log("intersecting now");
 
-        this.countdownTimer(this.loadMoreCallback, 3);
-      }
+        this.countdownTimer(this.loadMoreCallback, 3, this.countDown, 1000);
+      } else if (!entries[0].isIntersecting) {
+				console.log("NOT intersecting");
+			}
     },
     createDummyData: function() {
       let seconds = Math.floor(Date.now() / 1000);
@@ -228,30 +231,31 @@ export default {
     },
     runDummyData: function() {
 			console.log("runDummyData");
-			this.countdownTimer(this.createDummyData, 12, this.countDown);
+			this.countdownTimer(this.countDown, 12, this.createDummyData, 2000);
       
     },
-    countDown: function(secondsToCountDown) {
-      secondsToCountDown;
+    countDown: function(numberofIterations) {
+			return console.log(numberofIterations);
+			
     },
-    countdownTimer: function(callback, secs, itoratorFunc) {
-      let secondsToCountDown = secs;
+    countdownTimer: function(callbackFunc, numberofIterations, iteratorFunc, iteratorMilliseconds) {
       const onInterval = () => {
-        // stuff here
-        itoratorFunc();
+        // do something at each interval if required
+        iteratorFunc(numberofIterations);
 
-        if (secondsToCountDown === 1) {
-          stopInterval();
+        if (numberofIterations === 1) {
+					stopInterval();
+					// do something after total of intervals stops (countLength has passed)
           // run loadmore call
-          callback();
+          callbackFunc();
         }
-        secondsToCountDown--;
+        numberofIterations--;
       };
 
       const stopInterval = () => {
         clearInterval(interval);
       };
-      const interval = setInterval(onInterval, 1000);
+      const interval = setInterval(onInterval, iteratorMilliseconds);
     },
     getNathPoch: function() {
       // gets current date
