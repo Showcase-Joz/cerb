@@ -1,3 +1,7 @@
+#login,
+#logout,
+#register,
+#register-confirm,
 #formPost,
 #formMetaSearch,
 #formGetString {
@@ -24,6 +28,7 @@
           top: 0;
           height: min-content;
         }
+
         &:focus-within {
           top: 0.5rem;
         }
@@ -40,7 +45,7 @@
         color: tint($color2, $tint50);
         left: 0;
         line-height: 2rem;
-        padding-left: 5px;
+        padding-right: 5px;
         position: absolute;
         top: auto;
         transition: font-size 500ms ease-out 300ms, transform 300ms ease-out;
@@ -50,11 +55,11 @@
           transform: translateY(-100%);
         }
 
-        &.hasValue ~ input {
+        &.hasValue~input {
           top: 50%;
         }
 
-        &.hasValue ~ textarea {
+        &.hasValue~textarea {
           top: -0.5rem;
           // margin-top: 0.5rem;
         }
@@ -67,7 +72,7 @@
         bottom: 0;
         font-size: inherit;
         left: 0;
-        padding-left: 5px;
+        padding-right: calc((#{$spacingLarge} / 2) * 1.5);
         top: 0;
         width: 100%;
         z-index: 1;
@@ -95,8 +100,7 @@
       }
 
       &:focus-within::after,
-      &.invalid::after,
-      &.valid::after {
+      &.invalid::after {
         animation: fadeIn 1300ms cubic-bezier(0.175, 0.885, 0.32, 1.275);
         content: $strDefPattern;
         bottom: 0;
@@ -110,6 +114,38 @@
         top: auto;
         text-transform: lowercase;
         transform: translateY(-100%);
+      }
+
+      &.email:focus-within::after,
+      &.email.invalid::after {
+        content: $emailDefPattern;
+      }
+
+      &.code:focus-within::after,
+      &.code.invalid::after {
+        content: $codeDefPattern;
+      }
+
+      &.password:focus-within::after,
+      &.password.invalid::after {
+        content: $pasDefPattern;
+        line-height: unset;
+        right: -10px;
+        text-align: end;
+        white-space: pre;
+      }
+
+      &.valid::after,
+      &.email.valid::after,
+      &.code.valid::after,
+      &.password.valid::after {
+        animation: fadeIn 2.3s ease-in;
+        content: "\2713";
+        color: $valid;
+        font-size: xx-large;
+        font-weight: 500;
+        right: 0;
+        top: 50%;
       }
 
       &.text-area::after {
@@ -148,8 +184,7 @@
 
       &.valid::after {
         @extend :focus-within::after;
-        animation: fadeOut 1500ms cubic-bezier(0.175, 0.885, 0.32, 1.275)
-          forwards;
+        animation: fadeOut 1500ms cubic-bezier(0.175, 0.885, 0.32, 1.275) forwards;
       }
 
       &.timestamp.invalid::after {
@@ -172,14 +207,13 @@
       }
 
       &.text-area.valid::after {
-        animation: fadeOutSpecial 1500ms cubic-bezier(0.175, 0.885, 0.32, 1.275)
-          forwards;
+        animation: fadeOutSpecial 1500ms cubic-bezier(0.175, 0.885, 0.32, 1.275) forwards;
         top: 0.5rem;
       }
 
       // hide/show additional UI message to user
-      &.text-area.valid > textarea,
-      &.text-area.invalid > textarea {
+      &.text-area.valid>textarea,
+      &.text-area.invalid>textarea {
         opacity: 1;
 
         &.empty:not(:focus) {
@@ -208,8 +242,10 @@
 
         input[type="radio"] {
           appearance: none;
+          border: initial;
           cursor: inherit;
           position: relative;
+          transition: border .25s linear;
 
           &::before {
             border: 1px solid $color1;
@@ -218,6 +254,7 @@
             height: 18px;
             position: absolute;
             transform: translateX(-50%) translateY(-50%);
+            transition: border .25s linear;
             width: 18px;
           }
 
@@ -226,13 +263,16 @@
             height: 12px;
             position: absolute;
             transform: translateX(-50%) translateY(-50%);
+            transition: border .25s linear;
             width: 12px;
           }
 
-          &:checked::after {
+          &:checked::after,
+          &::after:focus {
             @extend input[type="radio"]::after;
             background-color: $color1;
             content: "";
+            transition: border .25s linear;
           }
         }
 
@@ -249,16 +289,29 @@
 }
 
 p.form-field-msg,
-p.group-field-msg {
+p.group-field-msg,
+span.form-field-msg {
   animation: fadeIn 2000ms cubic-bezier(0.175, 0.885, 0.32, 1.275);
   color: $invalid;
   font-size: 0.85rem;
   font-style: italic;
   margin: 1rem auto 0;
 
+
+
   &.hidden {
     animation: fadeOut 1500ms cubic-bezier(0.175, 0.885, 0.32, 1.275) forwards;
     // display: none;
     @extend .form-field-msg;
   }
+}
+
+span.form-field-msg+span.form-field-msg {
+  display: block;
+  margin-top: unset;
+}
+
+@keyframes fadeIn {
+  from { opacity: 0; }
+  to   { opacity: 1; }
 }

@@ -254,13 +254,6 @@ export default {
     },
     onFocus() {
       this.hasFocus = true;
-      // const element = event.target;
-      // const dataKey = element.name;
-      // Object.keys(this.formResponses).forEach(key => {
-      //   if (key === dataKey) {
-      //     return console.log("active:", dataKey);
-      //   }
-      // });
     },
     onBlur() {
       this.hasFocus = false;

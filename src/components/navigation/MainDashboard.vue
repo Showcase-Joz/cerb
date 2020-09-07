@@ -7,8 +7,10 @@
         class="btn"
         exact
         @click.native="clearSearch()"
-        >Namespaces</router-link
       >
+        Namespaces
+        <ItemCount ref="1" :counts="countsNS" />
+      </router-link>
     </div>
     <div class="dash-nav-item">
       <router-link
@@ -17,8 +19,10 @@
         tag="button"
         class="btn"
         @click.native="clearSearch()"
-        >Names</router-link
       >
+        Names
+        <ItemCount ref="2" :counts="countsN" />
+      </router-link>
     </div>
     <div class="dash-nav-item">
       <router-link
@@ -27,7 +31,19 @@
         tag="button"
         class="btn"
         @click.native="clearSearch()"
-        >Events</router-link
+      >
+        Events
+        <ItemCount ref="3" :counts="countsE" />
+      </router-link>
+    </div>
+    <div class="dash-nav-item">
+      <router-link
+        :disabled="this.disabledDetails"
+        to="/dashboard/details"
+        tag="button"
+        class="btn"
+        @click.native="clearSearch()"
+        >Details</router-link
       >
     </div>
 
@@ -43,6 +59,7 @@
   </div>
 </template>
 <script>
+import ItemCount from "../helpers/ItemCount";
 import { mapGetters } from "vuex";
 export default {
   name: "dashboard-nav-main",
@@ -50,6 +67,9 @@ export default {
     return {
       activeNav: null
     };
+  },
+  components: {
+    ItemCount
   },
   methods: {
     // activeLink: function(event) {
@@ -65,13 +85,27 @@ export default {
   computed: {
     ...mapGetters({
       selectedNamespace: "namespace/selectedNamespace",
-      selectedName: "name/selectedName"
+      selectedName: "name/selectedName",
+      selectedEvent: "events/selectedEvent",
+      countsNS: "namespace/counts",
+      countsN: "name/counts",
+      currentEvents: "events/currentEvents",
+      totatEvents: "events/totalEvents"
     }),
+    countsE() {
+      return {
+        totalCount: this.totatEvents,
+        count: this.currentEvents === null ? "0" : this.currentEvents.length
+      };
+    },
     disabledNames() {
       return this.selectedNamespace === "" ? true : false;
     },
     disabledEvents() {
       return this.selectedName === "" ? true : false;
+    },
+    disabledDetails() {
+      return this.selectedEvent === "" ? true : false;
     }
   }
 };
@@ -88,9 +122,10 @@ export default {
   grid-template-columns: repeat(auto-fit, minmax(50px, 1fr));
   justify-items: center;
   height: 100%;
+  z-index: 150;
 
   @include for-size(tablet-portrait-up) {
-    grid-template-columns: 1fr;
+    grid-template-columns: auto;
     grid-template-rows: repeat(auto-fill, minmax(50px, 1fr));
   }
 
@@ -103,6 +138,25 @@ export default {
 
     &.settings-nav {
       grid-row-end: -1;
+      display: none;
+
+      @include pointer-only() {
+        @include for-size(tablet-landscape-up) {
+          display: grid;
+        }
+      }
+
+      @include touch-only() {
+        @include for-size(tablet-portrait-up) {
+          display: grid;
+        }
+      }
+
+      @include touch-and-pointer() {
+        @include for-size(tablet-portrait-up) {
+          display: grid;
+        }
+      }
     }
 
     @include for-size(tablet-portrait-up) {

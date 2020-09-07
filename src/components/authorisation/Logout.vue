@@ -2,7 +2,8 @@
   <div id="logout">
     <p v-if="this.authUser">
       Would you like to
-      <button @click="signOut">Sign Out</button>?
+      <button class="btn-sign-smaller-invalid" @click="signOut">Sign Out</button
+      >&nbsp;?
     </p>
     <div v-if="!this.authUser">
       <strong>You are already logged out</strong>.
@@ -20,9 +21,7 @@ export default {
   name: "Logout",
   methods: {
     signOut: function() {
-      this.$store.dispatch("authorisation/logout").then(() => {
-        this.$router.push("/login");
-      });
+      this.$store.dispatch("authorisation/logout");
     }
   },
   computed: {
@@ -33,3 +32,17 @@ export default {
 };
 </script>
 <style lang="scss" src="@/styles/_authorisation.scss"></style>
+<style lang="scss" scoped>
+button {
+  @include general;
+
+  &[class*="-smaller"] {
+    font-size: $font-normal;
+    max-height: 50px;
+
+    @include for-size(tablet-portrait-up) {
+      @include smaller;
+    }
+  }
+}
+</style>

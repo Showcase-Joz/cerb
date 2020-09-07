@@ -3,40 +3,40 @@
     <div v-if="resultSwitch" class="sent-fetch-wrapper">
       <div class="sent-fetch-data">
         <div class="response-ns">
-          {{ this.getResponse.body.event.namespace }}
+          {{ this.getResponse.event.namespace }}
         </div>
         <div class="response-extras">
           <div
             class="response-type"
             title="the type of log {debug, info, warning, error}"
           >
-            {{ this.getResponse.body.event.type }}
+            {{ this.getResponse.event.type }}
           </div>
           <div class="log-version" title="current verson of this log">
-            v: {{ this.getResponse.body.event.version }}
+            v: {{ this.getResponse.event.version }}
           </div>
           <div class="status-group">
             <div
               class="status-setting"
               title="an external large details stored on S3"
               :class="{
-                'status-green': this.getResponse.body.haslargedetails,
-                'status-red': !this.getResponse.body.haslargedetails
+                'status-green': this.getResponse.haslargedetails,
+                'status-red': !this.getResponse.haslargedetails
               }"
             ></div>
             <div
               class="status-setting"
               title="this log has details available"
               :class="{
-                'status-green': this.getResponse.body.weredetailsfound,
-                'status-red': !this.getResponse.body.weredetailsfound
+                'status-green': this.getResponse.weredetailsfound,
+                'status-red': !this.getResponse.weredetailsfound
               }"
             ></div>
           </div>
         </div>
-        <div class="response-n">{{ this.getResponse.body.event.name }}</div>
+        <div class="response-n">{{ this.getResponse.event.name }}</div>
         <p class="response-desc">
-          {{ this.getResponse.body.event.description }}
+          {{ this.getResponse.event.description }}
         </p>
       </div>
     </div>

@@ -7,6 +7,7 @@ import * as search from "./modules/search";
 import * as namespace from "./modules/namespace";
 import * as name from "./modules/name";
 import * as events from "./modules/events";
+import * as details from "./modules/details";
 import * as createItem from "./modules/create";
 import * as deletedItem from "./modules/delete";
 
@@ -75,6 +76,7 @@ const store = new Vuex.Store({
     NOTICE_MESSAGE(state, notice) {
       if (notice === null) {
         store.commit("SHOW_NOTICE", false);
+        // state.noticeMessage = { code: "", message: "" };
       } else {
         state.noticeMessage = notice;
       }
@@ -112,6 +114,17 @@ const store = new Vuex.Store({
     resetModal({ commit }, payload) {
       commit("VERIFY_MODAL", payload);
       commit("SHOW_MODAL", false);
+    },
+    resetAction({ commit }) {
+      setTimeout(() => {
+        commit("SPINNER_STATE", false);
+      }, 500);
+      setTimeout(() => {
+        commit("LOADING_STATE", false);
+      }, 1000);
+      setTimeout(() => {
+        commit("NOTICE_MESSAGE", null);
+      }, 1500);
     }
   },
   modules: {
@@ -122,6 +135,7 @@ const store = new Vuex.Store({
     namespace,
     name,
     events,
+    details,
     createItem,
     deletedItem
   }

@@ -5,6 +5,7 @@ export const namespaced = true;
 
 export const state = {
   currentNamespaces: null,
+  filteredNamespaces: null,
   selectedNamespace: "",
   counts: {
     totalCount: "",
@@ -13,8 +14,12 @@ export const state = {
 };
 
 export const getters = {
-  currentNamespaces: state => {
-    return state.currentNamespaces;
+  currentNamespaces: (state, getters, rootState) => {
+    return rootState.search.searchedContent.length > 0
+      ? (state.filteredNamespaces = state.currentNamespaces.filter(namespaces =>
+          namespaces.includes(rootState.search.searchedContent)
+        ))
+      : state.currentNamespaces;
   },
   selectedNamespace: state => {
     return state.selectedNamespace;
@@ -49,7 +54,7 @@ export const actions = {
           commit("CURRENT_TOTALCOUNT", response.data.totalFound);
           commit("CURRENT_COUNT", response.data.count);
           dispatch("updateLoading", false, { root: true });
-        }, 1000);
+        }, 2000);
       } else if (response.status !== 200) {
         commit("CURRENT_NAMESPACES", null);
       }
@@ -57,6 +62,24 @@ export const actions = {
     await dispatch("updateNotice", null, { root: true });
     err => {
       console.log("Error: ", err);
+    };
+  },
+  async getLocalNS({ dispatch }) {
+    await dispatch("updateLoading", true, { root: true });
+    setTimeout(() => {
+      dispatch("updateLoading", false, { root: true });
+    }, 2000);
+    await dispatch("updateNotice", null, { root: true });
+    err => {
+      console.log("Error: ", err);
+      dispatch(
+        "updateNotice",
+        {
+          code: "invalid",
+          message: `Failed to create ${Created.state.createdNamespace}`
+        },
+        { root: true }
+      );
     };
   },
   async selectNS({ commit, dispatch }, payload) {
@@ -72,6 +95,16 @@ export const actions = {
         setTimeout(() => {
           dispatch("spinner", false, { root: true });
         }, 1500);
+      } else if (response.status === 200) {
+        dispatch("updateLoading", true, { root: true });
+        dispatch(
+          "updateNotice",
+          {
+            code: "invalid",
+            message: `Failed to create ${Created.state.createdNamespace} because: <strong id='msgStrong'>${response.data.message}</strong>`
+          },
+          { root: true }
+        );
       } else {
         dispatch(
           "updateNotice",

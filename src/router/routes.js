@@ -108,11 +108,20 @@ const router = new VueRouter({
         },
         {
           // Events
-          path: "events",
+          path: "events/",
           name: "events",
           component: () =>
             import(
               /* webpackChunkName: "get" */ "../components/dasboard-areas/dashboard/Events.vue"
+            )
+        },
+        {
+          // Details
+          path: "details",
+          name: "details",
+          component: () =>
+            import(
+              /* webpackChunkName: "get" */ "../components/dasboard-areas/dashboard/Details.vue"
             )
         }
       ]

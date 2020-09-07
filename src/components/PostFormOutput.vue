@@ -1,39 +1,35 @@
 <template>
   <transition name="fade-in">
-    <div v-if="resultSwitch" class="sent-fetch-wrapper">
+    <div v-if="this.responseData !== null" class="sent-fetch-wrapper">
       <h3>
-        Posted this data to the API
-        <span>
-          <a :href="this.responseHref" target="_blank">View JSON here</a>
-        </span>
+        You have posted this data to the API
+        <a
+          :title="
+            `visit the output URL to view the JSON at ${this.responseData.href}`
+          "
+          :href="this.responseData !== null ? this.responseData.href : ''"
+          target="_blank"
+          >View raw data</a
+        >
       </h3>
       <div class="sent-fetch-data results-recap">
-        <p class>{{ this.passedPost.namespace }}</p>
-        <p>{{ this.passedPost.name }}</p>
-        <p>{{ this.passedPost.type }}</p>
-        <p class="output-desc">{{ this.passedPost.description }}</p>
+        <p class>{{ this.postString.namespace }}</p>
+        <p>{{ this.postString.name }}</p>
+        <p>{{ this.postString.type }}</p>
+        <p class="output-desc">{{ this.postString.description }}</p>
       </div>
     </div>
   </transition>
 </template>
 <script>
+import { mapGetters } from "vuex";
 export default {
   name: "PostFormOutput",
-  data() {
-    return {
-      newPost: {}
-    };
-  },
-  props: {
-    passedPost: {
-      type: Object
-    },
-    responseHref: {
-      type: String
-    },
-    resultSwitch: {
-      type: Boolean
-    }
+  computed: {
+    ...mapGetters({
+      postString: "post/postString",
+      responseData: "post/responseData"
+    })
   }
 };
 </script>
@@ -63,9 +59,16 @@ export default {
     margin-bottom: $spacingLarge;
     text-decoration: underline solid darken($color: $valid, $amount: 35%);
 
-    span > a {
-      color: $valid;
-      display: block;
+    & a {
+      // FIX NEEDED
+      background-color: $color1;
+      border-radius: 3px;
+      color: tint($color2, $tint100);
+      display: inline;
+      font-size: small;
+      padding: 1px 5px;
+      text-decoration: none;
+      text-transform: lowercase;
     }
   }
 

@@ -1,59 +1,73 @@
 <template>
-  <div class="form-wrapper search-input">
-    <form id="formMetaSearch" @submit.prevent="collectInputs">
-      <div class="form-group">
-        <div
-          ref="searchParent"
-          class="input-with-label"
-          :class="{
-            invalid: $v.searchString.$error,
-            valid: !$v.searchString.$error && $v.searchString.$dirty
-          }"
-        >
-          <label
-            ref="searchLabel"
-            for="searchString"
+  <transition appear name="slide-right">
+    <div class="form-wrapper switch-input">
+      <form
+        id="formMetaSearch"
+        @submit.prevent="collectInputs"
+        @keyup.esc="clearInputs"
+      >
+        <div class="form-group">
+          <div
+            ref="searchParent"
+            class="input-with-label"
             :class="{
-              hasValue: $v.searchString.hasValueLength
+              invalid: $v.searchString.$error,
+              valid: !$v.searchString.$error && $v.searchString.$dirty
             }"
-            >Search content..</label
           >
-          <input
-            type="text"
-            name="searchString"
-            v-model="searchString"
-            v-on:input="cleanInputs"
-            @blur="$v.searchString.$touch()"
-          />
-          <transition name="fade-in">
-            <button
-              v-if="this.clearBtn"
-              class="btn-clear"
-              @click.stop.prevent="clearSearch($event)"
+            <label
+              ref="searchLabel"
+              for="searchString"
+              :class="{
+                hasValue: $v.searchString.hasValueLength
+              }"
+              >Search content..</label
             >
-              clear
-            </button>
-          </transition>
+            <input
+              type="text"
+              name="searchString"
+              v-model="searchString"
+              v-on:input="cleanInputs"
+              @blur="$v.searchString.$touch()"
+            />
+            <transition name="fade-in">
+              <button
+                v-if="this.clearBtn"
+                class="btn btn-error"
+                :disabled="!this.clearBtn"
+                @click.stop.prevent="clearSearch($event)"
+              >
+                clear
+              </button>
+            </transition>
+          </div>
+          <p class="form-field-msg" v-if="!$v.searchString.maxLength">
+            Please add a searchString with no more than
+            {{ $v.searchString.$params.maxLength.max }}
+            characters.
+          </p>
         </div>
-        <p class="form-field-msg" v-if="!$v.searchString.maxLength">
-          Please add a searchString with no more than
-          {{ $v.searchString.$params.maxLength.max }}
-          characters.
-        </p>
-      </div>
-    </form>
-  </div>
+      </form>
+    </div>
+  </transition>
 </template>
 <script>
 import { maxLength, helpers } from "vuelidate/lib/validators";
 import { mapGetters } from "vuex";
+import { tickPlus } from "../../variables";
 const hasValueLength = value => value.length >= 1;
 const strDefPattern = helpers.regex("strDefPattern", /^[\d+\w+^.^-]+$/);
 export default {
-  name: "search-input",
-  created() {
+  name: "switch-input",
+  // created() {
+  //   if (this.searchedContent !== "") {
+  //     this.$store.dispatch("search/storedSearch", "");
+  //   }
+  // },
+  beforeMount() {
     if (this.searchedContent !== "") {
-      this.$store.dispatch("search/storedSearch", "");
+      this.searchString = this.searchedContent;
+      this.clearBtn = true;
     }
   },
   updated() {
@@ -86,9 +100,7 @@ export default {
     collectInputs: function() {
       if (!this.$v.searchString.$error) {
         // this.storeSearch();
-        this.$store.dispatch("search/storedSearch", this.searchString, {
-          root: true
-        });
+        this.$store.dispatch("search/storedSearch", this.searchString);
       } else if (
         this.searchString.trim() === "" ||
         this.$v.searchString.hasValueLength === false
@@ -99,15 +111,13 @@ export default {
     },
     clearInputs: function() {
       this.searchString = "";
-      this.$store.dispatch("search/storedSearch", this.searchString, {
-        root: true
-      });
+      this.$store.dispatch("search/storedSearch", this.searchString);
     },
     clearSearch: function() {
       setTimeout(() => {
         this.$refs.searchLabel.blur();
         this.$refs.searchParent.classList.remove("invalid", "valid");
-      }, 100);
+      }, tickPlus);
       this.clearInputs();
     }
   },
@@ -130,20 +140,24 @@ export default {
 };
 </script>
 <style lang="scss" src="@/styles/_form.scss"></style>
+<style lang="scss" src="@/styles/animation/_slide-right.scss" scoped></style>
 <style lang="scss" src="@/styles/animation/_fade-in-out.scss" scoped></style>
 <style lang="scss" scoped>
-.form-wrapper.search-input {
+.form-wrapper.switch-input {
   // border: 1px $color2 solid;
+  border-bottom: 1px solid rgba($color: shade($color1, $shade90), $alpha: 0.2);
   background-color: tint($color2, $tint100);
-  grid-area: search-input;
+  grid-area: switch-input;
+  margin-left: $spacingDefault;
   max-height: 62px;
   padding: $spacingDefault;
 
   #formMetaSearch {
     .form-group {
       .input-with-label {
-        border-bottom: 1px solid
-          rgba($color: shade($color1, $shade90), $alpha: 0.2);
+        border: inherit;
+        margin-left: -$spacingDefault;
+        // padding-left: $spacingDefault;
         text-transform: initial;
 
         &:focus-within label:not(input) {
@@ -161,7 +175,9 @@ export default {
 
         &.valid:focus-within,
         &.valid {
-          border-bottom: 1px solid rgba($color: $valid, $alpha: 1);
+          border-bottom: 1px solid rgba($color: $valid, $alpha: 0.2);
+          margin-left: -$spacingDefault;
+          // padding-left: $spacingDefault;
         }
       }
       .input-with-label input {
@@ -169,18 +185,9 @@ export default {
       }
     }
   }
-  .btn-clear {
-    background: $invalid;
-    border: none;
-    border-radius: 5px;
-    color: white;
-    cursor: pointer;
-    height: 35px;
-    letter-spacing: 1px;
-    min-width: 40px;
-    padding: 0 1rem;
+  .btn-error {
+    @include general;
     position: absolute;
-    text-transform: uppercase;
     top: -10px;
     right: 0;
     z-index: 5;

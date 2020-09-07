@@ -22,7 +22,7 @@ export const mutations = {
   SUB_STRING_N(state, payload) {
     const stripped = /[^/]*$/.exec(payload)[0];
     state.createdName = stripped;
-  },
+  }
 };
 
 export const actions = {
@@ -32,12 +32,16 @@ export const actions = {
     await dispatch("updateButton", true, { root: true });
     */
     await dispatch("namespace/createNamespace", payload, { root: true });
+    await dispatch("search/storedSearch", state.createdNamespace, {
+      root: true
+    });
 
     // create updateButton confirm/error result
   },
   async createN({ dispatch }, payload) {
     // same as above here!!!
     await dispatch("name/createName", payload, { root: true });
+    await dispatch("search/storedSearch", state.createdName, { root: true });
   },
   async subStringNS({ commit, dispatch }, payload) {
     commit("SUB_STRING_NS", payload);

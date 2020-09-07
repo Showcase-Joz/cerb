@@ -36,7 +36,7 @@ header {
   min-height: 120px;
   padding: 10px;
 
-  @include for-size(phone-up) {
+  @include for-size(phone) {
     padding: initial;
   }
 

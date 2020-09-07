@@ -341,7 +341,7 @@ export default {
 // 			border: none;
 // 		}
 
-// 		@include for-size(phone-up) {
+// 		@include for-size(phone) {
 // 			padding: initial;
 
 // 			&:hover {
@@ -390,7 +390,7 @@ export default {
 // 		position: absolute;
 // 		right: 1rem;
 
-// 		@include for-size(phone-up) {
+// 		@include for-size(phone) {
 // 			display: grid;
 // 			grid-column-start: 2;
 // 			grid-row-end: 1;
@@ -416,7 +416,7 @@ export default {
   position: absolute;
   // right: 1rem;
 
-  // @include for-size(phone-up) {
+  // @include for-size(phone) {
   // 	display: grid;
   // 	grid-column-start: 2;
   // 	grid-row-end: 1;

@@ -78,10 +78,10 @@ export default {
 
       this.$http.get(prefix + suffix).then(
         response => {
-          console.log(response);
+          console.log(response.data);
           if (response.status === 200) {
             this.resultBoolean = true;
-            this.getResponse = response;
+            this.getResponse = response.data;
           } else if (response.status !== 200) {
             this.resultBoolean = false;
           }

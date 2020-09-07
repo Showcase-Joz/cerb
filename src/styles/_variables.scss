@@ -16,14 +16,21 @@ $col-gap: 0.25rem;
 
 
 // colors, shades & tints
-$neutral: blue;
-$valid: hsl(153, 47%, 49%);;
-$warning: hsl(22, 97%, 73%);
-$invalid: hsl(0, 100%, 66%);
-$unknown: hsl(33.7, 7.6%, 58.8%);
+// https://paletton.com/#uid=7321v0kkxzbayQEg3H-oDuesYpD
 
-$color1: hsl(153, 47%, 49%);
+$color1: #42b883;
 $color2: hsl(0, 0%, 20%);
+
+// $neutral: blue;
+$neutral: hsl(257, 47%, 49%);
+$valid: $color1;
+// $warning: 	hsl(38, 47%, 49%);
+// $invalid: hsl(8, 47%, 49%);
+$warning: hsl(45, 100%, 49%);
+$invalid: hsl(24, 100%, 48%);
+
+$unknown: hsl(34, 8%, 59%);
+
 
 $shade10: 10%;
 $shade25: 25%;
@@ -47,8 +54,10 @@ $status-size: 5px;
 
 // fonts and text
 $primary-font-family: "Avenir", Helvetica, Arial, sans-serif;
+$font-small: 0.7rem;
 $font-normal: 1rem;
 $font-size-xl: 1.2rem;
+$font-clamp1: clamp(calc((#{$font-normal} / 12) * 8), 2vw, $font-size-xl);
 $letter-spacing: calc(#{$font-normal} /8);
 $matched-linespacing: calc(#{$font-normal} *1.6 );
 $heavy: 500;
@@ -56,6 +65,9 @@ $heavy: 500;
 
 // base-set text/content
 $strDefPattern: "a-z 0-9 .";
+$codeDefPattern: "6 digits";
+$emailDefPattern: "[3]@[2].[2]";
+$pasDefPattern: "[A-Z],[a-z],[0-9],\00000a[!@#$&*],{8}";
 $timestampDefPattern: "0-9";
 $textDefPattern: "you can use all characters";
 

@@ -2,7 +2,9 @@
   <div
     class="form-wrapper"
     :class="{
-      'rollup-form': !this.hasFocus === true && this.resultSwitch === true
+      'rollup-form':
+        (this.hasFocus === false && this.responseData !== null) ||
+        this.hasFocus === false
     }"
   >
     <form id="formPost" @submit.prevent="collectInputs">
@@ -150,17 +152,24 @@
 
         <p
           class="group-field-msg"
-          v-if="$v.formResponses.type.$dirty"
+          v-if="$v.formResponses.type.$invalid && $v.formResponses.type.$dirty"
           :class="{
             hidden: $v.formResponses.type.required
           }"
         >
-          Please select a type for the log entry!
+          Please select (spacebar/click/touch) a type for this log entry!
         </p>
       </div>
       <!-- <button type="submit" value="Submit" class="btn btn-submit" /></button> -->
-      <button type="submit" class="btn btn-submit">
-        Submit <LoadingSpinner v-if="this.spinner" />
+      <button
+        type="submit"
+        class="btn btn-submit"
+        :disabled="this.spinner"
+        @blur="onBlur()"
+        @focus="onFocus()"
+      >
+        Submit
+        <LoadingSpinner v-if="this.spinner" />
       </button>
     </form>
   </div>
@@ -186,11 +195,6 @@ export default {
   components: {
     DescriptionTextArea,
     LoadingSpinner
-  },
-  props: {
-    resultSwitch: {
-      type: Boolean
-    }
   },
   data() {
     return {
@@ -248,11 +252,14 @@ export default {
       };
       if (this.noErrors) {
         this.uiState = "form submitted!";
-        // send up to parent
-        this.$emit("handlePost", newPost);
+        // send to vuex action
+        this.fetchPost(newPost);
       } else {
-        console.warn("There is a form submission error: ", newPost);
+        console.warn("There was a form submission error: ", newPost);
       }
+    },
+    async fetchPost(newPost) {
+      await this.$store.dispatch("post/sendString", newPost);
     },
     onFocus() {
       this.hasFocus = true;
@@ -263,7 +270,8 @@ export default {
   },
   computed: {
     ...mapGetters({
-      spinner: "spinner"
+      spinner: "spinner",
+      responseData: "post/responseData"
     })
   }
 };
@@ -298,6 +306,8 @@ export default {
   }
 }
 .btn {
+  @include btn;
+
   // display: inline-block;
   // border: none;
   // background-color: #555;
@@ -310,6 +320,6 @@ export default {
   // }
 }
 .btn-submit {
-  background-color: $color1;
+  @include btn-success;
 }
 </style>

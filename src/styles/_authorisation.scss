@@ -1,20 +1,56 @@
+// include partials
+@import "../styles/form";
+
 #login,
 #logout,
 #register,
 #register-confirm {
+  h4 {
+    text-decoration: underline;
+  }
+
   form {
+    margin: auto;
     margin-bottom: 10px;
+    max-width: 280px;
 
-    a {
-      color: blue;
-      cursor: pointer;
-      font-size: x-small;
-      padding-top: 5px;
-      text-decoration: underline;
-      text-transform: uppercase;
+    .form-group {
+      width: 100%;
 
-      &:hover {
-        color: initial;
+      & div > span > .noticeMsg {
+        transform: unset;
+        top: unset;
+      }
+
+      input[type="number"] {
+
+        /* Chrome, Safari, Edge, Opera */
+        &::-webkit-outer-spin-button,
+        &::-webkit-inner-spin-button {
+          -webkit-appearance: none;
+          margin: 0;
+        }
+
+        /* Firefox */
+        input[type=number] {
+          -moz-appearance: textfield;
+        }
+      }
+
+      input[type="button"],
+      button[type="submit"] {
+        @include general;
+        padding: 0;
+        width: 100%;
+
+        &[class*="-small"] {
+          font-size: $font-normal;
+          max-height: 50px;
+
+          @include for-size(tablet-portrait-up) {
+            @include small;
+          }
+        }
       }
     }
 
@@ -24,9 +60,21 @@
       width: max-content;
     }
   }
+}
 
-  button,
-  input[type="button"] {
-    cursor: pointer;
+a,
+a:visited,
+.router-link-active a,
+.router-link-active a:visited {
+  color: $unknown;
+  cursor: pointer;
+  font-size: smaller;
+  text-decoration: underline;
+  text-transform: uppercase;
+
+  &:hover,
+  &:focus {
+    color: shade($unknown, $shade10);
+    font-weight: 500;
   }
 }

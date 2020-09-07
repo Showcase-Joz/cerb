@@ -8,6 +8,7 @@
     <transition name="fade-in">
       <router-view />
     </transition>
+    <SettingsMobile />
   </div>
 </template>
 
@@ -16,12 +17,15 @@ import { mapGetters } from "vuex";
 import Header from "./components/header/Header";
 import Modal from "./components/helpers/Modal";
 import Loading from "./components/helpers/Loading";
+import SettingsMobile from "./components/navigation/SettingsMobile";
+
 export default {
   name: "app",
   components: {
     Header,
     Modal,
-    Loading
+    Loading,
+    SettingsMobile
   },
   beforeUpdate() {
     // clear error message from current view
@@ -31,6 +35,7 @@ export default {
   },
   // attempt to login user from session
   async created() {
+    await this.$store.dispatch("updateNotice", { code: "", message: "" });
     await this.$store.dispatch("authorisation/fetchUser");
     await this.$store.dispatch("appInfo/connectionTest");
     if (this.authUser) {
@@ -49,6 +54,7 @@ export default {
 </script>
 
 <style lang="scss" src="@/styles/animation/_fade-in.scss" scoped></style>
+<style lang="scss" src="@/styles/animation/_shake.scss" scoped></style>
 <style lang="scss">
 *,
 *::before,
@@ -176,7 +182,6 @@ h4 {
     transparent
   );
 }
-
 
 #message {
   hyphens: auto;

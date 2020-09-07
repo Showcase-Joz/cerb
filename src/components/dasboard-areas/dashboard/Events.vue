@@ -1,16 +1,45 @@
 <template>
-  <div class="dashboard-main">
+  <div id="scrollArea" class="dashboard-main">
     <transition-group appear name="animate-cards">
       <div class="info" key="99999">
         <div class="total-events">
           Viewing
+          <transition name="animate-cards">
+            <span v-if="this.currentEvents !== null" key="99998">
+              <strong v-if="this.currentEvents.length !== this.totalEvents">
+                <number
+                  :title="
+                    `There are ${
+                      this.currentEvents.length < this.totalEvents
+                        ? this.currentEvents.length
+                        : '0'
+                    } filtered/sorted results`
+                  "
+                  ref="number2"
+                  from="0"
+                  :to="
+                    this.currentEvents.length > 0 &&
+                    this.currentEvents.length < this.totalEvents
+                      ? this.currentEvents.length
+                      : '0'
+                  "
+                  :delay="0.5"
+                  easing="Power2.easeIn"
+                />
+              </strong>
+              <span v-if="this.currentEvents.length !== this.totalEvents"
+                >&sol;</span
+              >
+            </span>
+          </transition>
           <strong>
             <number
+              :title="`There are a total of ${this.totalEvents} results`"
               ref="number1"
+              from="0"
               :to="this.totalEvents > 0 ? this.totalEvents : '0'"
-              :duration="3"
               :delay="0.5"
-              easing="Power0.easeOut"
+              easing="Power2.easeIn"
             />
           </strong>
           events in
@@ -18,12 +47,23 @@
         <div class="name-title">{{ this.selectedName }}</div>
         <div class="functional-buttons">
           <div class="function-l">l</div>
-          <div class="function-m">m</div>
+          <div
+            class="function-m"
+            title="creates a dummy event, so you can see some content."
+          >
+            <button type="submit" @click="runDummyData">dummy data</button>
+          </div>
           <div class="function-r">r</div>
         </div>
       </div>
-
-      <div class="item" v-for="(item, index) in currentEvents" :key="index">
+      <div
+        class="item"
+        v-for="(item, index) in currentEvents"
+        :key="index"
+        :ref="index"
+        @click="handleClick(item, index)"
+        @keyup.enter="handleClick(item, index)"
+      >
         <div class="response-timestamp">
           {{ item.event.created | convertEpoch }}
         </div>
@@ -61,61 +101,188 @@
         <p class="response-desc">{{ item.event.description }}</p>
       </div>
     </transition-group>
+    <div id="loadMore" ref="moreContent">
+      <div v-if="this.moreEvents !== ''" @click="this.addEvents">
+        Load more events
+      </div>
+      <p v-else-if="this.moreEvents === ''">there are no more events</p>
+    </div>
   </div>
 </template>
 <script>
 import { mapGetters } from "vuex";
-
 export default {
   name: "Dashboard-Events",
   data() {
     return {
-      loading: false
+      updatedSearchString: ""
     };
   },
+  created() {
+    (this.initialMeta = "metadata/"),
+      (this.andFilter = "?filter="),
+      (this.maxLimit = "?limit=0"),
+      (this.utc = this.getNathPoch());
+  },
   beforeMount() {
-    const groupEvents =
-      "events?namespace=" +
-      this.selectedNamespace +
-      "&name=" +
-      this.selectedName +
-      "&offset=16";
-    // components.dashboardarea.dashboard.namescpaces
-    // console.log(groupEvents);
+    this.getEvents();
+  },
+  mounted() {
+    let options = {
+      root: null,
+      rootMargin: "0px",
+      threshold: 0
+    };
 
-    // const queryN = initialMeta + this.selectedNS + "/names" + maxLimit;
-    if (this.selectedNamespace !== null && this.selectedName !== null) {
-      this.fetchName(groupEvents);
-    } else {
-      console.warn("fetching local data");
-    }
+    const observer = new IntersectionObserver(this.handleIntersect, options);
+
+    const target = document.querySelector("#loadMore");
+    observer.observe(target);
+  },
+  updated() {
+    this.highlighted();
   },
   methods: {
-    async fetchName(queryString) {
+    async fetchEvents(queryString) {
       await this.$store.dispatch("events/getEvents", queryString);
+    },
+    async appendEvents(queryString) {
+      await this.$store.dispatch("events/addEvents", queryString);
+    },
+    getEvents: function() {
+      this.groupEvents = `events?namespace=${this.selectedNamespace}&name=${this.selectedName}&offset=10&from=${this.utc}`;
+      this.$store.dispatch("search/storedSearch", "");
+      if (
+        this.selectedNamespace !== "" &&
+        this.selectedName !== "" &&
+        this.currentEvents === null
+      ) {
+        this.fetchEvents(this.groupEvents);
+      } else {
+        console.warn("fetching local data");
+      }
+    },
+    addEvents: function() {
+      this.groupEvents = `events?namespace=${this.selectedNamespace}&name=${
+        this.selectedName
+      }&offset=10&from=${this.utc}${
+        this.moreEvents !== "" ? `&nextitem=${this.moreEvents}` : ""
+      }`;
+      if (this.selectedNamespace !== "" && this.selectedName !== "") {
+        this.appendEvents(this.groupEvents);
+      } else {
+        console.warn("fetching local data");
+      }
+    },
+    updateEvents: function(groupEvents) {
+      this.fetchEvents(groupEvents);
+    },
+    async handleClick(item, index) {
+      await this.$store.dispatch("updateNotice", {
+        code: "valid",
+        message: `Analysing the selected event details`
+      });
+      await this.$store.dispatch("details/pushEventDetails", { item, index });
+      this.$store.dispatch("events/selectE", index);
+      this.$router.push("/dashboard/details/");
+    },
+    highlighted: function() {
+      if (
+        this.currentEvents !== null &&
+        this.selectedEvent !== "" &&
+        this.selectedEvent <= this.currentEvents.length
+      ) {
+        // use value to drill into div.items array and get
+        const element = this.$refs[this.selectedEvent][0];
+        // add a class to the node
+        element.classList.add("highlighted");
+        this.$nextTick(function() {
+          element.scrollIntoView({
+            behavior: "smooth",
+            block: "center"
+            // inline: "center"
+          });
+        });
+      }
+    },
+    loadMoreCallback() {
+			console.log("test callback");
+			this.addEvents();
+    },
+    handleIntersect(entries) {
+      if (entries[0].isIntersecting) {
+        console.log("intersecting now");
+
+        this.countdownTimer(this.loadMoreCallback, 3, this.countDown, 1000);
+      } else if (!entries[0].isIntersecting) {
+				console.log("NOT intersecting");
+			}
+    },
+    createDummyData: function() {
+      let seconds = Math.floor(Date.now() / 1000);
+      const dummyPost = {
+        namespace: this.selectedNamespace,
+        name: this.selectedName,
+        type: "debug",
+        description: `this is an automated test (${seconds}) so i've got 'something' to look at while developing the layout.`
+      };
+      this.$store.dispatch("post/sendString", dummyPost);
+      console.log("create dummyData");
+    },
+    runDummyData: function() {
+			console.log("runDummyData");
+			this.countdownTimer(this.countDown, 12, this.createDummyData, 2000);
+      
+    },
+    countDown: function(numberofIterations) {
+			return console.log(numberofIterations);
+			
+    },
+    countdownTimer: function(callbackFunc, numberofIterations, iteratorFunc, iteratorMilliseconds) {
+      const onInterval = () => {
+        // do something at each interval if required
+        iteratorFunc(numberofIterations);
+
+        if (numberofIterations === 1) {
+					stopInterval();
+					// do something after total of intervals stops (countLength has passed)
+          // run loadmore call
+          callbackFunc();
+        }
+        numberofIterations--;
+      };
+
+      const stopInterval = () => {
+        clearInterval(interval);
+      };
+      const interval = setInterval(onInterval, iteratorMilliseconds);
+    },
+    getNathPoch: function() {
+      // gets current date
+      const currentDate = new Date();
+      // minus 1 hour (60 mins) from now date
+      const utcDate = currentDate.setMinutes(currentDate.getMinutes() - 60);
+      // convert to iso and condence to digits only
+      const nathPoch = new Date(utcDate).toISOString().replace(/[^0-9]/g, "");
+      return nathPoch;
     }
-    // fetchName: function(eventsQuery) {
-    //   this.loading = true;
-    //   this.$http.get(eventsQuery).then(
-    //     response => {
-    //       if (response.status === 200) {
-    //         this.loading = false;
-    //         this.currentEvents = response.data;
-    //       }
-    //     },
-    //     error => {
-    //       console.log("Error: ", error);
-    //     }
-    //   );
-    // }
   },
   computed: {
     ...mapGetters({
       selectedNamespace: "namespace/selectedNamespace",
       selectedName: "name/selectedName",
+      selectedEvent: "events/selectedEvent",
+      searchedContent: "search/searchedContent",
       currentEvents: "events/currentEvents",
+      moreEvents: "events/moreEvents",
       totalEvents: "events/totalEvents"
     })
+  },
+  watch: {
+    searchedContent(newVal) {
+      this.updatedSearchString = newVal;
+      // this.updateEvents(this.groupEvents);
+    }
   },
   filters: {
     convertEpoch: function(timeStamp) {
@@ -150,6 +317,7 @@ export default {
 };
 </script>
 <style lang="scss" src="@/styles/animation/_animate-cards.scss" scoped></style>
+<style lang="scss" src="@/styles/animation/_fade-in.scss" scoped></style>
 <style lang="scss" scoped>
 .dashboard-main > span {
   align-items: center;
@@ -294,10 +462,6 @@ export default {
       line-height: $spacingDefault;
       text-align: left;
       word-break: break-word;
-
-      &:hover {
-        font-weight: $heavy;
-      }
     }
 
     .response-desc {
@@ -377,11 +541,9 @@ export default {
         height: 100%;
       }
     }
-  }
-  .loading {
-    position: absolute;
-    top: 10px;
-    right: 10px;
+    &.highlighted {
+      @include highlighted;
+    }
   }
 }
 </style>

@@ -52,20 +52,26 @@ export const mutations = {
   }
 };
 export const actions = {
-  async signin({ commit, dispatch, state }, { email, password }) {
-    state.errMessage = null;
+  async signin({ commit, dispatch }, { email, password }) {
+    commit("ERR_MESSAGE", null);
+    dispatch("spinner", true, { root: true });
     try {
       await Auth.signIn(email, password);
     } catch (err) {
       commit("ERR_MESSAGE", err);
+      setTimeout(() => {
+        commit("ERR_MESSAGE", null);
+      }, 5000);
+      dispatch("spinner", false, { root: true });
       return;
     }
     await dispatch("fetchUser");
   },
   // register method that can call another method and sets state
-  async register({ commit, state }, { email, password }) {
-    state.errMessage = null;
-    state.registerConfirmEmail = "";
+  async register({ commit, dispatch }, { email, password }) {
+    // commit("UPDATECONFIRMEMAIL", "");
+    commit("ERR_MESSAGE", null);
+    dispatch("spinner", true, { root: true });
     try {
       // call Auth...
       await Auth.signUp({
@@ -78,24 +84,37 @@ export const actions = {
         validationData: []
       });
       //switch email confirmation form
-      commit("CONFIRM", true);
       commit("UPDATECONFIRMEMAIL", email);
+      setTimeout(() => {
+        commit("CONFIRM", true);
+        dispatch("spinner", false, { root: true });
+      }, 2000);
     } catch (err) {
       commit("ERR_MESSAGE", err);
+      setTimeout(() => {
+        commit("ERR_MESSAGE", null);
+      }, 5000);
+      dispatch("spinner", false, { root: true });
       commit("CONFIRM", false);
     }
   },
 
-  async confirm({ commit, dispatch, state }, { email, code }) {
-    state.errMessage = null;
-    commit("CONFIRM", false);
+  async confirm({ commit, dispatch }, { email, code }) {
+    commit("ERR_MESSAGE", null);
+    dispatch("spinner", true, { root: true });
     await dispatch("updateShowNotice", false, { root: true });
     try {
       await Auth.confirmSignUp(email, code, {
         forceAliasCreation: true
       });
+      setTimeout(() => {
+        dispatch("spinner", false, { root: true });
+        commit("CONFIRM", false);
+      }, 2000);
       await dispatch("updateShowNotice", true, { root: true });
-      commit("UPDATECONFIRMEMAIL", "");
+      setTimeout(() => {
+        commit("UPDATECONFIRMEMAIL", "");
+      }, 60000);
       await dispatch(
         "updateNotice",
         {
@@ -108,6 +127,11 @@ export const actions = {
     } catch (err) {
       await dispatch("updateShowNotice", false, { root: true });
       commit("ERR_MESSAGE", err);
+      setTimeout(() => {
+        commit("ERR_MESSAGE", null);
+      }, 5000);
+      dispatch("spinner", false, { root: true });
+      commit("CONFIRM", false);
       return;
     }
   },
